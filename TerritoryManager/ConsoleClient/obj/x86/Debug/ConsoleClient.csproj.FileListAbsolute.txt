@@ -1,0 +1,10 @@
+C:\Users\michalka\Desktop\DistrictSearch\DistrictSearch\ConsoleClient\bin\Debug\ConsoleClient.exe
+C:\Users\michalka\Desktop\DistrictSearch\DistrictSearch\ConsoleClient\bin\Debug\ConsoleClient.pdb
+C:\Users\michalka\Desktop\DistrictSearch\DistrictSearch\ConsoleClient\bin\Debug\AddressSearch.AdressProvider.dll
+C:\Users\michalka\Desktop\DistrictSearch\DistrictSearch\ConsoleClient\bin\Debug\AddressSearch.AdressProvider.pdb
+C:\Users\michalka\Desktop\DistrictSearch\DistrictSearch\ConsoleClient\obj\x86\Debug\ConsoleClient.csprojResolveAssemblyReference.cache
+C:\Users\michalka\Desktop\DistrictSearch\DistrictSearch\ConsoleClient\obj\x86\Debug\ConsoleClient.exe
+C:\Users\michalka\Desktop\DistrictSearch\DistrictSearch\ConsoleClient\obj\x86\Debug\ConsoleClient.pdb
+C:\Users\michalka\Desktop\DistrictSearch\DistrictSearch\ConsoleClient\bin\Debug\HtmlAgilityPack.dll
+C:\Users\michalka\Desktop\DistrictSearch\DistrictSearch\ConsoleClient\bin\Debug\HtmlAgilityPack.pdb
+C:\Users\michalka\Desktop\DistrictSearch\DistrictSearch\ConsoleClient\bin\Debug\HtmlAgilityPack.xml
