@@ -18,25 +18,25 @@
             webClient.Encoding = Encoding.UTF8;
         }
 
-        public List<Person> getPersonList(int postCode, List<string> nameList)
+        public List<Person> getPersonList(int postCode, List<SearchName> searchNameList)
         {
             List<Person> resultList = new List<Person>();
 
-            foreach (string name in nameList)
+            foreach (var searchName in searchNameList)
             {
-                resultList.AddRange(getPersonList(name, postCode));
+                resultList.AddRange(getPersonList(searchName, postCode));
             }
 
             return resultList;
         }
 
-        protected List<Person> getPersonList(string name, int postCode)
+        protected List<Person> getPersonList(SearchName searchName, int postCode)
         {
             List<Person> resultList = new List<Person>();
             HtmlDocument doc = new HtmlDocument();
             int totalPageCount = 1;
 
-            doc.LoadHtml(getKrakPersonHtml(name, postCode));
+            doc.LoadHtml(getKrakPersonHtml(searchName.Name, postCode));
 
             totalPageCount = getTotalPageFromHtmlDocument(doc);
 
@@ -44,16 +44,16 @@
             {
                 if (currentPage > 1)
                 {
-                    doc.LoadHtml(getKrakPersonHtml(name, postCode, currentPage));
+                    doc.LoadHtml(getKrakPersonHtml(searchName.Name, postCode, currentPage));
                 }
 
-                resultList.AddRange(getPersonListFromHtmlDocument(doc));
+                resultList.AddRange(getPersonListFromHtmlDocument(doc, searchName));
             }
 
             return resultList;
         }
 
-        protected List<Person> getPersonListFromHtmlDocument(HtmlDocument doc)
+        protected List<Person> getPersonListFromHtmlDocument(HtmlDocument doc, SearchName searchName)
         {
             List<Person> resultList = new List<Person>();
             HtmlNodeCollection vCardNodes = doc.DocumentNode.SelectNodes("//div[@class='hit vcard']");
@@ -72,6 +72,7 @@
 
                 resultList.Add(new Person
                 {
+                    SearchName = searchName,
                     Name = vCardNode.SelectSingleNode(".//span[@class='given-name']").InnerText,
                     Lastname = vCardNode.SelectSingleNode(".//span[@class='family-name']").InnerText,
                     StreetAddress = vCardNode.SelectSingleNode(".//span[@class='street-address']").InnerText,

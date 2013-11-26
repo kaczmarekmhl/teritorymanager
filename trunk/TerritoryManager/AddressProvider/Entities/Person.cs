@@ -7,6 +7,7 @@ namespace AddressSearch.AdressProvider.Entities
 {
     public class Person
     {
+        public SearchName SearchName { get; set; }
         public string Name { get; set; }
         public string Lastname { get; set; }
         public string StreetAddress { get; set; }
