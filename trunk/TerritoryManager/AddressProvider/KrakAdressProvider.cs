@@ -27,6 +27,8 @@
                 resultList.AddRange(getPersonList(searchName, postCode));
             }
 
+            resultList = removePersonListDuplicates(resultList);
+
             return resultList;
         }
 
@@ -73,14 +75,14 @@
                 resultList.Add(new Person
                 {
                     SearchName = searchName,
-                    Name = vCardNode.SelectSingleNode(".//span[@class='given-name']").InnerText,
-                    Lastname = vCardNode.SelectSingleNode(".//span[@class='family-name']").InnerText,
-                    StreetAddress = vCardNode.SelectSingleNode(".//span[@class='street-address']").InnerText,
-                    Locality = vCardNode.SelectSingleNode(".//span[@class='locality']").InnerText,
-                    PostCode = vCardNode.SelectSingleNode(".//span[@class='postal-code']").InnerText,
+                    Name = getSingleNodeText(".//span[@class='given-name']", vCardNode),
+                    Lastname = getSingleNodeText(".//span[@class='family-name']", vCardNode),
+                    StreetAddress = getSingleNodeText(".//span[@class='street-address']", vCardNode),
+                    Locality = getSingleNodeText(".//span[@class='locality']", vCardNode),
+                    PostCode = getSingleNodeText(".//span[@class='postal-code']", vCardNode),
                     TelephoneNumber = telReal,
-                    Latitude = vCardNode.SelectSingleNode(".//span[@class='latitude']").InnerText,
-                    Longitude = vCardNode.SelectSingleNode(".//span[@class='longitude']").InnerText
+                    Latitude = getSingleNodeText(".//span[@class='latitude']", vCardNode),
+                    Longitude = getSingleNodeText(".//span[@class='longitude']", vCardNode)
                 });
             }
 
@@ -91,6 +93,23 @@
         {
             var totalPageNode = doc.DocumentNode.SelectSingleNode("//ul[@class='pagination']/li[@class='total']/a");
             return totalPageNode != null ? int.Parse(totalPageNode.InnerText) : 1;
+        }
+
+        private string getSingleNodeText(string xpath, HtmlNode node)
+        {
+            HtmlNode selectedNode = node.SelectSingleNode(xpath);
+                
+            if(selectedNode == null)
+            {
+                throw new Exception(String.Format("Given node {0} not found", xpath));
+            }
+
+            return selectedNode.InnerHtml;
+        }
+
+        private List<Person> removePersonListDuplicates(List<Person> personList)
+        {
+            return personList.GroupBy(p => new { p.Name, p.Lastname, p.StreetAddress }).Select(grp => grp.First()).ToList<Person>();
         }
 
         private string getKrakPersonHtml(string name, int postCode, int page = 1)
