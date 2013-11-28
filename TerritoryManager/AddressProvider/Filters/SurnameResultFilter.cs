@@ -14,10 +14,36 @@ namespace AddressSearch.AdressProvider.Filters
             // If person name is male
             if (person.SearchName.IsMale == true)
             {
-                return danishSurnameList.Any(surnameDK => person.Lastname.Contains(surnameDK));
+                foreach(var lastNamePart in person.Lastname.Split(new char[] { ' ', '-'}))
+                {
+                    if (danishSurnameList.Contains(lastNamePart))
+                    {
+                        return true;
+                    }  
+
+                    if (scandinavianSurnameSuffix.Any(suffix => lastNamePart.EndsWith(suffix)))
+                    {
+                        return true;
+                    }                                      
+                }
             }
             return false;
         }
+
+        public static List<string> scandinavianSurnameSuffix = new List<string>{
+            "sen", 
+            "son", 
+            "gaard",
+            "gaart",
+            "berg",
+            "borg",
+            "drup",
+            "trup",
+            "holm",
+            "skov",
+            "lund",
+            "bjorn"
+        }; 
 
         public static HashSet<string> danishSurnameList = new HashSet<string> {
             "Jensen",

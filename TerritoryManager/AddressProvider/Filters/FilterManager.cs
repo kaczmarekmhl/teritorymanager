@@ -15,14 +15,7 @@ namespace AddressSearch.AdressProvider.Filters
 
         public static bool ApplyFilter(Person result, List<IResultFilter> filterList)
         {
-            foreach (var filter in filterList)
-            {
-                if (filter.ApplyFilter(result) == true)
-                {
-                    return true;
-                }
-            }
-            return false;
+            return filterList.Any(filter => filter.ApplyFilter(result) == true);
         }
     }
 }
