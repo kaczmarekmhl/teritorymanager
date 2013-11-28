@@ -12,29 +12,23 @@
     {
         static void Main(string[] args)
         {
-            var personSearchList = new List<SearchName>();
+            var addressProvider = new AddressProvider();
 
-            personSearchList.Add(new SearchName
-                {
-                    Name = "tomasz",
-                    IsMale = true
-                });
-
-            var addressProvider = new KrakAddressProvider();
-
-            List<Person> resultList = addressProvider.getPersonList(2100, personSearchList);
+            List<Person> resultList = addressProvider.getPersonList(2100);
 
             var filterList = new List<IResultFilter> {
-                new SurnameResultFilter() 
+                new SurnameResultFilter(),
+                new PolishSurnameResultFilter()
             };
 
             FilterManager.ApplyFilter(resultList, filterList);
 
+            Console.WriteLine(resultList.Count);
+
             foreach (var person in resultList)
             {
-                Console.WriteLine("{0} {1}; Address: {2}, {3}", person.Name, person.Lastname, person.StreetAddress, person.PostCode);       
+                Console.WriteLine("{0}\t{1}\t {2} \t{3}", person.Name, person.Lastname, person.StreetAddress, person.PostCode);       
             }
-            Console.ReadKey();
         }
     }
 }

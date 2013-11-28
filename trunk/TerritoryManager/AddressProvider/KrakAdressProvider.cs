@@ -8,7 +8,7 @@
     using AddressSearch.AdressProvider.Entities;
     using HtmlAgilityPack;
 
-    public class KrakAddressProvider
+    class KrakAddressProvider
     {
         WebClient webClient;
 
@@ -57,33 +57,64 @@
 
         protected List<Person> getPersonListFromHtmlDocument(HtmlDocument doc, SearchName searchName)
         {
-            List<Person> resultList = new List<Person>();
             HtmlNodeCollection vCardNodes = doc.DocumentNode.SelectNodes("//div[@class='hit vcard']");
-            string telReal;
+            List<Person> personList = new List<Person>();
 
             if (vCardNodes == null)
             {
-                //TODO handle empty and one person
-                return resultList;
+                var vCardSingleNode = doc.DocumentNode.SelectSingleNode("//div[@class='person-info vcard column']");
+                var person = parseSinglePerson(vCardSingleNode, searchName);
+
+                if(person != null)
+                {
+                    personList.Add(person);
+                }
+
+                return personList;
             }
+
+            return parsePersonList(vCardNodes, searchName);
+        }
+
+        protected Person parseSinglePerson(HtmlNode vCardNode, SearchName searchName)
+        {
+            if(vCardNode == null)
+            {
+                return null;
+            }
+
+            HtmlNode tel = vCardNode.SelectSingleNode(".//span[contains(@class,'tel')]/a[@href]");
+            string telReal = tel != null ? tel.GetAttributeValue("href", "").Replace("callto:", "") : "";
+
+            return new Person
+                 {
+                     SearchName = searchName,
+                     Name = getSingleNodeText(".//span[@class='given-name']", vCardNode),
+                     Lastname = getSingleNodeText(".//span[@class='family-name']", vCardNode),
+                     StreetAddress = getSingleNodeText(".//span[@class='street-address']", vCardNode),
+                     Locality = getSingleNodeText(".//span[@class='locality']", vCardNode),
+                     PostCode = getSingleNodeText(".//span[@class='postal-code']", vCardNode),
+                     TelephoneNumber = telReal,
+                     Latitude = getSingleNodeText(".//span[@class='latitude']", vCardNode),
+                     Longitude = getSingleNodeText(".//span[@class='longitude']", vCardNode)
+                 };
+        }
+
+        /// <summary>
+        /// Parses krak person list
+        /// </summary>
+        protected List<Person> parsePersonList(HtmlNodeCollection vCardNodes, SearchName searchName)
+        {
+            List<Person> resultList = new List<Person>();
 
             foreach (HtmlNode vCardNode in vCardNodes)
             {
-                HtmlNode tel = vCardNode.SelectSingleNode(".//span[contains(@class,'tel')]/a[@href]");
-                telReal = tel != null ? tel.GetAttributeValue("href", "").Replace("callto:", "") : "";
+                var person = parseSinglePerson(vCardNode, searchName);
 
-                resultList.Add(new Person
+                if(person != null)
                 {
-                    SearchName = searchName,
-                    Name = getSingleNodeText(".//span[@class='given-name']", vCardNode),
-                    Lastname = getSingleNodeText(".//span[@class='family-name']", vCardNode),
-                    StreetAddress = getSingleNodeText(".//span[@class='street-address']", vCardNode),
-                    Locality = getSingleNodeText(".//span[@class='locality']", vCardNode),
-                    PostCode = getSingleNodeText(".//span[@class='postal-code']", vCardNode),
-                    TelephoneNumber = telReal,
-                    Latitude = getSingleNodeText(".//span[@class='latitude']", vCardNode),
-                    Longitude = getSingleNodeText(".//span[@class='longitude']", vCardNode)
-                });
+                    resultList.Add(person);
+                }
             }
 
             return resultList;
@@ -98,28 +129,55 @@
         private string getSingleNodeText(string xpath, HtmlNode node)
         {
             HtmlNode selectedNode = node.SelectSingleNode(xpath);
-                
-            if(selectedNode == null)
+
+            if (selectedNode == null)
             {
-                throw new Exception(String.Format("Given node {0} not found", xpath));
+                return "Not found";
             }
 
             return selectedNode.InnerHtml;
         }
 
-        private List<Person> removePersonListDuplicates(List<Person> personList)
-        {
-            return personList.GroupBy(p => new { p.Name, p.Lastname, p.StreetAddress }).Select(grp => grp.First()).ToList<Person>();
-        }
-
         private string getKrakPersonHtml(string name, int postCode, int page = 1)
         {
-            return webClient.DownloadString(getKrakPersonUrl(name, postCode, page));
+            int tryCount = 0;
+
+            while (true)
+            {
+                try
+                {
+                    return webClient.DownloadString(getKrakPersonUrl(name, postCode, page));
+                }
+                catch (WebException webException)
+                {
+                    tryCount++;
+                    System.Threading.Thread.Sleep(1000);
+
+                    if(tryCount >= 5)
+                    {
+                        throw webException;
+                    }
+                }
+                catch(Exception)
+                {
+                    throw;
+                }
+            }
         }
 
         private string getKrakPersonUrl(string name, int postCode, int page = 1)
         {
             return string.Format("http://www.krak.dk/person/resultat/{0}/{1}/{2}", name, postCode, page);
+        }
+
+        private List<Person> removePersonListDuplicates(List<Person> personList)
+        {
+            if (personList == null)
+            {
+                return null;
+            }
+
+            return personList.GroupBy(p => new { p.Name, p.Lastname, p.StreetAddress }).Select(grp => grp.First()).ToList<Person>();
         }
     }
 }
