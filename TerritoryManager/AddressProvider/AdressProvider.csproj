@@ -47,14 +47,18 @@
     <Compile Include="Entities\Person.cs" />
     <Compile Include="Entities\SearchName.cs" />
     <Compile Include="Filters\FilterManager.cs" />
-    <Compile Include="Filters\IResultFilter.cs" />
-    <Compile Include="Filters\PolishSurnameResultFilter.cs" />
+    <Compile Include="Filters\PersonFilter\IPersonFilter.cs" />
+    <Compile Include="Filters\PersonFilter\NonPolishSurname.cs" />
+    <Compile Include="Filters\PersonFilter\NonPolishSurnameNonExactName.cs" />
     <Compile Include="KrakAdressProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Filters\SurnameResultFilter.cs" />
+    <Compile Include="Filters\PersonFilter\ScandinavianSurname.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="PolishNameList.txt">
+    <Content Include="Resources\PolishNameList.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\PolishSurnameList.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

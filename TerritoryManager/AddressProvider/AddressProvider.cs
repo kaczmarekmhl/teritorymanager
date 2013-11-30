@@ -12,7 +12,7 @@ namespace AddressSearch.AdressProvider
         public List<Person> getPersonList(int postCode)
         {
             KrakAddressProvider krakAddressProvider = new KrakAddressProvider();
-            return krakAddressProvider.getPersonList(postCode, LoadSearchNameList("PolishNameList.txt"));
+            return krakAddressProvider.getPersonList(postCode, LoadSearchNameList("Resources/PolishNameList.txt"));
         }
 
         protected List<SearchName> LoadSearchNameList(string filePath)

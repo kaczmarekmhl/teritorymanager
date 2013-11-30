@@ -5,28 +5,50 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AddressSearch.AdressProvider.Filters
+namespace AddressSearch.AdressProvider.Filters.PersonFilter
 {
-    public class SurnameResultFilter : IResultFilter
+    /// <summary>
+    ///     Satisfies criteria if person is a male and has scandinavian surname
+    /// </summary>
+    public class ScandinavianSurname : IPersonFilter
     {
-        public bool ApplyFilter(Person person)
+        public bool SatisfiesCriteria(Person person)
         {
-            // If person name is male
             if (person.SearchName.IsMale == true)
             {
-                foreach(var lastNamePart in person.Lastname.Split(new char[] { ' ', '-'}))
+                if (ContainsScandinavianSurname(person.Lastname))
                 {
-                    if (danishSurnameList.Contains(lastNamePart))
-                    {
-                        return true;
-                    }  
+                    return true;
+                }
 
-                    if (scandinavianSurnameSuffix.Any(suffix => lastNamePart.EndsWith(suffix)))
-                    {
-                        return true;
-                    }                                      
+                // Sometimes it happens that surename is in name
+                if (ContainsScandinavianSurname(person.Name))
+                {
+                    return true;
                 }
             }
+
+            return false;
+        }
+
+        /// <summary>
+        ///     Checks if sting contains scandinacian surname
+        /// </summary>
+        public bool ContainsScandinavianSurname(string text)
+        {
+            foreach (var textPart in text.Split(new char[] { ' ', '-' }))
+            {
+                if (danishSurnameList.Contains(textPart))
+                {
+                    return true;
+                }
+
+                if (scandinavianSurnameSuffix.Any(suffix => textPart.EndsWith(suffix)))
+                {
+                    return true;
+                }
+            }
+
             return false;
         }
 

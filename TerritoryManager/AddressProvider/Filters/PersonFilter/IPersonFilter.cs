@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 
 
-namespace AddressSearch.AdressProvider.Filters
+namespace AddressSearch.AdressProvider.Filters.PersonFilter
 {
-    public interface IResultFilter
+    public interface IPersonFilter
     {
-        bool ApplyFilter(Person person);
+        bool SatisfiesCriteria(Person person);
     }
 }
