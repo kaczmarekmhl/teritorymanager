@@ -111,7 +111,8 @@ namespace MVCApp.Controllers
         static DistrictModel _dis = new DistrictModel
         {
             Id = "1",
-            Name = "Ballerup"
+            Name = "Ballerup",
+            PostCode = "2750"
         };
 
         static List<PersonModelTest> _persons = new List<PersonModelTest> {

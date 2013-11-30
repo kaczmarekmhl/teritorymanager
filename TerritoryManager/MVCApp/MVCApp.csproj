@@ -195,6 +195,7 @@
     <Compile Include="Models\DistrictModel.cs" />
     <Compile Include="Models\PersonModel.cs" />
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\TerritoryDb.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -310,6 +311,7 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\Person\Index.cshtml" />
+    <Content Include="Views\Person\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
