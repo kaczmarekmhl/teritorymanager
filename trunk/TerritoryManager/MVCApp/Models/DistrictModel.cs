@@ -11,6 +11,7 @@ namespace MVCApp.Models
         public string Name { get; set; }  
         public string PostCode { get; set; }
        // public UsersContext BelongsToUser { get; set; }
+        public string BelongsToUser { get; set; }
         public ICollection<PersonModel> PersonsFoundInDistrict { get; set; }
 
         public DistrictModel(string postCode)

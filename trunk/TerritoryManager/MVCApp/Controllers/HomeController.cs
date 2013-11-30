@@ -18,11 +18,7 @@ namespace MVCApp.Controllers
 
         public ActionResult About()
         {
-            PersonModelTest cmodel = new PersonModelTest();
-            cmodel.FirstName = "Bartek";
-            cmodel.LastName = "Gasior";
-
-            return View(cmodel);
+            return View();
         }
 
         public ActionResult Contact()

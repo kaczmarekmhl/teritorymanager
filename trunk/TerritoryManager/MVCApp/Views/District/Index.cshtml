@@ -1,0 +1,105 @@
+﻿@model MVCApp.Models.DistrictViewModel
+
+@Html.Partial("_SearchDistrictPartial", Model.PersonDistrictList)
+
+@{
+    var personList = Model.PersonList;
+    }
+
+<h2>
+    @Html.DisplayFor(modelItem => Model.SearchForDistrict.PostCode) - 
+        @Html.DisplayFor(modelItem => Model.SearchForDistrict.Name)
+</h2>
+<p>
+    Found: @personList.Count()
+</p>
+
+
+<table>
+    <tr>
+        <td>
+             @Html.ActionLink("Map", "Create")
+        </td>
+        <td>
+            @Html.ActionLink("Delete", "Delete", Model)
+        </td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <td>
+            @Html.CheckBox("delCheckBox")
+        </td>
+        <th>
+            Name
+        </th>
+        <th>
+            Last Name
+        </th>
+        <th>
+            Adress
+        </th>
+        @*        <th>
+            @Html.DisplayNameFor(model => model.Locality)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PostCode)
+        </th>*@
+        <th>
+            Tel
+        </th>
+        <th>
+            Notes
+        </th>
+        @*        <th>
+            @Html.DisplayNameFor(model => model.Longitude)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Latitude)
+        </th>*@
+        <th></th>
+    </tr>
+
+    @foreach (var item in personList)
+    {
+        <tr>
+            <td>
+                @Html.EditorFor(modeItem => item.RemovedByUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Lastname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StreetAddress)
+            </td>
+            @*        <td>
+            @Html.DisplayFor(modelItem => item.Locality)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PostCode)
+        </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.TelephoneNumber)
+            </td>
+            @*        <td>
+            @Html.DisplayFor(modelItem => item.Longitude)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Latitude)
+        </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Notes)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) 
+                @*|@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ })*@
+                @*@Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+            </td>
+        </tr>
+    }
+
+</table>
