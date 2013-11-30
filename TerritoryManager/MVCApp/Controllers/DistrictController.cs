@@ -12,49 +12,60 @@ using AddressSearch.AdressProvider.Filters.PersonFilter;
 
 namespace MVCApp.Controllers
 {
-    public class PersonController : Controller
+    public class DistrictController : Controller
     {
         TerritoryDb _db = new TerritoryDb();
 
         //
         // GET: /Person/
 
-        public ActionResult Index()
+        public ActionResult Index(string searchPostCode = null)
         {
+            var userDistricts = from dist in _db.Districts
+                                    orderby dist.PostCode
+                                    where dist.BelongsToUser == "Bartek"
+                                    select dist;
+
+            var districtViewModel = new DistrictViewModel
+            {
+                PersonDistrictList = userDistricts.ToList()
+            };
+
+            if (searchPostCode == null)
+            {
+                return View("_SearchDistrictPartial", districtViewModel.PersonDistrictList);
+            }
             // Retrieve persons data from DB
             var personList = (from person in _db.Persons
-                                where !person.RemovedByUser & person.RemovedByUser != null
-                                select person).ToList();
-          
+                              where !person.RemovedByUser & person.RemovedByUser != null
+                              select person).ToList();
+
             // If no persons data in DB for a given district ID, downolad data from krak.dk
             if (personList.Count == 0)
             {
                 var addressProvider = new AddressProvider();
-                var personListFromKrak = addressProvider.getPersonList(2100);
+                var personListFromKrak = addressProvider.getPersonList(int.Parse(searchPostCode));
+
+                // Store person list in DB before filtering it out
+                _db.Persons.AddRange(personListFromKrak.Select(p => new PersonModel(p)).ToList());
+                _db.SaveChanges();
+
                 var filterList = new List<AddressSearch.AdressProvider.Filters.PersonFilter.IPersonFilter> {
-                new NonPolishSurname(),
                 new NonPolishSurnameNonExactName(),
                 new ScandinavianSurname()
             };
-
                 FilterManager.FilterPersonList(personListFromKrak, filterList);
                 personList = personListFromKrak.Select(p => new PersonModel(p)).ToList();
             }
-            return View(personList);
+            districtViewModel.PersonList = personList;
+            districtViewModel.SearchForDistrict = userDistricts.Where(dist => dist.PostCode == searchPostCode).First();
+            return View(districtViewModel);
         }
 
         //
         // GET: /Person/Details/5
 
         public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        //
-        // GET: /Person/Create
-
-        public ActionResult Create()
         {
             return View();
         }
@@ -82,7 +93,7 @@ namespace MVCApp.Controllers
 
         public ActionResult Edit(int id)
         {
-            var person = from p in _db.Persons 
+            var person = from p in _db.Persons
                          where p.ID == id
                          select p;
             return View(person);

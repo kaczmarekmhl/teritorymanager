@@ -1,9 +1,5 @@
 ﻿@model IEnumerable<MVCApp.Models.PersonModel>
 
-@{
-    ViewBag.Title = "Index";
-}
-
 <h2>
     @Html.DisplayFor(modelItem => Model.First().District.PostCode) - 
         @Html.DisplayFor(modelItem => Model.First().District.Name)
