@@ -1,4 +1,5 @@
 ﻿using AddressSearch.AdressProvider.Entities;
+using AddressSearch.AdressProvider.Filters.PersonFilter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,14 +9,28 @@ namespace AddressSearch.AdressProvider.Filters
 {
     public static class FilterManager
     {
-        public static void ApplyFilter(List<Person> personList, List<IResultFilter> filterList)
+        /// <summary>
+        ///     Returns filtered person list.
+        /// </summary>
+        public static List<Person> GetFilteredPersonList(List<Person> personList, List<IPersonFilter> filterList)
         {
-            personList.RemoveAll(p => ApplyFilter(p, filterList) == true);
+            return personList.Where(p => !SatisfiesAnyPersonFilter(p, filterList)).ToList();
         }
 
-        public static bool ApplyFilter(Person result, List<IResultFilter> filterList)
+        /// <summary>
+        ///     Filters given person list by removing it's elements.
+        /// </summary>
+        public static void FilterPersonList(List<Person> personList, List<IPersonFilter> filterList)
         {
-            return filterList.Any(filter => filter.ApplyFilter(result) == true);
+            personList.RemoveAll(p => SatisfiesAnyPersonFilter(p, filterList));
+        }
+
+        /// <summary>
+        ///     Applies all filters to person.
+        /// </summary>
+        public static bool SatisfiesAnyPersonFilter(Person result, List<IPersonFilter> filterList)
+        {
+            return filterList.Any(filter => filter.SatisfiesCriteria(result) == true);
         }
     }
 }
