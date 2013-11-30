@@ -7,35 +7,40 @@ using MVCApp.Models;
 using AddressSearch.AdressProvider;
 using AddressSearch.AdressProvider.Entities;
 using AddressSearch.AdressProvider.Filters;
+using System.Collections;
+using AddressSearch.AdressProvider.Filters.PersonFilter;
 
 namespace MVCApp.Controllers
 {
     public class PersonController : Controller
     {
+        TerritoryDb _db = new TerritoryDb();
+
         //
         // GET: /Person/
 
         public ActionResult Index()
         {
-            var personSearchList = new List<SearchName>();
-
-            personSearchList.Add(new SearchName
+            // Retrieve persons data from DB
+            var personList = (from person in _db.Persons
+                                where !person.RemovedByUser & person.RemovedByUser != null
+                                select person).ToList();
+          
+            // If no persons data in DB for a given district ID, downolad data from krak.dk
+            if (personList.Count == 0)
             {
-                Name = "tomasz",
-                IsMale = true
-            });
-
-            var addressProvider = new KrakAddressProvider();
-
-            List<Person> resultList = addressProvider.getPersonList(2100, personSearchList);
-
-            var filterList = new List<AddressSearch.AdressProvider.Filters.IResultFilter> {
-                new SurnameResultFilter() 
+                var addressProvider = new AddressProvider();
+                var personListFromKrak = addressProvider.getPersonList(2100);
+                var filterList = new List<AddressSearch.AdressProvider.Filters.PersonFilter.IPersonFilter> {
+                new NonPolishSurname(),
+                new NonPolishSurnameNonExactName(),
+                new ScandinavianSurname()
             };
 
-            FilterManager.ApplyFilter(resultList, filterList);
-
-            return View(resultList);
+                FilterManager.FilterPersonList(personListFromKrak, filterList);
+                personList = personListFromKrak.Select(p => new PersonModel(p)).ToList();
+            }
+            return View(personList);
         }
 
         //
@@ -77,7 +82,10 @@ namespace MVCApp.Controllers
 
         public ActionResult Edit(int id)
         {
-            return View();
+            var person = from p in _db.Persons 
+                         where p.ID == id
+                         select p;
+            return View(person);
         }
 
         //
@@ -86,16 +94,15 @@ namespace MVCApp.Controllers
         [HttpPost]
         public ActionResult Edit(int id, FormCollection collection)
         {
-            try
-            {
-                // TODO: Add update logic here
+            var person = from p in _db.Persons
+                         where p.ID == id
+                         select p;
 
+            if (TryUpdateModel(person))
+            {
                 return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+            return View(person);
         }
 
         //
@@ -123,5 +130,15 @@ namespace MVCApp.Controllers
                 return View();
             }
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (_db != null)
+            {
+                _db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
     }
 }
