@@ -9,6 +9,7 @@ using AddressSearch.AdressProvider.Entities;
 using AddressSearch.AdressProvider.Filters;
 using System.Collections;
 using AddressSearch.AdressProvider.Filters.PersonFilter;
+using MVCApp.Filters;
 
 namespace MVCApp.Controllers
 {
@@ -18,36 +19,38 @@ namespace MVCApp.Controllers
 
         //
         // GET: /Person/
-
-        public ActionResult Index(string searchPostCode = null)
+        [ValidateDistrictBelongsToUser]
+        public ActionResult Index(string searchDistrictID = null)
         {
             var userDistricts = from dist in _db.Districts
                                     orderby dist.PostCode
                                     where dist.BelongsToUser == "Bartek"
                                     select dist;
-
             var districtViewModel = new DistrictViewModel
             {
                 PersonDistrictList = userDistricts.ToList()
-            };
-
-            if (searchPostCode == null)
+            };        
+            if (searchDistrictID == null)
             {
                 return View("_SearchDistrictPartial", districtViewModel.PersonDistrictList);
             }
+
+            var searchUserDistrict = userDistricts.Single(dist => dist.Id == searchDistrictID);
             // Retrieve persons data from DB
             var personList = (from person in _db.Persons
-                              where !person.RemovedByUser & person.RemovedByUser != null
+                              where !person.RemovedByUser 
+                              where person.RemovedByUser != null
+                              where person.District.Id == searchUserDistrict.Id
                               select person).ToList();
 
             // If no persons data in DB for a given district ID, downolad data from krak.dk
             if (personList.Count == 0)
             {
                 var addressProvider = new AddressProvider();
-                var personListFromKrak = addressProvider.getPersonList(int.Parse(searchPostCode));
+                var personListFromKrak = addressProvider.getPersonList(int.Parse(searchUserDistrict.PostCode));
 
                 // Store person list in DB before filtering it out
-                _db.Persons.AddRange(personListFromKrak.Select(p => new PersonModel(p)).ToList());
+                _db.Persons.AddRange(personListFromKrak.Select(p => new PersonModel(p, searchUserDistrict)).ToList());
                 _db.SaveChanges();
 
                 var filterList = new List<AddressSearch.AdressProvider.Filters.PersonFilter.IPersonFilter> {
@@ -55,10 +58,10 @@ namespace MVCApp.Controllers
                 new ScandinavianSurname()
             };
                 FilterManager.FilterPersonList(personListFromKrak, filterList);
-                personList = personListFromKrak.Select(p => new PersonModel(p)).ToList();
+                personList = personListFromKrak.Select(p => new PersonModel(p, searchUserDistrict)).ToList();
             }
             districtViewModel.PersonList = personList;
-            districtViewModel.SearchForDistrict = userDistricts.Where(dist => dist.PostCode == searchPostCode).First();
+            districtViewModel.SearchForDistrict = userDistricts.Single(dist => dist.PostCode == searchUserDistrict.PostCode);
             return View(districtViewModel);
         }
 

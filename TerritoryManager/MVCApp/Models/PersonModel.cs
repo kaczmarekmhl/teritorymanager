@@ -20,26 +20,11 @@ namespace MVCApp.Models
         public string Notes { get; set; }
         public bool RemovedByUser { get; set; }
 
-        //public long ID
-        //{
-        //    get
-        //    {
-        //        return id;
-        //    }
-        //}
-        //private static long getID(Object obj)
-        //{
-        //    bool firstTime;
-        //    return ObjectIDGen.GetId(obj, out firstTime);
-        //}
-        //private static ObjectIDGenerator ObjectIDGen = new ObjectIDGenerator();
-        //private long id;
-
         public PersonModel()
         {
         }
 
-        public PersonModel(Person person)
+        public PersonModel(Person person, DistrictModel district)
         {
             this.Name = person.Name;
             this.Lastname = person.Lastname;
@@ -47,8 +32,7 @@ namespace MVCApp.Models
             this.TelephoneNumber = person.TelephoneNumber;
             this.Longitude = person.Longitude;
             this.Latitude = person.Latitude;
-            //  this.District = new DistrictModel(person.PostCode);
-            //   id = getID(PersonData);
+            this.District = district;
         }
     }
 }

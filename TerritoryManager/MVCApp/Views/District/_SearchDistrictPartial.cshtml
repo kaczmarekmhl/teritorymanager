@@ -2,10 +2,10 @@
 
 <h3> My districts: </h3>
 <form method="get">
-    <select name="searchPostCode">
+    <select name="searchDistrictID">
         @foreach (var item in Model)
         { 
-            <option value="@item.PostCode">@item.PostCode @item.Name</option>
+            <option value="@item.Id">@item.PostCode @item.Name</option>
         }
     </select>
     <input type="submit" value="Search" />
