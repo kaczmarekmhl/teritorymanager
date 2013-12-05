@@ -13,7 +13,7 @@ namespace MVCApp.Filters
 
         public override void OnActionExecuting(System.Web.Mvc.ActionExecutingContext filterContext)
         {
-            var searchDistrictID = (string) filterContext.ActionParameters["searchDistrictID"];
+            var searchDistrictID = (string)filterContext.ActionParameters["UserDistrict"];
             if (searchDistrictID != null)
             {
                 var userDistrict = from dist in _db.Districts
@@ -23,7 +23,7 @@ namespace MVCApp.Filters
 
                 if (userDistrict.Count() == 0)
                 {
-                    filterContext.ActionParameters["searchDistrictID"] = null;  
+                    filterContext.ActionParameters["UserDistrict"] = null;  
                 }
             }
             base.OnActionExecuting(filterContext);
