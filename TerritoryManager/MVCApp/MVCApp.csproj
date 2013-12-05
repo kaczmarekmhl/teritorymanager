@@ -200,7 +200,6 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DistrictModel.cs" />
-    <Compile Include="Models\DistrictViewModel.cs" />
     <Compile Include="Models\PersonModel.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\TerritoryDb.cs" />
@@ -320,8 +319,10 @@
     <Content Include="Views\District\Index.cshtml" />
     <Content Include="Views\District\Edit.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\District\_PersonsTablePartial.cshtml" />
+    <Content Include="Views\District\RestorePersons.cshtml" />
+    <Content Include="Views\District\DeletePersons.cshtml" />
     <Content Include="Views\District\_SearchDistrictPartial.cshtml" />
-    <Content Include="Views\District\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -10,6 +10,8 @@ using AddressSearch.AdressProvider.Filters;
 using System.Collections;
 using AddressSearch.AdressProvider.Filters.PersonFilter;
 using MVCApp.Filters;
+using System.Data.Entity;
+using System.Net;
 
 namespace MVCApp.Controllers
 {
@@ -18,81 +20,108 @@ namespace MVCApp.Controllers
         TerritoryDb _db = new TerritoryDb();
 
         //
-        // GET: /Person/
-        [ValidateDistrictBelongsToUser]
-        public ActionResult Index(string searchDistrictID = null)
+        // GET: /District/
+       
+        public ActionResult Index()
         {
-            var userDistricts = from dist in _db.Districts
-                                    orderby dist.PostCode
-                                    where dist.BelongsToUser == "Bartek"
-                                    select dist;
-            var districtViewModel = new DistrictViewModel
-            {
-                PersonDistrictList = userDistricts.ToList()
-            };        
-            if (searchDistrictID == null)
-            {
-                return View("_SearchDistrictPartial", districtViewModel.PersonDistrictList);
-            }
+            // Populate search district menu with users's districts
+            PopulateSearchDistrictMenu("Bartek");
+            return View();
+        }
 
-            var searchUserDistrict = userDistricts.Single(dist => dist.Id == searchDistrictID);
-            // Retrieve persons data from DB
-            var personList = (from person in _db.Persons
-                              where !person.RemovedByUser 
-                              where person.RemovedByUser != null
-                              where person.District.Id == searchUserDistrict.Id
-                              select person).ToList();
+        //
+        // Get: /District/Search
 
+        [HttpGet]
+        [ValidateDistrictBelongsToUser]
+        public ActionResult Search(string UserDistrict, bool DisplayDeletedPersons)
+        {
+            // Populate search district menu with users's districts
+            PopulateSearchDistrictMenu("Bartek", UserDistrict, DisplayDeletedPersons);
+            // Retrieve search district data and persons belonging to the district from DB
+            var searchUserDistrict = _db.Districts.Include("PersonsFoundInDistrict").Single(dist => dist.Id == UserDistrict);
+            var personList = searchUserDistrict.PersonsFoundInDistrict;
             // If no persons data in DB for a given district ID, downolad data from krak.dk
             if (personList.Count == 0)
             {
                 var addressProvider = new AddressProvider();
                 var personListFromKrak = addressProvider.getPersonList(int.Parse(searchUserDistrict.PostCode));
-
-                // Store person list in DB before filtering it out
-                _db.Persons.AddRange(personListFromKrak.Select(p => new PersonModel(p, searchUserDistrict)).ToList());
-                _db.SaveChanges();
-
                 var filterList = new List<AddressSearch.AdressProvider.Filters.PersonFilter.IPersonFilter> {
                 new NonPolishSurnameNonExactName(),
                 new ScandinavianSurname()
-            };
+                };
                 FilterManager.FilterPersonList(personListFromKrak, filterList);
                 personList = personListFromKrak.Select(p => new PersonModel(p, searchUserDistrict)).ToList();
+                // Store person list in DB before filtering it out
+                _db.Persons.AddRange(personList);
+                _db.SaveChanges();
             }
-            districtViewModel.PersonList = personList;
-            districtViewModel.SearchForDistrict = userDistricts.Single(dist => dist.PostCode == searchUserDistrict.PostCode);
-            return View(districtViewModel);
+            if (DisplayDeletedPersons)
+            {
+                return View("RestorePersons", personList.Where(p => p.RemovedByUser == true));
+            }
+            return View("DeletePersons", personList.Where(p => p.RemovedByUser == false));
         }
 
-        //
-        // GET: /Person/Details/5
-
-        public ActionResult Details(int id)
+        private void PopulateSearchDistrictMenu(string user, string selectedDistrictId = null, bool DisplayOnlyRemovedPersons = false)
         {
-            return View();
+            var userDistrictsFromDb = from dist in _db.Districts
+                                      orderby dist.PostCode
+                                      where dist.BelongsToUser == user
+                                      select dist;
+            List<SelectListItem> items = new List<SelectListItem>();
+            foreach (var district in userDistrictsFromDb)
+            {
+                items.Add(
+                    district.Id.Equals(selectedDistrictId)
+                    ? new SelectListItem { Text = string.Format("{0} {1}", district.PostCode, district.Name), Value = district.Id, Selected = true }
+                    : new SelectListItem { Text = string.Format("{0} {1}", district.PostCode, district.Name), Value = district.Id }
+                    );
+            }
+            ViewBag.UserDistrict = items;
+            ViewBag.DisplayOnlyRemovedPersons = DisplayOnlyRemovedPersons;
         }
 
         //
-        // POST: /Person/Create
+        // POST: /District/Delete/5
 
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        [ValidateAntiForgeryToken]
+        public ActionResult DeletePersons(int[] selectedPersons)
         {
-            try
+            if (selectedPersons == null)
             {
-                // TODO: Add insert logic here
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var userDistrictId = UpdateSelectedPersonsInDb(selectedPersons, true);
+            return RedirectToAction("Search", "District", new { UserDistrict = userDistrictId, DisplayDeletedPersons = false });
+        }
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+        private string UpdateSelectedPersonsInDb(int[] selectedPersons, bool removedByUser)
+        {
+            var personsToDelete = _db.Persons.Include("District").Where(p => selectedPersons.Contains(p.ID)).ToList();
+            personsToDelete.ForEach(p => p.RemovedByUser = removedByUser);
+            _db.SaveChanges();            
+            return personsToDelete.First().District.Id;
         }
 
         //
-        // GET: /Person/Edit/5
+        // POST: /District/Delete/5
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RestorePersons(int[] selectedPersons)
+        {
+            if (selectedPersons == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var userDistrictId = UpdateSelectedPersonsInDb(selectedPersons, false);
+            return RedirectToAction("Search", "District", new { UserDistrict = userDistrictId, DisplayDeletedPersons = true });
+        }
+
+        //
+        // GET: /District/Edit/5
 
         public ActionResult Edit(int id)
         {
@@ -103,7 +132,7 @@ namespace MVCApp.Controllers
         }
 
         //
-        // POST: /Person/Edit/5
+        // POST: /District/Edit/5
 
         [HttpPost]
         public ActionResult Edit(int id, FormCollection collection)
@@ -117,32 +146,6 @@ namespace MVCApp.Controllers
                 return RedirectToAction("Index");
             }
             return View(person);
-        }
-
-        //
-        // GET: /Person/Delete/5
-
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        //
-        // POST: /Person/Delete/5
-
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
         }
 
         protected override void Dispose(bool disposing)
