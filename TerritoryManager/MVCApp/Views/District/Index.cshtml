@@ -1,8 +1,39 @@
-﻿<h3>My districts: </h3>
-
-@using (Html.BeginForm("Search", "District", FormMethod.Get))
+﻿@if (ViewBag.ErrorMsg == null)
 {
-    @Html.ValidationSummary(true) 
+    <h3>My districts: </h3>
+    using (Html.BeginForm("Search", "District", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true) 
+        <fieldset>
+            <legend>My districts</legend>
+            <div class="editor-field">
+                @Html.DropDownList("UserDistrict")
+                <input type="submit" value="Search" />
+            </div>
+            <div>
+                Only deleted persons: @Html.CheckBox("DisplayDeletedPersons")
+            </div>
+        </fieldset>                                  
+    }
+} else 
+{   
+   <p>@ViewBag.ErrorMsg</p> 
+}
+
+@*<form method="get" action="@Url.Action("Search")"
+    data-tmngr-ajax="true" data-mngr-target="#personList">
+    <input type="submit" value="Search" />
+</form>*@
+
+@*@using (Ajax.BeginForm(
+        new AjaxOptions
+        {
+            HttpMethod = "get",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "personList"
+        }))
+{ 
     <fieldset>
         <legend>My districts</legend>
         <div class="editor-field">
@@ -12,5 +43,5 @@
         <div>
             Only deleted persons: @Html.CheckBox("DisplayDeletedPersons")
         </div>
-    </fieldset>                                  
-}
+    </fieldset>    
+}*@

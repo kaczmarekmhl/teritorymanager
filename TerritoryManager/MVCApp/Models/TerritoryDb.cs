@@ -12,6 +12,7 @@ namespace MVCApp.Models
         {
 
         }
+        public DbSet<UserProfile> UserProfiles { get; set; }
         public DbSet<PersonModel> Persons { get; set; }
         public DbSet<DistrictModel> Districts { get; set; }
     }

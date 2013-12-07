@@ -17,7 +17,7 @@ namespace MVCApp.Filters
             if (searchDistrictID != null)
             {
                 var userDistrict = from dist in _db.Districts
-                                    where dist.BelongsToUser == "Bartek"
+                                    where dist.BelongsToUser.UserName == "Bartek"
                                     where dist.Id == searchDistrictID
                                     select dist;
 
@@ -26,7 +26,7 @@ namespace MVCApp.Filters
                     filterContext.ActionParameters["UserDistrict"] = null;  
                 }
             }
-            base.OnActionExecuting(filterContext);
+           base.OnActionExecuting(filterContext);
         }
     }
 }
