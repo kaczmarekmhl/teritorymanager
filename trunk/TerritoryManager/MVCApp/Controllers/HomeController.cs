@@ -11,31 +11,7 @@ namespace MVCApp.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
-
             return View();
-        }
-
-        public ActionResult About()
-        {
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
-
-        [Authorize]
-        public ActionResult Test(string str)
-        {
-           var message =  Server.HtmlEncode(str);
-
-           //return RedirectPermanent("http://www.onet.pl");
-           // return File(Server.MapPath("~/Content/Site.css"), "text/css");
-           return Json(new { Name = "Bartek" }, JsonRequestBehavior.AllowGet);
         }
     }
 }

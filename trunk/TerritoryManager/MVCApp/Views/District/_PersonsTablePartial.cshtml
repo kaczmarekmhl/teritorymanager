@@ -7,24 +7,24 @@
     <table>
         <tr>
             <th></th>
-            <th>First Name
+            <th>@Html.LabelFor(p => Model.First().Name)
             </th>
-            <th>Last Name
+            <th>@Html.LabelFor(p => Model.First().Lastname)
             </th>
-            <th>Adress
+            <th>@Html.LabelFor(p => Model.First().StreetAddress)
             </th>
-            <th>Code
+            <th>@Html.LabelFor(p => Model.First().District.PostCode)
             </th>
-            <th>Tel
+            <th>@Html.LabelFor(p => Model.First().TelephoneNumber)
             </th>
-            <th>Notes
+            <th>@Html.LabelFor(p => Model.First().Notes)
             </th>
         </tr>
         @foreach (var person in Model)
         { 
             <tr>
                 <td>
-                    <input type="checkbox" name="selectedPersons" value="@person.ID">
+                    <input type="checkbox" name="selectedPersons" value="@person.Id" />
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => person.Name)
@@ -45,7 +45,7 @@
                     @Html.DisplayFor(modelItem => person.Notes)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = person.ID })
+                    @Html.ActionLink("Edit", "Edit", new { id = person.Id })
                 </td>
             </tr>
         }

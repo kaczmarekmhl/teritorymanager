@@ -12,32 +12,34 @@ using AddressSearch.AdressProvider.Filters.PersonFilter;
 using MVCApp.Filters;
 using System.Data.Entity;
 using System.Net;
+using WebMatrix.WebData;
 
 namespace MVCApp.Controllers
 {
+    [Authorize]
     public class DistrictController : Controller
     {
         TerritoryDb _db = new TerritoryDb();
 
         //
         // GET: /District/
-       
+
         public ActionResult Index()
         {
             // Populate search district menu with users's districts
-            PopulateSearchDistrictMenu("Bartek");
+            PopulateSearchDistrictMenu();
             return View();
         }
 
         //
         // Get: /District/Search
 
-        [HttpGet]
-        [ValidateDistrictBelongsToUser]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Search(string UserDistrict, bool DisplayDeletedPersons)
         {
             // Populate search district menu with users's districts
-            PopulateSearchDistrictMenu("Bartek", UserDistrict, DisplayDeletedPersons);
+            PopulateSearchDistrictMenu(UserDistrict, DisplayDeletedPersons);
             // Retrieve search district data and persons belonging to the district from DB
             var searchUserDistrict = _db.Districts.Include("PersonsFoundInDistrict").Single(dist => dist.Id == UserDistrict);
             var personList = searchUserDistrict.PersonsFoundInDistrict;
@@ -63,12 +65,26 @@ namespace MVCApp.Controllers
             return View("DeletePersons", personList.Where(p => p.RemovedByUser == false));
         }
 
-        private void PopulateSearchDistrictMenu(string user, string selectedDistrictId = null, bool DisplayOnlyRemovedPersons = false)
+        private void PopulateSearchDistrictMenu(string selectedDistrictId = null, bool DisplayOnlyRemovedPersons = false)
         {
-            var userDistrictsFromDb = from dist in _db.Districts
-                                      orderby dist.PostCode
-                                      where dist.BelongsToUser == user
-                                      select dist;
+            IEnumerable<DistrictModel> userDistrictsFromDb;
+            if (!User.IsInRole("Admin"))
+            {
+                var userId = WebSecurity.GetUserId(User.Identity.Name);
+                userDistrictsFromDb = _db.Districts.Where(d =>
+                    d.BelongsToUser != null &&
+                    d.BelongsToUser.UserId == userId);
+            }
+            else
+            {
+                userDistrictsFromDb = _db.Districts;
+            }
+
+            if (userDistrictsFromDb == null || userDistrictsFromDb.Count() == 0)
+            {
+                ViewBag.ErrorMsg = "You don't have any district assigned to you.";
+                return;
+            }
             List<SelectListItem> items = new List<SelectListItem>();
             foreach (var district in userDistrictsFromDb)
             {
@@ -99,9 +115,9 @@ namespace MVCApp.Controllers
 
         private string UpdateSelectedPersonsInDb(int[] selectedPersons, bool removedByUser)
         {
-            var personsToDelete = _db.Persons.Include("District").Where(p => selectedPersons.Contains(p.ID)).ToList();
+            var personsToDelete = _db.Persons.Include("District").Where(p => selectedPersons.Contains(p.Id)).ToList();
             personsToDelete.ForEach(p => p.RemovedByUser = removedByUser);
-            _db.SaveChanges();            
+            _db.SaveChanges();
             return personsToDelete.First().District.Id;
         }
 
@@ -110,6 +126,7 @@ namespace MVCApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [MinItemsSelected(1)]
         public ActionResult RestorePersons(int[] selectedPersons)
         {
             if (selectedPersons == null)
@@ -122,11 +139,11 @@ namespace MVCApp.Controllers
 
         //
         // GET: /District/Edit/5
-
+        [HttpGet]
         public ActionResult Edit(int id)
         {
             var person = from p in _db.Persons
-                         where p.ID == id
+                         where p.Id == id
                          select p;
             return View(person);
         }
@@ -135,12 +152,8 @@ namespace MVCApp.Controllers
         // POST: /District/Edit/5
 
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(PersonModel person)
         {
-            var person = from p in _db.Persons
-                         where p.ID == id
-                         select p;
-
             if (TryUpdateModel(person))
             {
                 return RedirectToAction("Index");
@@ -156,6 +169,5 @@ namespace MVCApp.Controllers
             }
             base.Dispose(disposing);
         }
-
     }
 }
