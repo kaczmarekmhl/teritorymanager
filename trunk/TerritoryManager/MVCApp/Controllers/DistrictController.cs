@@ -19,7 +19,20 @@ namespace MVCApp.Controllers
     [Authorize]
     public class DistrictController : Controller
     {
-        TerritoryDb _db = new TerritoryDb();
+        ITerritoryDb _db;
+
+        // The constructor will execute when the app is run on a web server
+        // with SQL Server
+        public DistrictController()
+        {
+            _db = new TerritoryDb();
+        }
+
+        // The constructor used for unit tests to fake a db
+        public DistrictController(ITerritoryDb db)
+        {
+            _db = db;
+        }
 
         //
         // GET: /District/
@@ -41,7 +54,7 @@ namespace MVCApp.Controllers
             // Populate search district menu with users's districts
             PopulateSearchDistrictMenu(UserDistrict, DisplayDeletedPersons);
             // Retrieve search district data and persons belonging to the district from DB
-            var searchUserDistrict = _db.Districts.Include("PersonsFoundInDistrict").Single(dist => dist.Id == UserDistrict);
+            var searchUserDistrict = _db.Query<DistrictModel>().Include("PersonsFoundInDistrict").Single(dist => dist.Id == UserDistrict);
             var personList = searchUserDistrict.PersonsFoundInDistrict;
             // If no persons data in DB for a given district ID, downolad data from krak.dk
             if (personList.Count == 0)
@@ -55,7 +68,7 @@ namespace MVCApp.Controllers
                 FilterManager.FilterPersonList(personListFromKrak, filterList);
                 personList = personListFromKrak.Select(p => new PersonModel(p, searchUserDistrict)).ToList();
                 // Store person list in DB before filtering it out
-                _db.Persons.AddRange(personList);
+                _db.AddRange<PersonModel>(personList);
                 _db.SaveChanges();
             }
             if (DisplayDeletedPersons)
@@ -65,19 +78,36 @@ namespace MVCApp.Controllers
             return View("DeletePersons", personList.Where(p => p.RemovedByUser == false));
         }
 
-        private void PopulateSearchDistrictMenu(string selectedDistrictId = null, bool DisplayOnlyRemovedPersons = false)
-        {
-            IEnumerable<DistrictModel> userDistrictsFromDb;
-            if (!User.IsInRole("Admin"))
+        private void PopulateSearchDistrictMenu(string selectedDistrictId = null, bool DisplayOnlyRemovedPersons = false) { 
+            bool allDistricts = User.IsInRole("Admin");
+            if (allDistricts)
             {
-                var userId = WebSecurity.GetUserId(User.Identity.Name);
-                userDistrictsFromDb = _db.Districts.Where(d =>
-                    d.BelongsToUser != null &&
-                    d.BelongsToUser.UserId == userId);
+                PopulateSearchDistrictMenu(selectedDistrictId, DisplayOnlyRemovedPersons, allDistricts, null);
             }
             else
             {
-                userDistrictsFromDb = _db.Districts;
+                PopulateSearchDistrictMenu(selectedDistrictId, DisplayOnlyRemovedPersons, allDistricts);
+            }
+        }
+
+        private void PopulateSearchDistrictMenu(string selectedDistrictId, bool DisplayOnlyRemovedPersons, bool allDistricts)
+        {
+            string userName = User.Identity.Name;
+            PopulateSearchDistrictMenu(selectedDistrictId, DisplayOnlyRemovedPersons, allDistricts, userName);
+        }
+
+        public void PopulateSearchDistrictMenu(string selectedDistrictId, bool DisplayOnlyRemovedPersons, bool allDistricts, string userName)
+        {
+            IEnumerable<DistrictModel> userDistrictsFromDb;
+            if (!allDistricts)
+            {       
+                userDistrictsFromDb = _db.Query<DistrictModel>().Where(d =>
+                    d.BelongsToUser != null &&
+                    d.BelongsToUser.UserName == userName);
+            }
+            else
+            {
+                userDistrictsFromDb = _db.Query<DistrictModel>();
             }
 
             if (userDistrictsFromDb == null || userDistrictsFromDb.Count() == 0)
@@ -86,7 +116,7 @@ namespace MVCApp.Controllers
                 return;
             }
             List<SelectListItem> items = new List<SelectListItem>();
-            foreach (var district in userDistrictsFromDb)
+            foreach (var district in userDistrictsFromDb.OrderBy( d => d.PostCode))
             {
                 items.Add(
                     district.Id.Equals(selectedDistrictId)
@@ -110,12 +140,12 @@ namespace MVCApp.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var userDistrictId = UpdateSelectedPersonsInDb(selectedPersons, true);
-            return RedirectToAction("Search", "District", new { UserDistrict = userDistrictId, DisplayDeletedPersons = false });
+            return Search(UserDistrict: userDistrictId, DisplayDeletedPersons: false);
         }
 
         private string UpdateSelectedPersonsInDb(int[] selectedPersons, bool removedByUser)
         {
-            var personsToDelete = _db.Persons.Include("District").Where(p => selectedPersons.Contains(p.Id)).ToList();
+            var personsToDelete = _db.Query<PersonModel>().Include("District").Where(p => selectedPersons.Contains(p.Id)).ToList();
             personsToDelete.ForEach(p => p.RemovedByUser = removedByUser);
             _db.SaveChanges();
             return personsToDelete.First().District.Id;
@@ -134,7 +164,7 @@ namespace MVCApp.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var userDistrictId = UpdateSelectedPersonsInDb(selectedPersons, false);
-            return RedirectToAction("Search", "District", new { UserDistrict = userDistrictId, DisplayDeletedPersons = true });
+            return Search(UserDistrict: userDistrictId, DisplayDeletedPersons: true);
         }
 
         //
@@ -142,9 +172,7 @@ namespace MVCApp.Controllers
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            var person = from p in _db.Persons
-                         where p.Id == id
-                         select p;
+            var person = _db.Query<PersonModel>().Single(p => p.Id == id);             
             return View(person);
         }
 
@@ -168,6 +196,6 @@ namespace MVCApp.Controllers
                 _db.Dispose();
             }
             base.Dispose(disposing);
-        }
+        }     
     }
 }
