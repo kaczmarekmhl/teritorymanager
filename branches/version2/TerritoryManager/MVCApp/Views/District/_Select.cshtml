@@ -1,0 +1,20 @@
+﻿@if (ViewBag.ErrorMsg == null)
+{
+    <h3>My districts: </h3>
+    using (Html.BeginForm("Search", "District", FormMethod.Get))
+    {
+        <fieldset>
+            <legend>My districts</legend>
+            <div class="editor-field">
+                @Html.DropDownList("DistrictSelectListItem")
+                <input type="submit" value="Search" />
+            </div>
+            <div>
+                Only deleted persons: @Html.CheckBox("DisplayOnlyDeletedPersons")
+            </div>
+        </fieldset>                                  
+    }
+} else 
+{   
+   <p>@ViewBag.ErrorMsg</p> 
+}
