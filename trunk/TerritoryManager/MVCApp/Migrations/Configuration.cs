@@ -1,6 +1,8 @@
 namespace MVCApp.Migrations
 {
+    using MVCApp.Models;
     using System;
+    using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
@@ -39,8 +41,38 @@ namespace MVCApp.Migrations
             }
             if (!roles.GetRolesForUser("admin").Contains("Admin"))
             {
-                roles.AddUsersToRoles(new[] { "admin" }, new[] {"Admin"});
+                roles.AddUsersToRoles(new[] { "admin" }, new[] { "Admin" });
             }
+
+            ITerritoryDb db = new TerritoryDb();
+            var user = db.Query<UserProfile>().Single(p => p.UserName == "testuser");
+            var districts = new List<District>
+                {
+                    new District
+                    {
+                    Id="1",
+                    Name="Ballerup",
+                    PostCode="2750",
+                    BelongsToUser=user, 
+                    },
+                    new District
+                    {
+                    Id="2",
+                    Name="Hedehusene",
+                    PostCode="2640",
+                    BelongsToUser=user, 
+                    },
+                    new District
+                    {
+                    Id="3",
+                    Name="Ishoj",
+                    PostCode="2635",
+                    BelongsToUser=null, 
+                    }
+                };
+            db.AddRange<District>(districts.ToList());
+            db.SaveChanges();
+            db.Dispose();
         }
     }
 }

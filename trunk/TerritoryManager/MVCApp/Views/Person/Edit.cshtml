@@ -1,4 +1,4 @@
-﻿@model MVCApp.Models.PersonModel
+﻿@model MVCApp.Models.Person
 
 @{
     ViewBag.Title = "Edit";
@@ -35,7 +35,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Search", "District", new { DistrictSelectListItem = Model.District.Id, displayOnlyDeletedPersons = false }, null)
 </div>
 
 @section Scripts {

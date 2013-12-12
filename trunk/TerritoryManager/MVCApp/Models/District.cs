@@ -6,7 +6,7 @@ using System.Web;
 
 namespace MVCApp.Models
 {
-    public class DistrictModel
+    public class District
     {   
         [Key]
         [StringLength(10)]
@@ -23,14 +23,14 @@ namespace MVCApp.Models
 
         public virtual UserProfile BelongsToUser { get; set; }
 
-        public ICollection<PersonModel> PersonsFoundInDistrict { get; set; }
+        public ICollection<Person> PersonsFoundInDistrict { get; set; }
 
-        public DistrictModel(string postCode)
+        public District(string postCode)
         {
             this.PostCode = postCode;
         }
 
-        public DistrictModel()
+        public District()
         {
         }
     }

@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using AddressSearch.AdressProvider.Entities;
 using System.Runtime.Serialization;
 using System.ComponentModel.DataAnnotations;
 
 namespace MVCApp.Models
 {
-    public class PersonModel
+    public class Person
     {
         public int Id { get; set; }
 
@@ -35,15 +34,15 @@ namespace MVCApp.Models
         [StringLength(15)]
         public string Latitude { get; set; }
 
-        public DistrictModel District { get; set; }
+        public District District { get; set; }
         public string Notes { get; set; }
         public bool RemovedByUser { get; set; }
 
-        public PersonModel()
+        public Person()
         {
         }
 
-        public PersonModel(Person person, DistrictModel district)
+        public Person(AddressSearch.AdressProvider.Entities.Person person, District district)
         {
             this.Name = person.Name;
             this.Lastname = person.Lastname;
