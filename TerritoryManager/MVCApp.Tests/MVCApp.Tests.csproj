@@ -111,11 +111,13 @@
       <Private>True</Private>
       <HintPath>..\packages\System.Spatial.5.2.0\lib\net40\System.Spatial.dll</HintPath>
     </Reference>
+    <Reference Include="WebMatrix.WebData, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\District\TestBaseClass.cs" />
-    <Compile Include="Controllers\District\SearchDistrictMenu_AdminTest.cs" />
-    <Compile Include="Features\UnitTest1.cs" />
+    <Compile Include="Controllers\District\SearchDistrictTestBase.cs" />
+    <Compile Include="Controllers\District\SearchDistrictValidTest.cs" />
+    <Compile Include="Controllers\District\SearchDistrictInvalidTest.cs" />
+    <Compile Include="Mocks\MockControllerContext.cs" />
     <Compile Include="Mocks\MockTerritoryDb.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\Home\HomeControllerTest.cs" />
@@ -133,7 +135,9 @@
       <Name>MVCApp</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Controllers\Person\" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

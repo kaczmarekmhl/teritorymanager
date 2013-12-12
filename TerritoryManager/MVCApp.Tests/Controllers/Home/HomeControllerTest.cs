@@ -12,6 +12,14 @@ namespace MVCApp.Tests.Controllers
     [TestClass]
     public class HomeControllerTest
     {
+        //[ClassInitialize]
+        //public static void ClassInit(TestContext contex)
+        //{
+        //    MockDb = new MockTerritoryDb();
+        //    MockDb.AddSet<MVCApp.Models.District>(TestData.Districts);
+
+        //}
+        
         [TestMethod]
         public void IndexHomeController_ValidateMessages()
         {
