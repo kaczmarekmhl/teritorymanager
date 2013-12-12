@@ -187,6 +187,10 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DistrictController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MapController.cs" />
+    <Compile Include="Controllers\PersonController.cs" />
+    <Compile Include="Controllers\PersonsController.cs" />
+    <Compile Include="Exceptions\InvalidDistrictException.cs" />
     <Compile Include="Filters\MinItemsSelectedAttribute.cs" />
     <Compile Include="Filters\LogAttribute.cs" />
     <Compile Include="Filters\ValidateDistrictBelongsToUserAttribute.cs" />
@@ -198,8 +202,8 @@
       <DependentUpon>201311300314236_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\DistrictModel.cs" />
-    <Compile Include="Models\PersonModel.cs" />
+    <Compile Include="Models\District.cs" />
+    <Compile Include="Models\Person.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\TerritoryDb.cs" />
     <Compile Include="Models\UserProfile.cs" />
@@ -310,12 +314,14 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
-    <Content Include="Views\District\Index.cshtml" />
-    <Content Include="Views\District\Edit.cshtml" />
+    <Content Include="Views\Person\Edit.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\District\_PersonsTablePartial.cshtml" />
-    <Content Include="Views\District\RestorePersons.cshtml" />
-    <Content Include="Views\District\DeletePersons.cshtml" />
+    <Content Include="Views\Persons\_List.cshtml" />
+    <Content Include="Views\Persons\_Restore.cshtml" />
+    <Content Include="Views\Persons\_Delete.cshtml" />
+    <Content Include="Views\District\_Select.cshtml" />
+    <Content Include="Views\District\Search.cshtml" />
+    <Content Include="Views\Map\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

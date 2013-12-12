@@ -1,9 +1,10 @@
-﻿@model IEnumerable<MVCApp.Models.PersonModel>
-<p>
-    Found: @Model.Count()
-</p>
+﻿@model IEnumerable<MVCApp.Models.Person>
+
 @if (Model != null && Model.Count() != 0)
 {
+    <p>
+        Found: @Model.Count()
+    </p>
     <table>
         <tr>
             <th></th>
@@ -45,7 +46,7 @@
                     @Html.DisplayFor(modelItem => person.Notes)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = person.Id })
+                    @Html.ActionLink("Edit", "Edit", "Person", new { id = person.Id }, null)
                 </td>
             </tr>
         }
