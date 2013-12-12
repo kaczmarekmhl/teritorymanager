@@ -9,7 +9,7 @@ namespace MVCApp.Tests
 {
     class TestData
     {
-        public static IQueryable<DistrictModel> Districts
+        public static IQueryable<District> Districts
         {
             get
             {
@@ -21,25 +21,25 @@ namespace MVCApp.Tests
                 var user = new UserProfile()
                 {
                     UserId = 2,
-                    UserName = "Bartek"
+                    UserName = "testuser"
                 };
-                var testDataSet = new List<DistrictModel>
+                var testDataSet = new List<District>
                 {
-                    new DistrictModel
+                    new District
                     {
                     Id="1",
                     Name="Ballerup",
                     PostCode="2750",
                     BelongsToUser=user, 
                     },
-                    new DistrictModel
+                    new District
                     {
                     Id="2",
                     Name="Hedehusene",
                     PostCode="2640",
                     BelongsToUser=user, 
                     },
-                    new DistrictModel
+                    new District
                     {
                     Id="3",
                     Name="Ishoj",
