@@ -11,9 +11,7 @@ namespace MVCApp.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Welcome = "Welcome on my web site!";
-            ViewBag.Message = "If you have an account, after log-in you can search for Poles that live in Denmark.";
-            return View();
+            return RedirectToAction("Index", "MyTerritories", null);
         }
     }
 }

@@ -1,0 +1,32 @@
+﻿@model IPagedList<MVCApp.Models.Person>
+
+@{
+    ViewBag.Title = "Index";
+    int territoryId = ViewBag.TerritoryId;
+    string territoryName = ViewBag.TerritoryName;
+}
+
+<h2>Search addresses for @Html.DisplayFor(model => territoryName)</h2>
+
+<div>
+    <div>
+        @using (Ajax.BeginForm(
+            new AjaxOptions
+            {
+                HttpMethod = "get",
+                InsertionMode = InsertionMode.Replace,
+                UpdateTargetId = "personList",
+                Url = Url.Action("GetPersonList", "SearchAddress", new { id = territoryId }),
+                LoadingElementId = "ajax-loader"
+            }))
+        {
+            <input type="submit" value="Search addresses" />
+        }
+    </div>
+    <div>Territory Map</div>
+</div>
+
+<img id="ajax-loader" src="~/Images/ajax-loader.gif" style="display: none;">
+<div id="personList">
+    @Html.Partial("_PersonList")
+</div>

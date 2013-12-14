@@ -1,0 +1,34 @@
+﻿@model IEnumerable<MVCApp.Models.Territory>
+
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Number)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PostCode)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Number)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PostCode)
+        </td>
+        <td>
+            @Html.ActionLink("Search addresses", "Index", "SearchAddress", new { id=item.Id }, null) |
+            @Html.ActionLink("Report territory finished", "ReportFinish", new { id=item.Id })
+        </td>
+    </tr>
+}
+</table>

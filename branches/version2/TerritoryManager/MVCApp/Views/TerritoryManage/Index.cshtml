@@ -1,0 +1,13 @@
+﻿@model IPagedList<MVCApp.Models.Territory>
+
+@{
+    ViewBag.Title = "Manage territories";
+}
+
+<h2>Manage territories</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@Html.Partial("_List", Model)

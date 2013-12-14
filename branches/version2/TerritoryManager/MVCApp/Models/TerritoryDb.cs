@@ -24,7 +24,7 @@ namespace MVCApp.Models
         }
         public DbSet<UserProfile> UserProfiles { get; set; }
         public DbSet<Person> Persons { get; set; }
-        public DbSet<District> Districts { get; set; }
+        public DbSet<Territory> Territories { get; set; }
 
         IQueryable<T> ITerritoryDb.Query<T>()
         {

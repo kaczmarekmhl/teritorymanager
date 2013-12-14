@@ -19,11 +19,6 @@ namespace MVCApp.Migrations
 
         protected override void Seed(MVCApp.Models.TerritoryDb context)
         {
-            SeedMembership();
-        }
-
-        private void SeedMembership()
-        {
             MVCApp.MvcApplication.InitializeSimpleMembershipProvider();
             var roles = (SimpleRoleProvider)Roles.Provider;
             var membership = (SimpleMembershipProvider)Membership.Provider;
@@ -44,35 +39,68 @@ namespace MVCApp.Migrations
                 roles.AddUsersToRoles(new[] { "admin" }, new[] { "Admin" });
             }
 
-            ITerritoryDb db = new TerritoryDb();
-            var user = db.Query<UserProfile>().Single(p => p.UserName == "testuser");
-            var districts = new List<District>
+            var user = context.UserProfiles.First(p => p.UserName == "testuser");
+
+            context.Territories.AddOrUpdate(
+                t => t.Name,
+                new Territory
                 {
-                    new District
-                    {
-                    Id="1",
-                    Name="Ballerup",
-                    PostCode="2750",
-                    BelongsToUser=user, 
-                    },
-                    new District
-                    {
-                    Id="2",
-                    Name="Hedehusene",
-                    PostCode="2640",
-                    BelongsToUser=user, 
-                    },
-                    new District
-                    {
-                    Id="3",
-                    Name="Ishoj",
-                    PostCode="2635",
-                    BelongsToUser=null, 
-                    }
-                };
-            db.AddRange<District>(districts.ToList());
-            db.SaveChanges();
-            db.Dispose();
+                    Number = "1",
+                    Name = "Ballerup",
+                    PostCodeFirst = 2750,
+                    AssignedTo = user,
+                },
+                new Territory
+                {
+                    Number = "2",
+                    Name = "Hedehusene",
+                    PostCodeFirst = 2640,
+                    AssignedTo = user,
+                },
+                new Territory
+                {
+                    Number = "3",
+                    Name = "Ishoj",
+                    PostCodeFirst = 2635,
+                    AssignedTo = null,
+                },
+                new Territory
+                {
+                    Number = "4",
+                    Name = "Osterbro",
+                    PostCodeFirst = 2100,
+                    AssignedTo = user,
+                },
+                new Territory
+                {
+                    Number = "5",
+                    Name = "Norrebro",
+                    PostCodeFirst = 2200,
+                    AssignedTo = user,
+                },
+                new Territory
+                {
+                    Number = "6",
+                    Name = "Kobenhavn S",
+                    PostCodeFirst = 2200,
+                    AssignedTo = user,
+                },
+                new Territory
+                {
+                    Number = "7A",
+                    Name = "Kobenhavn V.A",
+                    PostCodeFirst = 1501,
+                    PostCodeLast = 1550,
+                    AssignedTo = user,
+                },
+                new Territory
+                {
+                    Number = "7B",
+                    Name = "Kobenhavn V.B",
+                    PostCodeFirst = 1551,
+                    PostCodeLast = 1600,
+                    AssignedTo = user,
+                });
         }
     }
 }

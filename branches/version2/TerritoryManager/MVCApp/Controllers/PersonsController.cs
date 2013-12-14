@@ -16,6 +16,7 @@ using MVCApp.Exceptions;
 
 namespace MVCApp.Controllers
 {
+    /*
     [Authorize]
     public class PersonsController : Controller
     {
@@ -36,7 +37,8 @@ namespace MVCApp.Controllers
 
         // It is only assessible as a child action
         [ChildActionOnly]
-        public PartialViewResult Search(string selectedDistrictId, bool displayOnlyDeletedPersons = false)
+        public PartialViewResult Search(string selected
+     * Id, bool displayOnlyDeletedPersons = false)
         {
             District selectedDistrict;
             List<Person> personList;
@@ -148,5 +150,5 @@ namespace MVCApp.Controllers
             }
             base.Dispose(disposing);
         }
-    }
+    }*/
 }
