@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity;
-using System.Globalization;
-using System.Web.Security;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace MVCApp.Models
 {
-    
     public class LocalPasswordModel
     {
+        #region Properties
+
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Current password")]
@@ -26,10 +21,14 @@ namespace MVCApp.Models
         [Display(Name = "Confirm new password")]
         [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        #endregion
     }
 
     public class LoginModel
     {
+        #region Properties
+
         [Required]
         [Display(Name = "User name")]
         public string UserName { get; set; }
@@ -41,10 +40,14 @@ namespace MVCApp.Models
 
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
+
+        #endregion
     }
 
     public class RegisterModel
     {
+        #region Properties
+
         [Required]
         [Display(Name = "User name")]
         public string UserName { get; set; }
@@ -59,5 +62,7 @@ namespace MVCApp.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        #endregion
     }
 }

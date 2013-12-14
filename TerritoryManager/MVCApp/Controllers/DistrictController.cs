@@ -16,6 +16,7 @@ using MVCApp.Exceptions;
 
 namespace MVCApp.Controllers
 {
+    /*
     [Authorize]
     public class DistrictController : Controller
     {
@@ -150,5 +151,5 @@ namespace MVCApp.Controllers
             }
             base.Dispose(disposing);
         }
-    }
+    }*/
 }

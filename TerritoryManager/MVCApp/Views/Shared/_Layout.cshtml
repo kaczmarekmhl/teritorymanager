@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>@ViewBag.Title Find Poles in Denmark MVC Application</title>
+    <title>@ViewBag.Title Find Poles in Denmark</title>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <meta name="viewport" content="width=device-width" />
     @Styles.Render("~/Content/themes/base/css")
@@ -21,10 +21,15 @@
                 </section>
                 <nav>
                     <ul id="menu">
-                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                        <li>@Html.ActionLink("Districts", "Index", "District")</li>
+                        
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li>@Html.ActionLink("My territories", "Index", "MyTerritories")</li>
+                        }
+                        
                         @if (User.IsInRole("Admin"))
                         {
+                            <li>@Html.ActionLink("Manage territories", "Index", "TerritoryManage")</li>
                             <li>@Html.ActionLink("Add User", "Register", "Account")</li>
                         }
                     </ul>
@@ -41,7 +46,7 @@
     <footer>
         <div class="content-wrapper">
             <div class="float-left">
-                <p>&copy; @DateTime.Now.Year - District Manager Application</p>
+                <p>&copy; @DateTime.Now.Year - Territory Manager Application</p>
             </div>
         </div>
     </footer>
