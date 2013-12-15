@@ -19,17 +19,17 @@ namespace MVCApp.Controllers
 
         public ActionResult Index(int id)
         {
-            var territory = db.Territories.Find(id);
+            var district = db.Districts.Find(id);
 
-            if (territory == null)
+            if (district == null)
             {
                 return new HttpNotFoundResult();
             }
 
-            ViewBag.TerritoryId = territory.Id;
-            ViewBag.TerritoryName = territory.Name;            
+            ViewBag.DistrictId = district.Id;
+            ViewBag.DistrictName = district.Name;            
 
-            var personList = GetPersonListFromSession(territory)
+            var personList = GetPersonListFromSession(district)
                 .OrderBy(p => p.Name)
                 .ToPagedList(1, 10);
 
@@ -48,14 +48,14 @@ namespace MVCApp.Controllers
                 return new HttpNotFoundResult();
             }
 
-            var territory = db.Territories.Find(id);
+            var district = db.Districts.Find(id);
 
-            if (territory == null)
+            if (district == null)
             {
                 return new HttpNotFoundResult();
             }
 
-            var personList = GetPersonList(territory)
+            var personList = GetPersonList(district)
                 .OrderBy(p => p.Name)
                 .ToPagedList(page, 10);
 
@@ -63,20 +63,20 @@ namespace MVCApp.Controllers
         }
 
         /// <summary>
-        /// Returns person list for the given territory.
+        /// Returns person list for the given district.
         /// </summary>
-        /// <param name="territory">Territory that the search will be done for.</param>
+        /// <param name="district">District that the search will be done for.</param>
         /// <returns>Person list</returns>
-        private List<Person> GetPersonList(Territory territory)
+        private List<Person> GetPersonList(District district)
         {
             List<Person> personList = new List<Person>();
 
-            personList = GetPersonListFromSession(territory);
+            personList = GetPersonListFromSession(district);
 
             if (personList.Count == 0)
             {
-                personList = GetPersonListFromKrak(territory);
-                PersistPersonListInSession(territory, personList);
+                personList = GetPersonListFromKrak(district);
+                PersistPersonListInSession(district, personList);
             }
 
             return personList;
@@ -85,29 +85,29 @@ namespace MVCApp.Controllers
         /// <summary>
         /// Loads person list from Krak website.
         /// </summary>
-        /// <param name="territory">Territory that the search will be done for.</param>
+        /// <param name="district">District that the search will be done for.</param>
         /// <returns>Person list</returns>
-        private List<Person> GetPersonListFromKrak(Territory territory)
+        private List<Person> GetPersonListFromKrak(District district)
         {
             var addressProvider = new AddressProvider();
-            var personListFromKrak = addressProvider.getPersonList(territory.PostCodeFirst, territory.PostCodeLast);
+            var personListFromKrak = addressProvider.getPersonList(district.PostCodeFirst, district.PostCodeLast);
 
             var filterList = new List<AddressSearch.AdressProvider.Filters.PersonFilter.IPersonFilter> {
                     new ScandinavianSurname()
                 };
             FilterManager.FilterPersonList(personListFromKrak, filterList);
 
-            return personListFromKrak.Select(p => new Person(p, territory)).ToList();
+            return personListFromKrak.Select(p => new Person(p, district)).ToList();
         }
 
         /// <summary>
         /// Loads person list from session.
         /// </summary>
-        /// <param name="territory">Territory that the search will be done for.</param>
+        /// <param name="district">District that the search will be done for.</param>
         /// <returns></returns>
-        private List<Person> GetPersonListFromSession(Territory territory)
+        private List<Person> GetPersonListFromSession(District district)
         {
-            string sessionKey = string.Format("PersonList_{0}", territory.Id);
+            string sessionKey = string.Format("PersonList_{0}", district.Id);
 
             if (Session[sessionKey] != null)
             {
@@ -120,35 +120,35 @@ namespace MVCApp.Controllers
         /// <summary>
         /// Persists person list in Session.
         /// </summary>
-        /// <param name="territory">Territory for which person list will be persisted.</param>
+        /// <param name="district">District for which person list will be persisted.</param>
         /// <param name="personList">Person list to persist.</param>
-        private void PersistPersonListInSession(Territory territory, List<Person> personList)
+        private void PersistPersonListInSession(District district, List<Person> personList)
         {
             if (personList.Count > 0)
             {
-                Session[GetPersonListSessionKey(territory)] = personList;
+                Session[GetPersonListSessionKey(district)] = personList;
             }
         }
 
         /// <summary>
         /// Returns session key that will be used to persist person list.
         /// </summary>
-        /// <param name="territory">Territory that will be used by the session key.</param>
+        /// <param name="district">District that will be used by the session key.</param>
         /// <returns>Session key.</returns>
-        private string GetPersonListSessionKey(Territory territory)
+        private string GetPersonListSessionKey(District district)
         {
-            return string.Format("PersonList_{0}", territory.Id);
+            return string.Format("PersonList_{0}", district.Id);
         }
 
         #endregion
 
         #region Database Access
 
-        TerritoryDb db;
+        DistictManagerDb db;
 
         public SearchAddressController()
         {
-            db = new TerritoryDb();
+            db = new DistictManagerDb();
         }
 
         protected override void Dispose(bool disposing)

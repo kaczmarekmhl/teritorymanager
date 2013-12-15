@@ -2,11 +2,11 @@
 
 @{
     ViewBag.Title = "Index";
-    int territoryId = ViewBag.TerritoryId;
-    string territoryName = ViewBag.TerritoryName;
+    int districtId = ViewBag.DistrictId;
+    string districtName = ViewBag.DistrictName;
 }
 
-<h2>Search addresses for @Html.DisplayFor(model => territoryName)</h2>
+<h2>Search addresses for @Html.DisplayFor(model => districtName)</h2>
 
 <div>
     <div>
@@ -16,14 +16,16 @@
                 HttpMethod = "get",
                 InsertionMode = InsertionMode.Replace,
                 UpdateTargetId = "personList",
-                Url = Url.Action("GetPersonList", "SearchAddress", new { id = territoryId }),
+                Url = Url.Action("GetPersonList", "SearchAddress", new { id = districtId }),
                 LoadingElementId = "ajax-loader"
             }))
         {
             <input type="submit" value="Search addresses" />
         }
     </div>
-    <div>Territory Map</div>
+    <div>District Map
+        <img src="~/Images/Map.png" alt="District map" style="float:right"/>
+    </div>
 </div>
 
 <img id="ajax-loader" src="~/Images/ajax-loader.gif" style="display: none;">

@@ -1,0 +1,13 @@
+﻿@model IPagedList<MVCApp.Models.District>
+
+@{
+    ViewBag.Title = "Manage districts";
+}
+
+<h2>Manage districts</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@Html.Partial("_List", Model)
