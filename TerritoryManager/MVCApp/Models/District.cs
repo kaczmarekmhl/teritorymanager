@@ -7,37 +7,37 @@ using System.Web;
 
 namespace MVCApp.Models
 {
-    public class Territory
+    public class District
     {
         #region Properties
 
         /// <summary>
-        /// Territory record identificator.
+        /// Dictrict record identificator.
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// Territory number.
+        /// Dictrict number.
         /// </summary>
         [StringLength(20)]
         public string Number { get; set; }
 
         /// <summary>
-        /// Territory name.
+        /// Dictrict name.
         /// </summary>
         [Required]
         [StringLength(30)]
         public string Name { get; set; }  
 
         /// <summary>
-        /// First post code of territory.
+        /// First post code of dictrict.
         /// </summary>
         [Required]
         [Display(Name="First Post Code")]
         public int PostCodeFirst  { get; set; }
 
         /// <summary>
-        /// Last post code of territory
+        /// Last post code of dictrict
         /// </summary>
         [Display(Name = "Last Post Code")]
         public int? PostCodeLast { get; set; }
@@ -65,18 +65,18 @@ namespace MVCApp.Models
         }
 
         /// <summary>
-        /// The UserProfile.UserId that is assigned to this territory.
+        /// The UserProfile.UserId that is assigned to this dictrict.
         /// </summary>
         public int? AssignedToUserId { get; set; }
 
         /// <summary>
-        /// The UserProfile that is assigned to this territory.
+        /// The UserProfile that is assigned to this dictrict.
         /// </summary>
         public virtual UserProfile AssignedTo{ get; set; }
 
 
         /// <summary>
-        /// The list of Person found in this territory.
+        /// The list of Person found in this dictrict.
         /// </summary>
         public ICollection<Person> PersonList { get; set; }
 
@@ -84,12 +84,12 @@ namespace MVCApp.Models
 
         #region Constructors
 
-        public Territory(string postCode)
+        public District(string postCode)
         {
             this.PostCode = postCode;
         }
 
-        public Territory()
+        public District()
         {
         }
 

@@ -11,14 +11,14 @@ using System.Data;
 namespace MVCApp.Controllers
 {
     [Authorize(Roles = "Admin")]
-    public class TerritoryManageController : Controller
+    public class DistrictManageController : Controller
     {
         #region IndexAction
 
         public ActionResult Index(int page = 1)
         {
             var model =
-                db.Territories
+                db.Districts
                 .OrderBy(t => t.PostCodeFirst)
                 .ToPagedList(page, 10);
 
@@ -35,26 +35,26 @@ namespace MVCApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Territory territory)
+        public ActionResult Create(District district)
         {
             if (ModelState.IsValid)
             {
-                db.Territories.Add(territory);
+                db.Districts.Add(district);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }          
 
-            return View(territory);
+            return View(district);
         }
         #endregion
 
         #region EditAction
         //
-        // GET: /TerritoryManage/Edit/5
+        // GET: /DistrictManage/Edit/5
 
         public ActionResult Edit(int id)
         {
-            var model = db.Territories.Find(id);
+            var model = db.Districts.Find(id);
 
             if (model == null)
             {
@@ -69,16 +69,16 @@ namespace MVCApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, Territory territory)
+        public ActionResult Edit(int id, District district)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(territory).State = EntityState.Modified;
+                db.Entry(district).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(territory);
+            return View(district);
         }
         #endregion
 
@@ -86,7 +86,7 @@ namespace MVCApp.Controllers
 
         public ActionResult Delete(int id)
         {
-            var model = db.Territories.Find(id);
+            var model = db.Districts.Find(id);
 
             if (model == null)
             {
@@ -102,8 +102,8 @@ namespace MVCApp.Controllers
         {
             try
             {
-                Territory model = db.Territories.Find(id);
-                db.Territories.Remove(model);
+                District model = db.Districts.Find(id);
+                db.Districts.Remove(model);
                 db.SaveChanges();
             }
             catch (DataException)
@@ -117,11 +117,11 @@ namespace MVCApp.Controllers
 
         #region Database Access
 
-        TerritoryDb db;
+        DistictManagerDb db;
 
-        public TerritoryManageController()
+        public DistrictManageController()
         {
-            db = new TerritoryDb();
+            db = new DistictManagerDb();
         }
 
         protected override void Dispose(bool disposing)

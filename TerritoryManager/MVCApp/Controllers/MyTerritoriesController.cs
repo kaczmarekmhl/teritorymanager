@@ -9,12 +9,12 @@ using WebMatrix.WebData;
 namespace MVCApp.Controllers
 {
     [Authorize]
-    public class MyTerritoriesController : Controller
+    public class MyDistrictsController : Controller
     {
         public ActionResult Index()
         {
             var model =
-                db.Territories
+                db.Districts
                 .Where(t => t.AssignedTo.UserId == WebSecurity.CurrentUserId)
                 .OrderBy(t => t.PostCodeFirst);
 
@@ -23,11 +23,11 @@ namespace MVCApp.Controllers
 
         #region Database Access
 
-        TerritoryDb db;
+        DistictManagerDb db;
 
-        public MyTerritoriesController()
+        public MyDistrictsController()
         {
-            db = new TerritoryDb();
+            db = new DistictManagerDb();
         }
 
         protected override void Dispose(bool disposing)

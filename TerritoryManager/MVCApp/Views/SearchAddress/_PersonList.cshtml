@@ -47,7 +47,7 @@
             Model, 
             page => Url.Action(
                 "GetPersonList", 
-                new { Model.First().Territory.Id, page }),
+                new { Model.First().District.Id, page }),
             PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(
                 PagedListRenderOptions.MinimalWithPageCountText, 
                 new AjaxOptions

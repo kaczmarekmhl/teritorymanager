@@ -9,15 +9,15 @@ namespace MVCApp.Migrations
     using System.Web.Security;
     using WebMatrix.WebData;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<MVCApp.Models.TerritoryDb>
+    internal sealed class Configuration : DbMigrationsConfiguration<MVCApp.Models.DistictManagerDb>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
-            ContextKey = "MVCApp.Models.TerritoryDb";
+            ContextKey = "MVCApp.Models.DistictManagerDb";
         }
 
-        protected override void Seed(MVCApp.Models.TerritoryDb context)
+        protected override void Seed(MVCApp.Models.DistictManagerDb context)
         {
             MVCApp.MvcApplication.InitializeSimpleMembershipProvider();
             var roles = (SimpleRoleProvider)Roles.Provider;
@@ -41,51 +41,51 @@ namespace MVCApp.Migrations
 
             var user = context.UserProfiles.First(p => p.UserName == "testuser");
 
-            context.Territories.AddOrUpdate(
+            context.Districts.AddOrUpdate(
                 t => t.Name,
-                new Territory
+                new District
                 {
                     Number = "1",
                     Name = "Ballerup",
                     PostCodeFirst = 2750,
                     AssignedTo = user,
                 },
-                new Territory
+                new District
                 {
                     Number = "2",
                     Name = "Hedehusene",
                     PostCodeFirst = 2640,
                     AssignedTo = user,
                 },
-                new Territory
+                new District
                 {
                     Number = "3",
                     Name = "Ishoj",
                     PostCodeFirst = 2635,
                     AssignedTo = null,
                 },
-                new Territory
+                new District
                 {
                     Number = "4",
                     Name = "Osterbro",
                     PostCodeFirst = 2100,
                     AssignedTo = user,
                 },
-                new Territory
+                new District
                 {
                     Number = "5",
                     Name = "Norrebro",
                     PostCodeFirst = 2200,
                     AssignedTo = user,
                 },
-                new Territory
+                new District
                 {
                     Number = "6",
                     Name = "Kobenhavn S",
                     PostCodeFirst = 2200,
                     AssignedTo = user,
                 },
-                new Territory
+                new District
                 {
                     Number = "7A",
                     Name = "Kobenhavn V.A",
@@ -93,7 +93,7 @@ namespace MVCApp.Migrations
                     PostCodeLast = 1550,
                     AssignedTo = user,
                 },
-                new Territory
+                new District
                 {
                     Number = "7B",
                     Name = "Kobenhavn V.B",

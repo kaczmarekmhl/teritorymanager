@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MVCApp.Models.Territory>
+﻿@model IEnumerable<MVCApp.Models.District>
 
 <table>
     <tr>
@@ -27,7 +27,7 @@
         </td>
         <td>
             @Html.ActionLink("Search addresses", "Index", "SearchAddress", new { id=item.Id }, null) |
-            @Html.ActionLink("Report territory finished", "ReportFinish", new { id=item.Id })
+            @Html.ActionLink("Report district finished", "ReportFinish", new { id=item.Id })
         </td>
     </tr>
 }

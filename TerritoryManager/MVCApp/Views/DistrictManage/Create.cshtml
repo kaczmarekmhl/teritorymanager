@@ -1,19 +1,17 @@
-﻿@model MVCApp.Models.Territory
+﻿@model MVCApp.Models.District
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Add new district";
 }
 
-<h2>Edit</h2>
+<h2>Create</h2>
 
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>Territory</legend>
-
-        @Html.HiddenFor(model => model.Id)
+        <legend>District</legend>
 
         <div class="editor-label">
             @Html.LabelFor(model => model.Number)
@@ -47,16 +45,8 @@
             @Html.ValidationMessageFor(model => model.PostCodeLast)
         </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.AssignedTo.UserName)
-        </div>
-        <div class="editor-field">
-            @Html.DropDownList("AssignedToUserId", String.Empty)
-            @Html.ValidationMessageFor(model => model.AssignedToUserId)
-        </div>
-
         <p>
-            <input type="submit" value="Save" />
+            <input type="submit" value="Create" />
         </p>
     </fieldset>
 }

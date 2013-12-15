@@ -24,12 +24,12 @@
                         
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <li>@Html.ActionLink("My territories", "Index", "MyTerritories")</li>
+                            <li>@Html.ActionLink("My districts", "Index", "MyDistricts")</li>
                         }
                         
                         @if (User.IsInRole("Admin"))
                         {
-                            <li>@Html.ActionLink("Manage territories", "Index", "TerritoryManage")</li>
+                            <li>@Html.ActionLink("Manage districts", "Index", "DistrictManage")</li>
                             <li>@Html.ActionLink("Add User", "Register", "Account")</li>
                         }
                     </ul>
@@ -46,7 +46,7 @@
     <footer>
         <div class="content-wrapper">
             <div class="float-left">
-                <p>&copy; @DateTime.Now.Year - Territory Manager Application</p>
+                <p>&copy; @DateTime.Now.Year - District Manager Application</p>
             </div>
         </div>
     </footer>

@@ -11,7 +11,7 @@ namespace MVCApp.Filters
     public class MinItemsSelectedAttribute : ValidationAttribute
     {
         private readonly int _minItems;       
-        private TerritoryDb _db = new TerritoryDb();
+        private DistictManagerDb _db = new DistictManagerDb();
 
         public MinItemsSelectedAttribute(int minItems)
             : base("You must select at least {0} items")

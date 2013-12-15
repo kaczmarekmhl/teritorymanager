@@ -11,7 +11,7 @@ namespace MVCApp.Controllers
     {
         public ActionResult Index()
         {
-            return RedirectToAction("Index", "MyTerritories", null);
+            return RedirectToAction("Index", "MyDistricts", null);
         }
     }
 }

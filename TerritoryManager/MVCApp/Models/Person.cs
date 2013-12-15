@@ -53,9 +53,9 @@ namespace MVCApp.Models
         public string Latitude { get; set; }
 
         /// <summary>
-        /// Territory identificator.
+        /// District that this person belongs to.
         /// </summary>
-        public Territory Territory { get; set; }
+        public District District { get; set; }
 
         /// <summary>
         /// Is this person selected as a Pole.
@@ -71,7 +71,7 @@ namespace MVCApp.Models
         {
         }
 
-        public Person(AddressSearch.AdressProvider.Entities.Person person, Territory territory)
+        public Person(AddressSearch.AdressProvider.Entities.Person person, District district)
         {
             this.Name = person.Name;
             this.Lastname = person.Lastname;
@@ -79,7 +79,7 @@ namespace MVCApp.Models
             this.TelephoneNumber = person.TelephoneNumber;
             this.Longitude = person.Longitude;
             this.Latitude = person.Latitude;
-            this.Territory = territory;
+            this.District = district;
         }
 
         #endregion
