@@ -71,8 +71,9 @@ namespace MVCApp.Models
         {
         }
 
-        public Person(AddressSearch.AdressProvider.Entities.Person person, District district)
+        public Person(int id, AddressSearch.AdressProvider.Entities.Person person, District district)
         {
+            this.Id = id;
             this.Name = person.Name;
             this.Lastname = person.Lastname;
             this.StreetAddress = person.StreetAddress;

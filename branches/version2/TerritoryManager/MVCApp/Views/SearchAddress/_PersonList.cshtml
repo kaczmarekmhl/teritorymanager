@@ -24,7 +24,15 @@
     @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Selected)
+                @Html.CheckBoxFor(
+                    model => item.Selected,
+                    new {
+                        personId = item.Id,
+                        districtId = item.District.Id,
+                        ajax_selector = "personSelectCheckbox",
+                        id = "personSelectCheckbox_" + item.Id,
+                        data_url = Url.Action("SelectPerson")
+                    })
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
@@ -43,18 +51,6 @@
     </table>
 
     <div class="pagedList">
-        @Html.PagedListPager(
-            Model, 
-            page => Url.Action(
-                "GetPersonList", 
-                new { Model.First().District.Id, page }),
-            PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(
-                PagedListRenderOptions.MinimalWithPageCountText, 
-                new AjaxOptions
-                {
-                    HttpMethod = "get",
-                    InsertionMode = InsertionMode.Replace,
-                    UpdateTargetId = "personList"
-                }))
+        @Html.PagedListPager(Model, page => Url.Action( "Index", new { Model.First().District.Id, page }), PagedListRenderOptions.MinimalWithPageCountText)
     </div>
 }

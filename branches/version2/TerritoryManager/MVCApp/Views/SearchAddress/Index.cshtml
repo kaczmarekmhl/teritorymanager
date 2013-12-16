@@ -11,6 +11,8 @@
 <div>
     <div>
         @using (Ajax.BeginForm(
+            "GetPersonList", 
+            new { id = districtId },
             new AjaxOptions
             {
                 HttpMethod = "get",

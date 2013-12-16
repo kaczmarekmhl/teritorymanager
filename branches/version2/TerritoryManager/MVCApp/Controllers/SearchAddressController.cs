@@ -15,9 +15,11 @@ namespace MVCApp.Controllers
     [Authorize]
     public class SearchAddressController : Controller
     {
+        const int personListPageSize = 10;
+
         #region IndexAction
 
-        public ActionResult Index(int id)
+        public ActionResult Index(int id, int page = 1)
         {
             var district = db.Districts.Find(id);
 
@@ -29,9 +31,9 @@ namespace MVCApp.Controllers
             ViewBag.DistrictId = district.Id;
             ViewBag.DistrictName = district.Name;            
 
-            var personList = GetPersonListFromSession(district)
+            var personList = GetPersonListFromSession(district.Id)
                 .OrderBy(p => p.Name)
-                .ToPagedList(1, 10);
+                .ToPagedList(page, personListPageSize);
 
             return View(personList);
         }
@@ -41,13 +43,8 @@ namespace MVCApp.Controllers
         #region GetPersonListAction
 
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
-        public ActionResult GetPersonList(int id, int page = 1)
+        public ActionResult GetPersonList(int id)
         {
-            if (!Request.IsAjaxRequest())
-            {
-                return new HttpNotFoundResult();
-            }
-
             var district = db.Districts.Find(id);
 
             if (district == null)
@@ -57,9 +54,16 @@ namespace MVCApp.Controllers
 
             var personList = GetPersonList(district)
                 .OrderBy(p => p.Name)
-                .ToPagedList(page, 10);
+                .ToPagedList(1, personListPageSize);
 
-            return PartialView("_PersonList", personList);
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("_PersonList", personList);
+            }
+            else
+            {
+                return RedirectToAction("Index", new { id = id });
+            }
         }
 
         /// <summary>
@@ -71,12 +75,12 @@ namespace MVCApp.Controllers
         {
             List<Person> personList = new List<Person>();
 
-            personList = GetPersonListFromSession(district);
+            personList = GetPersonListFromSession(district.Id);
 
             if (personList.Count == 0)
             {
                 personList = GetPersonListFromKrak(district);
-                PersistPersonListInSession(district, personList);
+                PersistPersonListInSession(district.Id, personList);
             }
 
             return personList;
@@ -91,13 +95,14 @@ namespace MVCApp.Controllers
         {
             var addressProvider = new AddressProvider();
             var personListFromKrak = addressProvider.getPersonList(district.PostCodeFirst, district.PostCodeLast);
+            int id = 1;
 
             var filterList = new List<AddressSearch.AdressProvider.Filters.PersonFilter.IPersonFilter> {
                     new ScandinavianSurname()
                 };
             FilterManager.FilterPersonList(personListFromKrak, filterList);
 
-            return personListFromKrak.Select(p => new Person(p, district)).ToList();
+            return personListFromKrak.Select(p => new Person(id++, p, district)).ToList();
         }
 
         /// <summary>
@@ -105,9 +110,9 @@ namespace MVCApp.Controllers
         /// </summary>
         /// <param name="district">District that the search will be done for.</param>
         /// <returns></returns>
-        private List<Person> GetPersonListFromSession(District district)
+        private List<Person> GetPersonListFromSession(int districtId)
         {
-            string sessionKey = string.Format("PersonList_{0}", district.Id);
+            string sessionKey = string.Format("PersonList_{0}", districtId);
 
             if (Session[sessionKey] != null)
             {
@@ -122,24 +127,47 @@ namespace MVCApp.Controllers
         /// </summary>
         /// <param name="district">District for which person list will be persisted.</param>
         /// <param name="personList">Person list to persist.</param>
-        private void PersistPersonListInSession(District district, List<Person> personList)
+        private void PersistPersonListInSession(int districtId, List<Person> personList)
         {
             if (personList.Count > 0)
             {
-                Session[GetPersonListSessionKey(district)] = personList;
+                Session[GetPersonListSessionKey(districtId)] = personList;
             }
         }
 
         /// <summary>
         /// Returns session key that will be used to persist person list.
         /// </summary>
-        /// <param name="district">District that will be used by the session key.</param>
+        /// <param name="districtId">District that will be used by the session key.</param>
         /// <returns>Session key.</returns>
-        private string GetPersonListSessionKey(District district)
+        private string GetPersonListSessionKey(int districtId)
         {
-            return string.Format("PersonList_{0}", district.Id);
+            return string.Format("PersonList_{0}", districtId);
         }
 
+        #endregion
+
+        #region SelectPersonAction
+        
+        [HttpPost]
+        public ActionResult SelectPerson(int districtId, int personId, bool selected)
+        {
+            List<Person> personList = GetPersonListFromSession(districtId);
+            Person person = personList.Single(p => p.Id == personId);
+
+            if (person == null)
+            {
+                return new HttpNotFoundResult();
+            }
+
+            person.Selected = selected;
+            PersistPersonListInSession(districtId, personList);
+
+            var jsonResult = new JsonResult();
+            jsonResult.Data = new { selected = person.Selected };
+
+            return jsonResult;
+        }
         #endregion
 
         #region Database Access
