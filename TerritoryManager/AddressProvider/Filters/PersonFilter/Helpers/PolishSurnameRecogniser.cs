@@ -9,9 +9,9 @@ namespace AddressSearch.AdressProvider.Filters.PersonFilter.Helpers
     /// <summary>
     /// Recognizes polish surnames.
     /// </summary>
-    public class PolishSurnameRecognizer
+    public class PolishSurnameRecogniser
     {
-        public PolishSurnameRecognizer()
+        public PolishSurnameRecogniser()
         {
             LoadSurnameList("Resources/PolishSurnameList.txt");
         }

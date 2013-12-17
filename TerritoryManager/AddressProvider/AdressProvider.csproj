@@ -47,7 +47,7 @@
     <Compile Include="Entities\Person.cs" />
     <Compile Include="Entities\SearchName.cs" />
     <Compile Include="Filters\FilterManager.cs" />
-    <Compile Include="Filters\PersonFilter\Helpers\PolishSurnameRecognizer.cs" />
+    <Compile Include="Filters\PersonFilter\Helpers\PolishSurnameRecogniser.cs" />
     <Compile Include="Filters\PersonFilter\IPersonFilter.cs" />
     <Compile Include="Filters\PersonFilter\NonPolishSurname.cs" />
     <Compile Include="Filters\PersonFilter\NonPolishSurnameNonExactName.cs" />
