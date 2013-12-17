@@ -109,12 +109,12 @@ namespace MVCApp.Controllers
             personList = personListFromKrak.Select(p => new Person(id++, p, district)).ToList();
 
             // Preliminary selection
-            var polishSurnameRecognizer = new PolishSurnameRecognizer();
+            var polishSurnameRecogniser = new PolishSurnameRecogniser();
 
             foreach (var person in personList)
             {
                 // If person has polish surname select it
-                if (polishSurnameRecognizer.ContainsPolishSurname(person.Lastname) == true)
+                if (polishSurnameRecogniser.ContainsPolishSurname(person.Lastname) == true)
                 {
                     person.Selected = true;
                 }

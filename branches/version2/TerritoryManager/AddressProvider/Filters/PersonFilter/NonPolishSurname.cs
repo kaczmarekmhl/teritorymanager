@@ -13,11 +13,11 @@ namespace AddressSearch.AdressProvider.Filters.PersonFilter
     /// </summary>
     public class NonPolishSurname : IPersonFilter
     {
-        PolishSurnameRecognizer polishSurnameRecognizer;
+        PolishSurnameRecogniser polishSurnameRecognizer;
 
         public NonPolishSurname()
         {
-            polishSurnameRecognizer = new PolishSurnameRecognizer(); 
+            polishSurnameRecognizer = new PolishSurnameRecogniser(); 
         }
 
         public virtual bool SatisfiesCriteria(Person person)
