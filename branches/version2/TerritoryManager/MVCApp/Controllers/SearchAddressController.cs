@@ -9,13 +9,14 @@ using System.Web;
 using System.Web.Mvc;
 using PagedList;
 using System.Web.UI;
+using AddressSearch.AdressProvider.Filters.PersonFilter.Helpers;
 
 namespace MVCApp.Controllers
 {
     [Authorize]
     public class SearchAddressController : Controller
     {
-        const int personListPageSize = 10;
+        const int personListPageSize = 100;
 
         #region IndexAction
 
@@ -29,7 +30,7 @@ namespace MVCApp.Controllers
             }
 
             ViewBag.DistrictId = district.Id;
-            ViewBag.DistrictName = district.Name;            
+            ViewBag.DistrictName = district.Name;
 
             var personList = GetPersonListFromSession(district.Id)
                 .OrderBy(p => p.Name)
@@ -93,16 +94,33 @@ namespace MVCApp.Controllers
         /// <returns>Person list</returns>
         private List<Person> GetPersonListFromKrak(District district)
         {
+            var personList = new List<Person>();
             var addressProvider = new AddressProvider();
             var personListFromKrak = addressProvider.getPersonList(district.PostCodeFirst, district.PostCodeLast);
             int id = 1;
 
+            // Filtering
             var filterList = new List<AddressSearch.AdressProvider.Filters.PersonFilter.IPersonFilter> {
                     new ScandinavianSurname()
                 };
             FilterManager.FilterPersonList(personListFromKrak, filterList);
 
-            return personListFromKrak.Select(p => new Person(id++, p, district)).ToList();
+            // Conversion to model
+            personList = personListFromKrak.Select(p => new Person(id++, p, district)).ToList();
+
+            // Preliminary selection
+            var polishSurnameRecognizer = new PolishSurnameRecognizer();
+
+            foreach (var person in personList)
+            {
+                // If person has polish surname select it
+                if (polishSurnameRecognizer.ContainsPolishSurname(person.Lastname) == true)
+                {
+                    person.Selected = true;
+                }
+            }
+
+            return personList;
         }
 
         /// <summary>
@@ -148,7 +166,7 @@ namespace MVCApp.Controllers
         #endregion
 
         #region SelectPersonAction
-        
+
         [HttpPost]
         public ActionResult SelectPerson(int districtId, int personId, bool selected)
         {
@@ -163,10 +181,10 @@ namespace MVCApp.Controllers
             person.Selected = selected;
             PersistPersonListInSession(districtId, personList);
 
-            var jsonResult = new JsonResult();
-            jsonResult.Data = new { selected = person.Selected };
-
-            return jsonResult;
+            return new JsonResult()
+            {
+                Data = new { selected = person.Selected }
+            };
         }
         #endregion
 
