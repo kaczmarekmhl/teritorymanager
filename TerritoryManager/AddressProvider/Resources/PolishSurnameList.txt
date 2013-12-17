@@ -131,7 +131,7 @@ Kurek
 Kopec
 Zak
 Wolski
-luczak
+Luczak
 Dziedzic
 Kot
 Stasiak
@@ -195,7 +195,7 @@ Pajak
 Czech
 Janiszewski
 Bednarski
-lukasik
+Lukasik
 Chrzanowski
 Bukowski
 Lesniak
@@ -7635,7 +7635,6 @@ Wieladek
 Trybulski
 Szymanczak
 Szwejkowski
-Sommer
 Saczuk
 Pastuszek
 Naporowski
@@ -12822,8 +12821,6 @@ Kukwa
 Kopala
 Kociubinski
 Jakiela
-Jahn
-Gregor
 Graczewski
 Gratkowski
 Dynek
@@ -12925,7 +12922,6 @@ Chabinski
 Bralewski
 Blad
 Benisz
-Baumann
 Barzycki
 Wilczkowski
 Seremet
@@ -33168,7 +33164,6 @@ Piecowski
 Pawlega
 Pawelkowicz
 Pastuszynski
-Palmer
 Oprzedek
 Oleniak
 Obrebowski
@@ -45021,9 +45016,7 @@ Drozdz
 Drechnowicz
 Doszla
 Dobrogosz
-Dey
 Dengler
-Daz
 Daniuk
 Dagga
 Czyrnik
@@ -45610,7 +45603,6 @@ Jatkiewicz
 Jakubasik
 Jakimowski
 Izykiewicz
-Isbrandt
 Hyszko
 Horbowa
 Hasikowski
