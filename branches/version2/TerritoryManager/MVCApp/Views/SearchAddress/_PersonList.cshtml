@@ -42,5 +42,3 @@
         @Html.PagedListPager(Model, page => Url.Action( "Index", new { Model.First().District.Id, page }), PagedListRenderOptions.MinimalWithPageCountText)
     </div>
 }
-
-@Scripts.Render("~/bundles/personSelect")
