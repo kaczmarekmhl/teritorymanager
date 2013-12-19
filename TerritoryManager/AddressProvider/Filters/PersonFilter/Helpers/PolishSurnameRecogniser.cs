@@ -17,7 +17,39 @@ namespace AddressSearch.AdressProvider.Filters.PersonFilter.Helpers
         }
 
         /// <summary>
-        ///     Checks if sting contains polish surname
+        ///     Checks if person is polish.
+        /// </summary>
+        /// <param name="name">Person name.</param>
+        /// <param name="surname">Person surname.</param>
+        public bool IsPolish(string name, string surname)
+        {
+            return ContainsPolishSurname(surname) || ContainsUniquePolishName(name);
+        }
+
+        /// <summary>
+        ///     Checks if sting contains unique polish name.
+        /// </summary>
+        public bool ContainsUniquePolishName(string text, bool skipFirstPart = false)
+        {
+            foreach (var textPart in text.Split(new char[] { ' ', '-' }))
+            {
+                if (skipFirstPart)
+                {
+                    skipFirstPart = false;
+                    continue;
+                }
+
+                if (polishUniqueNameList.Contains(textPart.ToLower()))
+                {
+                    return true;
+                };
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        ///     Checks if sting contains polish surname.
         /// </summary>
         public bool ContainsPolishSurname(string text, bool skipFirstPart = false)
         {
@@ -44,6 +76,86 @@ namespace AddressSearch.AdressProvider.Filters.PersonFilter.Helpers
         }
 
         protected HashSet<string> polishSurnameList;
+        protected HashSet<string> polishUniqueNameList = new HashSet<string>
+        {
+            "Andrzej",
+            "Bartek",
+            "Bartosz",
+            "Bartlomiej",
+            "Bogdan",
+            "Boguslaw",
+            "Boleslaw",
+            "Czeslaw",
+            "Edward",
+            "Franciszek",
+            "Grzegorz",
+            "Jacek",
+            "Janusz",
+            "Jakub",
+            "Jarek",
+            "Jaroslaw",
+            "Jerzy",
+            "Juliusz",
+            "Kazimierz",
+            "Klaudiusz",
+            "Krzysztof",
+            "Lech",
+            "Leszek",
+            "Lukasz",
+            "Marcin",
+            "Marek",
+            "Mariusz",
+            "Mateusz",
+            "Michal",
+            "Pawel",
+            "Piotr",
+            "Przemyslaw",
+            "Radoslaw",
+            "Sebastian",
+            "Slawomir",
+            "Stanislaw",
+            "Sylwek",
+            "Szymon",
+            "Tadeusz",
+            "Tomasz",
+            "Waldemar",
+            "Wawrzyniec",
+            "Wladyslaw",
+            "Wlodzimierz",
+            "Wojciech",
+            "Zbigniew",
+            "Zbyszek",
+            "Zdzislaw",
+            "Zygmunt",
+            "Agnieszka",
+            "Barbara",
+            "Beata",
+            "Boguslawa",
+            "Bozena",
+            "Czeslawa",
+            "Elzbieta",
+            "Eugenia",
+            "Ewelina",
+            "Genowefa",
+            "Grazyna",
+            "Jadwiga",
+            "Janina",
+            "Jolanta",
+            "Justyna",
+            "Karolina",
+            "Katarzyna",
+            "Krystyna",
+            "Magdalena",
+            "Malwina",
+            "Malgorzata",
+            "Marzena",
+            "Miroslawa",
+            "Stanislawa",
+            "Stefania",
+            "Urszula",
+            "Zofia",
+            "Zuzanna"
+        };
 
         public static List<string> polishSurnameSuffix = new List<string>{
             "ski",

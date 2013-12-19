@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using PagedList;
 using System.Web.UI;
 using AddressSearch.AdressProvider.Filters.PersonFilter.Helpers;
+using WebMatrix.WebData;
 
 namespace MVCApp.Controllers
 {
@@ -32,9 +33,7 @@ namespace MVCApp.Controllers
             ViewBag.DistrictId = district.Id;
             ViewBag.DistrictName = district.Name;
 
-            var personList = GetPersonListFromSession(district.Id)
-                .OrderBy(p => p.Name)
-                .ToPagedList(page, personListPageSize);
+            var personList = GetPersistedPersonList(district.Id, page);                
 
             return View(personList);
         }
@@ -53,9 +52,7 @@ namespace MVCApp.Controllers
                 return new HttpNotFoundResult();
             }
 
-            var personList = GetPersonList(district)
-                .OrderBy(p => p.Name)
-                .ToPagedList(1, personListPageSize);
+            var personList = GetPersonList(district);
 
             if (Request.IsAjaxRequest())
             {
@@ -72,16 +69,39 @@ namespace MVCApp.Controllers
         /// </summary>
         /// <param name="district">District that the search will be done for.</param>
         /// <returns>Person list</returns>
-        private List<Person> GetPersonList(District district)
+        private IPagedList<Person> GetPersonList(District district)
         {
-            List<Person> personList = new List<Person>();
-
-            personList = GetPersonListFromSession(district.Id);
+            var personList = GetPersistedPersonList(district.Id);
 
             if (personList.Count == 0)
             {
-                personList = GetPersonListFromKrak(district);
-                PersistPersonListInSession(district.Id, personList);
+                var personListKrak = GetPersonListFromKrak(district);
+                PreliminarySelection(personListKrak);
+                PersistPersonList(district.Id, personListKrak);
+
+            }
+
+            personList = GetPersistedPersonList(district.Id);
+
+            return personList;
+        }
+
+        /// <summary>
+        /// Preliminary select people.
+        /// </summary>
+        /// <param name="personList">List with person models.</param>
+        /// <returns>Preliminary selected list of person models.</returns>
+        private List<Person> PreliminarySelection(List<Person> personList)
+        {
+            var polishSurnameRecogniser = new PolishSurnameRecogniser();
+
+            foreach (var person in personList)
+            {
+                // If person has polish surname select it
+                if (polishSurnameRecogniser.IsPolish(person.Name, person.Lastname) == true)
+                {
+                    person.Selected = true;
+                }
             }
 
             return personList;
@@ -97,7 +117,6 @@ namespace MVCApp.Controllers
             var personList = new List<Person>();
             var addressProvider = new AddressProvider();
             var personListFromKrak = addressProvider.getPersonList(district.PostCodeFirst, district.PostCodeLast);
-            int id = 1;
 
             // Filtering
             var filterList = new List<AddressSearch.AdressProvider.Filters.PersonFilter.IPersonFilter> {
@@ -106,19 +125,7 @@ namespace MVCApp.Controllers
             FilterManager.FilterPersonList(personListFromKrak, filterList);
 
             // Conversion to model
-            personList = personListFromKrak.Select(p => new Person(id++, p, district)).ToList();
-
-            // Preliminary selection
-            var polishSurnameRecogniser = new PolishSurnameRecogniser();
-
-            foreach (var person in personList)
-            {
-                // If person has polish surname select it
-                if (polishSurnameRecogniser.ContainsPolishSurname(person.Lastname) == true)
-                {
-                    person.Selected = true;
-                }
-            }
+            personList = personListFromKrak.Select(p => new Person(p, district)).ToList();         
 
             return personList;
         }
@@ -128,16 +135,12 @@ namespace MVCApp.Controllers
         /// </summary>
         /// <param name="district">District that the search will be done for.</param>
         /// <returns></returns>
-        private List<Person> GetPersonListFromSession(int districtId)
+        private IPagedList<Person> GetPersistedPersonList(int districtId, int page = 1)
         {
-            string sessionKey = string.Format("PersonList_{0}", districtId);
-
-            if (Session[sessionKey] != null)
-            {
-                return (List<Person>)Session[sessionKey];
-            }
-
-            return new List<Person>();
+            return db.Persons
+                .Where(p => p.District.Id == districtId && p.AddedByUserId == WebSecurity.CurrentUserId)
+                .OrderBy(p => p.Name)
+                .ToPagedList(page, personListPageSize);
         }
 
         /// <summary>
@@ -145,11 +148,12 @@ namespace MVCApp.Controllers
         /// </summary>
         /// <param name="district">District for which person list will be persisted.</param>
         /// <param name="personList">Person list to persist.</param>
-        private void PersistPersonListInSession(int districtId, List<Person> personList)
+        private void PersistPersonList(int districtId, List<Person> personList)
         {
             if (personList.Count > 0)
             {
-                Session[GetPersonListSessionKey(districtId)] = personList;
+                db.Persons.AddRange(personList);
+                db.SaveChanges();
             }
         }
 
@@ -170,8 +174,7 @@ namespace MVCApp.Controllers
         [HttpPost]
         public ActionResult SelectPerson(int districtId, int personId, bool selected)
         {
-            List<Person> personList = GetPersonListFromSession(districtId);
-            Person person = personList.Single(p => p.Id == personId);
+            Person person = db.Persons.Find(personId);
 
             if (person == null)
             {
@@ -179,7 +182,7 @@ namespace MVCApp.Controllers
             }
 
             person.Selected = selected;
-            PersistPersonListInSession(districtId, personList);
+            db.SaveChanges();
 
             return new JsonResult()
             {
