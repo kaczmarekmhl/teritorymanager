@@ -196,6 +196,7 @@
     <Compile Include="Controllers\PersonsController.cs" />
     <Compile Include="Controllers\SearchAddressController.cs" />
     <Compile Include="Controllers\DistrictManageController.cs" />
+    <Compile Include="Crypt\Crypter.cs" />
     <Compile Include="Exceptions\InvalidDistrictException.cs" />
     <Compile Include="Filters\MinItemsSelectedAttribute.cs" />
     <Compile Include="Filters\LogAttribute.cs" />
