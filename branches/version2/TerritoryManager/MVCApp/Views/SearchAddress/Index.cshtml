@@ -6,26 +6,29 @@
     string districtName = ViewBag.DistrictName;
 }
 
-<h2>Search addresses for @Html.DisplayFor(model => districtName)</h2>
+<h2>Addresses for @Html.DisplayFor(model => districtName)</h2>
 
 <div>
     <div>
         @using (Ajax.BeginForm(
-            "GetPersonList", 
+            "SearchOnKrak", 
             new { id = districtId },
             new AjaxOptions
             {
                 HttpMethod = "get",
                 InsertionMode = InsertionMode.Replace,
                 UpdateTargetId = "personList",
-                Url = Url.Action("GetPersonList", "SearchAddress", new { id = districtId }),
+                Url = Url.Action("SearchOnKrak", "SearchAddress", new { id = districtId }),
                 LoadingElementId = "ajax-loader"
             }))
         {
-            <input type="submit" value="Search addresses" />
+            <input type="submit" value="Search addresses on Krak" />
         }
     </div>
-    <div>District Map
+    <div>
+        @Html.ActionLink("Display adresses of selected people", "SelectedAdresses", "SearchAddress", new { id = districtId}, null)
+    </div>
+    <div>
         <img src="~/Images/Map.png" alt="District map" style="float:right"/>
     </div>
 </div>

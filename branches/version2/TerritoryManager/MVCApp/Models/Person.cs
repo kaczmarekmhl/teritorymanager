@@ -1,4 +1,5 @@
 ﻿using MVCApp.Crypt;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using WebMatrix.WebData;
@@ -7,6 +8,13 @@ namespace MVCApp.Models
 {
     public class Person
     {
+        private string lastname;
+        private string streetAddress;
+        private string telephoneNumber;
+        private string longitude;
+        private string latitude;
+
+
         #region Properties
 
         /// <summary>
@@ -18,8 +26,8 @@ namespace MVCApp.Models
         /// Person name.
         /// </summary>
         [StringLength(45)]
-        [Display(Name = "Name")]        
-        public string Name  { get; set; }
+        [Display(Name = "Name")]
+        public string Name { get; set; }
 
         /// <summary>
         /// Person surname.
@@ -31,11 +39,12 @@ namespace MVCApp.Models
         {
             get
             {
-                return Crypter.Decrypt(LastnameCrypt);
+                return String.IsNullOrEmpty(lastname) ? lastname = Crypter.Decrypt(LastnameCrypt) : lastname;
             }
 
             set
             {
+                lastname = value;
                 LastnameCrypt = Crypter.Encrypt(value);
             }
         }
@@ -50,11 +59,12 @@ namespace MVCApp.Models
         {
             get
             {
-                return Crypter.Decrypt(StreetAddressCrypt);
+                return String.IsNullOrEmpty(streetAddress) ? streetAddress = Crypter.Decrypt(StreetAddressCrypt) : streetAddress;
             }
 
             set
             {
+                streetAddress = value;
                 StreetAddressCrypt = Crypter.Encrypt(value);
             }
         }
@@ -70,11 +80,12 @@ namespace MVCApp.Models
         {
             get
             {
-                return Crypter.Decrypt(TelephoneNumberCrypt);
+                return String.IsNullOrEmpty(telephoneNumber) ? telephoneNumber = Crypter.Decrypt(TelephoneNumberCrypt) : telephoneNumber;
             }
 
             set
             {
+                telephoneNumber = value;
                 TelephoneNumberCrypt = Crypter.Encrypt(value);
             }
         }
@@ -88,11 +99,12 @@ namespace MVCApp.Models
         {
             get
             {
-                return Crypter.Decrypt(LongitudeCrypt);
+                return String.IsNullOrEmpty(longitude) ? longitude = Crypter.Decrypt(LongitudeCrypt) : longitude;
             }
 
             set
             {
+                longitude = value;
                 LongitudeCrypt = Crypter.Encrypt(value);
             }
         }
@@ -106,11 +118,12 @@ namespace MVCApp.Models
         {
             get
             {
-                return Crypter.Decrypt(LatitudeCrypt);
+                return String.IsNullOrEmpty(latitude) ? latitude = Crypter.Decrypt(LatitudeCrypt) : latitude;
             }
 
             set
             {
+                latitude = value;
                 LatitudeCrypt = Crypter.Encrypt(value);
             }
         }
@@ -138,28 +151,33 @@ namespace MVCApp.Models
         /// <summary>
         /// Person surname encrypted.
         /// </summary>
+        [Column("x1")]
         public string LastnameCrypt { get; set; }
 
         /// <summary>
         /// Person street address encrypted.
         /// </summary>
+        [Column("x2")]
         public string StreetAddressCrypt { get; set; }
 
         /// <summary>
         /// Person telephone number encrypted.
         /// </summary>
+        [Column("x3")]
         public string TelephoneNumberCrypt { get; set; }
 
         /// <summary>
         /// Person geographical longitude encrypted.
         /// </summary>
-        public string LongitudeCrypt  { get; set; }
+        [Column("x4")]
+        public string LongitudeCrypt { get; set; }
 
         /// <summary>
         /// Person geographical latitude encrypted.
         /// </summary>
-        public string LatitudeCrypt  { get; set; }
-        
+        [Column("x5")]
+        public string LatitudeCrypt { get; set; }
+
         #endregion
 
         #region Constructors
