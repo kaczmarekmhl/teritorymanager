@@ -339,6 +339,8 @@
     <Content Include="Views\SearchAddress\Index.cshtml" />
     <Content Include="Views\MyDistricts\_List.cshtml" />
     <Content Include="Views\SearchAddress\_PersonList.cshtml" />
+    <Content Include="Views\SearchAddress\SelectedAdresses.cshtml" />
+    <Content Include="Views\SearchAddress\_SelectedPersonList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

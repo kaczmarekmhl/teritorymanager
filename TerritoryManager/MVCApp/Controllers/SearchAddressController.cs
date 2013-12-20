@@ -33,17 +33,17 @@ namespace MVCApp.Controllers
             ViewBag.DistrictId = district.Id;
             ViewBag.DistrictName = district.Name;
 
-            var personList = GetPersistedPersonList(district.Id, page);                
+            var personList = GetPersistedPersonList(district.Id, page);
 
             return View(personList);
         }
 
         #endregion
 
-        #region GetPersonListAction
+        #region SearchOnKrakAction
 
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
-        public ActionResult GetPersonList(int id)
+        public ActionResult SearchOnKrak(int id)
         {
             var district = db.Districts.Find(id);
 
@@ -52,7 +52,12 @@ namespace MVCApp.Controllers
                 return new HttpNotFoundResult();
             }
 
-            var personList = GetPersonList(district);
+            DeletePeopleInDistrict(district);
+
+            var personList =
+                SearchAddressOnKrak(district)
+                .OrderBy(p => p.Name)
+                .ToPagedList(1, personListPageSize);
 
             if (Request.IsAjaxRequest())
             {
@@ -64,26 +69,81 @@ namespace MVCApp.Controllers
             }
         }
 
+        #endregion
+
+        #region SelectPersonAction
+
+        [HttpPost]
+        public ActionResult SelectPerson(int districtId, int personId, bool selected)
+        {
+            Person person = db.Persons.Find(personId);
+
+            if (person == null)
+            {
+                return new HttpNotFoundResult();
+            }
+
+            person.Selected = selected;
+            db.SaveChanges();
+
+            return new JsonResult()
+            {
+                Data = new { selected = person.Selected }
+            };
+        }
+        #endregion
+
+        #region SelectedAdressesAction
+
+        public ActionResult SelectedAdresses(int id, int page = 1)
+        {
+            var district = db.Districts.Find(id);
+
+            if (district == null)
+            {
+                return new HttpNotFoundResult();
+            }
+
+            ViewBag.DistrictId = district.Id;
+            ViewBag.DistrictName = district.Name;
+
+            var personList = GetSelectedPersonList(district.Id, page);
+
+            return View(personList);
+        }
+
+        #endregion
+
+        #region Helpers
+
         /// <summary>
         /// Returns person list for the given district.
         /// </summary>
         /// <param name="district">District that the search will be done for.</param>
         /// <returns>Person list</returns>
-        private IPagedList<Person> GetPersonList(District district)
+        private List<Person> SearchAddressOnKrak(District district)
         {
-            var personList = GetPersistedPersonList(district.Id);
+            List<Person> personList;
 
-            if (personList.Count == 0)
-            {
-                var personListKrak = GetPersonListFromKrak(district);
-                PreliminarySelection(personListKrak);
-                PersistPersonList(district.Id, personListKrak);
-
-            }
-
-            personList = GetPersistedPersonList(district.Id);
+            personList = GetPersonListFromKrak(district);
+            PreliminarySelection(personList);
+            PersistPersonList(district.Id, personList);
 
             return personList;
+        }
+
+        /// <summary>
+        /// Deletes people for given district.
+        /// </summary>
+        /// <param name="district">District that the delete will be done for.</param>
+        private void DeletePeopleInDistrict(District district)
+        {
+            db.Persons
+                .RemoveRange(
+                db.Persons
+                .Where(p => p.District.Id == district.Id && p.AddedByUserId == WebSecurity.CurrentUserId));
+
+            db.SaveChanges();
         }
 
         /// <summary>
@@ -125,13 +185,13 @@ namespace MVCApp.Controllers
             FilterManager.FilterPersonList(personListFromKrak, filterList);
 
             // Conversion to model
-            personList = personListFromKrak.Select(p => new Person(p, district)).ToList();         
+            personList = personListFromKrak.Select(p => new Person(p, district)).ToList();
 
             return personList;
         }
 
         /// <summary>
-        /// Loads person list from session.
+        /// Loads persisted person list.
         /// </summary>
         /// <param name="district">District that the search will be done for.</param>
         /// <returns></returns>
@@ -139,6 +199,19 @@ namespace MVCApp.Controllers
         {
             return db.Persons
                 .Where(p => p.District.Id == districtId && p.AddedByUserId == WebSecurity.CurrentUserId)
+                .OrderBy(p => p.Name)
+                .ToPagedList(page, personListPageSize);
+        }
+
+        /// <summary>
+        /// Loads persisted and selected person list.
+        /// </summary>
+        /// <param name="district">District that the search will be done for.</param>
+        /// <returns></returns>
+        private IPagedList<Person> GetSelectedPersonList(int districtId, int page = 1)
+        {
+            return db.Persons
+                .Where(p => p.District.Id == districtId && p.AddedByUserId == WebSecurity.CurrentUserId && p.Selected == true)
                 .OrderBy(p => p.Name)
                 .ToPagedList(page, personListPageSize);
         }
@@ -157,38 +230,6 @@ namespace MVCApp.Controllers
             }
         }
 
-        /// <summary>
-        /// Returns session key that will be used to persist person list.
-        /// </summary>
-        /// <param name="districtId">District that will be used by the session key.</param>
-        /// <returns>Session key.</returns>
-        private string GetPersonListSessionKey(int districtId)
-        {
-            return string.Format("PersonList_{0}", districtId);
-        }
-
-        #endregion
-
-        #region SelectPersonAction
-
-        [HttpPost]
-        public ActionResult SelectPerson(int districtId, int personId, bool selected)
-        {
-            Person person = db.Persons.Find(personId);
-
-            if (person == null)
-            {
-                return new HttpNotFoundResult();
-            }
-
-            person.Selected = selected;
-            db.SaveChanges();
-
-            return new JsonResult()
-            {
-                Data = new { selected = person.Selected }
-            };
-        }
         #endregion
 
         #region Database Access

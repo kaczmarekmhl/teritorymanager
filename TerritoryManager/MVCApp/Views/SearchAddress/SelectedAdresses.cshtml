@@ -1,0 +1,11 @@
+﻿@model IPagedList<MVCApp.Models.Person>
+
+@{
+    ViewBag.Title = "Selected adresses";
+}
+
+<h2>Selected adresses</h2>
+
+<div id="personList">
+    @Html.Partial("_SelectedPersonList")
+</div>
