@@ -11,6 +11,10 @@ using PagedList;
 using System.Web.UI;
 using AddressSearch.AdressProvider.Filters.PersonFilter.Helpers;
 using WebMatrix.WebData;
+using System.Xml.Linq;
+using KmlGenerator;
+using System.IO;
+using System.Text;
 
 namespace MVCApp.Controllers
 {
@@ -107,12 +111,80 @@ namespace MVCApp.Controllers
             ViewBag.DistrictId = district.Id;
             ViewBag.DistrictName = district.Name;
 
-            var personList = GetSelectedPersonList(district.Id, page);
-
-            return View(personList);
+            return View(GetSelectedPersonList(district.Id));
         }
 
         #endregion
+
+        #region SelectedAdressesMapAction
+
+        public ActionResult SelectedAdressesMap(int id)
+        {
+            var district = db.Districts.Find(id);
+
+            if (district == null)
+            {
+                return new HttpNotFoundResult();
+            }
+
+            return View(district);
+        }
+
+        #endregion
+
+        #region SelectedAdressesMapKmlAction
+
+        public ActionResult SelectedAdressesMapKml(int id)
+        {
+            var district = db.Districts.Find(id);
+
+            if (district == null)
+            {
+                return new HttpNotFoundResult();
+            }
+
+            var path = Server.MapPath("/Content/TestMap.kml");
+            var kmlDoc = new KmlDocument();
+
+            var counter = 1;
+            foreach (var person in GetSelectedPersonList(district.Id))
+            {
+                kmlDoc.addPlacemark(
+                    String.Format("{0}. {1} {2}", counter++, person.Name, person.Lastname),
+                    person.StreetAddress,
+                    person.Longitude,
+                    person.Latitude);
+            }            
+
+            return this.Content(kmlDoc.GenerateKml(path).ToString(), "text/xml");
+        }
+
+        #endregion
+
+        #region SelectedAdressesTextFileAction
+
+        public ActionResult SelectedAdressesTextFile(int id)
+        {
+            var district = db.Districts.Find(id);
+
+            if (district == null)
+            {
+                return new HttpNotFoundResult();
+            }
+
+            int counter = 1;
+            StringBuilder result = new StringBuilder();       
+            foreach (var person in GetSelectedPersonList(district.Id))
+            {
+                result.AppendLine(String.Format("{0}. {1} {2}\t\t{3}\t{4}", counter++, person.Name, person.Lastname, person.StreetAddress, person.TelephoneNumber));
+            }
+
+            return this.Content(result.ToString(), "text/text");
+        }
+
+        #endregion
+
+        
 
         #region Helpers
 
@@ -207,13 +279,14 @@ namespace MVCApp.Controllers
         /// Loads persisted and selected person list.
         /// </summary>
         /// <param name="district">District that the search will be done for.</param>
-        /// <returns></returns>
-        private IPagedList<Person> GetSelectedPersonList(int districtId, int page = 1)
+        /// <returns>Selected person list.</returns>
+        private List<Person> GetSelectedPersonList(int districtId)
         {
-            return db.Persons
+            var list =  db.Persons
                 .Where(p => p.District.Id == districtId && p.AddedByUserId == WebSecurity.CurrentUserId && p.Selected == true)
-                .OrderBy(p => p.Name)
-                .ToPagedList(page, personListPageSize);
+                .ToList();
+
+            return list.OrderBy(p => p.StreetAddress).ToList();
         }
 
         /// <summary>

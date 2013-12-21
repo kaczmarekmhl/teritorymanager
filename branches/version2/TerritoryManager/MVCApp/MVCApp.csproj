@@ -273,9 +273,11 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Content\TestMap.kml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Images\ajax-loader.gif" />
     <Content Include="Images\map.png" />
+    <Content Include="Scripts\geoxml3.js" />
     <Content Include="Scripts\personSelect.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
@@ -341,6 +343,7 @@
     <Content Include="Views\SearchAddress\_PersonList.cshtml" />
     <Content Include="Views\SearchAddress\SelectedAdresses.cshtml" />
     <Content Include="Views\SearchAddress\_SelectedPersonList.cshtml" />
+    <Content Include="Views\SearchAddress\SelectedAdressesMap.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -352,6 +355,10 @@
     <ProjectReference Include="..\AddressProvider\AdressProvider.csproj">
       <Project>{28f7b04a-2674-4af2-a36a-cb893b2f7181}</Project>
       <Name>AdressProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KmlGenerator\KmlGenerator.csproj">
+      <Project>{86b49896-e7e0-48bc-ad64-0bc205c16c48}</Project>
+      <Name>KmlGenerator</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
