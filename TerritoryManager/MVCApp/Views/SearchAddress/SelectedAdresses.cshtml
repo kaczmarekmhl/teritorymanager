@@ -1,10 +1,20 @@
-﻿@model IPagedList<MVCApp.Models.Person>
+﻿@model List<MVCApp.Models.Person>
 
 @{
     ViewBag.Title = "Selected adresses";
+    int districtId = ViewBag.DistrictId;
+    string districtName = ViewBag.DistrictName;
 }
 
+
 <h2>Selected adresses</h2>
+
+    <div>
+        @Html.ActionLink("Show map", "SelectedAdressesMap", "SearchAddress", new { id = districtId }, new { target = "_blank" })
+    </div>
+    <div>
+        @Html.ActionLink("Save adresses as file", "SelectedAdressesTextFile", "SearchAddress", new { id = districtId }, new { target = "_blank" })
+    </div>
 
 <div id="personList">
     @Html.Partial("_SelectedPersonList")

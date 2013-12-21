@@ -1,0 +1,41 @@
+﻿@model MVCApp.Models.District
+
+@{
+    ViewBag.Title = "SelectedAdressesMap";
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title Find Poles in Denmark</title>
+    <meta name="viewport" content="width=device-width" />
+</head>
+<body>
+    <div id="map_canvas" style="width:auto; height:100vh;"/>
+
+    <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript" src="~/Scripts/geoxml3.js"></script>
+    <script>
+        function initialize() {
+
+            var map_canvas = document.getElementById('map_canvas');
+            var map_options = {
+                center: new google.maps.LatLng(56.0000, 12.0000),
+                zoom: 7,
+            }
+            var map = new google.maps.Map(map_canvas, map_options)
+
+            var myParser = new geoXML3.parser({
+                map: map
+            });
+            myParser.parse('@Url.Action("SelectedAdressesMapKml", new { id = Model.Id })');
+        }
+
+        google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+</body>
+</html>
+

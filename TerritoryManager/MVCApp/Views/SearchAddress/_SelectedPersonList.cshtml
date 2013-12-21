@@ -1,9 +1,14 @@
-﻿@model IPagedList<MVCApp.Models.Person>
+﻿@model List<MVCApp.Models.Person>
+
+@{
+    int counter = 1;
+}
 
 @if (Model != null && Model.Count() != 0)
 {
     <table>
         <tr>
+            <th>#</th>
             <th>
                 @Html.DisplayNameFor(model => model.First().Name)
             </th>
@@ -20,6 +25,7 @@
 
     @foreach (var item in Model) {
         <tr>
+            <td>@counter</td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
@@ -33,10 +39,8 @@
                 @Html.DisplayFor(modelItem => item.TelephoneNumber)
             </td>
         </tr>
+        
+        counter = counter + 1;
     }
     </table>
-
-    <div class="pagedList">
-        @Html.PagedListPager(Model, page => Url.Action( "SelectedAdresses", new { Model.First().District.Id, page }), PagedListRenderOptions.MinimalWithPageCountText)
-    </div>
 }
