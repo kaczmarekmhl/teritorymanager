@@ -15,6 +15,7 @@ using System.Xml.Linq;
 using KmlGenerator;
 using System.IO;
 using System.Text;
+using RazorPDF;
 
 namespace MVCApp.Controllers
 {
@@ -163,13 +164,13 @@ namespace MVCApp.Controllers
 
         #region SelectedAdressesTextFileAction
 
-        public ActionResult SelectedAdressesTextFile(int id)
+        public FileResult SelectedAdressesTextFile(int id)
         {
             var district = db.Districts.Find(id);
 
             if (district == null)
             {
-                return new HttpNotFoundResult();
+                return null;
             }
 
             int counter = 1;
@@ -179,13 +180,38 @@ namespace MVCApp.Controllers
                 result.AppendLine(String.Format("{0}. {1} {2}\t\t{3}\t{4}", counter++, person.Name, person.Lastname, person.StreetAddress, person.TelephoneNumber));
             }
 
-            return this.Content(result.ToString(), "text/text");
+            var fileResult = new FileContentResult(Encoding.UTF8.GetBytes(result.ToString()), "text/plain");
+            fileResult.FileDownloadName = String.Format("{0}.txt", GetSelectedAdressesFileName(district));
+
+            return fileResult;
         }
 
         #endregion
 
-        
+        #region SelectedAdressesPdfFileAction
 
+        public ActionResult SelectedAdressesPdfFile(int id)
+        {
+            var district = db.Districts.Find(id);
+
+            if (district == null)
+            {
+                return null;
+            }
+
+            //Response.ContentType = "application/pdf";
+            //Response.AddHeader("Content-Disposition", String.Format("attachment; filename={0}.pdf", GetSelectedAdressesFileName(district)));
+
+            var pdf = new PdfResult(GetSelectedPersonList(district.Id), "SelectedAdressesPdf");
+
+            pdf.ViewBag.DistrictName = district.Name;
+            pdf.ViewBag.DistrictPostCode = district.PostCode;
+
+            return pdf;
+        }
+
+        #endregion
+        
         #region Helpers
 
         /// <summary>
@@ -301,6 +327,16 @@ namespace MVCApp.Controllers
                 db.Persons.AddRange(personList);
                 db.SaveChanges();
             }
+        }
+
+        /// <summary>
+        /// Returns string that should be used as a file name of selected adresses file.
+        /// </summary>
+        /// <param name="district">Distris for which the file name will be returned.</param>
+        /// <returns>File name.</returns>
+        private string GetSelectedAdressesFileName(District district)
+        {
+            return String.Format("{0}_{1}", district.Name, district.PostCode);
         }
 
         #endregion

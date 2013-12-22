@@ -10,10 +10,12 @@
 <h2>Selected adresses</h2>
 
     <div>
-        @Html.ActionLink("Show map", "SelectedAdressesMap", "SearchAddress", new { id = districtId }, new { target = "_blank" })
+        @Html.ActionLink("Show on map", "SelectedAdressesMap", new { id = districtId }, new { target = "_blank" })
     </div>
     <div>
-        @Html.ActionLink("Save adresses as file", "SelectedAdressesTextFile", "SearchAddress", new { id = districtId }, new { target = "_blank" })
+        Save adresses as: 
+        @Html.ActionLink("text file", "SelectedAdressesTextFile", new { id = districtId })
+        | @Html.ActionLink("pdf file", "SelectedAdressesPdfFile", new { id = districtId })
     </div>
 
 <div id="personList">
