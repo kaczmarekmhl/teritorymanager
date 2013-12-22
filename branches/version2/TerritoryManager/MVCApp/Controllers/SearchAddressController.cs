@@ -199,8 +199,8 @@ namespace MVCApp.Controllers
                 return null;
             }
 
-            //Response.ContentType = "application/pdf";
-            //Response.AddHeader("Content-Disposition", String.Format("attachment; filename={0}.pdf", GetSelectedAdressesFileName(district)));
+            Response.ContentType = "application/pdf";
+            Response.AddHeader("Content-Disposition", String.Format("attachment; filename={0}.pdf", GetSelectedAdressesFileName(district)));
 
             var pdf = new PdfResult(GetSelectedPersonList(district.Id), "SelectedAdressesPdf");
 
