@@ -45,6 +45,9 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="itextsharp">
+      <HintPath>..\packages\iTextSharp.4.1.2\lib\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="MySql.Web, Version=6.7.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="PagedList">
@@ -52,6 +55,9 @@
     </Reference>
     <Reference Include="PagedList.Mvc">
       <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="RazorPDF">
+      <HintPath>..\packages\RazorPDF.1.0.0\lib\net45\RazorPDF.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -190,10 +196,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\DistrictController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MyDistrictsController.cs" />
-    <Compile Include="Controllers\PersonsController.cs" />
     <Compile Include="Controllers\SearchAddressController.cs" />
     <Compile Include="Controllers\DistrictManageController.cs" />
     <Compile Include="Crypt\Crypter.cs" />
@@ -325,13 +329,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
-    <Content Include="Views\Person\Edit.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Persons\_List.cshtml" />
-    <Content Include="Views\Persons\_Restore.cshtml" />
-    <Content Include="Views\Persons\_Delete.cshtml" />
-    <Content Include="Views\District\_Select.cshtml" />
-    <Content Include="Views\District\Search.cshtml" />
     <Content Include="Views\DistrictManage\Index.cshtml" />
     <Content Include="Views\DistrictManage\Create.cshtml" />
     <Content Include="Views\DistrictManage\Edit.cshtml" />
@@ -344,6 +342,7 @@
     <Content Include="Views\SearchAddress\SelectedAdresses.cshtml" />
     <Content Include="Views\SearchAddress\_SelectedPersonList.cshtml" />
     <Content Include="Views\SearchAddress\SelectedAdressesMap.cshtml" />
+    <Content Include="Views\SearchAddress\SelectedAdressesPdf.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
