@@ -2,18 +2,15 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.IO;
+using System.Xml.Serialization;
 using WebMatrix.WebData;
 
 namespace MVCApp.Models
 {
     public class Person
     {
-        private string lastname;
-        private string streetAddress;
-        private string telephoneNumber;
-        private string longitude;
-        private string latitude;
-
+        private CryptedData cryptedData = new CryptedData();
 
         #region Properties
 
@@ -39,13 +36,12 @@ namespace MVCApp.Models
         {
             get
             {
-                return String.IsNullOrEmpty(lastname) ? lastname = Crypter.Decrypt(LastnameCrypt) : lastname;
+                return cryptedData.Lastname;
             }
 
             set
             {
-                lastname = value;
-                LastnameCrypt = Crypter.Encrypt(value);
+                cryptedData.Lastname = value;
             }
         }
 
@@ -59,13 +55,12 @@ namespace MVCApp.Models
         {
             get
             {
-                return String.IsNullOrEmpty(streetAddress) ? streetAddress = Crypter.Decrypt(StreetAddressCrypt) : streetAddress;
+                return cryptedData.StreetAddress;
             }
 
             set
             {
-                streetAddress = value;
-                StreetAddressCrypt = Crypter.Encrypt(value);
+                cryptedData.StreetAddress = value;
             }
         }
 
@@ -80,13 +75,12 @@ namespace MVCApp.Models
         {
             get
             {
-                return String.IsNullOrEmpty(telephoneNumber) ? telephoneNumber = Crypter.Decrypt(TelephoneNumberCrypt) : telephoneNumber;
+                return cryptedData.TelephoneNumber;
             }
 
             set
             {
-                telephoneNumber = value;
-                TelephoneNumberCrypt = Crypter.Encrypt(value);
+                cryptedData.TelephoneNumber = value;
             }
         }
 
@@ -99,13 +93,12 @@ namespace MVCApp.Models
         {
             get
             {
-                return String.IsNullOrEmpty(longitude) ? longitude = Crypter.Decrypt(LongitudeCrypt) : longitude;
+                return cryptedData.Longitude;
             }
 
             set
             {
-                longitude = value;
-                LongitudeCrypt = Crypter.Encrypt(value);
+                cryptedData.Longitude = value;
             }
         }
 
@@ -118,13 +111,12 @@ namespace MVCApp.Models
         {
             get
             {
-                return String.IsNullOrEmpty(latitude) ? latitude = Crypter.Decrypt(LatitudeCrypt) : latitude;
+                return cryptedData.Latitude;
             }
 
             set
             {
-                latitude = value;
-                LatitudeCrypt = Crypter.Encrypt(value);
+                cryptedData.Latitude = value;
             }
         }
 
@@ -149,34 +141,71 @@ namespace MVCApp.Models
         #region Crypted Properties
 
         /// <summary>
-        /// Person surname encrypted.
+        /// Encrypted private data.
         /// </summary>
-        [Column("x1")]
-        public string LastnameCrypt { get; set; }
+        [Column("cx")]
+        public string Crypt 
+        {   
+            get
+            {
+                return cryptedData.SerializeAndCrypt();
+            }
 
-        /// <summary>
-        /// Person street address encrypted.
-        /// </summary>
-        [Column("x2")]
-        public string StreetAddressCrypt { get; set; }
+            set
+            {
+                cryptedData.DecryptAndDeserialize(value);
+            }
+        }
 
-        /// <summary>
-        /// Person telephone number encrypted.
-        /// </summary>
-        [Column("x3")]
-        public string TelephoneNumberCrypt { get; set; }
+        public class CryptedData
+        {
+            public string Lastname { get; set; }
+            public string StreetAddress { get; set; }
+            public string TelephoneNumber { get; set; }
+            public string Longitude { get; set; }
+            public string Latitude { get; set; }
 
-        /// <summary>
-        /// Person geographical longitude encrypted.
-        /// </summary>
-        [Column("x4")]
-        public string LongitudeCrypt { get; set; }
+            #region Serialization and encryption
 
-        /// <summary>
-        /// Person geographical latitude encrypted.
-        /// </summary>
-        [Column("x5")]
-        public string LatitudeCrypt { get; set; }
+            [NonSerialized]
+            protected XmlSerializer serializer;
+
+            public CryptedData()
+            {
+                serializer = new XmlSerializer(this.GetType());
+            }
+
+            /// <summary>
+            /// Serialize object and return crypted string.
+            /// </summary>
+            /// <returns>Crypted string.</returns>
+            public string SerializeAndCrypt()
+            {
+                using (var textWriter = new StringWriter())
+                {
+                    serializer.Serialize(textWriter, this);
+                    return Crypter.Encrypt(textWriter.ToString());
+                }
+            }
+            
+            /// <summary>
+            /// Decrypt given string and deserialize data.
+            /// </summary>
+            /// <param name="cryptedValue">Encrypted string.</param>
+            public void DecryptAndDeserialize(string cryptedValue)
+            {
+                string serializedData = Crypter.Decrypt(cryptedValue);
+                CryptedData deserializedData = (CryptedData)serializer.Deserialize(new StringReader(serializedData));
+
+                this.Lastname = deserializedData.Lastname;
+                this.StreetAddress = deserializedData.StreetAddress;
+                this.TelephoneNumber = deserializedData.TelephoneNumber;
+                this.Longitude = deserializedData.Longitude;
+                this.Latitude = deserializedData.Latitude;
+            }
+
+            #endregion
+        }
 
         #endregion
 
