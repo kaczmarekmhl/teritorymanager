@@ -40,7 +40,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\Placemark.cs" />
+    <Compile Include="ExternalKmlProvider.cs" />
     <Compile Include="KmlDocument.cs" />
+    <Compile Include="KmlHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

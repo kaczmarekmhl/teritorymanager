@@ -6,7 +6,8 @@
 
 <h2>Edit</h2>
 
-@using (Html.BeginForm()) {
+@using (Html.BeginForm("Edit", "DistrictManage", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
@@ -53,6 +54,15 @@
         <div class="editor-field">
             @Html.DropDownList("AssignedToUserId", String.Empty)
             @Html.ValidationMessageFor(model => model.AssignedToUserId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DistrictBoundaryKml)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.DistrictBoundaryKml)<br />
+            <input type="file" name="kmlFile" />
+            @Html.ValidationMessageFor(model => model.DistrictBoundaryKml)
         </div>
 
         <p>

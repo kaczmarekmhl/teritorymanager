@@ -10,14 +10,20 @@ namespace KmlGenerator
 {
     public class KmlDocument
     {
-        List<Placemark> placemarkList;
+        List<Placemark> placemarkList = new List<Placemark>();
+        XDocument xml;
+        XNamespace ns;
 
-        public KmlDocument()
+        public KmlDocument(string kml)
         {
-            placemarkList = new List<Placemark>();
+            xml = XDocument.Parse(kml);
+            ns = xml.Root.Name.Namespace;
         }
 
-        public void addPlacemark(string name, string description, string longitude, string latitude)
+        /// <summary>
+        /// Add placemark that will be displayed on map.
+        /// </summary>
+        public void AddPlacemark(string name, string description, string longitude, string latitude)
         {
             placemarkList.Add(
                 new Placemark { 
@@ -27,11 +33,30 @@ namespace KmlGenerator
                     Latitude = latitude});        
         }
 
-        public XDocument GenerateKml(string baseKmlPath)
+        /// <summary>
+        /// Changes colors of district boundary and fill.
+        /// </summary>
+        /// <param name="borderColor">Border color.</param>
+        /// <param name="fillColor">Fill color.</param>
+        public void ChangeBoundaryColor(string borderColor, string fillColor)
         {
-            XDocument xml = XDocument.Load(baseKmlPath);
-            XNamespace ns = xml.Root.Name.Namespace;
+            foreach (XElement element in xml.Descendants(ns + "LineStyle"))
+            {
+                element.Element(ns + "color").SetValue(borderColor);
+            }
 
+            foreach (XElement element in xml.Descendants(ns + "PolyStyle"))
+            {
+                element.Element(ns + "color").SetValue(fillColor);
+            }
+        }
+
+        /// <summary>
+        /// Generates kml with placemarks.
+        /// </summary>
+        /// <returns>Kml</returns>
+        public string GetKmlWithPlacemarks()
+        {
             XElement documentElement = xml.Descendants(ns + "Document").First();
 
             if (documentElement == null)
@@ -41,7 +66,7 @@ namespace KmlGenerator
 
             documentElement.Add(GetFolderElementWithPlacemarks());
 
-            return xml;
+            return xml.ToString();
         }
 
         private XElement GetFolderElementWithPlacemarks()

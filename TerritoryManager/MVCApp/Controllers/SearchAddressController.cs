@@ -144,20 +144,23 @@ namespace MVCApp.Controllers
                 return new HttpNotFoundResult();
             }
 
-            var path = Server.MapPath("/Content/TestMap.kml");
-            var kmlDoc = new KmlDocument();
+            district.LoadExternalDistrictBoundaryKml();
+
+            var kmlDoc = new KmlDocument(district.DistrictBoundaryKml);
+
+            kmlDoc.ChangeBoundaryColor("ff0000ff", "5950c24a");
 
             var counter = 1;
             foreach (var person in GetSelectedPersonList(district.Id))
             {
-                kmlDoc.addPlacemark(
+                kmlDoc.AddPlacemark(
                     String.Format("{0}. {1} {2}", counter++, person.Name, person.Lastname),
                     person.StreetAddress,
                     person.Longitude,
                     person.Latitude);
-            }            
+            }
 
-            return this.Content(kmlDoc.GenerateKml(path).ToString(), "text/xml");
+            return this.Content(kmlDoc.GetKmlWithPlacemarks().ToString(), "text/xml");
         }
 
         #endregion

@@ -1,14 +1,18 @@
-﻿using System;
+﻿using KmlGenerator;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace MVCApp.Models
 {
     public class District
     {
+        private string districtBoundaryKml;
+
         #region Properties
 
         /// <summary>
@@ -72,13 +76,31 @@ namespace MVCApp.Models
         /// <summary>
         /// The UserProfile that is assigned to this dictrict.
         /// </summary>
-        public virtual UserProfile AssignedTo{ get; set; }
-
+        public virtual UserProfile AssignedTo { get; set; }
 
         /// <summary>
         /// The list of Person found in this dictrict.
         /// </summary>
         public ICollection<Person> PersonList { get; set; }
+
+        /// <summary>
+        /// Kml file with district boundary.
+        /// </summary>
+        [Display(Name = "Boundary Kml")]
+        [AllowHtml]
+        [DataType(DataType.MultilineText)]
+        public string DistrictBoundaryKml { get; set; }
+
+        /// <summary>
+        /// Loads Kml file from external service.
+        /// </summary>
+        public void LoadExternalDistrictBoundaryKml(Boolean overrideKml = false)
+        {
+            if (overrideKml || string.IsNullOrEmpty(DistrictBoundaryKml))
+            {
+                DistrictBoundaryKml = ExternalKmlProvider.LoadKml(PostCodeFirst);
+            }
+        }
 
         #endregion
 
