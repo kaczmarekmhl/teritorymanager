@@ -7,6 +7,9 @@ using System.Web.Mvc;
 using PagedList;
 using System.Data.Entity;
 using System.Data;
+using System.IO;
+using System.Xml;
+using KmlGenerator;
 
 namespace MVCApp.Controllers
 {
@@ -20,7 +23,7 @@ namespace MVCApp.Controllers
             var model =
                 db.Districts
                 .OrderBy(t => t.PostCodeFirst)
-                .ToPagedList(page, 10);
+                .ToPagedList(page, 50);
 
             return View(model);
         }
@@ -39,6 +42,8 @@ namespace MVCApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                district.LoadExternalDistrictBoundaryKml();
+
                 db.Districts.Add(district);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -54,29 +59,57 @@ namespace MVCApp.Controllers
 
         public ActionResult Edit(int id)
         {
-            var model = db.Districts.Find(id);
+            var district = db.Districts.Find(id);
 
-            if (model == null)
+            if (district == null)
             {
                 return new HttpNotFoundResult();
             }
 
-            //Select dropdown values
-            ViewBag.AssignedToUserId = new SelectList(db.UserProfiles, "UserId", "UserName", model.AssignedToUserId);
+            district.LoadExternalDistrictBoundaryKml();
 
-            return View(model);
+            //Select dropdown values
+            ViewBag.AssignedToUserId = new SelectList(db.UserProfiles, "UserId", "UserName", district.AssignedToUserId);
+
+            return View(district);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, District district)
         {
+            var file = Request.Files[0];
+            
+            if (file != null && file.ContentLength > 0)
+            {
+                bool validKmlFile = false;
+
+                if (Path.GetExtension(file.FileName) == ".kml")
+                {
+                    string xml = new StreamReader(file.InputStream).ReadToEnd();
+
+                    if (KmlHelper.isValidKml(xml))
+                    {
+                        district.DistrictBoundaryKml = xml;
+                        validKmlFile = true;
+                    }
+                }
+
+                if (!validKmlFile)
+                {
+                    ModelState.AddModelError("DistrictBoundaryKml", "Invalid .kml file uploaded.");
+                }
+            }            
+
             if (ModelState.IsValid)
             {
                 db.Entry(district).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
+            //Select dropdown values
+            ViewBag.AssignedToUserId = new SelectList(db.UserProfiles, "UserId", "UserName", district.AssignedToUserId);
 
             return View(district);
         }
