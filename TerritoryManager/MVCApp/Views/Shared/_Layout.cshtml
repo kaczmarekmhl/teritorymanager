@@ -37,19 +37,20 @@
                     </ul>
                 </nav>
             </div>
+            <div class="spacer"/>
         </div>
     </header>
-    <div id="body">
+    <div id="main-body">
         @RenderSection("featured", required: false)
         <section class="content-wrapper main-content clear-fix">
-            @RenderBody()
+            <div class="content-margin">
+                @RenderBody()
+            </div>
         </section>
     </div>
     <footer>
         <div class="content-wrapper">
-            <div class="float-left">
                 <p>&copy; @DateTime.Now.Year - District Manager Application</p>
-            </div>
         </div>
     </footer>
 </body>
