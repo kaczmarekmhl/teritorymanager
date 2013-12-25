@@ -8,7 +8,7 @@
     using AddressSearch.AdressProvider.Entities;
     using HtmlAgilityPack;
 
-    class KrakAddressProvider
+    public class KrakAddressProvider : IAddressProvider
     {
         WebClient webClient;
 

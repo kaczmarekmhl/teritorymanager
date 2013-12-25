@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AddressSearch.AdressProvider.AddressProviderTool">
+    <Position X="2.5" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAgEAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AddressProviderTool.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AddressSearch.AdressProvider.KrakAddressProvider" BaseTypeListCollapsed="true">
+    <Position X="8.5" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AQBAQAAAAAEAAAAAQAAAAAAAIBAAAgAAEAAAAAAAAAA=</HashCode>
+      <FileName>KrakAdressProvider.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="AddressSearch.AdressProvider.Entities.Person">
+    <Position X="3.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAEAAAAAsAAAIAAQAgAAAAAAAAAAAgAAAABA=</HashCode>
+      <FileName>Entities\Person.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AddressSearch.AdressProvider.Entities.SearchName">
+    <Position X="8.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\SearchName.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AddressSearch.AdressProvider.Filters.FilterManager">
+    <Position X="5.75" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>Filters\FilterManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AddressSearch.AdressProvider.Filters.PersonFilter.NonPolishSurname">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAAAQAAIBAAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Filters\PersonFilter\NonPolishSurname.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AddressSearch.AdressProvider.Filters.PersonFilter.NonPolishSurnameNonExactName">
+    <Position X="0.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAABAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Filters\PersonFilter\NonPolishSurnameNonExactName.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AddressSearch.AdressProvider.Filters.PersonFilter.ScandinavianSurname" BaseTypeListCollapsed="true">
+    <Position X="5.75" Y="2.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAAAAABAAAEAAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>Filters\PersonFilter\ScandinavianSurname.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Interface Name="AddressSearch.AdressProvider.IAddressProvider">
+    <Position X="0.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IAddressProvider.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="AddressSearch.AdressProvider.Filters.PersonFilter.IPersonFilter">
+    <Position X="6" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Filters\PersonFilter\IPersonFilter.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
