@@ -14,21 +14,20 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Number)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PostCode)
-        </td>
-        <td>
-            @Html.ActionLink("Search addresses", "Index", "SearchAddress", new { id=item.Id }, null) |
-            @Html.ActionLink("Report district finished", "ReportFinish", new { id=item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Number)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PostCode)
+            </td>
+            <td>
+                @Html.ActionLink("Search addresses", "Index", "SearchAddress", new { id=item.Id }, null)
+            </td>
+        </tr>
+    }
 </table>
