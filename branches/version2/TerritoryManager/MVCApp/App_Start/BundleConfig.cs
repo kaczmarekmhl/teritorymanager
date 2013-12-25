@@ -12,8 +12,7 @@ namespace MVCApp
                 "~/Scripts/jquery-{version}.js",
                 "~/Scripts/jquery-ui-{version}.js",
                 "~/Scripts/jquery.unobtrusive*",
-                "~/Scripts/jquery.validate*",
-                "~/Scripts/personSelect.js"
+                "~/Scripts/jquery.validate*"
                 ));
 
             bundles.Add(new ScriptBundle("~/bundles/personSelect").Include("~/Scripts/personSelect.js"));
