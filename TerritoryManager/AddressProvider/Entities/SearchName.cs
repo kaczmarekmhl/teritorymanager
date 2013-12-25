@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace AddressSearch.AdressProvider.Entities
+﻿namespace AddressSearch.AdressProvider.Entities
 {
     public class SearchName
     {

@@ -30,7 +30,7 @@ namespace KmlGenerator
                     Name = name, 
                     Description = description, 
                     Longitude = longitude, 
-                    Latitude = latitude});        
+                    Latitude = latitude});     
         }
 
         /// <summary>

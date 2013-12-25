@@ -1,12 +1,12 @@
-﻿using AddressSearch.AdressProvider.Entities;
-using AddressSearch.AdressProvider.Filters.PersonFilter;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace AddressSearch.AdressProvider.Filters
+﻿namespace AddressSearch.AdressProvider.Filters
 {
+    using AddressSearch.AdressProvider.Entities;
+    using AddressSearch.AdressProvider.Filters.PersonFilter;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+
     public static class FilterManager
     {
         /// <summary>

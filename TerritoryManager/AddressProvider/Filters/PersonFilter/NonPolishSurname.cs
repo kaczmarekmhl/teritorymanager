@@ -1,13 +1,13 @@
-﻿using AddressSearch.AdressProvider.Entities;
-using AddressSearch.AdressProvider.Filters.PersonFilter.Helpers;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-
-namespace AddressSearch.AdressProvider.Filters.PersonFilter
+﻿namespace AddressSearch.AdressProvider.Filters.PersonFilter
 {
+    using AddressSearch.AdressProvider.Entities;
+    using AddressSearch.AdressProvider.Filters.PersonFilter.Helpers;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Text;
+
     /// <summary>
     ///     Satisfies criteria if person does not have typical polish surname.
     /// </summary>

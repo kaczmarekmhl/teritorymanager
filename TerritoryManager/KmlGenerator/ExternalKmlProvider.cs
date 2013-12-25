@@ -37,7 +37,7 @@ namespace KmlGenerator
 
         protected static string getUrl(int postCode)
         {
-            return string.Format("http://geo.oiorest.dk/postnumre/{0}/grænse.xml", postCode);
+            return string.Format("http://geo.oiorest.dk/postnumre/{0}/grænse", postCode);
         }
     }
 }

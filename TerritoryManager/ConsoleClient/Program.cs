@@ -22,8 +22,15 @@
                 Console.WriteLine("Usage: ConsoleClient [postCode]");
             }
 
+            var start = DateTime.Now;
+
             List<Person> resultList = addressProvider.getPersonList(postCode);
 
+            Console.WriteLine("Count: " + resultList.Count);
+            Console.WriteLine("Time: " + (DateTime.Now - start).TotalSeconds);
+            Console.ReadKey();
+
+            /*
             WriteResultToFile(String.Format("result{0}_Full.txt", postCode), resultList);
 
             var filteredResultList = FilterManager.GetFilteredPersonList(resultList, new List<IPersonFilter> {
@@ -43,7 +50,7 @@
                 new ScandinavianSurname(),
                 new NonPolishSurname()
             });
-            WriteResultToFile(String.Format("result{0}_Polish.txt", postCode), filteredResultList);
+            WriteResultToFile(String.Format("result{0}_Polish.txt", postCode), filteredResultList);*/
             
         }
 

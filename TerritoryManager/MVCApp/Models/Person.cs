@@ -65,6 +65,12 @@ namespace MVCApp.Models
         }
 
         /// <summary>
+        /// Person post code.
+        /// </summary>
+        [Display(Name = "Post code")]
+        public int PostCode { get; set; }
+
+        /// <summary>
         /// Person telephone number.
         /// </summary>
         [NotMapped]
@@ -144,8 +150,8 @@ namespace MVCApp.Models
         /// Encrypted private data.
         /// </summary>
         [Column("cx")]
-        public string Crypt 
-        {   
+        public string Crypt
+        {
             get
             {
                 return cryptedData.SerializeAndCrypt();
@@ -187,7 +193,7 @@ namespace MVCApp.Models
                     return Crypter.Encrypt(textWriter.ToString());
                 }
             }
-            
+
             /// <summary>
             /// Decrypt given string and deserialize data.
             /// </summary>
@@ -220,11 +226,16 @@ namespace MVCApp.Models
             this.Name = person.Name;
             this.Lastname = person.Lastname;
             this.StreetAddress = person.StreetAddress;
+
             this.TelephoneNumber = person.TelephoneNumber;
             this.Longitude = person.Longitude;
             this.Latitude = person.Latitude;
             this.District = district;
             this.AddedByUserId = WebSecurity.CurrentUserId;
+
+            int postCode = 0;
+            int.TryParse(person.PostCode, out postCode);
+            this.PostCode = postCode;
         }
 
         #endregion
