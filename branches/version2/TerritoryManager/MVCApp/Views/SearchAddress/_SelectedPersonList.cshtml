@@ -19,6 +19,9 @@
                 @Html.DisplayNameFor(model => model.First().StreetAddress)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.First().PostCode)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.First().TelephoneNumber)
             </th>
         </tr>
@@ -34,6 +37,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.StreetAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PostCode)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.TelephoneNumber)

@@ -1,35 +1,30 @@
 ﻿namespace AddressSearch.AdressProvider
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Net;
     using AddressSearch.AdressProvider.Entities;
     using HtmlAgilityPack;
+    using System;
+    using System.Collections.Concurrent;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
+    using System.Text;
+    using System.Threading.Tasks;
 
     class KrakAddressProvider
     {
-        WebClient webClient;
-
-        public KrakAddressProvider()
-        {
-            webClient = new WebClient();
-            webClient.Encoding = Encoding.UTF8;
-        }
-
         public List<Person> getPersonList(int postCode, List<SearchName> searchNameList)
         {
-            List<Person> resultList = new List<Person>();
+            ConcurrentBag<Person> personList = new ConcurrentBag<Person>();
 
-            foreach (var searchName in searchNameList)
-            {
-                resultList.AddRange(getPersonList(searchName, postCode));
-            }
+            Parallel.ForEach(searchNameList, searchName =>
+            {                
+                foreach (var person in getPersonList(searchName, postCode))
+                {
+                    personList.Add(person);
+                }
+            });
 
-            resultList = removePersonListDuplicates(resultList);
-
-            return resultList;
+            return removePersonListDuplicates(personList.ToList());
         }
 
         protected List<Person> getPersonList(SearchName searchName, int postCode)
@@ -141,6 +136,9 @@
         private string getKrakPersonHtml(string name, int postCode, int page = 1)
         {
             int tryCount = 0;
+
+            var webClient = new WebClient();
+            webClient.Encoding = Encoding.UTF8;
 
             while (true)
             {

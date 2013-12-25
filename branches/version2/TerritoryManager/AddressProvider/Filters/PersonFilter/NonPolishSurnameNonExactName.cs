@@ -1,11 +1,11 @@
-﻿using AddressSearch.AdressProvider.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace AddressSearch.AdressProvider.Filters.PersonFilter
+﻿namespace AddressSearch.AdressProvider.Filters.PersonFilter
 {
+    using AddressSearch.AdressProvider.Entities;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+
     /// <summary>
     ///     Satisfies criteria if person's name is different that the SearchName.Name
     ///     and his surname is not typical polish surname.

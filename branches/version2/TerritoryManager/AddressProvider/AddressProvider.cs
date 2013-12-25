@@ -1,14 +1,20 @@
-﻿using AddressSearch.AdressProvider.Entities;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-
-namespace AddressSearch.AdressProvider
+﻿namespace AddressSearch.AdressProvider
 {
+    using AddressSearch.AdressProvider.Entities;
+    using AddressSearch.AdressProvider.Properties;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+
     public class AddressProvider
     {
+        public static List<SearchName> polishSearchNameList;
+
+        public AddressProvider()
+        {
+            LoadSearchNameList();
+        }
+
         /// <summary>
         /// Returns person list for given post code.
         /// </summary>
@@ -17,7 +23,7 @@ namespace AddressSearch.AdressProvider
         public List<Person> getPersonList(int postCode)
         {
             KrakAddressProvider krakAddressProvider = new KrakAddressProvider();
-            return krakAddressProvider.getPersonList(postCode, LoadSearchNameList("Resources/PolishNameList.txt"));
+            return krakAddressProvider.getPersonList(postCode, polishSearchNameList);
         }
 
         /// <summary>
@@ -28,7 +34,7 @@ namespace AddressSearch.AdressProvider
         /// <returns></returns>
         public List<Person> getPersonList(int postCodeFirst, int? postCodeLast)
         {
-            if(!postCodeLast.HasValue)
+            if(!postCodeLast.HasValue || postCodeFirst == postCodeLast.Value)
             {
                 return getPersonList(postCodeFirst);
             }
@@ -49,19 +55,27 @@ namespace AddressSearch.AdressProvider
             return personList;
         }
 
-        protected List<SearchName> LoadSearchNameList(string filePath)
+        protected void LoadSearchNameList()
         {
-            List<SearchName> result = new List<SearchName>();
-
-            foreach(string line in File.ReadAllLines(filePath))
+            // Load names only once
+            if (polishSearchNameList != null)
             {
-                if (!String.IsNullOrEmpty(line))
-                {
-                    result.Add(new SearchName { Name = line.Trim() });
-                }
+                return;
             }
 
-            return result;
+            polishSearchNameList = new List<SearchName>();
+
+            using (var reader = new StringReader(Resources.PolishNames))
+            {
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    if (!String.IsNullOrEmpty(line))
+                    {
+                        polishSearchNameList.Add(new SearchName { Name = line.Trim() });
+                    }
+                }
+            }            
         }
     }
 }

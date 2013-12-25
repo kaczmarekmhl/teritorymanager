@@ -16,6 +16,7 @@ using KmlGenerator;
 using System.IO;
 using System.Text;
 using RazorPDF;
+using System.Data.SqlClient;
 
 namespace MVCApp.Controllers
 {
@@ -180,7 +181,7 @@ namespace MVCApp.Controllers
             StringBuilder result = new StringBuilder();       
             foreach (var person in GetSelectedPersonList(district.Id))
             {
-                result.AppendLine(String.Format("{0}. {1} {2}\t\t{3}\t{4}", counter++, person.Name, person.Lastname, person.StreetAddress, person.TelephoneNumber));
+                result.AppendLine(String.Format("{0}. {1} {2}\t\t{3}\t{4}\t{5}", counter++, person.Name, person.Lastname, person.StreetAddress,person.PostCode, person.TelephoneNumber));
             }
 
             var fileResult = new FileContentResult(Encoding.UTF8.GetBytes(result.ToString()), "text/plain");
@@ -239,10 +240,15 @@ namespace MVCApp.Controllers
         /// <param name="district">District that the delete will be done for.</param>
         private void DeletePeopleInDistrict(District district)
         {
-            db.Persons
-                .RemoveRange(
-                db.Persons
-                .Where(p => p.District.Id == district.Id && p.AddedByUserId == WebSecurity.CurrentUserId));
+            //Entity framework does not support deleting data through direct SQL
+            //We need to do it due to performance reasons
+            string sqlDeleteStatement = "DELETE FROM People WHERE District_id = @districtId AND AddedByUserId = @userId";
+
+            List<SqlParameter> parameterList = new List<SqlParameter>();
+            parameterList.Add(new SqlParameter("@districtId", district.Id));
+            parameterList.Add(new SqlParameter("@userId", WebSecurity.CurrentUserId));
+
+            db.Database.ExecuteSqlCommand(sqlDeleteStatement, parameterList.ToArray());
 
             db.SaveChanges();
         }

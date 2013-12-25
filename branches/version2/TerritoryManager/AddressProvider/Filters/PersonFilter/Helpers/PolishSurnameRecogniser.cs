@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-
-namespace AddressSearch.AdressProvider.Filters.PersonFilter.Helpers
+﻿namespace AddressSearch.AdressProvider.Filters.PersonFilter.Helpers
 {
+    using AddressSearch.AdressProvider.Properties;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+
     /// <summary>
     /// Recognizes polish surnames.
     /// </summary>
@@ -13,7 +13,7 @@ namespace AddressSearch.AdressProvider.Filters.PersonFilter.Helpers
     {
         public PolishSurnameRecogniser()
         {
-            LoadSurnameList("Resources/PolishSurnameList.txt");
+            LoadSurnameList();
         }
 
         /// <summary>
@@ -29,16 +29,10 @@ namespace AddressSearch.AdressProvider.Filters.PersonFilter.Helpers
         /// <summary>
         ///     Checks if sting contains unique polish name.
         /// </summary>
-        public bool ContainsUniquePolishName(string text, bool skipFirstPart = false)
+        public bool ContainsUniquePolishName(string text)
         {
             foreach (var textPart in text.Split(new char[] { ' ', '-' }))
             {
-                if (skipFirstPart)
-                {
-                    skipFirstPart = false;
-                    continue;
-                }
-
                 if (polishUniqueNameList.Contains(textPart.ToLower()))
                 {
                     return true;
@@ -75,8 +69,8 @@ namespace AddressSearch.AdressProvider.Filters.PersonFilter.Helpers
             return false;
         }
 
-        protected HashSet<string> polishSurnameList;
-        protected HashSet<string> polishUniqueNameList = new HashSet<string>
+        protected static HashSet<string> polishSurnameList;
+        protected static HashSet<string> polishUniqueNameList = new HashSet<string>
         {
             "Andrzej",
             "Bartek",
@@ -177,24 +171,34 @@ namespace AddressSearch.AdressProvider.Filters.PersonFilter.Helpers
             "cka"
         };
 
-        private void LoadSurnameList(string filePath)
+        private static void LoadSurnameList()
         {
+            // Load only once
+            if (polishSurnameList != null)
+            {
+                return;
+            }
+
             polishSurnameList = new HashSet<string>();
 
-            foreach (string line in File.ReadAllLines(filePath))
+            using (var reader = new StringReader(Resources.TypicalPolishSurnames))
             {
-                if (!String.IsNullOrEmpty(line))
+                string line;
+                while ((line = reader.ReadLine()) != null)
                 {
-                    string surname = line.Trim().ToLower();
-
-                    polishSurnameList.Add(surname);
-
-                    // Add surname with female ending
-                    if (surname.EndsWith("ki"))
+                    if (!String.IsNullOrEmpty(line))
                     {
-                        var femaleSurname = surname.Remove(surname.Length - 2) + "ka";
+                        string surname = line.Trim().ToLower();
 
-                        polishSurnameList.Add(femaleSurname);
+                        polishSurnameList.Add(surname);
+
+                        // Add surname with female ending
+                        if (surname.EndsWith("ki"))
+                        {
+                            var femaleSurname = surname.Remove(surname.Length - 2) + "ka";
+
+                            polishSurnameList.Add(femaleSurname);
+                        }
                     }
                 }
             }

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace AddressSearch.AdressProvider.Entities
+﻿namespace AddressSearch.AdressProvider.Entities
 {
+    using System;
+
     public class Person
     {
         public SearchName SearchName { get; set; }
