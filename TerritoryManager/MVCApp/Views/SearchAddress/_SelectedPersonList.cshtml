@@ -18,9 +18,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.First().StreetAddress)
             </th>
+            @if(ViewBag.IsMultiPostCode)
+            {
             <th>
                 @Html.DisplayNameFor(model => model.First().PostCode)
             </th>
+            }
             <th>
                 @Html.DisplayNameFor(model => model.First().TelephoneNumber)
             </th>
@@ -38,9 +41,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.StreetAddress)
             </td>
+            @if(ViewBag.IsMultiPostCode)
+            {
             <td>
                 @Html.DisplayFor(modelItem => item.PostCode)
             </td>
+            }
             <td>
                 @Html.DisplayFor(modelItem => item.TelephoneNumber)
             </td>

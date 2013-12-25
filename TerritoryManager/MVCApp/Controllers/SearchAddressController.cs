@@ -56,9 +56,7 @@ namespace MVCApp.Controllers
             if (district == null)
             {
                 return new HttpNotFoundResult();
-            }
-
-            DeletePeopleInDistrict(district);
+            }            
 
             var personList =
                 SearchAddressOnKrak(district)
@@ -112,6 +110,7 @@ namespace MVCApp.Controllers
 
             ViewBag.DistrictId = district.Id;
             ViewBag.DistrictName = district.Name;
+            ViewBag.IsMultiPostCode = district.IsMultiPostCode();
 
             return View(GetSelectedPersonList(district.Id));
         }
@@ -210,6 +209,7 @@ namespace MVCApp.Controllers
 
             pdf.ViewBag.DistrictName = district.Name;
             pdf.ViewBag.DistrictPostCode = district.PostCode;
+            pdf.ViewBag.IsMultiPostCode = district.IsMultiPostCode();
 
             return pdf;
         }
@@ -237,19 +237,18 @@ namespace MVCApp.Controllers
         /// <summary>
         /// Deletes people for given district.
         /// </summary>
-        /// <param name="district">District that the delete will be done for.</param>
-        private void DeletePeopleInDistrict(District district)
+        /// <param name="districtId">District id that the delete will be done for.</param>
+        private void DeletePeopleInDistrict(int districtId)
         {
             //Entity framework does not support deleting data through direct SQL
             //We need to do it due to performance reasons
             string sqlDeleteStatement = "DELETE FROM People WHERE District_id = @districtId AND AddedByUserId = @userId";
 
             List<SqlParameter> parameterList = new List<SqlParameter>();
-            parameterList.Add(new SqlParameter("@districtId", district.Id));
+            parameterList.Add(new SqlParameter("@districtId", districtId));
             parameterList.Add(new SqlParameter("@userId", WebSecurity.CurrentUserId));
 
             db.Database.ExecuteSqlCommand(sqlDeleteStatement, parameterList.ToArray());
-
             db.SaveChanges();
         }
 
@@ -325,7 +324,7 @@ namespace MVCApp.Controllers
         }
 
         /// <summary>
-        /// Persists person list in Session.
+        /// Persists person list.
         /// </summary>
         /// <param name="district">District for which person list will be persisted.</param>
         /// <param name="personList">Person list to persist.</param>
@@ -333,6 +332,8 @@ namespace MVCApp.Controllers
         {
             if (personList.Count > 0)
             {
+                DeletePeopleInDistrict(districtId);
+
                 db.Persons.AddRange(personList);
                 db.SaveChanges();
             }

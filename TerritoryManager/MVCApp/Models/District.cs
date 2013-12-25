@@ -91,6 +91,8 @@ namespace MVCApp.Models
         [DataType(DataType.MultilineText)]
         public string DistrictBoundaryKml { get; set; }
 
+        #endregion
+
         /// <summary>
         /// Loads Kml file from external service.
         /// </summary>
@@ -102,7 +104,13 @@ namespace MVCApp.Models
             }
         }
 
-        #endregion
+        /// <summary>
+        /// Specifies if district has multiple post codes in it.
+        /// </summary>
+        public bool IsMultiPostCode()
+        {
+            return PostCodeLast.HasValue && PostCodeFirst != PostCodeLast.Value;
+        }
 
         #region Constructors
 
