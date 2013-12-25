@@ -8,6 +8,8 @@
     @Styles.Render("~/Content/themes/base/css")
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/tmngr")
+    @RenderSection("scripts", required: false)
 </head>
 <body>
     <header>
@@ -50,8 +52,5 @@
             </div>
         </div>
     </footer>
-
-    @Scripts.Render("~/bundles/tmngr")
-    @RenderSection("scripts", required: false)
 </body>
 </html>
