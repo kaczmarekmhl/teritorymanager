@@ -114,7 +114,8 @@
     <Reference Include="WebMatrix.WebData, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\District\SearchDistrictTestBase.cs" />
+    <Compile Include="Mocks\MockAddressProvider.cs" />
+    <Compile Include="Controllers\Persons\SearchPersonsValidTest.cs" />
     <Compile Include="Controllers\District\SearchDistrictValidTest.cs" />
     <Compile Include="Controllers\District\SearchDistrictInvalidTest.cs" />
     <Compile Include="Mocks\MockControllerContext.cs" />
@@ -127,17 +128,20 @@
     <Content Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AddressProvider\AdressProvider.csproj">
+      <Project>{28f7b04a-2674-4af2-a36a-cb893b2f7181}</Project>
+      <Name>AdressProvider</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MVCApp\MVCApp.csproj">
       <Project>{165C1C76-2710-4B40-8E80-8CBB604A0EEA}</Project>
       <Name>MVCApp</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controllers\Person\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -19,18 +19,25 @@ namespace MVCApp.Controllers
     [Authorize]
     public class PersonsController : Controller
     {
-        ITerritoryDb _db;
+        private ITerritoryDb _db;
+        private AddressProviderTool _addresProviderTool;
 
         // The constructor will execute when the app is run on a web server with SQL Server
-        public PersonsController()
+        public PersonsController() : 
+            this(new TerritoryDb())
         {
-            _db = new TerritoryDb();
         }
 
         // The constructor used for unit tests to fake a db
         public PersonsController(ITerritoryDb db)
+            : this(db, new KrakAddressProvider())
+        {           
+        }
+
+        public PersonsController(ITerritoryDb db, IAddressProvider addressProvider)
         {
             _db = db;
+            _addresProviderTool = new AddressProviderTool(addressProvider);
         }
 
 
@@ -52,7 +59,7 @@ namespace MVCApp.Controllers
                 _db.SaveChanges();
             }
 
-            personList.RemoveAll(p => p.RemovedByUser == !displayOnlyDeletedPersons);
+            personList.RemoveAll(p => p.RemovedByUser != displayOnlyDeletedPersons);
 
             if (displayOnlyDeletedPersons)
             {
@@ -105,8 +112,7 @@ namespace MVCApp.Controllers
         
         private List<Person> GetPersonListFromKrak(District selectedDistrict, List<Person> personList)
         {
-            var addressProvider = new AddressProvider();
-            var personListFromKrak = addressProvider.getPersonList(int.Parse(selectedDistrict.PostCode));
+            var personListFromKrak = _addresProviderTool.getPersonList(int.Parse(selectedDistrict.PostCode));
 
             var filterList = new List<AddressSearch.AdressProvider.Filters.PersonFilter.IPersonFilter> {
                     new NonPolishSurnameNonExactName(),
@@ -120,16 +126,11 @@ namespace MVCApp.Controllers
 
         private void GetDistrictFromDb(string selectedDistrictId, out District selectedDistrict, out List<Person> personList)
         {
-            // Retrieve search district data and persons belonging to the district from DB 
             selectedDistrict = _db.Query<District>()
-                .Include("PersonsFoundInDistrict")
                 .Single(dist => dist.Id == selectedDistrictId);
 
-            personList = null;
-            if (selectedDistrict.PersonsFoundInDistrict != null)
-            {
-                personList = selectedDistrict.PersonsFoundInDistrict.ToList();
-            }
+            personList = _db.Query<Person>()
+                .Where(p => p.District != null && p.District.Id == selectedDistrictId).ToList();
         }
 
         private string UpdateSelectedPersonsInDb(int[] selectedPersons, bool removedByUser)

@@ -14,7 +14,7 @@
     {
         static void Main(string[] args)
         {
-            var addressProvider = new AddressProvider();
+            var addressProvider = new AddressProviderTool();
             int postCode;
 
             if (!int.TryParse(args[0], out postCode))

@@ -43,12 +43,13 @@ namespace MVCApp.Tests.Mocks
 
         public void SaveChanges()
         {
-            SaveChanges();
+            changesSaved = true;
         }
 
         public Dictionary<Type, object> Sets = new Dictionary<Type, object>();
         public List<object> Added = new List<object>();
         public List<object> Updated = new List<object>();
         public List<object> Removed = new List<object>();
+        public bool changesSaved = false;
     }
 }

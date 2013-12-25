@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="MVCApp.BundleConfig">
+    <Position X="9" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\BundleConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MVCApp.FilterConfig">
+    <Position X="5.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\FilterConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MVCApp.RouteConfig">
+    <Position X="8" Y="12.75" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\RouteConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MVCApp.WebApiConfig" Collapsed="true">
+    <Position X="5.25" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\WebApiConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MVCApp.MvcApplication">
+    <Position X="15.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>Global.asax.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MVCApp.Controllers.AccountController">
+    <Position X="0.5" Y="0.5" Width="4.5" />
+    <NestedTypes>
+      <Enum Name="MVCApp.Controllers.AccountController.ManageMessageId" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Controllers\AccountController.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAEAAAAAAAABAAAAAAAQAAQAIAA=</HashCode>
+      <FileName>Controllers\AccountController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MVCApp.Controllers.DistrictController">
+    <Position X="14.75" Y="0.5" Width="6.75" />
+    <TypeIdentifier>
+      <HashCode>AAAEgAAAACAAAGAAAAAACAAAAAABAAAABAEAAAAgAAA=</HashCode>
+      <FileName>Controllers\DistrictController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MVCApp.Controllers.HomeController">
+    <Position X="7.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\HomeController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MVCApp.Controllers.MapController">
+    <Position X="13" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\MapController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MVCApp.Controllers.PersonController">
+    <Position X="5.75" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAACAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\PersonController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MVCApp.Controllers.PersonsController">
+    <Position X="5.25" Y="5.5" Width="7" />
+    <TypeIdentifier>
+      <HashCode>AAAAgACAADAAAAAAAQACAAAAAgEAAAAAAAAAAAAgAAE=</HashCode>
+      <FileName>Controllers\PersonsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MVCApp.Exceptions.InvalidDistrictException">
+    <Position X="12.75" Y="5" Width="4.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\InvalidDistrictException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MVCApp.Filters.LogAttribute">
+    <Position X="0.5" Y="8.25" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAIAIAAAAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>Filters\LogAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MVCApp.Filters.MinItemsSelectedAttribute">
+    <Position X="13.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAIAAAAAAA=</HashCode>
+      <FileName>Filters\MinItemsSelectedAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MVCApp.Filters.ValidateDistrictBelongsToUserAttribute">
+    <Position X="0.5" Y="6" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAQAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Filters\ValidateDistrictBelongsToUserAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MVCApp.Migrations.InitialCreate" BaseTypeListCollapsed="true">
+    <Position X="9.25" Y="2.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAMAAAAAAAAAAAAAAAAAAAAAAAAAAQEAAAAAI=</HashCode>
+      <FileName>Migrations\201311300314236_InitialCreate.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.138" Collapsed="true" />
+  </Class>
+  <Class Name="MVCApp.Migrations.Configuration">
+    <Position X="11" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEAAAAEAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Migrations\Configuration.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MVCApp.Models.LocalPasswordModel">
+    <Position X="15" Y="9.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAEAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>Models\AccountModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MVCApp.Models.LoginModel">
+    <Position X="3" Y="3.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAQAAAAAgAAA=</HashCode>
+      <FileName>Models\AccountModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MVCApp.Models.RegisterModel">
+    <Position X="11.5" Y="10" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAQAAAAAAIAA=</HashCode>
+      <FileName>Models\AccountModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MVCApp.Models.District">
+    <Position X="13" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAIAAAAAAQAAAAAAAAAAAAAgAACAAA=</HashCode>
+      <FileName>Models\District.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MVCApp.Models.Person">
+    <Position X="0.5" Y="10.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAiAQQAAEAAAAAoAAAIAAQAAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Models\Person.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MVCApp.Models.TerritoryDb" BaseTypeListCollapsed="true">
+    <Position X="3.75" Y="10.5" Width="4" />
+    <TypeIdentifier>
+      <HashCode>QAAAAQAAAABEAAAACAAAAQAAAAQAAAAAAAAAAAEAAgA=</HashCode>
+      <FileName>Models\TerritoryDb.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="MVCApp.Models.UserProfile">
+    <Position X="0.5" Y="3.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAAgAAAAAAAAAAQAAAAAAAAg=</HashCode>
+      <FileName>Models\UserProfile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="MVCApp.Models.ITerritoryDb">
+    <Position X="8" Y="9.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>gAYAAAAAAAAAAAAAAAAABAAAAAAAAAgAAAAAAAAEAAA=</HashCode>
+      <FileName>Models\TerritoryDb.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -31,6 +31,7 @@ namespace MVCApp.Tests
                     Name="Ballerup",
                     PostCode="2750",
                     BelongsToUser=user, 
+                    PersonsFoundInDistrict=Persons.ToList()
                     },
                     new District
                     {
@@ -47,6 +48,35 @@ namespace MVCApp.Tests
                     BelongsToUser=null, 
                     }
                 };
+                return testDataSet.AsQueryable();
+            }
+        }
+
+        public static IQueryable<Person> Persons
+        {
+            get
+            {
+                var testDataSet = (new List<Person>()
+                    {
+                        new Person
+                        {
+                            Id=1,
+                            Name="Bartek",
+                            Lastname="Gasior",
+                            StreetAddress="Magleparken 15",
+                            RemovedByUser=false,
+                            District= new District() { Id = "1"}
+                         },
+                         new Person
+                         {
+                            Id=2,
+                            Name="Michal",
+                            Lastname="Kaczmarek", 
+                            StreetAddress="Magleparken 20",
+                            RemovedByUser=false,
+                            District= new District() { Id = "1"}
+                         }
+                    });
                 return testDataSet.AsQueryable();
             }
         }
