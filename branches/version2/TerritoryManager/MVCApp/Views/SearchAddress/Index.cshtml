@@ -6,13 +6,13 @@
     string districtName = ViewBag.DistrictName;
 }
 
-<h2>Addresses for @Html.DisplayFor(model => districtName)</h2>
+<h2>@Strings.District - @Html.DisplayFor(model => districtName) - @Strings.SearchAdresses</h2>
 
 @if(Model.IsFirstPage)
 {
 <div>
     <div class="button">
-        @Ajax.ActionLink("Run search from Krak.dk",
+        @Ajax.ActionLink(Strings.SearchRunOnKrak,
             "SearchOnKrak", 
             new { id = districtId },
             new AjaxOptions

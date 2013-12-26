@@ -1,4 +1,5 @@
 ﻿using KmlGenerator;
+using MVCApp.Translate;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -11,8 +12,6 @@ namespace MVCApp.Models
 {
     public class District
     {
-        private string districtBoundaryKml;
-
         #region Properties
 
         /// <summary>
@@ -24,6 +23,7 @@ namespace MVCApp.Models
         /// Dictrict number.
         /// </summary>
         [StringLength(20)]
+        [Display(ResourceType = typeof(Strings), Name="DistrictNumber")]
         public string Number { get; set; }
 
         /// <summary>
@@ -31,26 +31,27 @@ namespace MVCApp.Models
         /// </summary>
         [Required]
         [StringLength(30)]
+        [Display(ResourceType = typeof(Strings), Name = "DistrictName")]
         public string Name { get; set; }  
 
         /// <summary>
         /// First post code of dictrict.
         /// </summary>
         [Required]
-        [Display(Name="First Post Code")]
+        [Display(ResourceType = typeof(Strings), Name = "DistrictFirstPostCode")]
         public int PostCodeFirst  { get; set; }
 
         /// <summary>
         /// Last post code of dictrict
         /// </summary>
-        [Display(Name = "Last Post Code")]
+        [Display(ResourceType = typeof(Strings), Name = "DistrictLastPostCode")]
         public int? PostCodeLast { get; set; }
         
         /// <summary>
         /// Post code range used for display.
         /// </summary>
         [NotMapped]
-        [Display(Name = "Post Code")]
+        [Display(ResourceType = typeof(Strings), Name = "DistrictPostCode")]
         public string PostCode 
         { 
             get
@@ -75,7 +76,7 @@ namespace MVCApp.Models
 
         /// <summary>
         /// The UserProfile that is assigned to this dictrict.
-        /// </summary>
+        /// </summary>        
         public virtual UserProfile AssignedTo { get; set; }
 
         /// <summary>

@@ -20,21 +20,19 @@
                 </a>
             </div>
 
-                <nav>
-                    <ul id="menu">
+            <ul id="menu">
                         
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <li>@Html.ActionLink("My districts", "Index", "MyDistricts")</li>
-                        }
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li>@Html.ActionLink(Strings.MenuMyDistricts, "Index", "MyDistricts")</li>
+                }
                         
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <li>@Html.ActionLink("Manage districts", "Index", "DistrictManage")</li>
-                            <li>@Html.ActionLink("Add User", "Register", "Account")</li>
-                        }
-                    </ul>
-                </nav>
+                @if (User.IsInRole("Admin"))
+                {
+                    <li>@Html.ActionLink(Strings.MenuManageDistricts, "Index", "DistrictManage")</li>
+                    <li>@Html.ActionLink("Add User", "Register", "Account")</li>
+                }
+            </ul>
 
             <div class="float-right">
                 <section id="login">

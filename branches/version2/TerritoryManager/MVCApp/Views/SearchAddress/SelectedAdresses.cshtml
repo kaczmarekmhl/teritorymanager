@@ -7,13 +7,13 @@
 }
 
 
-<h2>Selected adresses</h2>
+<h2>@Strings.District - @Html.DisplayFor(model => districtName) - @Strings.SearchSelectedAdresses </h2>
 
     <div class="button">
-        @Html.ActionLink("Save as PDF", "SelectedAdressesPdfFile", new { id = districtId })
+        @Html.ActionLink(Strings.SearchSaveSelectedAsPdf, "SelectedAdressesPdfFile", new { id = districtId })
     </div>
     <div class="button">
-        @Html.ActionLink("Show on map", "SelectedAdressesMap", new { id = districtId }, new { target = "_blank" })
+        @Html.ActionLink(Strings.SearchDisplaySelectedOnMap, "SelectedAdressesMap", new { id = districtId }, new { target = "_blank" })
     </div>
     <div class="spacer" />
 <div id="personList">

@@ -1,10 +1,10 @@
 ﻿@model MVCApp.Models.District
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = Strings.District;
 }
 
-<h2>District: @Html.DisplayFor(model => model.Name)</h2>
+<h2>@Strings.District - @Html.DisplayFor(model => model.Name)</h2>
 
 <div id="districtDetails">
 
@@ -27,13 +27,13 @@
     </fieldset>
     
     <div class="button">
-        @Html.ActionLink("Search addresses", "Index", "SearchAddress", new { id = Model.Id }, null)
+        @Html.ActionLink(Strings.SearchAdresses, "Index", "SearchAddress", new { id = Model.Id }, null)
     </div>
 
     @if (ViewBag.LastSearchEnabled)
     {
         <div class="button spacer">
-            @Html.ActionLink("Last search results", "SelectedAdresses", "SearchAddress", new { id = Model.Id }, null)
+            @Html.ActionLink(Strings.LastSearchResults, "SelectedAdresses", "SearchAddress", new { id = Model.Id }, null)
         </div>
     }
 
