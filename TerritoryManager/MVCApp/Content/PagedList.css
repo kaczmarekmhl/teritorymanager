@@ -1,8 +1,9 @@
 .pagination {
   display: inline-block;
   padding-left: 0;
-  margin: 20px 0;
+  margin: 3px 0;
   border-radius: 4px;
+  font-size:110%;
 }
 
 .pagination > li {
@@ -13,12 +14,12 @@
 .pagination > li > span {
   position: relative;
   float: left;
-  padding: 6px 12px;
+  padding: 10px 16px;
   margin-left: -1px;
   line-height: 1.428571429;
   text-decoration: none;
-  background-color: #ffffff;
-  border: 1px solid #dddddd;
+  background-color:#4A6DA7;
+  color:#ffffff;
 }
 
 .pagination > li:first-child > a,
@@ -38,7 +39,7 @@
 .pagination > li > span:hover,
 .pagination > li > a:focus,
 .pagination > li > span:focus {
-  background-color: #eeeeee;
+  background-color: #5f85c5;
 }
 
 .pagination > .active > a,
@@ -61,7 +62,7 @@
   color: #999999;
   cursor: not-allowed;
   background-color: #ffffff;
-  border-color: #dddddd;
+  border-color: #9fd0df;
 }
 
 .pagination-lg > li > a,

@@ -56,7 +56,7 @@ namespace MVCApp.Controllers
             if (district == null)
             {
                 return new HttpNotFoundResult();
-            }            
+            }
 
             var personList =
                 SearchAddressOnKrak(district)
@@ -65,6 +65,8 @@ namespace MVCApp.Controllers
 
             if (Request.IsAjaxRequest())
             {
+                ViewBag.DistrictId = district.Id;
+
                 return PartialView("_PersonList", personList);
             }
             else
@@ -147,8 +149,6 @@ namespace MVCApp.Controllers
             district.LoadExternalDistrictBoundaryKml();
 
             var kmlDoc = new KmlDocument(district.DistrictBoundaryKml);
-
-            kmlDoc.ChangeBoundaryColor("ff0000ff", "5950c24a");
 
             var counter = 1;
             foreach (var person in GetSelectedPersonList(district.Id))

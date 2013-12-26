@@ -6,7 +6,7 @@
 body {
     background-color: #eceae7;
     color: #454545;
-    font-size: .85em;
+    font-size: 0.875em;
     font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
     margin: 0;
     padding: 0;
@@ -16,7 +16,6 @@ a {
     outline: none;
     padding-left: 3px;
     padding-right: 3px;
-
     text-decoration: none;
     color: #3fa2bf;
     cursor: pointer;
@@ -24,6 +23,24 @@ a {
 
     a:hover {
         text-decoration: underline;
+    }
+
+.button a {
+    display:block;
+    float:left;
+    border: solid 1px;
+    font-size: 1.1em;
+    font-weight: 600;
+    padding:10px;
+    margin-top: 0.6em;
+    margin-bottom: 4px;
+    background-color:#4A6DA7;
+    color:#ffffff;
+}
+
+.button a:hover {
+        text-decoration: none;
+        background-color: #5f85c5;
     }
 
 header, footer, hgroup,
@@ -56,7 +73,7 @@ mark {
 h1, h2, h3,
 h4, h5, h6 {
     color: #65605E;
-    margin:0px;
+    margin: 0px;
     margin-bottom: 0.5em;
     line-height: 1.15;
     padding-bottom: 0;
@@ -100,93 +117,120 @@ h5, h6 {
 
 header {
     background-color: #373433;
+    min-height:90px;
+    position:relative;
 }
 
 
-header .content-wrapper {
-    padding-top: 20px; 
-}
+    header .content-wrapper {
+        padding-top: 10px;
+    }
 
 
 #main-body {
     clear: both;
 }
 
-    #main-body .content-margin
-    {
+    #main-body .content-margin {
         padding: 20px;
     }
 
-    .main-content {
-        background-color: #ffffff;
-        min-height:600px;
-        -moz-box-shadow: 0 0 2.5em .5em rgba(0, 0, 0, 0.4);
-        -webkit-box-shadow: 0 0 2.5em .5em rgba(0, 0, 0, 0.4);
-        box-shadow: 0px 0px 2.5em .5em rgba(0, 0, 0, 0.4);
-    }
+.main-content {
+    background-color: #ffffff;
+    min-height: 600px;
+    -moz-box-shadow: 0 0 2.5em .5em rgba(0, 0, 0, 0.4);
+    -webkit-box-shadow: 0 0 2.5em .5em rgba(0, 0, 0, 0.4);
+    box-shadow: 0px 0px 2.5em .5em rgba(0, 0, 0, 0.4);
+    position:relative;
+}
 
-    .featured + .main-content {
-    }
-    
+.featured + .main-content {
+}
+
 
 footer {
     clear: both;
     font-size: .8em;
     color: white;
-    text-align:center;
-    padding-bottom:1em;
+    text-align: center;
+    padding-bottom: 1em;
 }
 
     footer .content-wrapper {
         background-color: #373433;
-        padding-bottom:1em;
-        padding-top:1em;
+        padding-bottom: 1em;
+        padding-top: 1em;
     }
 
 div.spacer {
-    clear:both;
+    clear: both;
 }
 
+/* Logo */
+#logo {
+    display:block;
+    position:absolute;
+    top:0;
+    width:80px;
+    height:82px;
+}
+
+    #logo a {
+        padding:0px;
+    }
+
+/*Front picture*/
+#frontPicture {
+    position:absolute;
+    top:0;
+    right:0;
+}
 
 /* site title
 ----------------------------------------------------------*/
 .site-title {
-    color: #6dc2e9;
+    color: #4a6da7;
     font-family: Rockwell, Consolas, "Courier New", Courier, monospace;
     font-size: 2.3em;
     margin: 0;
 }
 
-.site-title a, .site-title a:hover, .site-title a:active {
-    background: none;
-    color: #6dc2e9;
-    outline: none;
-    text-decoration: none;
-}
+    .site-title a, .site-title a:hover, .site-title a:active {
+        background: none;
+        color: #4a6da7;
+        outline: none;
+        text-decoration: none;
+    }
 
 /* login
 ----------------------------------------------------------*/
 #login {
     display: block;
     font-size: .85em;
-    margin: 0 0 10px;
+    margin: 0 0 15px;
     text-align: right;
+    color:#d2d2d2;
 }
 
     #login a {
-        background-color: #d3dce0;
+        background-color: #4a4644;
         margin-left: 10px;
         margin-right: 3px;
-        padding: 2px 3px;
+        padding: 3px 4px;
         text-decoration: none;
+        color:#85d2e8;
     }
 
-    #login a.username {
-        background: none;
-        margin: 0;
-        padding: 0;
-        text-decoration: underline;
-    }
+        #login a.username {
+            background: none;
+            margin: 0;
+            padding: 0;
+            text-decoration: underline;
+        }
+
+        #login a:hover {
+            background-color: #5b5654;
+        }
 
     #login ul {
         margin: 0;
@@ -203,29 +247,32 @@ div.spacer {
 ul#menu {
     font-size: 1.3em;
     font-weight: 600;
-    margin: 0 0 5px;
+    margin: 0px 75px 5px;
     padding: 0;
     text-align: right;
+    position:absolute;
+    bottom:0;
 }
 
     ul#menu li {
         display: inline-block;
         list-style: none;
-        padding-left: 15px;
+        padding-left: 10px;
     }
 
         ul#menu li a {
             background: none;
             color: #d2d2d2;
             text-decoration: none;
-            padding: 5px;
+            padding: 7px;
+            padding-bottom:5px;
         }
 
-        ul#menu li a:hover {
-            color: #ffffff;
-            text-decoration: none;
-            background-color:#000000;
-        }
+            ul#menu li a:hover {
+                color: #ffffff;
+                text-decoration: none;
+                background-color: #000000;
+            }
 
 
 /* page elements
@@ -246,27 +293,27 @@ ul#menu {
         padding: 20px 40px 30px 40px;
     }
 
-        .featured hgroup.title h1, .featured hgroup.title h2 {
-            color: #fff;
-        }
+    .featured hgroup.title h1, .featured hgroup.title h2 {
+        color: #fff;
+    }
 
-        .featured p {
-            font-size: 1.1em;
-        }
+    .featured p {
+        font-size: 1.1em;
+    }
 
 /* page titles */
 hgroup.title {
     margin-bottom: 10px;
 }
 
-hgroup.title h1, hgroup.title h2 {
-    display: inline;
-}
+    hgroup.title h1, hgroup.title h2 {
+        display: inline;
+    }
 
-hgroup.title h2 {
-    font-weight: normal;
-    margin-left: 3px;
-}
+    hgroup.title h2 {
+        font-weight: normal;
+        margin-left: 3px;
+    }
 
 /* features */
 section.feature {
@@ -351,6 +398,19 @@ aside {
     font-weight: 700;
 }
 
+/* District details*/
+#districtDetails {
+    float:left;
+    width:50%;
+}
+
+#districtMap {
+    width: 50%;
+    height:400px;
+    float:right;
+}
+
+
 /* login page */
 #loginForm {
     border-right: solid 2px #c8c8c8;
@@ -378,12 +438,12 @@ aside {
         width: 250px;
     }
 
-    #loginForm input[type="checkbox"],
-    #loginForm input[type="submit"],
-    #loginForm input[type="button"],
-    #loginForm button {
-        width: auto;
-    }
+        #loginForm input[type="checkbox"],
+        #loginForm input[type="submit"],
+        #loginForm input[type="button"],
+        #loginForm button {
+            width: auto;
+        }
 
 #socialLoginForm {
     margin-left: 40px;
@@ -392,7 +452,7 @@ aside {
 }
 
     #socialLoginForm h2 {
-        margin-bottom:  5px;
+        margin-bottom: 5px;
     }
 
 #socialLoginList button {
@@ -443,9 +503,9 @@ label {
     font-weight: 600;
 }
 
-label.checkbox {
-    display: inline;
-}
+    label.checkbox {
+        display: inline;
+    }
 
 input, textarea {
     border: 1px solid #e2e2e2;
@@ -466,32 +526,36 @@ textarea {
         border: 1px solid #7ac0da;
     }
 
-    input[type="checkbox"] {
-        background: transparent;
-        border: inherit;
-        width: auto;
-    }
+input[type="checkbox"] {
+    background: transparent;
+    border: inherit;
+    width: auto;
+}
 
-    input[type="submit"],
-    input[type="button"],
-    button {
-        background-color: #d3dce0;
-        border: 1px solid #787878;
-        cursor: pointer;
-        font-size: 1.2em;
-        font-weight: 600;
-        padding: 7px;
-        margin-right: 8px;
-        width: auto;
-    }
+input[type="submit"],
+input[type="button"],
+button {
+    background-color: #d3dce0;
+    border: 1px solid #787878;
+    cursor: pointer;
+    font-size: 1.2em;
+    font-weight: 600;
+    padding: 7px;
+    margin-right: 8px;
+    width: auto;
+}
 
-    td input[type="submit"],
-    td input[type="button"],
-    td button {
-        font-size: 1em;
-        padding: 4px;
-        margin-right: 4px;
-    }
+td input[type="submit"],
+td input[type="button"],
+td button {
+    font-size: 1em;
+    padding: 4px;
+    margin-right: 4px;
+}
+
+td input[type="checkbox"] {
+    cursor:pointer;
+}
 
 /* info and errors */
 .message-info {
@@ -549,14 +613,14 @@ input[type="checkbox"].input-validation-error {
 
 /*paginators*/
 .pagedList {
-    display:block;
-    text-align:right;
+    display: block;
+    text-align: right;
 }
 
 
 /* tables
 ----------------------------------------------------------*/
-table {    
+table {
     border-collapse: collapse;
     border-spacing: 0;
     margin-top: 1em;
@@ -566,12 +630,12 @@ table {
 th {
     font-size: 0.8em;
     text-align: left;
-    border-bottom: 2px solid #eee;
-    border-top: 2px solid #eee;
-    padding:10px;
-    padding-left:0px;
+    border-bottom: 2px solid #e3e3e3;
+    border-top: 2px solid #e3e3e3;
+    padding: 10px;
+    padding-left: 0px;
     padding: 0.2em 2.5em 0.2em 0.3em;
-    text-transform:uppercase;
+    text-transform: uppercase;
 }
 
     th a {
@@ -579,44 +643,52 @@ th {
         position: relative;
     }
 
-    th a:link, th a:visited, th a:active, th a:hover {
-        color: #333;
-        font-weight: 600;
-        text-decoration: none;
-        padding: 0;
-    }
+        th a:link, th a:visited, th a:active, th a:hover {
+            color: #333;
+            font-weight: 600;
+            text-decoration: none;
+            padding: 0;
+        }
 
-    th a:hover {
-        color: #000;
-    }
+        th a:hover {
+            color: #000;
+        }
 
     th.asc a, th.desc a {
         margin-right: .75em;
     }
 
-    th.asc a:after, th.desc a:after {
-        display: block;
-        position: absolute;
-        right: 0em;
-        top: 0;
-        font-size: 0.75em;
-    }
+        th.asc a:after, th.desc a:after {
+            display: block;
+            position: absolute;
+            right: 0em;
+            top: 0;
+            font-size: 0.75em;
+        }
 
-    th.asc a:after {
-        content: '▲';
-    }
+        th.asc a:after {
+            content: '▲';
+        }
 
-    th.desc a:after {
-        content: '▼';
-    }
+        th.desc a:after {
+            content: '▼';
+        }
 
 td {
     padding: 0.3em 2.5em 0.3em 0.3em;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #e3e3e3;
 }
+
+    td.center {
+        text-align: center;
+    }
 
 tr.pager td {
     padding: 0 0.25em 0 0;
+}
+
+tr.selected {
+    background-color: #f0f4fc;
 }
 
 
@@ -634,7 +706,6 @@ tr.pager td {
 
     /* logo */
     header .site-title {
-        margin: 10px;
         text-align: center;
     }
 
@@ -665,9 +736,9 @@ tr.pager td {
             padding: 0;
         }
 
-        #login a:hover {
-            color: #333;
-        }
+            #login a:hover {
+                color: #333;
+            }
 
     /* menu */
     nav {
@@ -732,12 +803,12 @@ tr.pager td {
                 background: none;
             }
 
-     /* features */
-     section.feature {
+    /* features */
+    section.feature {
         float: none;
         padding: 10px;
         width: auto;
-     }
+    }
 
         section.feature img {
             color: #999;

@@ -66,6 +66,16 @@ namespace KmlGenerator
 
             documentElement.Add(GetFolderElementWithPlacemarks());
 
+            return GetKml();
+        }
+
+         /// <summary>
+        /// Generates kml.
+        /// </summary>
+        /// <returns>Kml</returns>
+        public string GetKml()
+        {
+            ChangeBoundaryColor("ff0000ff", "5950c24a");
             return xml.ToString();
         }
 

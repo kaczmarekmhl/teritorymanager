@@ -1,0 +1,24 @@
+﻿<div id="districtMap"/>
+
+<script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="~/Scripts/geoxml3.js"></script>
+<script>
+    function initialize() {
+
+        var map_canvas = document.getElementById('districtMap');
+        var map_options = {
+            center: new google.maps.LatLng(56.0000, 12.0000),
+            zoom: 8,
+        }
+        var map = new google.maps.Map(map_canvas, map_options)
+
+        var myParser = new geoXML3.parser({
+            map: map,
+            zoom: true,
+            singleInfoWindow: true
+        });
+        myParser.parse('@Url.Action("MapKml", new { id = Model.Id })');
+    }
+
+    google.maps.event.addDomListener(window, 'load', initialize);
+</script>
