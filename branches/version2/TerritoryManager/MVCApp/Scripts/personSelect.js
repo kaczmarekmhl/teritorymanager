@@ -16,6 +16,13 @@
             success: function (result) {
                 $input.attr('checked', result.selected);
                 $input.prop('disabled', false);
+
+                if (result.selected) {
+                    $input.parents("tr").addClass('selected');
+                }
+                else {
+                    $input.parents("tr").removeClass('selected');
+                }
             },
             error: function (result) {
                 // In case of error revert selection done

@@ -1,45 +1,64 @@
 ﻿@model IPagedList<MVCApp.Models.Person>
 
+@{
+    int districtId = ViewBag.DistrictId;
+}
+
 @if (Model != null && Model.Count() != 0)
 {
-    <table>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.First().Selected)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.First().Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.First().Lastname)
-            </th>
-        </tr>
+    <div>
 
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.CheckBoxFor(
-                    model => item.Selected,
-                    new {
-                        personId = item.Id,
-                        districtId = item.District.Id,
-                        ajax_selector = "personSelectCheckbox",
-                        id = "personSelectCheckbox_" + item.Id,
-                        data_url = Url.Action("SelectPerson")
-                    })
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Lastname)
-            </td>
-        </tr>
-    }
-    </table>
+        @if(Model.IsLastPage)
+        {
+        <div class="button float-left">
+            @Html.ActionLink("Display adresses of selected people", "SelectedAdresses", "SearchAddress", new { id = districtId}, null)
+        </div>
+        <div class="spacer" />
+        }
 
-    <div class="pagedList">
-        @Html.PagedListPager(Model, page => Url.Action( "Index", new { Model.First().District.Id, page }), PagedListRenderOptions.MinimalWithPageCountText)
+        <table>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().Selected)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().Lastname)
+                </th>
+            </tr>
+
+        @foreach (var item in Model) {
+        
+            string selectedClass = item.Selected?"selected" : "";
+        
+            <tr class="@selectedClass">
+                <td class="center">
+                    @Html.CheckBoxFor(
+                        model => item.Selected,
+                        new {
+                            personId = item.Id,
+                            districtId = item.District.Id,
+                            ajax_selector = "personSelectCheckbox",
+                            id = "personSelectCheckbox_" + item.Id,
+                            data_url = Url.Action("SelectPerson")
+                        })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lastname)
+                </td>
+            </tr>
+        }
+        </table>
+
+        <div class="pagedList">
+            @Html.PagedListPager(Model, page => Url.Action( "Index", new { Model.First().District.Id, page }), PagedListRenderOptions.MinimalWithPageCountText)
+        </div>
+        
     </div>
     
     @Scripts.Render("~/bundles/personSelect")

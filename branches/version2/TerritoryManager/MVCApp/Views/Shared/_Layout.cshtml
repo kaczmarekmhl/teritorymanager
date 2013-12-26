@@ -14,13 +14,12 @@
 <body>
     <header>
         <div class="content-wrapper">
-            <div class="float-left">
-                <p class="site-title">@Html.ActionLink("HOME", "Index", "Home")</p>
+            <div id="logo">
+                <a href="@Url.Action("Index", "Home", null)">
+                    <img src="~/Images/Logo.png" alt="Logo"/>
+                </a>
             </div>
-            <div class="float-right">
-                <section id="login">
-                    @Html.Partial("_LoginPartial")
-                </section>
+
                 <nav>
                     <ul id="menu">
                         
@@ -36,6 +35,11 @@
                         }
                     </ul>
                 </nav>
+
+            <div class="float-right">
+                <section id="login">
+                    @Html.Partial("_LoginPartial")
+                </section>                
             </div>
             <div class="spacer"/>
         </div>

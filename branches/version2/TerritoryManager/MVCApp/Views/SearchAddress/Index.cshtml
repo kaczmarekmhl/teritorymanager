@@ -8,9 +8,11 @@
 
 <h2>Addresses for @Html.DisplayFor(model => districtName)</h2>
 
+@if(Model.IsFirstPage)
+{
 <div>
-    <div>
-        @using (Ajax.BeginForm(
+    <div class="button">
+        @Ajax.ActionLink("Run search from Krak.dk",
             "SearchOnKrak", 
             new { id = districtId },
             new AjaxOptions
@@ -20,23 +22,18 @@
                 UpdateTargetId = "personList",
                 Url = Url.Action("SearchOnKrak", "SearchAddress", new { id = districtId }),
                 LoadingElementId = "ajax-loader"
-            }))
-        {
-            <input type="submit" value="Search addresses on Krak" />
-        }
+            })
     </div>
-    <div>
-        @Html.ActionLink("Display adresses of selected people", "SelectedAdresses", "SearchAddress", new { id = districtId}, null)
-    </div>
-    <div>
-        <img src="~/Images/Map.png" alt="District map" style="float:right"/>
-    </div>
+    <div class="spacer" />
 </div>
+
 
 <div id="ajax-loader" style="display: none;">
     <img src="~/Images/ajax-loader.gif">
     <p>This can take couple of minutes...</p>
 </div>
+}
+    
 <div id="personList">
     @Html.Partial("_PersonList")
 </div>

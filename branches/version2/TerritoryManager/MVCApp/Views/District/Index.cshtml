@@ -1,0 +1,44 @@
+﻿@model MVCApp.Models.District
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>District: @Html.DisplayFor(model => model.Name)</h2>
+
+<div id="districtDetails">
+
+    <fieldset>
+        <legend></legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Number)
+        </div>
+        <div class="editor-field">
+            @Html.DisplayFor(model => model.Number)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.PostCode)
+        </div>
+        <div class="editor-field">
+            @Html.DisplayFor(model => model.PostCode)
+        </div>
+    </fieldset>
+    
+    <div class="button">
+        @Html.ActionLink("Search addresses", "Index", "SearchAddress", new { id = Model.Id }, null)
+    </div>
+
+    @if (ViewBag.LastSearchEnabled)
+    {
+        <div class="button spacer">
+            @Html.ActionLink("Last search results", "SelectedAdresses", "SearchAddress", new { id = Model.Id }, null)
+        </div>
+    }
+
+</div>
+
+@Html.Partial("_Map");
+
+<div class="spacer" />

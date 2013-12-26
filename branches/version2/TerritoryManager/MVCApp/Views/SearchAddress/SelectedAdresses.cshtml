@@ -9,15 +9,13 @@
 
 <h2>Selected adresses</h2>
 
-    <div>
+    <div class="button">
+        @Html.ActionLink("Save as PDF", "SelectedAdressesPdfFile", new { id = districtId })
+    </div>
+    <div class="button">
         @Html.ActionLink("Show on map", "SelectedAdressesMap", new { id = districtId }, new { target = "_blank" })
     </div>
-    <div>
-        Save adresses as: 
-        @Html.ActionLink("text file", "SelectedAdressesTextFile", new { id = districtId })
-        | @Html.ActionLink("pdf file", "SelectedAdressesPdfFile", new { id = districtId })
-    </div>
-
+    <div class="spacer" />
 <div id="personList">
     @Html.Partial("_SelectedPersonList")
 </div>

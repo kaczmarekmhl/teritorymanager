@@ -1,7 +1,6 @@
 ﻿@model MVCApp.Models.District
 
 @{
-    ViewBag.Title = "SelectedAdressesMap";
     Layout = null;
 }
 
@@ -29,7 +28,8 @@
             var map = new google.maps.Map(map_canvas, map_options)
 
             var myParser = new geoXML3.parser({
-                map: map
+                map: map,
+                singleInfoWindow: true
             });
             myParser.parse('@Url.Action("SelectedAdressesMapKml", new { id = Model.Id })');
         }
