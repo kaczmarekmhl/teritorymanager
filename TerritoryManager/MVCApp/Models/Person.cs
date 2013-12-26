@@ -1,4 +1,5 @@
 ﻿using MVCApp.Crypt;
+using MVCApp.Translate;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -23,7 +24,7 @@ namespace MVCApp.Models
         /// Person name.
         /// </summary>
         [StringLength(45)]
-        [Display(Name = "Name")]
+        [Display(ResourceType = typeof(Strings), Name = "PersonName")]
         public string Name { get; set; }
 
         /// <summary>
@@ -31,7 +32,7 @@ namespace MVCApp.Models
         /// </summary>
         [NotMapped]
         [StringLength(45)]
-        [Display(Name = "Surname")]
+        [Display(ResourceType = typeof(Strings), Name = "PersonSurname")]
         public string Lastname
         {
             get
@@ -50,7 +51,7 @@ namespace MVCApp.Models
         /// </summary>
         [NotMapped]
         [StringLength(45)]
-        [Display(Name = "Address")]
+        [Display(ResourceType = typeof(Strings), Name = "PersonAddress")]
         public string StreetAddress
         {
             get
@@ -67,7 +68,7 @@ namespace MVCApp.Models
         /// <summary>
         /// Person post code.
         /// </summary>
-        [Display(Name = "Post code")]
+        [Display(ResourceType = typeof(Strings), Name = "DistrictPostCode")]
         public int PostCode { get; set; }
 
         /// <summary>
@@ -75,7 +76,7 @@ namespace MVCApp.Models
         /// </summary>
         [NotMapped]
         [StringLength(30)]
-        [Display(Name = "Tel.")]
+        [Display(ResourceType = typeof(Strings), Name = "PersonTelephoneNum")]
         [DisplayFormat(NullDisplayText = "None")]
         public string TelephoneNumber
         {
@@ -139,7 +140,7 @@ namespace MVCApp.Models
         /// <summary>
         /// Is this person selected as a Pole.
         /// </summary>
-        [Display(Name = "Is Pole")]
+        [Display(ResourceType = typeof(Strings), Name = "PersonSelected")]
         public bool Selected { get; set; }
 
         #endregion
