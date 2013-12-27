@@ -151,7 +151,7 @@ namespace MVCApp.Models
         /// Encrypted private data.
         /// </summary>
         [Column("cx")]
-        public string Crypt
+        public byte[] Crypt
         {
             get
             {
@@ -186,7 +186,7 @@ namespace MVCApp.Models
             /// Serialize object and return crypted string.
             /// </summary>
             /// <returns>Crypted string.</returns>
-            public string SerializeAndCrypt()
+            public byte[] SerializeAndCrypt()
             {
                 using (var textWriter = new StringWriter())
                 {
@@ -199,7 +199,7 @@ namespace MVCApp.Models
             /// Decrypt given string and deserialize data.
             /// </summary>
             /// <param name="cryptedValue">Encrypted string.</param>
-            public void DecryptAndDeserialize(string cryptedValue)
+            public void DecryptAndDeserialize(byte[] cryptedValue)
             {
                 string serializedData = Crypter.Decrypt(cryptedValue);
                 CryptedData deserializedData = (CryptedData)serializer.Deserialize(new StringReader(serializedData));

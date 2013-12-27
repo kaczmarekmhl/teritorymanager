@@ -19,7 +19,7 @@ namespace MVCApp.Crypt
         /// </summary>
         /// <param name="plainText">String to encrypt.</param>
         /// <returns>Encrypted string.</returns>
-        public static string Encrypt(string plainText)
+        public static byte[] Encrypt(string plainText)
         {
             byte[] plainTextBytes = Encoding.UTF8.GetBytes(plainText);
 
@@ -40,7 +40,7 @@ namespace MVCApp.Crypt
                 }
                 memoryStream.Close();
             }
-            return Convert.ToBase64String(cipherTextBytes);
+            return cipherTextBytes;
         }
 
         /// <summary>
@@ -48,9 +48,8 @@ namespace MVCApp.Crypt
         /// </summary>
         /// <param name="encryptedText">Encrypted string.</param>
         /// <returns>Decrypted string.</returns>
-        public static string Decrypt(string encryptedText)
+        public static string Decrypt(byte[] cipherTextBytes)
         {
-            byte[] cipherTextBytes = Convert.FromBase64String(encryptedText);
             byte[] keyBytes = new Rfc2898DeriveBytes(PasswordHash, Encoding.ASCII.GetBytes(SaltKey)).GetBytes(256 / 8);
             var symmetricKey = new RijndaelManaged() { Mode = CipherMode.CBC, Padding = PaddingMode.None };
 
