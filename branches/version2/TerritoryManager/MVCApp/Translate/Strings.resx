@@ -120,11 +120,23 @@
   <data name="AccountHello" xml:space="preserve">
     <value>Hello</value>
   </data>
+  <data name="AccountInvalidPassword" xml:space="preserve">
+    <value>The user name or password provided is incorrect.</value>
+  </data>
   <data name="AccountLogIn" xml:space="preserve">
     <value>Log in</value>
   </data>
   <data name="AccountLogOff" xml:space="preserve">
     <value>Log off</value>
+  </data>
+  <data name="AccountPassword" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="AccountRememberMe" xml:space="preserve">
+    <value>Remember me</value>
+  </data>
+  <data name="AccountUserName" xml:space="preserve">
+    <value>User name</value>
   </data>
   <data name="District" xml:space="preserve">
     <value>District</value>
@@ -167,6 +179,9 @@
   </data>
   <data name="PersonTelephoneNum" xml:space="preserve">
     <value>Tel.</value>
+  </data>
+  <data name="SearchAddressWait" xml:space="preserve">
+    <value>Please wait. This can take couple of minutes...</value>
   </data>
   <data name="SearchAdresses" xml:space="preserve">
     <value>Search adresses</value>

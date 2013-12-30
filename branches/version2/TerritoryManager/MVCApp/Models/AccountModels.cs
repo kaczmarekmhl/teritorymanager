@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MVCApp.Translate;
+using System.ComponentModel.DataAnnotations;
 
 namespace MVCApp.Models
 {
@@ -30,15 +31,15 @@ namespace MVCApp.Models
         #region Properties
 
         [Required]
-        [Display(Name = "User name")]
+        [Display(ResourceType = typeof(Strings), Name = "AccountUserName")]
         public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(ResourceType = typeof(Strings), Name = "AccountPassword")]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
+        [Display(ResourceType = typeof(Strings), Name = "AccountRememberMe")]
         public bool RememberMe { get; set; }
 
         #endregion

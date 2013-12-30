@@ -13,7 +13,7 @@ namespace MVCApp.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationsEnabled = false;
             ContextKey = "MVCApp.Models.DistictManagerDb";
         }
 
@@ -30,7 +30,8 @@ namespace MVCApp.Migrations
             {
                 membership.CreateUserAndAccount("admin", "Karslunde");
             }
-            if (membership.GetUser("testuser", false) == null)
+            
+            /*if (membership.GetUser("testuser", false) == null)
             {
                 membership.CreateUserAndAccount("testuser", "Karslunde");
             }
@@ -100,7 +101,7 @@ namespace MVCApp.Migrations
                     PostCodeFirst = 1551,
                     PostCodeLast = 1600,
                     AssignedTo = user,
-                });
+                });*/
         }
     }
 }

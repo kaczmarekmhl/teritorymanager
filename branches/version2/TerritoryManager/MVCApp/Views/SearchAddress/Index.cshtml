@@ -21,16 +21,15 @@
                 InsertionMode = InsertionMode.Replace,
                 UpdateTargetId = "personList",
                 Url = Url.Action("SearchOnKrak", "SearchAddress", new { id = districtId }),
-                LoadingElementId = "ajax-loader"
+                LoadingElementId = "ajaxLoader"
             })
     </div>
     <div class="spacer" />
 </div>
 
 
-<div id="ajax-loader" style="display: none;">
-    <img src="~/Images/ajax-loader.gif">
-    <p>This can take couple of minutes...</p>
+<div id="ajaxLoader">
+    <img src="~/Images/ajax-loader.gif"> @Strings.SearchAddressWait
 </div>
 }
     

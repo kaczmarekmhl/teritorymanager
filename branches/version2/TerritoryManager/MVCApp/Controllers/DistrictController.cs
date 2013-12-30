@@ -9,6 +9,7 @@ using WebMatrix.WebData;
 
 namespace MVCApp.Controllers
 {
+    [Authorize]
     public class DistrictController : Controller
     {
         #region IndexAction
