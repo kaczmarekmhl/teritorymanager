@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
-
-namespace KmlGenerator
+﻿namespace MapLibrary
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
+    using System.Text;
+    using System.Threading.Tasks;
+
     public class ExternalKmlProvider
     {
         /// <summary>
@@ -27,7 +26,7 @@ namespace KmlGenerator
 
             string kml = webClient.DownloadString(getUrl(postCode));
 
-            if (String.IsNullOrEmpty(kml) || !KmlHelper.isValidKml(kml))
+            if (String.IsNullOrEmpty(kml) || !KmlValidator.isValid(kml))
             {
                 return null;
             }

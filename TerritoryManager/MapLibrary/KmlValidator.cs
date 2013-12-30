@@ -3,25 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml;
 
-namespace KmlGenerator
+namespace MapLibrary
 {
-    public class KmlHelper
+    public class KmlValidator
     {
         /// <summary>
         /// Validates kml file.
         /// </summary>
-        /// <param name="kml">Kml in string.</param>
+        /// <param name="kml">Xml in string.</param>
         /// <returns>Validation result</returns>
-        public static bool isValidKml(string kml)
+        public static bool isValid(string xml)
         {
             try
             {
-                XmlDocument xmlDoc = new XmlDocument();
-                xmlDoc.LoadXml(kml);          
+                KmlDocument.Parse(xml);
             }
-            catch (XmlException) 
+            catch (Exception)
             {
                 return false;
             }

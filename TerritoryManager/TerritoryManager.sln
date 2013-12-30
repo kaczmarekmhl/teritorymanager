@@ -9,7 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVCApp", "MVCApp\MVCApp.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVCApp.Tests", "MVCApp.Tests\MVCApp.Tests.csproj", "{B69BF829-F05A-48BE-B446-9132E9F4A263}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KmlGenerator", "KmlGenerator\KmlGenerator.csproj", "{86B49896-E7E0-48BC-AD64-0BC205C16C48}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapKml", "KmlGenerator\MapKml.csproj", "{86B49896-E7E0-48BC-AD64-0BC205C16C48}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapLibrary", "MapLibrary\MapLibrary.csproj", "{A1989A36-A569-4D62-9DCE-3315DFBA9E6D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +73,16 @@ Global
 		{86B49896-E7E0-48BC-AD64-0BC205C16C48}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{86B49896-E7E0-48BC-AD64-0BC205C16C48}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{86B49896-E7E0-48BC-AD64-0BC205C16C48}.Release|x86.ActiveCfg = Release|Any CPU
+		{A1989A36-A569-4D62-9DCE-3315DFBA9E6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1989A36-A569-4D62-9DCE-3315DFBA9E6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1989A36-A569-4D62-9DCE-3315DFBA9E6D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A1989A36-A569-4D62-9DCE-3315DFBA9E6D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A1989A36-A569-4D62-9DCE-3315DFBA9E6D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A1989A36-A569-4D62-9DCE-3315DFBA9E6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1989A36-A569-4D62-9DCE-3315DFBA9E6D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1989A36-A569-4D62-9DCE-3315DFBA9E6D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A1989A36-A569-4D62-9DCE-3315DFBA9E6D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{A1989A36-A569-4D62-9DCE-3315DFBA9E6D}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("KmlGenerator")]
+[assembly: AssemblyTitle("MapLibrary")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("KmlGenerator")]
+[assembly: AssemblyProduct("MapLibrary")]
 [assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("1bd38c69-911a-44fa-bd85-bd36fe6502e9")]
+[assembly: Guid("3f711060-c0a8-422a-8168-437aba8be0cb")]
 
 // Version information for an assembly consists of the following four values:
 //
