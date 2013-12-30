@@ -1,5 +1,7 @@
-﻿using System;
+﻿using MVCApp.Migrations;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
@@ -17,18 +19,29 @@ namespace MVCApp
     {
         protected void Application_Start()
         {
-            AreaRegistration.RegisterAllAreas();
+            MigrateDatabase();
             InitializeSimpleMembershipProvider();
-            
+
+            AreaRegistration.RegisterAllAreas();
+          
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
 
+        public static void MigrateDatabase()
+        {
+            var migrator = new DbMigrator(new Configuration());
+            migrator.Update();
+        }
+
         public static void InitializeSimpleMembershipProvider()
         {
-            WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
+            if (!WebSecurity.Initialized)
+            {
+                WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
+            }
         }
     }
 }

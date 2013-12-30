@@ -10,6 +10,7 @@ using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
 using MVCApp.Filters;
 using MVCApp.Models;
+using MVCApp.Translate;
 
 namespace MVCApp.Controllers
 {
@@ -40,7 +41,7 @@ namespace MVCApp.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            ModelState.AddModelError("", "The user name or password provided is incorrect.");
+            ModelState.AddModelError("", Strings.AccountInvalidPassword);
             return View(model);
         }
 

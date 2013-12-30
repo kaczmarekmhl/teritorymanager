@@ -120,11 +120,23 @@
   <data name="AccountHello" xml:space="preserve">
     <value>Witaj</value>
   </data>
+  <data name="AccountInvalidPassword" xml:space="preserve">
+    <value>Podany login lub hasło są nieprawidłowe</value>
+  </data>
   <data name="AccountLogIn" xml:space="preserve">
-    <value>Zaloguj</value>
+    <value>Zaloguj się</value>
   </data>
   <data name="AccountLogOff" xml:space="preserve">
-    <value>Wyloguj</value>
+    <value>Wyloguj się</value>
+  </data>
+  <data name="AccountPassword" xml:space="preserve">
+    <value>Hasło</value>
+  </data>
+  <data name="AccountRememberMe" xml:space="preserve">
+    <value>Zapamiętaj mnie</value>
+  </data>
+  <data name="AccountUserName" xml:space="preserve">
+    <value>Użytkownik</value>
   </data>
   <data name="District" xml:space="preserve">
     <value>Teren</value>
@@ -145,7 +157,7 @@
     <value>Kod pocztowy</value>
   </data>
   <data name="LastSearchResults" xml:space="preserve">
-    <value>Ostatnio wyszukane adresy</value>
+    <value>Ostatnio znalezione adresy</value>
   </data>
   <data name="MenuManageDistricts" xml:space="preserve">
     <value>Zarządzaj terenami</value>
@@ -167,6 +179,9 @@
   </data>
   <data name="PersonTelephoneNum" xml:space="preserve">
     <value>Tel.</value>
+  </data>
+  <data name="SearchAddressWait" xml:space="preserve">
+    <value>Prosimy o cierpliwość :) To może potrwać kilka minut...</value>
   </data>
   <data name="SearchAdresses" xml:space="preserve">
     <value>Wyszukaj adresy</value>

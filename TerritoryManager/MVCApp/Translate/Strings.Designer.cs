@@ -70,6 +70,15 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The user name or password provided is incorrect..
+        /// </summary>
+        public static string AccountInvalidPassword {
+            get {
+                return ResourceManager.GetString("AccountInvalidPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Log in.
         /// </summary>
         public static string AccountLogIn {
@@ -84,6 +93,33 @@ namespace MVCApp.Translate {
         public static string AccountLogOff {
             get {
                 return ResourceManager.GetString("AccountLogOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password.
+        /// </summary>
+        public static string AccountPassword {
+            get {
+                return ResourceManager.GetString("AccountPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remember me.
+        /// </summary>
+        public static string AccountRememberMe {
+            get {
+                return ResourceManager.GetString("AccountRememberMe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User name.
+        /// </summary>
+        public static string AccountUserName {
+            get {
+                return ResourceManager.GetString("AccountUserName", resourceCulture);
             }
         }
         
@@ -210,6 +246,15 @@ namespace MVCApp.Translate {
         public static string PersonTelephoneNum {
             get {
                 return ResourceManager.GetString("PersonTelephoneNum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please wait. This can take couple of minutes....
+        /// </summary>
+        public static string SearchAddressWait {
+            get {
+                return ResourceManager.GetString("SearchAddressWait", resourceCulture);
             }
         }
         

@@ -410,6 +410,14 @@ aside {
     float:right;
 }
 
+/*Ajax loader*/
+#ajaxLoader {
+    margin-top:1em;
+}
+
+#ajaxLoader img {
+    vertical-align:middle;
+}
 
 /* login page */
 #loginForm {
