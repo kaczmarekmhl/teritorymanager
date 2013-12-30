@@ -9,7 +9,7 @@ using System.Data.Entity;
 using System.Data;
 using System.IO;
 using System.Xml;
-using KmlGenerator;
+using MapLibrary;
 
 namespace MVCApp.Controllers
 {
@@ -88,7 +88,7 @@ namespace MVCApp.Controllers
                 {
                     string xml = new StreamReader(file.InputStream).ReadToEnd();
 
-                    if (KmlHelper.isValidKml(xml))
+                    if (KmlValidator.isValid(xml))
                     {
                         district.DistrictBoundaryKml = xml;
                         validKmlFile = true;

@@ -1,4 +1,4 @@
-﻿using KmlGenerator;
+﻿using MapLibrary;
 using MVCApp.Models;
 using System;
 using System.Collections.Generic;
@@ -45,7 +45,7 @@ namespace MVCApp.Controllers
 
             var kmlDoc = new KmlDocument(district.DistrictBoundaryKml);
 
-            return this.Content(kmlDoc.GetKml().ToString(), "text/xml");
+            return this.Content(kmlDoc.ToString().ToString(), "text/xml");
         }
 
         #endregion

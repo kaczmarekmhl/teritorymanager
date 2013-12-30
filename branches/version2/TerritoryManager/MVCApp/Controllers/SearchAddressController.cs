@@ -12,7 +12,7 @@ using System.Web.UI;
 using AddressSearch.AdressProvider.Filters.PersonFilter.Helpers;
 using WebMatrix.WebData;
 using System.Xml.Linq;
-using KmlGenerator;
+using MapLibrary;
 using System.IO;
 using System.Text;
 using RazorPDF;
