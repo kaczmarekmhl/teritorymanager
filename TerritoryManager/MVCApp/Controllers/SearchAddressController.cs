@@ -51,6 +51,8 @@ namespace MVCApp.Controllers
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]
         public ActionResult SearchOnKrak(int id)
         {
+            HttpContext.Server.ScriptTimeout = 30 * 60;
+
             var district = db.Districts.Find(id);
 
             if (district == null)
