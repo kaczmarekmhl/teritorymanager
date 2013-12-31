@@ -180,6 +180,9 @@
   <data name="PersonTelephoneNum" xml:space="preserve">
     <value>Tel.</value>
   </data>
+  <data name="SearchAddressesCount" xml:space="preserve">
+    <value>Adresses found: {0}</value>
+  </data>
   <data name="SearchAddressWait" xml:space="preserve">
     <value>Please wait. This can take couple of minutes...</value>
   </data>

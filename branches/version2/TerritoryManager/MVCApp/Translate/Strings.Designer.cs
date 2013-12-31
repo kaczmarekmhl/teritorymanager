@@ -250,6 +250,15 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Adresses found: {0}.
+        /// </summary>
+        public static string SearchAddressesCount {
+            get {
+                return ResourceManager.GetString("SearchAddressesCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please wait. This can take couple of minutes....
         /// </summary>
         public static string SearchAddressWait {

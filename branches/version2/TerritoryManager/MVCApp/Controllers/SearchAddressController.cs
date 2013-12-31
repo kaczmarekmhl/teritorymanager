@@ -228,7 +228,7 @@ namespace MVCApp.Controllers
             List<Person> personList;
 
             personList = GetPersonListFromKrak(district);
-            PreliminarySelection(personList);
+            personList = PreliminarySelection(personList);
             PersistPersonList(district.Id, personList);
 
             return personList;
@@ -274,6 +274,33 @@ namespace MVCApp.Controllers
         }
 
         /// <summary>
+        /// Filters our people outside district boundary.
+        /// </summary>
+        /// <param name="personList">List with person models.</param>
+        /// <param name="district">District</param>
+        /// <returns>List with people inside district boundary.</returns>
+        private List<AddressSearch.AdressProvider.Entities.Person> FilterPeopleOutsideBoundary(List<AddressSearch.AdressProvider.Entities.Person> personList, District district)
+        {
+            if (String.IsNullOrEmpty(district.DistrictBoundaryKml) || !IsDistrictPartial(district))
+            {
+                return personList;
+            }
+
+            var resultList = new List<AddressSearch.AdressProvider.Entities.Person>();
+            var kmlDoc = new KmlDocument(district.DistrictBoundaryKml);
+
+            foreach (var person in personList)
+            {
+                if (kmlDoc.IsPointInsideBounday(person.Longitude, person.Latitude))
+                {
+                    resultList.Add(person);
+                }
+            }
+
+            return resultList;
+        }
+
+        /// <summary>
         /// Loads person list from Krak website.
         /// </summary>
         /// <param name="district">District that the search will be done for.</param>
@@ -283,12 +310,14 @@ namespace MVCApp.Controllers
             var personList = new List<Person>();
             var addressProvider = new AddressProvider();
             var personListFromKrak = addressProvider.getPersonList(district.PostCodeFirst, district.PostCodeLast);
-
+            
             // Filtering
             var filterList = new List<AddressSearch.AdressProvider.Filters.PersonFilter.IPersonFilter> {
                     new ScandinavianSurname()
                 };
             FilterManager.FilterPersonList(personListFromKrak, filterList);
+
+            personListFromKrak = FilterPeopleOutsideBoundary(personListFromKrak, district);
 
             // Conversion to model
             personList = personListFromKrak.Select(p => new Person(p, district)).ToList();
@@ -347,6 +376,21 @@ namespace MVCApp.Controllers
         private string GetSelectedAdressesFileName(District district)
         {
             return String.Format("{0}_{1}", district.Name, district.PostCode);
+        }
+
+        /// <summary>
+        /// Checks if given district is partial.
+        /// </summary>
+        /// <param name="district">District that should ne checked</param>
+        /// <returns>If given district is partial.</returns>
+        private bool IsDistrictPartial(District district)
+        {
+            return db.Districts
+                .Count(d => d.PostCodeFirst == district.PostCodeFirst
+                    || d.PostCodeLast == district.PostCodeFirst
+                    || d.PostCodeFirst == district.PostCodeLast
+                    || d.PostCodeLast == district.PostCodeLast)
+                    > 0;
         }
 
         #endregion
