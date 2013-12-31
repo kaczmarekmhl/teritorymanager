@@ -7342,7 +7342,6 @@ Kalwak
 Jas
 Jarkiewicz
 Jambor
-Hartman
 Gras
 Razniak
 Janc
@@ -8854,7 +8853,6 @@ Frania
 Duszczak
 Domurad
 Bednarowicz
-Thomas
 Sloniewski
 Rakus
 Przybys
