@@ -45,6 +45,7 @@
     <Compile Include="ExternalKmlProvider.cs" />
     <Compile Include="KmlDocument.cs" />
     <Compile Include="KmlValidator.cs" />
+    <Compile Include="PointInsidePolygon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

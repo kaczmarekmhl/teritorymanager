@@ -16,6 +16,11 @@
         <div class="spacer" />
         }
 
+        @if (Model.IsFirstPage)
+        {
+            <h3>@(String.Format(Strings.SearchAddressesCount, Model.TotalItemCount))</h3>
+        }
+
         <table>
             <tr>
                 <th>

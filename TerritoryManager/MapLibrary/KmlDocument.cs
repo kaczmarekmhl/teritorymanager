@@ -15,6 +15,8 @@ namespace MapLibrary
         private Document kmlDocument;
         private List<Placemark> placemarkList = new List<Placemark>();
 
+        private PointInsidePolygon pointInside;
+
         public KmlDocument(string xml)
         {
             kmlDocument = Parse(xml);
@@ -28,11 +30,7 @@ namespace MapLibrary
             double longitudeDouble; 
             double latitudeDouble;
 
-            CultureInfo culture = CultureInfo.InvariantCulture;
-            NumberStyles style = NumberStyles.Number;
-
-            if (!double.TryParse(longitude, style, culture, out longitudeDouble) 
-                || !double.TryParse(latitude, style, culture, out latitudeDouble))
+            if (!TryParseCoordinates(longitude, latitude, out longitudeDouble, out latitudeDouble))
             {
                 return;
             }
@@ -85,7 +83,28 @@ namespace MapLibrary
             }
         }
 
+        /// <summary>
+        /// Detects if point is inside district bounday.
+        /// </summary>
+        /// <returns>Is point inside polygon</returns>
+        public bool IsPointInsideBounday(string longitude, string latitude)
+        {
+            double longitudeDouble;
+            double latitudeDouble;
 
+            if (!TryParseCoordinates(longitude, latitude, out longitudeDouble, out latitudeDouble))
+            {
+                return false;
+            }
+
+            if (pointInside == null)
+            {
+                pointInside = new PointInsidePolygon(GetBoundaryCoordinates());
+            }
+
+            return pointInside.IsPointInside(new Vector { Latitude = latitudeDouble, Longitude = longitudeDouble });
+        }
+        
         /// <summary>
         /// Generates kml.
         /// </summary>
@@ -99,6 +118,42 @@ namespace MapLibrary
             return serializer.Xml;
         }
 
+        /// <summary>
+        /// Retreives coordinates of district boundary.
+        /// </summary>
+        /// <returns>The coorinate collection.</returns>
+        public CoordinateCollection GetBoundaryCoordinates()
+        {
+            var polygon = kmlDocument.Flatten().OfType<Polygon>().First();
+
+            if (polygon == null)
+            {
+                return null;
+            }
+
+            return polygon.Flatten().OfType<CoordinateCollection>().First();
+        }
+
+        /// <summary>
+        /// Tries to parse latitude and longitude from string.
+        /// </summary>
+        /// <returns>Is parse successfull</returns>
+        public static bool TryParseCoordinates(string longitudeTxt, string latitudeTxt, out double longitude, out  double latitude)
+        {
+            CultureInfo culture = CultureInfo.InvariantCulture;
+            NumberStyles style = NumberStyles.Number;
+
+            longitude = 0;
+            latitude = 0;
+
+            if (!double.TryParse(longitudeTxt, style, culture, out longitude)
+                || !double.TryParse(latitudeTxt, style, culture, out latitude))
+            {
+                return false;
+            }
+
+            return true;
+        }
 
         /// <summary>
         /// Parse kml document.
