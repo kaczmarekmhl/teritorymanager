@@ -2,6 +2,7 @@
 
 @{
     int counter = 1;
+    string lastStreetAddress = "";
 }
 
 @if (Model != null && Model.Count() != 0)
@@ -31,7 +32,15 @@
 
     @foreach (var item in Model) {
         <tr>
-            <td>@counter</td>
+            <td>
+                @if(lastStreetAddress != item.StreetAddress)
+                {
+                    @counter@:.
+                    counter = counter + 1;
+                }
+                @{ lastStreetAddress = item.StreetAddress; }
+            </td>
+            
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
@@ -50,9 +59,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.TelephoneNumber)
             </td>
-        </tr>
-        
-        counter = counter + 1;
+        </tr>       
     }
     </table>
     
