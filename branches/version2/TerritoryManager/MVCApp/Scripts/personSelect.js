@@ -1,4 +1,14 @@
 ﻿$(function () {
+
+    $("#personList tr").click(function () {
+        var checkbox = $(this).find("input[ajax-selector='personSelectCheckbox']");
+
+        if (!checkbox.is(':disabled')) {
+            checkbox.attr('checked', !checkbox.is(':checked'));
+            checkbox.trigger("change");
+        }        
+    });
+
     $("input[ajax-selector='personSelectCheckbox']").change(function () {
 
         var $input = $(this);
@@ -31,4 +41,5 @@
             }
         });
     });
+
 });
