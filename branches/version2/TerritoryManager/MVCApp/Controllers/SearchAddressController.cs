@@ -153,13 +153,19 @@ namespace MVCApp.Controllers
             var kmlDoc = new KmlDocument(district.DistrictBoundaryKml);
 
             var counter = 1;
+            string lastStreetAddress = "";
             foreach (var person in GetSelectedPersonList(district.Id))
             {
-                kmlDoc.AddPlacemark(
-                    String.Format("{0}. {1} {2}", counter++, person.Name, person.Lastname),
-                    person.StreetAddress,
-                    person.Longitude,
-                    person.Latitude);
+                if (lastStreetAddress != person.StreetAddress)
+                {  
+                    kmlDoc.AddPlacemark(
+                        String.Format("{0}. {1} {2}", counter++, person.Name, person.Lastname),
+                        person.StreetAddress,
+                        person.Longitude,
+                        person.Latitude);
+                }
+
+                lastStreetAddress = person.StreetAddress;
             }
 
             return this.Content(kmlDoc.GetKmlWithPlacemarks().ToString(), "text/xml");

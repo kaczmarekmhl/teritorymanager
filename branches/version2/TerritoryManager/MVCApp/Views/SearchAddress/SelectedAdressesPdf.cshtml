@@ -10,6 +10,8 @@
     {
         postCodeWidth = "2;";
     }
+
+    string lastStreetAddress = ""; 
 }
 
 <itext creationdate="@DateTime.Now.ToString()">
@@ -47,7 +49,14 @@
         <row>
 
             <cell>
-                <chunk style="font-size:11;">@(counter).</chunk>
+                <chunk style="font-size:11;">
+                @if(lastStreetAddress != item.StreetAddress)
+                {
+                    @counter@:.
+                    counter = counter + 1;
+                }
+                @{ lastStreetAddress = item.StreetAddress; }
+                </chunk>
             </cell>
 
             <cell>
@@ -69,8 +78,6 @@
             </cell>
             
         </row>
-        
-        counter++;
     }
     </table>
 </itext>

@@ -8,14 +8,6 @@
 {
     <div>
 
-        @if(Model.IsLastPage)
-        {
-        <div class="button float-left">
-            @Html.ActionLink(Strings.SearchDisplaySelected, "SelectedAdresses", "SearchAddress", new { id = districtId}, null)
-        </div>
-        <div class="spacer" />
-        }
-
         @if (Model.IsFirstPage)
         {
             <h3>@(String.Format(Strings.SearchAddressesCount, Model.TotalItemCount))</h3>
@@ -59,6 +51,14 @@
             </tr>
         }
         </table>
+
+        @if(Model.IsLastPage)
+        {
+        <div class="button float-right">
+            @Html.ActionLink(Strings.SearchDisplaySelected, "SelectedAdresses", "SearchAddress", new { id = districtId}, null)
+        </div>
+        <div class="spacer" />
+        }
 
         <div class="pagedList">
             @Html.PagedListPager(Model, page => Url.Action( "Index", new { Model.First().District.Id, page }), PagedListRenderOptions.MinimalWithPageCountText)
