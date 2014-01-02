@@ -779,6 +779,7 @@ tr.pager td {
     .content-wrapper {
         padding-right: 10px;
         padding-left: 10px;
+        min-width: 0;
     }
 
     .featured .content-wrapper {
