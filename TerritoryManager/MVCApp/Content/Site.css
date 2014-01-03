@@ -81,19 +81,19 @@ h4, h5, h6 {
 }
 
 h1 {
-    font-size: 2em;
+    font-size: 2.2em;
 }
 
 h2 {
-    font-size: 2.5em;
+    font-size: 1.9em;
 }
 
 h3 {
-    font-size: 1.2em;
+    font-size: 1.5em;
 }
 
 h4 {
-    font-size: 1.1em;
+    font-size: 1.3em;
 }
 
 h5, h6 {
@@ -246,7 +246,7 @@ div.spacer {
 /* menu
 ----------------------------------------------------------*/
 ul#menu {
-    font-size: 1.3em;
+    font-size: 1.2em;
     font-weight: 600;
     margin: 50px 0px 5px 75px;
     padding: 0;
@@ -716,6 +716,14 @@ tr.pager td {
         float: none;
     }
 
+    header {
+        min-height:0px;
+    }
+
+    .button a {
+        font-size:90%;
+    }
+
     /* logo */
     header .site-title {
         text-align: center;
@@ -761,6 +769,7 @@ tr.pager td {
         margin: 0;
         padding: 0;
         text-align: center;
+        float:none;
     }
 
         ul#menu li {
@@ -784,6 +793,10 @@ tr.pager td {
 
     .featured .content-wrapper {
         padding: 10px;
+    }
+
+    label {
+        font-size:90%;
     }
 
     /* page content */
