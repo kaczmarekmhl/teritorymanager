@@ -20,6 +20,12 @@
                 </a>
             </div>
 
+            <div class="float-right">
+                <section id="login">
+                    @Html.Partial("_LoginPartial")
+                </section>                
+            </div>
+
             <ul id="menu">
                         
                 @if (User.Identity.IsAuthenticated)
@@ -34,11 +40,6 @@
                 }
             </ul>
 
-            <div class="float-right">
-                <section id="login">
-                    @Html.Partial("_LoginPartial")
-                </section>                
-            </div>
             <div class="spacer"/>
         </div>
     </header>
