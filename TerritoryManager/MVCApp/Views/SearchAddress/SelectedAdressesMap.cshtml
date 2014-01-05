@@ -11,9 +11,26 @@
     <meta charset="utf-8" />
     <title>@ViewBag.Title Find Poles in Denmark</title>
     <meta name="viewport" content="width=device-width" />
+    <style>
+
+        html {
+            height:100%;
+        }
+
+        body {
+            margin:0;
+            padding:0;
+            height: 100%;
+        }
+
+        #map_canvas {
+            width:auto;
+            height:100%;
+        }
+    </style>
 </head>
 <body>
-    <div id="map_canvas" style="width:auto; height:100vh;"/>
+    <div id="map_canvas"/>
 
     <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
     <script type="text/javascript" src="~/Scripts/geoxml3.js"></script>

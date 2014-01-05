@@ -394,10 +394,11 @@ namespace MVCApp.Controllers
         private bool IsDistrictPartial(District district)
         {
             return db.Districts
-                .Count(d => d.PostCodeFirst == district.PostCodeFirst
+                .Count(d => d.Id != district.Id
+                    &&( d.PostCodeFirst == district.PostCodeFirst
                     || d.PostCodeLast == district.PostCodeFirst
                     || d.PostCodeFirst == district.PostCodeLast
-                    || d.PostCodeLast == district.PostCodeLast)
+                    || d.PostCodeLast == district.PostCodeLast))
                     > 0;
         }
 
