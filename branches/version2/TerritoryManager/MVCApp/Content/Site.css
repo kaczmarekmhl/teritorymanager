@@ -785,9 +785,19 @@ tr.pager td {
         background-position: 10px 0;
     }
 
+    .main-content {
+        min-height: 300px;
+    }
+
+    #main-body .content-margin {
+        padding: 0px;
+        padding-top:20px;
+        padding-bottom:20px;
+    }
+
     .content-wrapper {
-        padding-right: 10px;
-        padding-left: 10px;
+        padding-right: 7px;
+        padding-left: 7px;
         min-width: 0;
     }
 
