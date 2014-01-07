@@ -372,6 +372,18 @@ namespace MVCApp.Controllers
                 DeletePeopleInDistrict(districtId);
 
                 db.Persons.AddRange(personList);
+
+                foreach (var validationResults in db.GetValidationErrors())
+                {
+                    if (!validationResults.IsValid)
+                    {
+                        var invalidEntity = (Person)validationResults.Entry.Entity;
+
+                        db.Persons.Remove(invalidEntity);
+                        personList.Remove(invalidEntity);
+                    }
+                }
+
                 db.SaveChanges();
             }
         }
