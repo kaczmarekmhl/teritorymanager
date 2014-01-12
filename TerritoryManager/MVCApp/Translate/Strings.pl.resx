@@ -154,7 +154,7 @@
     <value>Numer</value>
   </data>
   <data name="DistrictPostCode" xml:space="preserve">
-    <value>Kod pocztowy</value>
+    <value>Kod</value>
   </data>
   <data name="LastSearchResults" xml:space="preserve">
     <value>Ostatnio znalezione adresy</value>
@@ -169,7 +169,7 @@
     <value>Adres</value>
   </data>
   <data name="PersonName" xml:space="preserve">
-    <value>Imię</value>
+    <value>Imie</value>
   </data>
   <data name="PersonSelected" xml:space="preserve">
     <value>Zaznacz polaków</value>

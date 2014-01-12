@@ -401,13 +401,14 @@ aside {
 /* District details*/
 #districtDetails {
     float:left;
-    width:50%;
+    width:34%;
 }
 
 #districtMap {
-    width: 50%;
-    height:400px;
+    width: 66%;
+    height:550px;
     float:right;
+    margin-bottom:10px;
 }
 
 /*Ajax loader*/

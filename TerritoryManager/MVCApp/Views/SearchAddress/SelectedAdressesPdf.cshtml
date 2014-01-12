@@ -4,11 +4,15 @@
     Layout = null;
     int counter = 1;
     
-    string postCodeWidth = "";
+    string columnsWidth = "";
     
     if(ViewBag.IsMultiPostCode)
     {
-        postCodeWidth = "2;";
+        columnsWidth = "1;6;6;2;4";
+    }
+    else
+    {
+        columnsWidth = "1;7;7;4";
     }
 
     string lastStreetAddress = ""; 
@@ -21,7 +25,7 @@
         <chunk>@ViewBag.DistrictPostCode</chunk>
     </paragraph>
 
-    <table width="100%" cellpadding="1.0" cellspacing="1.0"  widths="1;7;7;@postCodeWidth 4">
+    <table width="100%" cellpadding="1.0" cellspacing="1.0"  widths="@columnsWidth">
         <row>
             <cell borderwidth="0.5" left="false" right="false" top="false" bottom="true">
                 <chunk style="font-weight:bold">#</chunk>

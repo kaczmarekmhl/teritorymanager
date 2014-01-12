@@ -24,13 +24,13 @@
 
             var start = DateTime.Now;
 
-            List<Person> resultList = addressProvider.getPersonList(1150, 1200);
-
+            List<Person> resultList = addressProvider.getPersonList(2635);
+            
             Console.WriteLine("Count: " + resultList.Count);
             Console.WriteLine("Time: " + (DateTime.Now - start).TotalSeconds);
             Console.ReadKey();
 
-            
+            /*
             WriteResultToFile(String.Format("result{0}_Full.txt", "KO"), resultList);
 
             
@@ -39,7 +39,7 @@
             });
             WriteResultToFile(String.Format("result{0}_Scand.txt", "KO"), filteredResultList);
 
-            /*
+            
             filteredResultList = FilterManager.GetFilteredPersonList(resultList, new List<IPersonFilter> {
                 new ScandinavianSurname(),
                 new NonPolishSurnameNonExactName()
