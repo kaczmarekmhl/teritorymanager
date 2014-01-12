@@ -15,30 +15,31 @@
         static void Main(string[] args)
         {
             var addressProvider = new AddressProvider();
-            int postCode;
+            /*int postCode;
 
             if (!int.TryParse(args[0], out postCode))
             {
                 Console.WriteLine("Usage: ConsoleClient [postCode]");
-            }
+            }*/
 
             var start = DateTime.Now;
 
-            List<Person> resultList = addressProvider.getPersonList(postCode);
+            List<Person> resultList = addressProvider.getPersonList(1150, 1200);
 
             Console.WriteLine("Count: " + resultList.Count);
             Console.WriteLine("Time: " + (DateTime.Now - start).TotalSeconds);
             Console.ReadKey();
 
-            /*
-            WriteResultToFile(String.Format("result{0}_Full.txt", postCode), resultList);
+            
+            WriteResultToFile(String.Format("result{0}_Full.txt", "KO"), resultList);
 
+            
             var filteredResultList = FilterManager.GetFilteredPersonList(resultList, new List<IPersonFilter> {
                 new ScandinavianSurname(),
             });
-            WriteResultToFile(String.Format("result{0}_Scand.txt", postCode), filteredResultList);
+            WriteResultToFile(String.Format("result{0}_Scand.txt", "KO"), filteredResultList);
 
-
+            /*
             filteredResultList = FilterManager.GetFilteredPersonList(resultList, new List<IPersonFilter> {
                 new ScandinavianSurname(),
                 new NonPolishSurnameNonExactName()
