@@ -24,7 +24,7 @@
             @Html.DisplayFor(modelItem => item.Number)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Name)
+            @Html.ActionLink(item.Name, "Index", "District", new { id=item.Id }, null)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.PostCode)

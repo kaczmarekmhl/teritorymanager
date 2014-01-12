@@ -16,15 +16,18 @@
         {
             ConcurrentBag<Person> personList = new ConcurrentBag<Person>();
 
-            Parallel.ForEach(searchNameList, searchName =>
+            Parallel.ForEach(Partitioner.Create(0, searchNameList.Count), range =>
             {
-                foreach (var person in getPersonList(searchPhrase, searchName))
+                for (int i = range.Item1; i < range.Item2; i++)
                 {
-                    personList.Add(person);
-                }
+                    foreach (var person in getPersonList(searchPhrase, searchNameList.ElementAt(i)))
+                    {
+                        personList.Add(person);
+                    }
+                }                
             });
 
-            return removePersonListDuplicates(personList.ToList());
+            return personList.ToList();
         }
 
         protected List<Person> getPersonList(string searchPhrase, SearchName searchName)
@@ -85,14 +88,14 @@
             string telReal = tel != null ? tel.GetAttributeValue("href", "").Replace("callto:", "") : "";
                        
             //Parse post code
-            int.TryParse(getSingleNodeText(".//span[@class='postal-code']", vCardNode), out postCode);
+            int.TryParse(getSingleNodeText(".//span[@class='postal-code']", vCardNode), out postCode);            
 
             return new Person
                  {
                      SearchName = searchName,
-                     Name = getSingleNodeText(".//span[@class='given-name']", vCardNode),
-                     Lastname = getSingleNodeText(".//span[@class='family-name']", vCardNode),
-                     StreetAddress = getSingleNodeText(".//span[@class='street-address']", vCardNode),
+                     Name = System.Net.WebUtility.HtmlDecode(getSingleNodeText(".//span[@class='given-name']", vCardNode)),
+                     Lastname = System.Net.WebUtility.HtmlDecode(getSingleNodeText(".//span[@class='family-name']", vCardNode)),
+                     StreetAddress = System.Net.WebUtility.HtmlDecode(getSingleNodeText(".//span[@class='street-address']", vCardNode)),
                      Locality = getSingleNodeText(".//span[@class='locality']", vCardNode),
                      PostCode = postCode,
                      TelephoneNumber = telReal,
@@ -202,16 +205,6 @@
         private string getKrakPersonUrl(string name, string searchPhrase, int page = 1)
         {
             return string.Format("http://www.krak.dk/person/resultat/{0}/{1}/{2}", name, searchPhrase, page);
-        }
-
-        private List<Person> removePersonListDuplicates(List<Person> personList)
-        {
-            if (personList == null)
-            {
-                return null;
-            }
-
-            return personList.GroupBy(p => new { p.Name, p.Lastname, p.StreetAddress, p.PostCode }).Select(grp => grp.First()).ToList<Person>();
         }
     }
 }
