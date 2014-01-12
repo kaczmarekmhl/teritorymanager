@@ -12,13 +12,13 @@
 
     class KrakAddressProvider
     {
-        public List<Person> getPersonList(int postCode, List<SearchName> searchNameList)
+        public List<Person> getPersonList(string searchPhrase, List<SearchName> searchNameList)
         {
             ConcurrentBag<Person> personList = new ConcurrentBag<Person>();
 
             Parallel.ForEach(searchNameList, searchName =>
-            {                
-                foreach (var person in getPersonList(searchName, postCode))
+            {
+                foreach (var person in getPersonList(searchPhrase, searchName))
                 {
                     personList.Add(person);
                 }
@@ -27,13 +27,13 @@
             return removePersonListDuplicates(personList.ToList());
         }
 
-        protected List<Person> getPersonList(SearchName searchName, int postCode)
+        protected List<Person> getPersonList(string searchPhrase, SearchName searchName)
         {
             List<Person> resultList = new List<Person>();
             HtmlDocument doc = new HtmlDocument();
             int totalPageCount = 1;
 
-            doc.LoadHtml(getKrakPersonHtml(searchName.Name, postCode));
+            doc.LoadHtml(getKrakPersonHtml(searchName.Name, searchPhrase));
 
             totalPageCount = getTotalPageFromHtmlDocument(doc);
 
@@ -41,7 +41,7 @@
             {
                 if (currentPage > 1)
                 {
-                    doc.LoadHtml(getKrakPersonHtml(searchName.Name, postCode, currentPage));
+                    doc.LoadHtml(getKrakPersonHtml(searchName.Name, searchPhrase, currentPage));
                 }
 
                 resultList.AddRange(getPersonListFromHtmlDocument(doc, searchName));
@@ -73,13 +73,19 @@
 
         protected Person parseSinglePerson(HtmlNode vCardNode, SearchName searchName)
         {
+            int postCode = 0;
+
             if(vCardNode == null)
             {
                 return null;
             }
 
+            //Parse tel
             HtmlNode tel = vCardNode.SelectSingleNode(".//span[contains(@class,'tel')]/a[@href]");
             string telReal = tel != null ? tel.GetAttributeValue("href", "").Replace("callto:", "") : "";
+                       
+            //Parse post code
+            int.TryParse(getSingleNodeText(".//span[@class='postal-code']", vCardNode), out postCode);
 
             return new Person
                  {
@@ -88,7 +94,7 @@
                      Lastname = getSingleNodeText(".//span[@class='family-name']", vCardNode),
                      StreetAddress = getSingleNodeText(".//span[@class='street-address']", vCardNode),
                      Locality = getSingleNodeText(".//span[@class='locality']", vCardNode),
-                     PostCode = getSingleNodeText(".//span[@class='postal-code']", vCardNode),
+                     PostCode = postCode,
                      TelephoneNumber = telReal,
                      Latitude = getSingleNodeText(".//span[@class='latitude']", vCardNode),
                      Longitude = getSingleNodeText(".//span[@class='longitude']", vCardNode)
@@ -117,8 +123,38 @@
 
         protected int getTotalPageFromHtmlDocument(HtmlDocument doc)
         {
-            var totalPageNode = doc.DocumentNode.SelectSingleNode("//ul[@class='pagination']/li[@class='total']/a");
-            return totalPageNode != null ? int.Parse(totalPageNode.InnerText) : 1;
+            int totalPages = 1;
+            var paginationNode = doc.DocumentNode.SelectSingleNode("//ul[@class='pagination']");
+
+            if (paginationNode != null)
+            {
+                var totalPageNode = paginationNode.SelectSingleNode(".//li[@class='total']/a");
+
+                if (totalPageNode != null)
+                {
+                    totalPages = int.Parse(totalPageNode.InnerText);
+                }
+                else
+                {
+                    int totalPagesTmp = 0;
+
+                    //total node does not exist
+                    //try to search for maximum number
+                    foreach (var linkNode in paginationNode.Descendants("a"))
+                    {
+                        if (int.TryParse(linkNode.InnerText, out totalPagesTmp))
+                        {
+                            if (totalPagesTmp > totalPages)
+                            {
+                                totalPages = totalPagesTmp;
+                            }
+                        }
+                    }
+
+                }
+            }
+
+            return totalPages;
         }
 
         private string getSingleNodeText(string xpath, HtmlNode node)
@@ -133,7 +169,7 @@
             return selectedNode.InnerHtml;
         }
 
-        private string getKrakPersonHtml(string name, int postCode, int page = 1)
+        private string getKrakPersonHtml(string name, string searchPhrase, int page = 1)
         {
             int tryCount = 0;
 
@@ -144,7 +180,7 @@
             {
                 try
                 {
-                    return webClient.DownloadString(getKrakPersonUrl(name, postCode, page));
+                    return webClient.DownloadString(getKrakPersonUrl(name, searchPhrase, page));
                 }
                 catch (WebException webException)
                 {
@@ -163,9 +199,9 @@
             }
         }
 
-        private string getKrakPersonUrl(string name, int postCode, int page = 1)
+        private string getKrakPersonUrl(string name, string searchPhrase, int page = 1)
         {
-            return string.Format("http://www.krak.dk/person/resultat/{0}/{1}/{2}", name, postCode, page);
+            return string.Format("http://www.krak.dk/person/resultat/{0}/{1}/{2}", name, searchPhrase, page);
         }
 
         private List<Person> removePersonListDuplicates(List<Person> personList)
@@ -175,7 +211,7 @@
                 return null;
             }
 
-            return personList.GroupBy(p => new { p.Name, p.Lastname, p.StreetAddress }).Select(grp => grp.First()).ToList<Person>();
+            return personList.GroupBy(p => new { p.Name, p.Lastname, p.StreetAddress, p.PostCode }).Select(grp => grp.First()).ToList<Person>();
         }
     }
 }

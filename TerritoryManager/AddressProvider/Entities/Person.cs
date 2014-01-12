@@ -9,7 +9,7 @@
         public string Lastname { get; set; }
         public string StreetAddress { get; set; }
         public string Locality { get; set; }
-        public string PostCode { get; set; }
+        public int PostCode { get; set; }
         public string TelephoneNumber { get; set; }
         public string Longitude { get; set; }
         public string Latitude { get; set; }

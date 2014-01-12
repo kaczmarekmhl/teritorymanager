@@ -233,10 +233,7 @@ namespace MVCApp.Models
             this.Latitude = person.Latitude;
             this.District = district;
             this.AddedByUserId = WebSecurity.CurrentUserId;
-
-            int postCode = 0;
-            int.TryParse(person.PostCode, out postCode);
-            this.PostCode = postCode;
+            this.PostCode = person.PostCode;
         }
 
         #endregion
