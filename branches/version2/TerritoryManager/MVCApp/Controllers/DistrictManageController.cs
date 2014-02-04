@@ -18,12 +18,13 @@ namespace MVCApp.Controllers
     {
         #region IndexAction
 
-        public ActionResult Index(int page = 1)
-        {
+        public ActionResult Index(int page = 1, string searchTerm = null)
+        {            
             var model =
                 db.Districts
+                .Where(t => string.IsNullOrEmpty(searchTerm) || t.Number.Contains(searchTerm) || t.Name.Contains(searchTerm))
                 .OrderBy(t => t.PostCodeFirst)
-                .ToPagedList(page, 50);
+                .ToPagedList(page, 100);
 
             return View(model);
         }
@@ -69,7 +70,7 @@ namespace MVCApp.Controllers
             district.LoadExternalDistrictBoundaryKml();
 
             //Select dropdown values
-            ViewBag.AssignedToUserId = new SelectList(db.UserProfiles, "UserId", "UserName", district.AssignedToUserId);
+            ViewBag.AssignedToUserId = new SelectList(db.UserProfiles.OrderBy( u => u.UserName), "UserId", "UserName", district.AssignedToUserId);
 
             return View(district);
         }

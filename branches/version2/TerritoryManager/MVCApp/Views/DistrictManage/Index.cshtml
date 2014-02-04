@@ -6,6 +6,14 @@
 
 <h2>Manage districts</h2>
 
+<div>
+@using (Html.BeginForm("Index", "DistrictManage", FormMethod.Get))
+{
+    <input type="search" name="searchTerm"/>
+    <input type="submit" value="@Strings.Search" /> 
+}
+</div>
+
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
