@@ -26,6 +26,8 @@ namespace MVCApp.Controllers
                 .OrderBy(t => t.PostCodeFirst)
                 .ToPagedList(page, 100);
 
+            ViewBag.SearchTerm = searchTerm;
+
             return View(model);
         }
         #endregion

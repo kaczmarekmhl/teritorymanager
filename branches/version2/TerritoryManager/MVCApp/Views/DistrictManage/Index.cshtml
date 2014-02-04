@@ -9,7 +9,7 @@
 <div>
 @using (Html.BeginForm("Index", "DistrictManage", FormMethod.Get))
 {
-    <input type="search" name="searchTerm"/>
+    <input type="search" name="searchTerm" value="@ViewBag.SearchTerm"/>
     <input type="submit" value="@Strings.Search" /> 
 }
 </div>
