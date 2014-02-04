@@ -22,7 +22,7 @@ namespace MVCApp.Controllers
         {            
             var model =
                 db.Districts
-                .Where(t => string.IsNullOrEmpty(searchTerm) || t.Number.Contains(searchTerm) || t.Name.Contains(searchTerm))
+                .Where(t => string.IsNullOrEmpty(searchTerm) || t.Number.Equals(searchTerm) || t.Name.Contains(searchTerm))
                 .OrderBy(t => t.PostCodeFirst)
                 .ToPagedList(page, 100);
 
