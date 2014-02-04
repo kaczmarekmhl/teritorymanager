@@ -42,7 +42,7 @@
 </table>
 
 <div class="pagedList">
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.MinimalWithPageCountText)
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, ViewBag.SearchTerm }), PagedListRenderOptions.MinimalWithPageCountText)
 </div>
 
 
