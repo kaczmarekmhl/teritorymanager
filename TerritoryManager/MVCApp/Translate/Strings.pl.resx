@@ -204,4 +204,7 @@
   <data name="SearchSelectedAdresses" xml:space="preserve">
     <value>Adresy</value>
   </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
 </root>
