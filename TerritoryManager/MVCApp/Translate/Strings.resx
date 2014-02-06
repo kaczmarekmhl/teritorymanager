@@ -196,7 +196,7 @@
     <value>Show map</value>
   </data>
   <data name="SearchRunOnKrak" xml:space="preserve">
-    <value>Run search from Krak.dk</value>
+    <value>Run search adresses again</value>
   </data>
   <data name="SearchSaveSelectedAsPdf" xml:space="preserve">
     <value>Save as PDF</value>

@@ -196,7 +196,7 @@
     <value>Wyświetl na mapie</value>
   </data>
   <data name="SearchRunOnKrak" xml:space="preserve">
-    <value>Uruchom wyszukiwanie z Krak.dk</value>
+    <value>Uruchom nowe wyszukiwanie adresów</value>
   </data>
   <data name="SearchSaveSelectedAsPdf" xml:space="preserve">
     <value>Zapisz jako PDF</value>
