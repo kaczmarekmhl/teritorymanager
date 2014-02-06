@@ -304,7 +304,7 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Run search from Krak.dk.
+        ///   Looks up a localized string similar to Run search adresses again.
         /// </summary>
         public static string SearchRunOnKrak {
             get {
