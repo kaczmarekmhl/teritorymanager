@@ -16,7 +16,8 @@ namespace MVCApp.Controllers
             var model =
                 db.Districts
                 .Where(t => t.AssignedTo.UserId == WebSecurity.CurrentUserId)
-                .OrderBy(t => t.PostCodeFirst);
+                .OrderBy(t => t.PostCodeFirst)
+                .ThenBy(t => t.Name);
 
             return View(model);
         }

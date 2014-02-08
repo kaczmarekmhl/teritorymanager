@@ -1,7 +1,7 @@
 ﻿@model MVCApp.Models.District
 
 @{
-    ViewBag.Title = Strings.District;
+    ViewBag.Title = @Model.Name;
 }
 
 <h2>@Strings.District - @Html.DisplayFor(model => model.Name)</h2>

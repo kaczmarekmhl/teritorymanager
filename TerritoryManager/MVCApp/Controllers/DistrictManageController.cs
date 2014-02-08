@@ -24,6 +24,7 @@ namespace MVCApp.Controllers
                 db.Districts
                 .Where(t => string.IsNullOrEmpty(searchTerm) || t.Number.Equals(searchTerm) || t.Name.Contains(searchTerm))
                 .OrderBy(t => t.PostCodeFirst)
+                .ThenBy(t => t.Name)
                 .ToPagedList(page, 100);
 
             ViewBag.SearchTerm = searchTerm;
