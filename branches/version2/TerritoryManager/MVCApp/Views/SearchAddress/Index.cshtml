@@ -1,9 +1,9 @@
 ﻿@model IPagedList<MVCApp.Models.Person>
 
 @{
-    ViewBag.Title = "Index";
     int districtId = ViewBag.DistrictId;
     string districtName = ViewBag.DistrictName;
+    ViewBag.Title = @Strings.SearchAdresses;
 }
 
 <h2>@Strings.District - @Html.DisplayFor(model => districtName) - @Strings.SearchAdresses</h2>
