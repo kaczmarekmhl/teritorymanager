@@ -157,7 +157,7 @@
     <value>Kod</value>
   </data>
   <data name="LastSearchResults" xml:space="preserve">
-    <value>Ostatnio znalezione adresy</value>
+    <value>Wyświetl zaznaczone adresy</value>
   </data>
   <data name="MenuManageDistricts" xml:space="preserve">
     <value>Zarządzaj terenami</value>
@@ -187,7 +187,7 @@
     <value>Prosimy o cierpliwość :) To może potrwać kilka minut...</value>
   </data>
   <data name="SearchAdresses" xml:space="preserve">
-    <value>Wyszukaj adresy</value>
+    <value>Wyszukiwarka adresów</value>
   </data>
   <data name="SearchDisplaySelected" xml:space="preserve">
     <value>Wyświetl adresy zaznaczonych osób</value>
@@ -209,5 +209,11 @@
   </data>
   <data name="WebPageTitle" xml:space="preserve">
     <value>Moje tereny</value>
+  </data>
+  <data name="PagedListLinkToNextPageFormat" xml:space="preserve">
+    <value>Następna strona »</value>
+  </data>
+  <data name="PagetListPageCountAndCurrentLocationFormat" xml:space="preserve">
+    <value>Strona {0} z {1}</value>
   </data>
 </root>

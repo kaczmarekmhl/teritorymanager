@@ -42,7 +42,17 @@
 </table>
 
 <div class="pagedList">
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, ViewBag.SearchTerm }), PagedListRenderOptions.MinimalWithPageCountText)
+     @Html.PagedListPager(Model, page => Url.Action("Index", new { page, ViewBag.SearchTerm }), 
+            new PagedListRenderOptions { 
+                Display = PagedListDisplayMode.IfNeeded, 
+                MaximumPageNumbersToDisplay = 10, 
+                DisplayLinkToIndividualPages = true, 
+                DisplayEllipsesWhenNotShowingAllPageNumbers = false,
+                DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+                DisplayLinkToPreviousPage = PagedListDisplayMode.IfNeeded,
+                PageCountAndCurrentLocationFormat = Strings.PagetListPageCountAndCurrentLocationFormat,    
+                DisplayLinkToLastPage = PagedListDisplayMode.Never, 
+                } )
 </div>
 
 
