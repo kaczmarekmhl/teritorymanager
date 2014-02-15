@@ -216,4 +216,7 @@
   <data name="PagetListPageCountAndCurrentLocationFormat" xml:space="preserve">
     <value>Strona {0} z {1}</value>
   </data>
+  <data name="SearchAdressConfirm" xml:space="preserve">
+    <value>Czy chcesz wyszukać nowe adresy? Uwaga: Spowoduje to usunięcie wszystkich poprzednich zaznaczeń.</value>
+  </data>
 </root>

@@ -216,4 +216,7 @@
   <data name="PagetListPageCountAndCurrentLocationFormat" xml:space="preserve">
     <value>Page {0} of {1}</value>
   </data>
+  <data name="SearchAdressConfirm" xml:space="preserve">
+    <value>Do you want to search for new adresses? Note: It will clear all previous selects.</value>
+  </data>
 </root>

@@ -295,6 +295,15 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Do you want to search for new adresses? Note: It will clear all previous selects..
+        /// </summary>
+        public static string SearchAdressConfirm {
+            get {
+                return ResourceManager.GetString("SearchAdressConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Search adresses.
         /// </summary>
         public static string SearchAdresses {
