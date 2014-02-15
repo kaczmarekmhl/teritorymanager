@@ -21,7 +21,8 @@
                 InsertionMode = InsertionMode.Replace,
                 UpdateTargetId = "personList",
                 Url = Url.Action("SearchOnKrak", "SearchAddress", new { id = districtId }),
-                LoadingElementId = "ajaxLoader"
+                LoadingElementId = "ajaxLoader",
+                Confirm = Model.Count != 0?Strings.SearchAdressConfirm:null
             },
             new { id = "searchOnKrak" })
     </div>
