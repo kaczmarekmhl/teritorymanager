@@ -217,6 +217,6 @@
     <value>Strona {0} z {1}</value>
   </data>
   <data name="SearchAdressConfirm" xml:space="preserve">
-    <value>Czy chcesz wyszukać nowe adresy? Uwaga: Spowoduje to usunięcie wszystkich poprzednich zaznaczeń.</value>
+    <value>Czy na pewno chcesz wyszukać nowe adresy? Uwaga: Spowoduje to utratę obecnych zaznaczeń.</value>
   </data>
 </root>
