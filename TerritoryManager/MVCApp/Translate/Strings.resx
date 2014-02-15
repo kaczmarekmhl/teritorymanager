@@ -210,4 +210,10 @@
   <data name="WebPageTitle" xml:space="preserve">
     <value>My districts</value>
   </data>
+  <data name="PagedListLinkToNextPageFormat" xml:space="preserve">
+    <value>Next page</value>
+  </data>
+  <data name="PagetListPageCountAndCurrentLocationFormat" xml:space="preserve">
+    <value>Page {0} of {1}</value>
+  </data>
 </root>

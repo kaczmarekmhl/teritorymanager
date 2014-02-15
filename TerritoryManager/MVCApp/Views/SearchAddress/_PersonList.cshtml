@@ -61,7 +61,19 @@
         }
 
         <div class="pagedList">
-            @Html.PagedListPager(Model, page => Url.Action( "Index", new { Model.First().District.Id, page }), PagedListRenderOptions.MinimalWithPageCountText)
+            @Html.PagedListPager(Model, page => Url.Action( "Index", new { Model.First().District.Id, page }), 
+            new PagedListRenderOptions { 
+                Display = PagedListDisplayMode.IfNeeded, 
+                MaximumPageNumbersToDisplay = 5, 
+                DisplayLinkToIndividualPages = true, 
+                DisplayPageCountAndCurrentLocation = true, 
+                DisplayEllipsesWhenNotShowingAllPageNumbers = false,
+                DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+                DisplayLinkToPreviousPage = PagedListDisplayMode.IfNeeded,
+                PageCountAndCurrentLocationFormat = Strings.PagetListPageCountAndCurrentLocationFormat,    
+                DisplayLinkToLastPage = PagedListDisplayMode.Never,
+                LinkToNextPageFormat = Strings.PagedListLinkToNextPageFormat      
+                } )
         </div>
         
     </div>
