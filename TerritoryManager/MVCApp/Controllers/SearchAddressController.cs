@@ -405,13 +405,14 @@ namespace MVCApp.Controllers
         /// <returns>If given district is partial.</returns>
         private bool IsDistrictPartial(District district)
         {
-            return db.Districts
+            return true;
+            /*return db.Districts
                 .Count(d => d.Id != district.Id
                     &&( d.PostCodeFirst == district.PostCodeFirst
                     || d.PostCodeLast == district.PostCodeFirst
                     || d.PostCodeFirst == district.PostCodeLast
                     || d.PostCodeLast == district.PostCodeLast))
-                    > 0;
+                    > 0;*/
         }
 
         #endregion

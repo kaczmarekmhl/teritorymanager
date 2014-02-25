@@ -12,10 +12,25 @@ namespace MapLibrary
 {
     public class KmlDocument
     {
+        public Document Document 
+        {
+            get
+            {
+                return kmlDocument;
+            }
+
+            private set {}
+        }
+
         private Document kmlDocument;
         private List<Placemark> placemarkList = new List<Placemark>();
 
         private PointInsidePolygon pointInside;
+
+        public KmlDocument()
+        {
+            kmlDocument = Parse("<?xml version=\"1.0\"?><kml xmlns=\"http://earth.google.com/kml/2.2\"><Document></Document></kml>");
+        }
 
         public KmlDocument(string xml)
         {
@@ -27,7 +42,7 @@ namespace MapLibrary
         /// </summary>
         public void AddPlacemark(string name, string description, string longitude, string latitude)
         {
-            double longitudeDouble; 
+            double longitudeDouble;
             double latitudeDouble;
 
             if (!TryParseCoordinates(longitude, latitude, out longitudeDouble, out latitudeDouble))
@@ -42,6 +57,15 @@ namespace MapLibrary
                     Description = new Description { Text = description },
                     Geometry = new Point { Coordinate = new Vector(latitudeDouble, longitudeDouble) }
                 });
+        }
+
+        /// <summary>
+        /// Merges two kml docuements.
+        /// </summary>
+        /// <param name="kmlDocumentToMerge">KmlDocument to merge</param>
+        public void MergeDocuments(KmlDocument kmlDocumentToMerge)
+        {
+            kmlDocument.Merge<Document>(kmlDocumentToMerge.Document);
         }
 
         /// <summary>

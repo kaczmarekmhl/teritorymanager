@@ -219,4 +219,7 @@
   <data name="SearchAdressConfirm" xml:space="preserve">
     <value>Do you want to search for new adresses? Note: It will clear all previous selects.</value>
   </data>
+  <data name="MenuFreeDistricts" xml:space="preserve">
+    <value>Free districts</value>
+  </data>
 </root>
