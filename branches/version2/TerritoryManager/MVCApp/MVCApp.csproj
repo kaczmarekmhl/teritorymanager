@@ -197,6 +197,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DistrictController.cs" />
+    <Compile Include="Controllers\FreeDistrictsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MyDistrictsController.cs" />
     <Compile Include="Controllers\SearchAddressController.cs" />
@@ -354,6 +355,8 @@
     <Content Include="Views\SearchAddress\SelectedAdressesPdf.cshtml" />
     <Content Include="Views\District\Index.cshtml" />
     <Content Include="Views\District\_Map.cshtml" />
+    <Content Include="Views\FreeDistricts\Index.cshtml" />
+    <Content Include="Views\FreeDistricts\_Map.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

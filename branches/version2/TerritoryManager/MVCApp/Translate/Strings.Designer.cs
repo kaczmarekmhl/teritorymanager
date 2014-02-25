@@ -187,6 +187,15 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Free districts.
+        /// </summary>
+        public static string MenuFreeDistricts {
+            get {
+                return ResourceManager.GetString("MenuFreeDistricts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Manage districts.
         /// </summary>
         public static string MenuManageDistricts {

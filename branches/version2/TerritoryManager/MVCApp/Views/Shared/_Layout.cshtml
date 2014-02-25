@@ -42,6 +42,7 @@
                         
                 @if (User.IsInRole("Admin"))
                 {
+                    <li>@Html.ActionLink(Strings.MenuFreeDistricts, "Index", "FreeDistricts")</li>
                     <li>@Html.ActionLink(Strings.MenuManageDistricts, "Index", "DistrictManage")</li>
                     <li>@Html.ActionLink("Add User", "Register", "Account")</li>
                 }
