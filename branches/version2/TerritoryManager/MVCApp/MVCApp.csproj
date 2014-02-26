@@ -202,6 +202,7 @@
     <Compile Include="Controllers\MyDistrictsController.cs" />
     <Compile Include="Controllers\SearchAddressController.cs" />
     <Compile Include="Controllers\DistrictManageController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Crypt\Crypter.cs" />
     <Compile Include="Exceptions\InvalidDistrictException.cs" />
     <Compile Include="Filters\MinItemsSelectedAttribute.cs" />
@@ -357,6 +358,8 @@
     <Content Include="Views\District\_Map.cshtml" />
     <Content Include="Views\FreeDistricts\Index.cshtml" />
     <Content Include="Views\FreeDistricts\_Map.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Users\_List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

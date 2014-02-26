@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace MVCApp.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, Elder")]
     public class FreeDistrictsController : Controller
     {
         #region IndexAction

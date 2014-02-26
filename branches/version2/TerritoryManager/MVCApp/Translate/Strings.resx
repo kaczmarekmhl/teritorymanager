@@ -222,4 +222,7 @@
   <data name="MenuFreeDistricts" xml:space="preserve">
     <value>Free districts</value>
   </data>
+  <data name="MenuUsers" xml:space="preserve">
+    <value>Users</value>
+  </data>
 </root>

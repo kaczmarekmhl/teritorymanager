@@ -66,4 +66,9 @@ namespace MVCApp.Models
 
         #endregion
     }
+
+    public enum SystemRoles
+    {
+        Admin, Elder
+    }
 }
