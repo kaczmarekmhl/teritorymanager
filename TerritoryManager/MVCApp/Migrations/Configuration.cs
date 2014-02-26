@@ -18,27 +18,39 @@ namespace MVCApp.Migrations
         }
 
         protected override void Seed(MVCApp.Models.DistictManagerDb context)
-        {
+        {/*
             MVCApp.MvcApplication.InitializeSimpleMembershipProvider();
             var roles = (SimpleRoleProvider)Roles.Provider;
             var membership = (SimpleMembershipProvider)Membership.Provider;
-            if (!roles.RoleExists("Admin"))
+
+            if (!roles.RoleExists(SystemRoles.Admin.ToString()))
             {
-                roles.CreateRole("Admin");
+                roles.CreateRole(SystemRoles.Admin.ToString());
             }
             if (membership.GetUser("admin", false) == null)
             {
                 membership.CreateUserAndAccount("admin", "Karslunde");
             }
-            
-            /*if (membership.GetUser("testuser", false) == null)
+
+            if (!roles.GetRolesForUser("admin").Contains(SystemRoles.Admin.ToString()))
+            {
+                roles.AddUsersToRoles(new[] { "admin" }, new[] { SystemRoles.Admin.ToString() });
+            }
+
+            if (!roles.RoleExists(SystemRoles.Elder.ToString()))
+            {
+                roles.CreateRole(SystemRoles.Elder.ToString());
+            }
+
+            if (membership.GetUser("kurtp", false) != null && !roles.GetRolesForUser("kurtp").Contains(SystemRoles.Elder.ToString()))
+            {
+                roles.AddUsersToRoles(new[] { "kurtp" }, new[] { SystemRoles.Elder.ToString() });
+            }
+
+            if (membership.GetUser("testuser", false) == null)
             {
                 membership.CreateUserAndAccount("testuser", "Karslunde");
-            }
-            if (!roles.GetRolesForUser("admin").Contains("Admin"))
-            {
-                roles.AddUsersToRoles(new[] { "admin" }, new[] { "Admin" });
-            }
+            } 
 
             var user = context.UserProfiles.First(p => p.UserName == "testuser");
 

@@ -1,0 +1,13 @@
+﻿@model IEnumerable<MVCApp.Models.UserProfile>
+
+@{
+    ViewBag.Title = null;
+}
+
+<h2>@Strings.MenuUsers</h2>
+
+<p>
+    @Html.ActionLink("Register new user", "Register", "Account")
+</p>
+
+@Html.Partial("_List")
