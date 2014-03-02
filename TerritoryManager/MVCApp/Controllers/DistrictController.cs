@@ -41,11 +41,7 @@ namespace MVCApp.Controllers
                 return new HttpNotFoundResult();
             }
 
-            district.LoadExternalDistrictBoundaryKml();
-
-            var kmlDoc = new KmlDocument(district.DistrictBoundaryKml);
-
-            return this.Content(kmlDoc.ToString().ToString(), "text/xml");
+            return this.Content(district.GetDistrictBoundaryKmlDoc().ToString(), "text/xml");
         }
 
         #endregion
