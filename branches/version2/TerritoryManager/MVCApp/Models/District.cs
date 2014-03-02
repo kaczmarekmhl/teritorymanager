@@ -106,6 +106,21 @@ namespace MVCApp.Models
         }
 
         /// <summary>
+        /// Returns KmlDocument with preprocessed district boundary.
+        /// </summary>
+        /// <returns>KmlDocument with district boundary</returns>
+        public KmlDocument GetDistrictBoundaryKmlDoc()
+        {
+            LoadExternalDistrictBoundaryKml();
+
+            var kmlDoc = new KmlDocument(DistrictBoundaryKml);
+            kmlDoc.ChangeBoundaryColor("ff0000ff", "5950c24a");
+            kmlDoc.SetBoundaryName(Name);
+
+            return kmlDoc;
+        }
+
+        /// <summary>
         /// Specifies if district has multiple post codes in it.
         /// </summary>
         public bool IsMultiPostCode()

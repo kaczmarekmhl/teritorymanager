@@ -148,9 +148,7 @@ namespace MVCApp.Controllers
                 return new HttpNotFoundResult();
             }
 
-            district.LoadExternalDistrictBoundaryKml();
-
-            var kmlDoc = new KmlDocument(district.DistrictBoundaryKml);
+            var kmlDoc = district.GetDistrictBoundaryKmlDoc();
 
             var counter = 1;
             string lastStreetAddress = "";
@@ -357,7 +355,7 @@ namespace MVCApp.Controllers
                 .Where(p => p.District.Id == districtId && p.AddedByUserId == WebSecurity.CurrentUserId && p.Selected == true)
                 .ToList();
 
-            return list.OrderBy(p => p.StreetAddress).ToList();
+            return list.OrderBy(p => p.PostCode).ThenBy(p => p.StreetAddress).ToList();
         }
 
         /// <summary>

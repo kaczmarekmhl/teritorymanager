@@ -43,13 +43,10 @@ namespace MVCApp.Controllers
                     }
                 }
 
-                district.LoadExternalDistrictBoundaryKml();
-
-                var districtKmlDoc = new KmlDocument(district.DistrictBoundaryKml);
-                resultKmlDoc.MergeDocuments(districtKmlDoc);
+                resultKmlDoc.MergeDocuments(district.GetDistrictBoundaryKmlDoc());
             }
 
-            return this.Content(resultKmlDoc.GetKmlWithPlacemarks().ToString(), "text/xml");
+            return this.Content(resultKmlDoc.ToString(), "text/xml");
         }
 
         #endregion

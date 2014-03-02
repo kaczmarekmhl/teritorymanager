@@ -40,13 +40,14 @@
             var map_canvas = document.getElementById('map_canvas');
             var map_options = {
                 center: new google.maps.LatLng(56.0000, 12.0000),
-                zoom: 7,
+                zoom: 7                
             }
             var map = new google.maps.Map(map_canvas, map_options)
 
             var myParser = new geoXML3.parser({
                 map: map,
-                singleInfoWindow: true
+                singleInfoWindow: true,
+                polygonOptions: { clickable: false }
             });
             myParser.parse('@Url.Action("SelectedAdressesMapKml", new { id = Model.Id })');
         }

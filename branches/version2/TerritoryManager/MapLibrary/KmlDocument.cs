@@ -108,6 +108,20 @@ namespace MapLibrary
         }
 
         /// <summary>
+        /// Sets boundary name.
+        /// </summary>
+        /// <param name="name">Boundary name</param>
+        public void SetBoundaryName(string name)
+        {
+            var polygon = kmlDocument.Flatten().OfType<Polygon>().First();
+
+            if (polygon != null)
+            {
+                polygon.GetParent<Placemark>().Name = name;
+            }
+        }
+
+        /// <summary>
         /// Detects if point is inside district bounday.
         /// </summary>
         /// <returns>Is point inside polygon</returns>
@@ -134,9 +148,7 @@ namespace MapLibrary
         /// </summary>
         /// <returns>Kml</returns>
         public override string ToString()
-        {
-            ChangeBoundaryColor("ff0000ff", "5950c24a");
-            
+        {         
             var serializer = new Serializer();
             serializer.Serialize(kmlDocument);
             return serializer.Xml;
