@@ -1,0 +1,62 @@
+﻿@model MVCApp.Models.District
+
+
+<div id="reportCompletion">
+
+    @using (Ajax.BeginForm("Create", "DistrictReport", new { type =  MVCApp.Models.DistrictReport.ReportTypes.Complete},
+        new AjaxOptions
+        {
+            HttpMethod = "post",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "reportCompletion"
+        }))
+    {
+        @Html.HiddenFor(d => d.Id);
+                
+                
+        <ul>
+            <li>
+                <div class="editor-field">
+                    @Strings.Date:
+                    <input type="text" id="reportedDate" name="date" />
+                </div>
+
+            </li>
+            <li>
+                <div class="button">
+                    <input type="submit" value="@Strings.Send" />
+                </div>
+            </li>
+
+        </ul>
+    }
+
+    <table>
+        <tr>
+            <th>
+                @Strings.YourCompletions
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.UserReports_DistrictComplete)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+            </tr>
+        }
+    </table>
+
+</div>
+
+<script>
+    $(function () {
+        $('#reportedDate').datepicker({
+            dateFormat: 'mm-dd-yy',
+            minDate: '@Model.UserReport_MinDateForCompletion.ToString(@"MM-dd-yyyy")',
+            maxDate: '@DateTime.Now.ToString(@"MM-dd-yyyy")'
+        });
+    });
+</script>

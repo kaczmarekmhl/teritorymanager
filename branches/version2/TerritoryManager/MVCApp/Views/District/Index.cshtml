@@ -4,11 +4,11 @@
     ViewBag.Title = @Model.Name;
 }
 
-<h2>@Strings.District - @Html.DisplayFor(model => model.Name)</h2>
+<h2>@Strings.District - @Html.DisplayFor(model => model.Number) - @Html.DisplayFor(model => model.Name)</h2>
 
 <div id="districtDetails">
 
-    <fieldset>
+    @*    <fieldset>
         <legend></legend>
 
         <div class="editor-label">
@@ -24,8 +24,8 @@
         <div class="editor-field">
             @Html.DisplayFor(model => model.PostCode)
         </div>
-    </fieldset>
-    
+    </fieldset>*@
+
     <div class="button">
         @Html.ActionLink(Strings.SearchAdresses, "Index", "SearchAddress", new { id = Model.Id }, null)
     </div>
@@ -37,8 +37,28 @@
         </div>
     }
 
+    <h4 id="toggleReportCompletion">
+        <span class="ui-icon ui-icon-arrowthick-2-n-s"></span><a>@Strings.ReportDistrictCompletion!</a>      
+    </h4>
+
+    @Html.Partial("~/Views/DistrictReport/_ReportCompletion.cshtml", Model)
+
 </div>
 
 @Html.Partial("_Map");
 
 <div class="spacer" />
+
+@section scripts {
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#toggleReportCompletion").click(function () {
+                $("#reportCompletion").toggle();
+            });
+        });
+
+    </script>
+
+}

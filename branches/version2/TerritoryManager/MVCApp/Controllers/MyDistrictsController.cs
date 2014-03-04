@@ -19,7 +19,7 @@ namespace MVCApp.Controllers
                 .OrderBy(t => t.PostCodeFirst)
                 .ThenBy(t => t.Name);
 
-            return View(model);
+            return View(model.ToList());
         }
 
         #region Database Access

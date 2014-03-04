@@ -11,19 +11,26 @@
         <th>
             @Html.DisplayNameFor(model => model.PostCode)
         </th>
+        <th>
+            @Strings.DistrictReportTypes_Complete
+        </th>
     </tr>
-
-    @foreach (var item in Model) {
+        @foreach (var item in Model)
+        {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Number)
             </td>
             <td>
-                @Html.ActionLink(item.Name, "Index", "District", new { id=item.Id }, null)
+                @Html.ActionLink(item.Name, "Index", "District", new { id = item.Id }, null)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.PostCode)
             </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserReports_DistrictComplete.FirstOrDefault().Date)
+            </td>
         </tr>
-    }
+        }
+    
 </table>
