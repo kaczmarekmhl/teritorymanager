@@ -39,11 +39,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="itextsharp">
       <HintPath>..\packages\iTextSharp.4.1.2\lib\itextsharp.dll</HintPath>
@@ -197,6 +199,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DistrictController.cs" />
+    <Compile Include="Controllers\DistrictReportController.cs" />
     <Compile Include="Controllers\FreeDistrictsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MyDistrictsController.cs" />
@@ -210,12 +213,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201312271615237_InitialCreate.cs" />
-    <Compile Include="Migrations\201312271615237_InitialCreate.Designer.cs">
-      <DependentUpon>201312271615237_InitialCreate.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\District.cs" />
+    <Compile Include="Models\DistrictReport.cs" />
     <Compile Include="Models\Person.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\DistictManagerDb.cs" />
@@ -293,6 +293,7 @@
     <Content Include="Images\FrontPicture.jpg" />
     <Content Include="Images\Logo.png" />
     <Content Include="Scripts\geoxml3.js" />
+    <Content Include="Scripts\jquery.ui.datepicker-pl.js" />
     <Content Include="Scripts\personSelect.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
@@ -360,6 +361,9 @@
     <Content Include="Views\FreeDistricts\_Map.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Users\_List.cshtml" />
+    <Content Include="Views\DistrictReport\Index.cshtml" />
+    <Content Include="Views\DistrictReport\_ReportCompletion.cshtml" />
+    <Content Include="Views\DistrictReport\_List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -378,9 +382,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201312271615237_InitialCreate.resx">
-      <DependentUpon>201312271615237_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Translate\Strings.pl.resx" />
     <EmbeddedResource Include="Translate\Strings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

@@ -225,4 +225,46 @@
   <data name="MenuUsers" xml:space="preserve">
     <value>Users</value>
   </data>
+  <data name="Approved" xml:space="preserve">
+    <value>Approved</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="DistrictReportType" xml:space="preserve">
+    <value>Report type</value>
+  </data>
+  <data name="DistrictReportTypes_Complete" xml:space="preserve">
+    <value>Completed</value>
+  </data>
+  <data name="DistrictReportTypes_Request" xml:space="preserve">
+    <value>Request</value>
+  </data>
+  <data name="DistrictReportTypes_Return" xml:space="preserve">
+    <value>Return</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>Pending</value>
+  </data>
+  <data name="Rejected" xml:space="preserve">
+    <value>Rejected</value>
+  </data>
+  <data name="State" xml:space="preserve">
+    <value>State</value>
+  </data>
+  <data name="ReportDistrictCompletion" xml:space="preserve">
+    <value>Report district completed</value>
+  </data>
+  <data name="YourCompletions" xml:space="preserve">
+    <value>Your completions</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Send</value>
+  </data>
+  <data name="MenuPendingReports" xml:space="preserve">
+    <value>Pending Reports</value>
+  </data>
+  <data name="Approve" xml:space="preserve">
+    <value>Approve</value>
+  </data>
 </root>

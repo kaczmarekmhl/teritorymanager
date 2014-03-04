@@ -26,19 +26,19 @@ a {
     }
 
 .button a {
-    display:block;
-    float:left;
+    display: block;
+    float: left;
     border: solid 1px;
     font-size: 1.1em;
     font-weight: 600;
-    padding:10px;
+    padding: 10px;
     margin-top: 0.6em;
     margin-bottom: 4px;
-    background-color:#4A6DA7;
-    color:#ffffff;
+    background-color: #4A6DA7;
+    color: #ffffff;
 }
 
-.button a:hover {
+    .button a:hover {
         text-decoration: none;
         background-color: #5f85c5;
     }
@@ -121,8 +121,8 @@ h5, h6 {
 
 header {
     background-color: #373433;
-    min-height:90px;
-    position:relative;
+    min-height: 90px;
+    position: relative;
 }
 
 
@@ -142,7 +142,7 @@ header {
 .main-content {
     background-color: #ffffff;
     min-height: 600px;
-    position:relative;
+    position: relative;
 }
 
 .featured + .main-content {
@@ -169,22 +169,22 @@ div.spacer {
 
 /* Logo */
 #logo {
-    display:block;
-    position:absolute;
-    top:0;
-    width:80px;
-    height:82px;
+    display: block;
+    position: absolute;
+    top: 0;
+    width: 80px;
+    height: 82px;
 }
 
     #logo a {
-        padding:0px;
+        padding: 0px;
     }
 
 /*Front picture*/
 #frontPicture {
-    position:absolute;
-    top:0;
-    right:0;
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 
 /* site title
@@ -210,7 +210,7 @@ div.spacer {
     font-size: .85em;
     margin: 0 0 15px;
     text-align: right;
-    color:#d2d2d2;
+    color: #d2d2d2;
 }
 
     #login a {
@@ -219,7 +219,7 @@ div.spacer {
         margin-right: 3px;
         padding: 3px 4px;
         text-decoration: none;
-        color:#85d2e8;
+        color: #85d2e8;
     }
 
         #login a.username {
@@ -251,7 +251,7 @@ ul#menu {
     margin: 50px 0px 5px 75px;
     padding: 0;
     text-align: right;
-    float:left;
+    float: left;
 }
 
     ul#menu li {
@@ -265,7 +265,7 @@ ul#menu {
             color: #d2d2d2;
             text-decoration: none;
             padding: 7px;
-            padding-bottom:5px;
+            padding-bottom: 5px;
         }
 
             ul#menu li a:hover {
@@ -400,32 +400,64 @@ aside {
 
 /* District details*/
 #districtDetails {
-    float:left;
-    width:34%;
+    float: left;
+    width: 30%;
 }
 
 #districtMap {
     width: 66%;
-    height:550px;
-    float:right;
-    margin-bottom:10px;
+    height: 550px;
+    float: right;
+    margin-bottom: 10px;
 }
 
 /* Free districts*/
-#freeDistrictsMap 
-{
+#freeDistrictsMap {
     width: 100%;
-    height:550px;
+    height: 550px;
 }
+
+/* Report completion */
+#toggleReportCompletion {
+    margin-top: 80px;
+    cursor: pointer;
+}
+
+    #toggleReportCompletion span {
+        display: inline-block;
+    }
+
+#reportCompletion {
+    /*margin-top: 80px;*/
+    width: 250px;
+    display: inline-block;
+}
+
+    #reportCompletion input {
+        width: 85px;
+    }
+
+    #reportCompletion ul {
+        padding: 0;
+        margin: 0;
+        float: left;
+    }
+
+        #reportCompletion ul li {
+            display: inline-block;
+            list-style: none;
+            padding: 5px;
+            margin: 0;
+        }
 
 /*Ajax loader*/
 #ajaxLoader {
-    margin-top:1em;
+    margin-top: 1em;
 }
 
-#ajaxLoader img {
-    vertical-align:middle;
-}
+    #ajaxLoader img {
+        vertical-align: middle;
+    }
 
 /* login page */
 #loginForm {
@@ -570,7 +602,7 @@ td button {
 }
 
 td input[type="checkbox"] {
-    cursor:pointer;
+    cursor: pointer;
 }
 
 /* info and errors */
@@ -707,8 +739,8 @@ tr.pager td {
     background-color: #f0f4fc;
 }
 
-#personList  tr:hover {
-    cursor:pointer;
+#personList tr:hover {
+    cursor: pointer;
 }
 
 /* Google Maps styles
@@ -731,11 +763,11 @@ tr.pager td {
     }
 
     header {
-        min-height:0px;
+        min-height: 0px;
     }
 
     .button a {
-        font-size:90%;
+        font-size: 90%;
     }
 
     /* logo */
@@ -783,7 +815,7 @@ tr.pager td {
         margin: 0;
         padding: 0;
         text-align: center;
-        float:none;
+        float: none;
     }
 
         ul#menu li {
@@ -805,8 +837,8 @@ tr.pager td {
 
     #main-body .content-margin {
         padding: 0px;
-        padding-top:20px;
-        padding-bottom:20px;
+        padding-top: 20px;
+        padding-bottom: 20px;
     }
 
     .content-wrapper {
@@ -820,7 +852,7 @@ tr.pager td {
     }
 
     label {
-        font-size:90%;
+        font-size: 90%;
     }
 
     /* page content */
@@ -892,24 +924,40 @@ tr.pager td {
 
     /*Front picture*/
     #frontPicture {
-        display:none;
+        display: none;
     }
 
     /*logo*/
     #logo {
-        display:none;
+        display: none;
     }
 
     /* District details*/
     #districtDetails {
-        float:none;
-        width:100%;
+        display: inline-block;
+        float: none;
+        width: 100%;
     }
 
     #districtMap {
         width: 100%;
-        height:400px;
-        float:none;
+        height: 400px;
+        float: none;
+    }
+
+    /* Report completion */
+    #reportCompletion {
+        padding: 0;
+        width: auto;
+        float: left;
+    }
+
+    #toggleReportCompletion {
+        margin-top: 60px;
+    }
+
+    div.spacer {
+        clear: right;
     }
 
     /* footer

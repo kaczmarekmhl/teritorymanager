@@ -1,0 +1,59 @@
+﻿@model IEnumerable<MVCApp.Models.DistrictReport>
+
+<div id="ListReports">
+
+    @if (Model != null)
+    {
+        using (Ajax.BeginForm("Approve", "DistrictReport",
+        new AjaxOptions
+        {
+            HttpMethod = "post",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "ListReports"
+        }))
+        { 
+            
+        <input type="submit" value="@Strings.Approve" />
+    
+        <table>
+            <tr>
+                <th></th>
+                <th>
+                    @Html.DisplayNameFor(model => model.District.Number)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.User.UserName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Type)
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <input type="checkbox" name="selectedReportId" value="@item.Id" checked="checked"/>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.District.Number)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.User.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Type)
+                    </td>
+                </tr>
+            }
+
+        </table>
+        }
+    }
+</div>

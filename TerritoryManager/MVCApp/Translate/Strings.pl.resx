@@ -225,4 +225,46 @@
   <data name="MenuUsers" xml:space="preserve">
     <value>Użytkownicy</value>
   </data>
+  <data name="Approved" xml:space="preserve">
+    <value>Zatwierdzony</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Data</value>
+  </data>
+  <data name="DistrictReportType" xml:space="preserve">
+    <value>Zaraportowano</value>
+  </data>
+  <data name="DistrictReportTypes_Complete" xml:space="preserve">
+    <value>Opracowany</value>
+  </data>
+  <data name="DistrictReportTypes_Request" xml:space="preserve">
+    <value>Zażądany</value>
+  </data>
+  <data name="DistrictReportTypes_Return" xml:space="preserve">
+    <value>Zwrócony</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>Oczekujący</value>
+  </data>
+  <data name="Rejected" xml:space="preserve">
+    <value>Odrzucony</value>
+  </data>
+  <data name="State" xml:space="preserve">
+    <value>Stan</value>
+  </data>
+  <data name="ReportDistrictCompletion" xml:space="preserve">
+    <value>Zgłoś Opracowanie Terenu</value>
+  </data>
+  <data name="YourCompletions" xml:space="preserve">
+    <value>Twoje opracowania</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Wyślij</value>
+  </data>
+  <data name="MenuPendingReports" xml:space="preserve">
+    <value>Oczekujące raporty</value>
+  </data>
+  <data name="Approve" xml:space="preserve">
+    <value>Zatwierdź</value>
+  </data>
 </root>

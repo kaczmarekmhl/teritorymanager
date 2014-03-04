@@ -11,6 +11,7 @@ namespace MVCApp
             bundles.Add(new ScriptBundle("~/bundles/tmngr").Include(
                 "~/Scripts/jquery-{version}.js",
                 "~/Scripts/jquery-ui-{version}.js",
+                "~/Scripts/jquery.ui.datepicker-pl.js",
                 "~/Scripts/jquery.unobtrusive*",
                 "~/Scripts/jquery.validate*"
                 ));

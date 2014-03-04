@@ -2,11 +2,13 @@
 using MVCApp.Translate;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebMatrix.WebData;
 
 namespace MVCApp.Models
 {
@@ -23,7 +25,7 @@ namespace MVCApp.Models
         /// Dictrict number.
         /// </summary>
         [StringLength(20)]
-        [Display(ResourceType = typeof(Strings), Name="DistrictNumber")]
+        [Display(ResourceType = typeof(Strings), Name = "DistrictNumber")]
         public string Number { get; set; }
 
         /// <summary>
@@ -32,28 +34,28 @@ namespace MVCApp.Models
         [Required]
         [StringLength(30)]
         [Display(ResourceType = typeof(Strings), Name = "DistrictName")]
-        public string Name { get; set; }  
+        public string Name { get; set; }
 
         /// <summary>
         /// First post code of dictrict.
         /// </summary>
         [Required]
         [Display(ResourceType = typeof(Strings), Name = "DistrictFirstPostCode")]
-        public int PostCodeFirst  { get; set; }
+        public int PostCodeFirst { get; set; }
 
         /// <summary>
         /// Last post code of dictrict
         /// </summary>
         [Display(ResourceType = typeof(Strings), Name = "DistrictLastPostCode")]
         public int? PostCodeLast { get; set; }
-        
+
         /// <summary>
         /// Post code range used for display.
         /// </summary>
         [NotMapped]
         [Display(ResourceType = typeof(Strings), Name = "DistrictPostCode")]
-        public string PostCode 
-        { 
+        public string PostCode
+        {
             get
             {
                 if (!PostCodeLast.HasValue || PostCodeFirst == PostCodeLast.Value)
@@ -66,7 +68,7 @@ namespace MVCApp.Models
                 }
             }
 
-            private set {} 
+            private set { }
         }
 
         /// <summary>
@@ -91,6 +93,86 @@ namespace MVCApp.Models
         [AllowHtml]
         [DataType(DataType.MultilineText)]
         public string DistrictBoundaryKml { get; set; }
+
+        /// <sumary>
+        /// The list of all reports submited for this district by all users.
+        /// </sumary>
+        public virtual ICollection<DistrictReport> DistrictReports { get; set; }
+
+        #endregion
+
+
+        #region User Area
+
+        /// <sumary>
+        /// The list of all district reports submited by the active user.
+        /// </sumary>
+        public List<DistrictReport> GetUserReports(DistrictReport.ReportTypes type)
+        {
+            var districtReports = new List<DistrictReport>();
+
+            if (DistrictReports != null)
+            {
+                districtReports = DistrictReports.
+                    Where(dr => dr.UserId == WebSecurity.CurrentUserId && dr.Type == type).
+                    OrderByDescending(dr => dr.Date)
+                    .ToList();
+            }
+
+            return districtReports;
+        }
+        
+        /// <sumary>
+        /// The list of district complete reports submited by the user.
+        /// The user may have the district not the first time, so we only show the dates that he submited since he last received the district.
+        /// </sumary>
+        [NotMapped]
+        [DataType(DataType.DateTime)]
+        public List<DistrictReport> UserReports_DistrictComplete
+        {
+            get
+            {
+                var reportsComplete = this.GetUserReports(DistrictReport.ReportTypes.Complete);
+                var reportsRequest = this.GetUserReports(DistrictReport.ReportTypes.Request);
+
+                if (reportsRequest.Count > 0)
+                {
+                    var lastReportRequest = reportsRequest.First();
+
+                    reportsComplete = reportsComplete.Where(dr => dr.Date > lastReportRequest.Date).ToList();
+                }
+
+                return reportsComplete;
+            }
+        }
+
+        /// <sumary>
+        /// The min date the user can report the he completed the district.
+        /// </sumary>
+        [NotMapped]
+        public DateTime UserReport_MinDateForCompletion
+        {
+            get
+            {
+                // if this is not the first time the user completed this district
+                if (UserReports_DistrictComplete.Count > 0)
+                {
+                    return UserReports_DistrictComplete.First().Date.AddDays(1);
+                }
+
+
+                var reportsRequest = this.GetUserReports(DistrictReport.ReportTypes.Request);
+
+                // if this is the first time the user completed the district, the data must greater than the date when he received the district.
+                if (reportsRequest.Count > 0)
+                {
+                    return reportsRequest.First().Date.AddDays(1);
+                }
+
+                // to be safe return default value
+                return DateTime.Now.AddYears(-1);
+            }
+        }
 
         #endregion
 

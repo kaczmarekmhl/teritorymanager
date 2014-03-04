@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Web;
 
@@ -17,14 +19,49 @@ namespace MVCApp.Models
     }
 
     public class DistictManagerDb : DbContext, IDistrictManagerDb
-    {   
-        public DistictManagerDb() : base("name=DefaultConnection")
+    {
+        public DistictManagerDb()
+            : base("name=DefaultConnection")
         {
-
+            //this.Configuration.LazyLoadingEnabled = true;
+            //this.Configuration.ProxyCreationEnabled = false;
+            //this.Configuration.ValidateOnSaveEnabled = false;
+            //this.Configuration.AutoDetectChangesEnabled = false;          
         }
+
         public DbSet<UserProfile> UserProfiles { get; set; }
         public DbSet<Person> Persons { get; set; }
         public DbSet<District> Districts { get; set; }
+        public DbSet<DistrictReport> DistrictReports { get; set; }
+
+        protected override DbEntityValidationResult ValidateEntity(DbEntityEntry entityEntry, IDictionary<object, object> items)
+        {
+            
+            if (entityEntry.State == EntityState.Modified && entityEntry.Entity is District)
+            {
+                var district = entityEntry.Entity as District;
+
+                int? oldUserId = entityEntry.GetDatabaseValues().GetValue<int?>("AssignedToUserId");
+                int? newUserId = district.AssignedToUserId;
+
+                if (oldUserId != newUserId)
+                {
+                    if (oldUserId.HasValue)
+                    {
+                        this.DistrictReports.Add(new DistrictReport(district, oldUserId.Value, DistrictReport.ReportTypes.Return));                     
+                    }
+
+                    if (newUserId.HasValue)
+                    {
+                        this.DistrictReports.Add(new DistrictReport(district, newUserId.Value, DistrictReport.ReportTypes.Request));
+                    }                
+                }                                                                                                                   
+            }
+
+            DbEntityValidationResult result = base.ValidateEntity(entityEntry, items);
+
+            return result;
+        }
 
         IQueryable<T> IDistrictManagerDb.Query<T>()
         {
@@ -51,7 +88,7 @@ namespace MVCApp.Models
         }
         void IDistrictManagerDb.SaveChanges()
         {
-            SaveChanges();        
+            SaveChanges();
         }
     }
 }
