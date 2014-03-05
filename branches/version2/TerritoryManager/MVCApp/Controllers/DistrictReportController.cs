@@ -9,12 +9,10 @@ using WebMatrix.WebData;
 
 namespace MVCApp.Controllers
 {
-
     public class DistrictReportController : Controller
     {
 
-        [Authorize]
-        [HttpGet]
+        [Authorize(Roles = "Admin")]
         public ActionResult Index(IEnumerable<DistrictReport> reports = null, DistrictReport.ReportStates state = DistrictReport.ReportStates.Pending)
         {
             if (reports == null)
@@ -36,10 +34,14 @@ namespace MVCApp.Controllers
 
 
         [Authorize]
-        [HttpPost]
         public ActionResult Create(int Id, DateTime date, DistrictReport.ReportTypes type, DistrictReport.ReportStates state = DistrictReport.ReportStates.Pending)
         {
-            var district = db.Districts.Where(dr => dr.Id == Id).Single();
+            var district = db.Districts.Find(Id);
+
+            if (district.AssignedToUserId != WebSecurity.CurrentUserId)
+            {
+                return new HttpNotFoundResult();
+            }
 
             var districtReport = new DistrictReport()
             {

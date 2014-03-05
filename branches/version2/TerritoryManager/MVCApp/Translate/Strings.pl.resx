@@ -267,4 +267,7 @@
   <data name="Approve" xml:space="preserve">
     <value>Zatwierdź</value>
   </data>
+  <data name="DistrictReportCompleteConfirm" xml:space="preserve">
+    <value>Czy na pewno chcesz zgłosić opracowanie terenu {0}?</value>
+  </data>
 </root>

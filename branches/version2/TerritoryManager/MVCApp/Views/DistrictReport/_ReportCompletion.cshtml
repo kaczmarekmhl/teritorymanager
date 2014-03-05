@@ -1,6 +1,5 @@
 ﻿@model MVCApp.Models.District
 
-
 <div id="reportCompletion">
 
     @using (Ajax.BeginForm("Create", "DistrictReport", new { type =  MVCApp.Models.DistrictReport.ReportTypes.Complete},
@@ -8,11 +7,11 @@
         {
             HttpMethod = "post",
             InsertionMode = InsertionMode.Replace,
-            UpdateTargetId = "reportCompletion"
+            UpdateTargetId = "reportCompletion",
+            Confirm = String.Format(Strings.DistrictReportCompleteConfirm, Model.n)
         }))
     {
-        @Html.HiddenFor(d => d.Id);
-                
+        @Html.HiddenFor(d => d.Id);                
                 
         <ul>
             <li>
