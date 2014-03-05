@@ -267,4 +267,7 @@
   <data name="Approve" xml:space="preserve">
     <value>Approve</value>
   </data>
+  <data name="DistrictReportCompleteConfirm" xml:space="preserve">
+    <value>Do you realy want to report completion of {0} district?</value>
+  </data>
 </root>
