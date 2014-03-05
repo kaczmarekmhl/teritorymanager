@@ -213,6 +213,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201312271615237_InitialCreate.cs" />
+    <Compile Include="Migrations\201312271615237_InitialCreate.Designer.cs">
+      <DependentUpon>201312271615237_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201403051501276_DistrictReport.cs" />
+    <Compile Include="Migrations\201403051501276_DistrictReport.Designer.cs">
+      <DependentUpon>201403051501276_DistrictReport.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\District.cs" />
     <Compile Include="Models\DistrictReport.cs" />
@@ -382,6 +390,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Migrations\201403051501276_DistrictReport.resx">
+      <DependentUpon>201403051501276_DistrictReport.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Translate\Strings.pl.resx" />
     <EmbeddedResource Include="Translate\Strings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
