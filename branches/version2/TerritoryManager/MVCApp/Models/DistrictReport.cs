@@ -65,8 +65,8 @@ namespace MVCApp.Models
         /// <summary>
         /// Date of the action.
         /// </summary>
-        [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}")]
-        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:d MMMM yyyy}")]
+        [DataType(DataType.Date)]
         [Display(ResourceType = typeof(Strings), Name = "Date")]
         public DateTime Date { get; set; }
 

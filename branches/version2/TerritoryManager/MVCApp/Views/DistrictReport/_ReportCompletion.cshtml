@@ -1,5 +1,9 @@
 ﻿@model MVCApp.Models.District
 
+@{
+    int counter = Model.UserReports_DistrictComplete.Count;
+}
+
 <div id="reportCompletion">
 
     @using (Ajax.BeginForm("Create", "DistrictReport", new { type =  MVCApp.Models.DistrictReport.ReportTypes.Complete},
@@ -8,34 +12,34 @@
             HttpMethod = "post",
             InsertionMode = InsertionMode.Replace,
             UpdateTargetId = "reportCompletion",
-            Confirm = String.Format(Strings.DistrictReportCompleteConfirm, Model.n)
+            Confirm = String.Format(Strings.DistrictReportCompleteConfirm, Model.Name),
+            LoadingElementId = "ajaxLoader",
+            OnSuccess = "reportCompletionSuccess",
+            OnFailure = "reportCompletionFailure"
         }))
     {
         @Html.HiddenFor(d => d.Id);                
-                
-        <ul>
-            <li>
-                <div class="editor-field">
-                    @Strings.Date:
-                    <input type="text" id="reportedDate" name="date" />
-                </div>
-
-            </li>
-            <li>
-                <div class="button">
-                    <input type="submit" value="@Strings.Send" />
-                </div>
-            </li>
-
-        </ul>
+        
+        <div class="editor-field">
+            @Strings.Date:
+            <input type="text" id="reportedDate" name="date" value="@DateTime.Now.ToString(@"MM-dd-yyyy")"/>
+        </div>
+        <div class="button">
+            <input type="submit" value="@Strings.Send" />
+        </div>
     }
+      
+    <div id="ajaxLoader" style="display:none">
+        <img src="~/Images/ajax-loader.gif">
+    </div>
 
+    @if (Model.UserReports_DistrictComplete.Count > 0)
+    {
     <table>
         <tr>
             <th>
                 @Strings.YourCompletions
             </th>
-            <th></th>
         </tr>
 
         @foreach (var item in Model.UserReports_DistrictComplete)
@@ -47,7 +51,7 @@
             </tr>
         }
     </table>
-
+    }
 </div>
 
 <script>
@@ -55,7 +59,15 @@
         $('#reportedDate').datepicker({
             dateFormat: 'mm-dd-yy',
             minDate: '@Model.UserReport_MinDateForCompletion.ToString(@"MM-dd-yyyy")',
-            maxDate: '@DateTime.Now.ToString(@"MM-dd-yyyy")'
+            maxDate: 0
         });
     });
+
+    function reportCompletionSuccess(ajaxContext) {
+        alert("@Strings.DistrictReportCompleteThanks");
+    }
+
+    function reportCompletionFailure(ajaxContext) {
+        alert("@Strings.UnexpectedErrorOccured");
+    }    
 </script>

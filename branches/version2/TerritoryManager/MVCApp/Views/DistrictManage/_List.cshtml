@@ -9,10 +9,10 @@
             @Html.DisplayNameFor(model => model.First().Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => Model.First().PostCode)
+            @Html.DisplayNameFor(model => Model.First().AssignedTo.UserName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => Model.First().AssignedTo.UserName)
+            @Strings.DistrictReportTypes_Complete
         </th>
         <th>
         <th></th>
@@ -27,10 +27,10 @@
             @Html.ActionLink(item.Name, "Index", "District", new { id=item.Id }, null)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.PostCode)
+            @Html.DisplayFor(modelItem => item.AssignedTo.UserName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.AssignedTo.UserName)
+            @Html.DisplayFor(modelItem => item.Reports_LatestCompleteReport.Date)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id })

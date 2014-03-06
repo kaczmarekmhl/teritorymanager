@@ -270,4 +270,10 @@
   <data name="DistrictReportCompleteConfirm" xml:space="preserve">
     <value>Czy na pewno chcesz zgłosić opracowanie terenu {0}?</value>
   </data>
+  <data name="DistrictReportCompleteThanks" xml:space="preserve">
+    <value>Dziękujemy za Twoje zgłoszenie!</value>
+  </data>
+  <data name="UnexpectedErrorOccured" xml:space="preserve">
+    <value>Wystąpił nieoczekiway błąd :(</value>
+  </data>
 </root>
