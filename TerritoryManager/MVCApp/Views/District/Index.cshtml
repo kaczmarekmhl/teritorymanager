@@ -39,9 +39,9 @@
 
     @if(Model.AssignedToUserId == WebSecurity.CurrentUserId)
     {
-        <h4 id="toggleReportCompletion">
-            <span class="ui-icon ui-icon-arrowthick-2-n-s"></span><a>@Strings.ReportDistrictCompletion!</a>      
-        </h4>
+        <h3 id="toggleReportCompletion">
+            <span>@Strings.ReportDistrictCompletion </span><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
+        </h3>
 
         @Html.Partial("~/Views/DistrictReport/_ReportCompletion.cshtml", Model)
     }

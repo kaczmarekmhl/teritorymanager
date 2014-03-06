@@ -270,4 +270,10 @@
   <data name="DistrictReportCompleteConfirm" xml:space="preserve">
     <value>Do you realy want to report completion of {0} district?</value>
   </data>
+  <data name="DistrictReportCompleteThanks" xml:space="preserve">
+    <value>Thank you for reporting district completion!</value>
+  </data>
+  <data name="UnexpectedErrorOccured" xml:space="preserve">
+    <value>Unexpected error occured :(</value>
+  </data>
 </root>

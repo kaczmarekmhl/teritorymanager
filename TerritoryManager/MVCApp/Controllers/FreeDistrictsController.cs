@@ -28,7 +28,8 @@ namespace MVCApp.Controllers
                 db.Districts
                 .Where(d => d.AssignedToUserId == null)
                 .OrderBy(t => t.PostCodeFirst)
-                .ThenBy(t => t.Name);
+                .ThenBy(t => t.Name)
+                .ToList();
 
             var resultKmlDoc = new KmlDocument();
 

@@ -43,6 +43,13 @@ namespace MVCApp.Controllers
                 return new HttpNotFoundResult();
             }
 
+            var latestCompleteReport = district.Reports_LatestCompleteReport;
+
+            if (latestCompleteReport != null && latestCompleteReport.Date >= date)
+            {
+                return new HttpNotFoundResult();
+            }
+
             var districtReport = new DistrictReport()
             {
                 District = district,

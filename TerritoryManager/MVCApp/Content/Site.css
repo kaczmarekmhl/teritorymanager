@@ -427,28 +427,17 @@ aside {
         display: inline-block;
     }
 
-#reportCompletion {
-    /*margin-top: 80px;*/
-    width: 250px;
-    display: inline-block;
-}
-
     #reportCompletion input {
         width: 85px;
     }
 
-    #reportCompletion ul {
-        padding: 0;
-        margin: 0;
-        float: left;
+    #reportCompletion form div {
+        display:inline-block;
     }
 
-        #reportCompletion ul li {
-            display: inline-block;
-            list-style: none;
-            padding: 5px;
-            margin: 0;
-        }
+    #reportCompletion table {
+        width:100%;
+    }
 
 /*Ajax loader*/
 #ajaxLoader {

@@ -102,47 +102,35 @@ namespace MVCApp.Models
         #endregion
 
 
-        #region User Area
-
-        /// <sumary>
-        /// The list of all district reports submited by the active user.
-        /// </sumary>
-        public List<DistrictReport> GetUserReports(DistrictReport.ReportTypes type)
+        #region DistrictReport Area
+       
+        [NotMapped]
+        public DistrictReport Reports_LatestCompleteReport
         {
-            var districtReports = new List<DistrictReport>();
-
-            if (DistrictReports != null)
+            get
             {
-                districtReports = DistrictReports.
-                    Where(dr => dr.UserId == WebSecurity.CurrentUserId && dr.Type == type).
-                    OrderByDescending(dr => dr.Date)
-                    .ToList();
-            }
+                if (DistrictReports != null)
+                {
+                    return DistrictReports
+                        .Where(dr => dr.Type == DistrictReport.ReportTypes.Complete)
+                        .OrderByDescending(dr => dr.Date)
+                        .FirstOrDefault();
+                }
 
-            return districtReports;
+                return null;
+            }
         }
-        
+
         /// <sumary>
         /// The list of district complete reports submited by the user.
         /// The user may have the district not the first time, so we only show the dates that he submited since he last received the district.
         /// </sumary>
         [NotMapped]
-        [DataType(DataType.DateTime)]
         public List<DistrictReport> UserReports_DistrictComplete
         {
             get
             {
-                var reportsComplete = this.GetUserReports(DistrictReport.ReportTypes.Complete);
-                var reportsRequest = this.GetUserReports(DistrictReport.ReportTypes.Request);
-
-                if (reportsRequest.Count > 0)
-                {
-                    var lastReportRequest = reportsRequest.First();
-
-                    reportsComplete = reportsComplete.Where(dr => dr.Date > lastReportRequest.Date).ToList();
-                }
-
-                return reportsComplete;
+                return GetUserCompleteReportsSinceLastRequest();
             }
         }
 
@@ -159,19 +147,37 @@ namespace MVCApp.Models
                 {
                     return UserReports_DistrictComplete.First().Date.AddDays(1);
                 }
-
-
-                var reportsRequest = this.GetUserReports(DistrictReport.ReportTypes.Request);
-
-                // if this is the first time the user completed the district, the data must greater than the date when he received the district.
-                if (reportsRequest.Count > 0)
-                {
-                    return reportsRequest.First().Date.AddDays(1);
-                }
-
+                
                 // to be safe return default value
                 return DateTime.Now.AddYears(-1);
             }
+        }
+
+        /// <sumary>
+        /// The list of district complete reports submited by the active user since last request.
+        /// </sumary>
+        public List<DistrictReport> GetUserCompleteReportsSinceLastRequest()
+        {
+            var districtReports = new List<DistrictReport>();
+
+            if (DistrictReports != null)
+            {
+                var lastRequest = DistrictReports
+                    .Where(dr =>
+                        dr.UserId == WebSecurity.CurrentUserId 
+                        && dr.Type == DistrictReport.ReportTypes.Request)
+                        .OrderByDescending(dr => dr.Date)
+                        .FirstOrDefault();
+
+                districtReports = DistrictReports.Where(dr =>
+                            dr.UserId == WebSecurity.CurrentUserId
+                            && dr.Type == DistrictReport.ReportTypes.Complete
+                            && (lastRequest == null || dr.Date >= lastRequest.Date))
+                            .OrderByDescending(dr => dr.Date)
+                            .ToList();
+            }
+
+            return districtReports;
         }
 
         #endregion
