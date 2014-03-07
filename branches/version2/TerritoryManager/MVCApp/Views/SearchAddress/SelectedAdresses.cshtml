@@ -1,13 +1,14 @@
 ﻿@model List<MVCApp.Models.Person>
 
 @{
-    ViewBag.Title = @Strings.SearchSelectedAdresses;
     int districtId = ViewBag.DistrictId;
     string districtName = ViewBag.DistrictName;
+
+    ViewBag.Title = String.Format("{0} - {1}", districtName, @Strings.SearchSelectedAdresses);
 }
 
 
-<h2>@Strings.District - @Html.DisplayFor(model => districtName) - @Strings.SearchSelectedAdresses </h2>
+<h2>@ViewBag.Title</h2>
 
     <div class="button">
         @Html.ActionLink(Strings.SearchSaveSelectedAsPdf, "SelectedAdressesPdfFile", new { id = districtId })
