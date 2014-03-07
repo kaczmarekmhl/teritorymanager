@@ -372,6 +372,7 @@
     <Content Include="Views\DistrictReport\Index.cshtml" />
     <Content Include="Views\DistrictReport\_ReportCompletion.cshtml" />
     <Content Include="Views\DistrictReport\_List.cshtml" />
+    <Content Include="Views\DistrictReport\_PendingReportsCount.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
