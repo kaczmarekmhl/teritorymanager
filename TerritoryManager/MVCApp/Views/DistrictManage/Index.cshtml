@@ -1,10 +1,10 @@
 ﻿@model IPagedList<MVCApp.Models.District>
 
 @{
-    ViewBag.Title = "Manage districts";
+    ViewBag.Title = @Strings.MenuManageDistricts;
 }
 
-<h2>@Strings.MenuManageDistricts</h2>
+<h2>@ViewBag.Title</h2>
 
 <div>
 @using (Html.BeginForm("Index", "DistrictManage", FormMethod.Get))

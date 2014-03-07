@@ -1,9 +1,10 @@
 ﻿@model MVCApp.Models.District
 
 @{
+    ViewBag.Title = @Strings.MenuFreeDistricts;
 }
 
-<h2>@Strings.MenuFreeDistricts</h2>
+<h2>@ViewBag.Title</h2>
 
 @Html.Partial("_Map");
 

@@ -4,27 +4,9 @@
     ViewBag.Title = @Model.Name;
 }
 
-<h2>@Strings.District - @Html.DisplayFor(model => model.Number) - @Html.DisplayFor(model => model.Name)</h2>
+<h2>@String.Format("{0} - {1}", Model.Name, Model.Number)</h2>
 
 <div id="districtDetails">
-
-    @*    <fieldset>
-        <legend></legend>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Number)
-        </div>
-        <div class="editor-field">
-            @Html.DisplayFor(model => model.Number)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.PostCode)
-        </div>
-        <div class="editor-field">
-            @Html.DisplayFor(model => model.PostCode)
-        </div>
-    </fieldset>*@
 
     <div class="button">
         @Html.ActionLink(Strings.SearchAdresses, "Index", "SearchAddress", new { id = Model.Id }, null)

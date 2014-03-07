@@ -3,12 +3,12 @@
 @{
     int districtId = ViewBag.DistrictId;
     string districtName = ViewBag.DistrictName;
-    ViewBag.Title = @Strings.SearchAdresses;
+    ViewBag.Title = String.Format("{0} - {1}", districtName, @Strings.SearchAdresses);
 }
 
-<h2>@Strings.District - @Html.DisplayFor(model => districtName) - @Strings.SearchAdresses</h2>
+<h2>@ViewBag.Title</h2>
 
-@if(Model.IsFirstPage)
+@if (Model.IsFirstPage)
 {
 <div>
     <div class="button">
@@ -22,7 +22,7 @@
                 UpdateTargetId = "personList",
                 Url = Url.Action("SearchOnKrak", "SearchAddress", new { id = districtId }),
                 LoadingElementId = "ajaxLoader",
-                Confirm = Model.Count != 0?Strings.SearchAdressConfirm:null,
+                Confirm = Model.Count != 0 ? Strings.SearchAdressConfirm : null,
             },
             new { id = "searchOnKrak" })
     </div>
@@ -39,7 +39,7 @@
     @Html.Partial("_PersonList")
 </div>
 
-@if(Model.Count == 0)
+@if (Model.Count == 0)
 {
 <script>
     $('a#searchOnKrak').click();
