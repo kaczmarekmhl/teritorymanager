@@ -96,37 +96,5 @@ namespace MVCApp.Models
         public DistrictReport()
         {
         }
-
-        [NotMapped]
-        public bool IsPending
-        {
-            get
-            {
-                return this.State == ReportStates.Pending;
-            }
-            set
-            {
-                if (value)
-                {
-                    this.State = ReportStates.Pending;                
-                }
-            }
-        }
-
-        [NotMapped]
-        public bool IsApproved
-        {
-            get
-            {
-                return this.State == ReportStates.Approved;
-            }
-            set
-            {
-                if (value)
-                {
-                    this.State = ReportStates.Approved;
-                }
-            }
-        }
     }
 }

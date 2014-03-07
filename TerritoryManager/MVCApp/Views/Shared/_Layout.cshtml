@@ -48,7 +48,9 @@
                 @if (User.IsInRole("Admin"))
                 {                   
                     <li>@Html.ActionLink(Strings.MenuManageDistricts, "Index", "DistrictManage")</li>
-                    <li>@Html.ActionLink(Strings.MenuPendingReports, "Index", "DistrictReport", new { state =  MVCApp.Models.DistrictReport.ReportStates.Pending}, null)</li>  
+                    <li>
+                        @Html.ActionLink(Strings.MenuPendingReports + Html.Action("PendingReportsCount", "DistrictReport"), "Index", "DistrictReport", new { state =  MVCApp.Models.DistrictReport.ReportStates.Pending}, null)
+                    </li>  
                     <li>@Html.ActionLink(Strings.MenuUsers, "Index", "Users")</li>                    
                 }
             </ul>
