@@ -66,6 +66,8 @@ namespace MVCApp.Controllers
             district.DistrictReports.Add(districtReport);
             db.SaveChanges();
 
+            ViewBag.ReportSuccessful = true;
+
             return PartialView("_ReportCompletion", district);
         }
 

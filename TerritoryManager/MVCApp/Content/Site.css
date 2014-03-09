@@ -398,6 +398,15 @@ aside {
     font-weight: 700;
 }
 
+div.infoMessage {
+    padding-left:0.3em;
+    padding-right:0.3em;
+    padding-top:0.6em;
+    padding-bottom:0.6em;
+
+    background-color:#CAE8CD;
+}
+
 /* District details*/
 #districtDetails {
     float: left;
