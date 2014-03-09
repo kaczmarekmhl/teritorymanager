@@ -14,7 +14,6 @@
             UpdateTargetId = "reportCompletion",
             Confirm = String.Format(Strings.DistrictReportCompleteConfirm, Model.Name),
             LoadingElementId = "ajaxLoader",
-            OnSuccess = "reportCompletionSuccess",
             OnFailure = "reportCompletionFailure"
         }))
     {
@@ -32,6 +31,11 @@
     <div id="ajaxLoader" style="display:none">
         <img src="~/Images/ajax-loader.gif">
     </div>
+
+    @if(ViewBag.ReportSuccessful == true)
+    {
+        <div class="infoMessage">@Strings.DistrictReportCompleteThanks</div>
+    }
 
     @if (Model.UserReports_DistrictComplete.Count > 0)
     {
@@ -62,10 +66,6 @@
             maxDate: 0
         });
     });
-
-    function reportCompletionSuccess(ajaxContext) {
-        alert("@Strings.DistrictReportCompleteThanks");
-    }
 
     function reportCompletionFailure(ajaxContext) {
         alert("@Strings.UnexpectedErrorOccured");
