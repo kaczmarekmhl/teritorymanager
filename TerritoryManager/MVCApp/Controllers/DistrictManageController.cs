@@ -31,6 +31,7 @@ namespace MVCApp.Controllers
 
             return View(model);
         }
+
         #endregion
 
         #region CreateAction
@@ -117,6 +118,26 @@ namespace MVCApp.Controllers
 
             return View(district);
         }
+        #endregion
+
+        #region AutocompleteAction
+
+        public ActionResult Autocomplete(string term)
+        {
+            var model =
+                db.Districts
+                .Where(t => t.Name.StartsWith(term))
+                .OrderBy(t => t.PostCodeFirst)
+                .ThenBy(t => t.Name)
+                .Take(10)
+                .Select( d => new 
+                {
+                    label = d.Name
+                });
+
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+
         #endregion
 
         #region DeleteAction
