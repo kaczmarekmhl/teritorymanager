@@ -2,6 +2,8 @@
 
 @{
     int counter = Model.UserReports_DistrictComplete.Count;
+    string displayDateFormat = @"dd-MM-yyyy";
+    string actualDateFormat = @"MM-dd-yyyy";
 }
 
 <div id="reportCompletion">
@@ -14,14 +16,17 @@
             UpdateTargetId = "reportCompletion",
             Confirm = String.Format(Strings.DistrictReportCompleteConfirm, Model.Name),
             LoadingElementId = "ajaxLoader",
-            OnFailure = "reportCompletionFailure"
+            OnFailure = "reportCompletionFailure",
+            OnBegin = "validateDate"
         }))
     {
-        @Html.HiddenFor(d => d.Id);                
-        
+        @Html.HiddenFor(d => d.Id);
+         
+
         <div class="editor-field">
             @Strings.Date:
-            <input type="text" id="reportedDate" name="date" value="@DateTime.Now.ToString(@"MM-dd-yyyy")"/>
+            <input type="text" id="displayDate" value="@DateTime.Now.ToString(displayDateFormat)"/>
+            <input type="hidden" id="altDate" name="date" value="@DateTime.Now.ToString(actualDateFormat)"/>
         </div>
         <div class="button">
             <input type="submit" value="@Strings.Send" />
@@ -60,14 +65,24 @@
 
 <script>
     $(function () {
-        $('#reportedDate').datepicker({
-            dateFormat: 'mm-dd-yy',
-            minDate: '@Model.UserReport_MinDateForCompletion.ToString(@"MM-dd-yyyy")',
-            maxDate: 0
+        $('#displayDate').datepicker({
+            dateFormat: 'dd-mm-yy',
+            altFormat: "mm-dd-yy",
+            altField: "#altDate",
+            minDate: new Date('@Model.UserReport_MinDateForCompletion.ToString(actualDateFormat)'),
+            maxDate: new Date()
         });
     });
 
     function reportCompletionFailure(ajaxContext) {
         alert("@Strings.UnexpectedErrorOccured");
-    }    
+    }
+
+    function validateDate(ajaxContext) {
+        var inputDate = $("#displayDate").datepicker("getDate");
+        var maxDate = $("#displayDate").datepicker("option", "maxDate");
+        var minDate = $("#displayDate").datepicker("option", "minDate");
+        return inputDate >= minDate && inputDate <= maxDate;
+    }
+
 </script>
