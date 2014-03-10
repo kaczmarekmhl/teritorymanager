@@ -23,10 +23,20 @@
 @section scripts {
     <script>
         $(function () {
+
+            var submitAutocompleteForm = function (event, ui) {
+                var $input = $(this);
+                $input.val(ui.item.label);
+
+                var $form = $input.parents("form:first");
+                $form.submit();
+            }
+
             $("#districtSearch").autocomplete({
                 source: "@Url.Action("Autocomplete")",
                 autoFocus: true,
-                minLength: 1
+                minLength: 1,
+                select: submitAutocompleteForm
             });
         });
     </script>
