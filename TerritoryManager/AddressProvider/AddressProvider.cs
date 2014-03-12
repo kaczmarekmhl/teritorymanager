@@ -17,15 +17,6 @@
         }
 
         /// <summary>
-        /// Returns person list for given post code.
-        /// </summary>
-        protected List<Person> getPersonList(string searchPhrase)
-        {
-            KrakAddressProvider krakAddressProvider = new KrakAddressProvider();
-            return krakAddressProvider.getPersonList(searchPhrase, polishSearchNameList);
-        }
-
-        /// <summary>
         /// Returns person list for given post code range.
         /// </summary>
         public List<Person> getPersonList(int postCodeFirst, int? postCodeLast = null)
@@ -49,8 +40,33 @@
 
             personList = RemovePeopleOutsidePostCodeRange(personList, postCodeFirst, postCodeLast.Value);
             personList = RemovePersonListDuplicates(personList);
-            
+
             return personList;
+        }
+
+        public void UpdatePersonList(List<Person> outdatedPersonList, out List<Person> newPersonList, out List<Person> removedPersonList, int postCodeFirst, int? postCodeLast = null)
+        {
+            // Get up to date person list
+            var updatedPersonList = getPersonList(postCodeFirst, postCodeLast);
+
+            // Get new people list
+            var newPersonSet = new HashSet<Person>(updatedPersonList);
+            newPersonSet.ExceptWith(outdatedPersonList);
+            newPersonList = newPersonSet.ToList();
+
+            // Get removed people list
+            var removedPersonSet = new HashSet<Person>(outdatedPersonList);
+            removedPersonSet.ExceptWith(updatedPersonList);
+            removedPersonList = removedPersonSet.ToList();
+        }
+
+        /// <summary>
+        /// Returns person list for given post code.
+        /// </summary>
+        protected List<Person> getPersonList(string searchPhrase)
+        {
+            KrakAddressProvider krakAddressProvider = new KrakAddressProvider();
+            return krakAddressProvider.getPersonList(searchPhrase, polishSearchNameList);
         }
 
         /// <summary>
@@ -81,7 +97,8 @@
                 return null;
             }
 
-            return personList.GroupBy(p => new { p.Name, p.Lastname, p.StreetAddress, p.PostCode }).Select(grp => grp.First()).ToList<Person>();
+            //Convert to HashSet to remove duplicates
+            return new HashSet<Person>(personList).ToList<Person>();
         }
 
         /// <summary>
