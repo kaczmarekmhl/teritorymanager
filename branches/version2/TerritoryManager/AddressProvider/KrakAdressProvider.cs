@@ -2,6 +2,7 @@
 {
     using AddressSearch.AdressProvider.Entities;
     using HtmlAgilityPack;
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
@@ -12,6 +13,18 @@
 
     class KrakAddressProvider
     {
+        class JsonLocation
+        {
+            internal class JsonLocationCoordinate
+            {
+                public string Lat { get; set; }
+                public string Lon { get; set; }
+            }
+
+            public string HitNumber { get; set; }
+            public JsonLocationCoordinate Coordinate { get; set; }
+        };
+
         public List<Person> getPersonList(string searchPhrase, List<SearchName> searchNameList)
         {
             ConcurrentBag<Person> personList = new ConcurrentBag<Person>();
@@ -26,6 +39,14 @@
                     }
                 }                
             });
+
+            /*foreach (var name in searchNameList)
+            {
+                foreach (var person in getPersonList(searchPhrase, name))
+                {
+                    personList.Add(person);
+                }
+            }*/
 
             return personList.ToList();
         }
@@ -55,67 +76,67 @@
 
         protected List<Person> getPersonListFromHtmlDocument(HtmlDocument doc, SearchName searchName)
         {
-            HtmlNodeCollection vCardNodes = doc.DocumentNode.SelectNodes("//div[@class='hit vcard']");
+            HtmlNodeCollection personNodes = doc.DocumentNode.SelectNodes("//article[contains(@class, 'hit')]");
             List<Person> personList = new List<Person>();
 
-            if (vCardNodes == null)
+            if (personNodes == null)
             {
-                var vCardSingleNode = doc.DocumentNode.SelectSingleNode("//div[@class='person-info vcard column']");
-                var person = parseSinglePerson(vCardSingleNode, searchName);
-
-                if(person != null)
-                {
-                    personList.Add(person);
-                }
-
                 return personList;
             }
 
-            return parsePersonList(vCardNodes, searchName);
+            return parsePersonList(personNodes, searchName);
         }
 
-        protected Person parseSinglePerson(HtmlNode vCardNode, SearchName searchName)
+        protected Person parseSinglePerson(HtmlNode personSingleNode, SearchName searchName)
         {
             int postCode = 0;
 
-            if(vCardNode == null)
+            if(personSingleNode == null)
             {
                 return null;
             }
 
-            //Parse tel
-            HtmlNode tel = vCardNode.SelectSingleNode(".//span[contains(@class,'tel')]/a[@href]");
-            string telReal = tel != null ? tel.GetAttributeValue("href", "").Replace("callto:", "") : "";
+            //Parse location
+            var location = parseLocation(personSingleNode);
+
+            if (location == null)
+            {
+                return null;
+            }
                        
             //Parse post code
-            int.TryParse(getSingleNodeText(".//span[@class='postal-code']", vCardNode), out postCode);            
+            int.TryParse(getSingleNodeText(".//span[@class='hit-postal-code']", personSingleNode), out postCode);
+    
+            //Parse name and last name
+            string nameString = System.Net.WebUtility.HtmlDecode(getSingleNodeText(".//span[@class='hit-name-ellipsis']/a[@href]", personSingleNode));
+            string[] nameParts = nameString.Split(' ');
 
             return new Person
                  {
                      SearchName = searchName,
-                     Name = System.Net.WebUtility.HtmlDecode(getSingleNodeText(".//span[@class='given-name']", vCardNode)),
-                     Lastname = System.Net.WebUtility.HtmlDecode(getSingleNodeText(".//span[@class='family-name']", vCardNode)),
-                     StreetAddress = System.Net.WebUtility.HtmlDecode(getSingleNodeText(".//span[@class='street-address']", vCardNode)),
-                     Locality = getSingleNodeText(".//span[@class='locality']", vCardNode),
+                     Name = String.Join(" ", nameParts.Take<string>(nameParts.Count() - 1)),
+                     Lastname = nameParts.Last<string>(),
+                     StreetAddress = System.Net.WebUtility.HtmlDecode(getSingleNodeText(".//span[@class='hit-street-address']", personSingleNode)),
+                     Locality = getSingleNodeText(".//span[@class='hit-address-locality']", personSingleNode),
                      PostCode = postCode,
-                     TelephoneNumber = telReal,
-                     Latitude = getSingleNodeText(".//span[@class='latitude']", vCardNode),
-                     Longitude = getSingleNodeText(".//span[@class='longitude']", vCardNode)
+                     TelephoneNumber = getSingleNodeText(".//span[contains(@class, 'hit-phone-number')]", personSingleNode),
+                     Latitude = location.Coordinate.Lat,
+                     Longitude = location.Coordinate.Lon
                  };
         }
 
         /// <summary>
         /// Parses krak person list
         /// </summary>
-        protected List<Person> parsePersonList(HtmlNodeCollection vCardNodes, SearchName searchName)
+        protected List<Person> parsePersonList(HtmlNodeCollection personNodes, SearchName searchName)
         {
             List<Person> resultList = new List<Person>();
 
-            foreach (HtmlNode vCardNode in vCardNodes)
+            foreach (HtmlNode singlePersonNode in personNodes)
             {
-                var person = parseSinglePerson(vCardNode, searchName);
+                var person = parseSinglePerson(singlePersonNode, searchName);
 
-                if(person != null)
+                if (person != null)
                 {
                     resultList.Add(person);
                 }
@@ -127,15 +148,15 @@
         protected int getTotalPageFromHtmlDocument(HtmlDocument doc)
         {
             int totalPages = 1;
-            var paginationNode = doc.DocumentNode.SelectSingleNode("//ul[@class='pagination']");
+            var paginationNode = doc.DocumentNode.SelectSingleNode("//ol[@class='page-container']");
 
             if (paginationNode != null)
             {
-                var totalPageNode = paginationNode.SelectSingleNode(".//li[@class='total']/a");
+                var totalPageNode = paginationNode.SelectSingleNode(".//li[contains(@class, 'page-count')]/span");
 
                 if (totalPageNode != null)
                 {
-                    totalPages = int.Parse(totalPageNode.InnerText);
+                    totalPages = int.Parse(totalPageNode.InnerText.Replace("...", ""));
                 }
                 else
                 {
@@ -169,7 +190,13 @@
                 return "Not found";
             }
 
-            return selectedNode.InnerHtml;
+            return selectedNode.InnerHtml.Replace("\n", "");
+        }
+
+        private JsonLocation parseLocation(HtmlNode personSingleNode)
+        {
+            HtmlNode locNode = personSingleNode.SelectSingleNode(".//div[contains(@class, 'hit-address-location')]");
+            return JsonConvert.DeserializeObject<JsonLocation>(locNode.GetAttributeValue("data-coordinate", ""));
         }
 
         private string getKrakPersonHtml(string name, string searchPhrase, int page = 1)
@@ -190,12 +217,12 @@
                     tryCount++;
                     System.Threading.Thread.Sleep(1000);
 
-                    if(tryCount >= 5)
+                    if (tryCount >= 5)
                     {
                         throw webException;
                     }
                 }
-                catch(Exception)
+                catch (Exception)
                 {
                     throw;
                 }
