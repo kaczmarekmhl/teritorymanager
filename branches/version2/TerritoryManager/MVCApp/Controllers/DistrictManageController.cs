@@ -19,17 +19,16 @@ namespace MVCApp.Controllers
         #region IndexAction
 
         public ActionResult Index(int page = 1, string searchTerm = null)
-        {            
-            var model =
-                db.Districts
-                .Where(t => string.IsNullOrEmpty(searchTerm) || t.Number.Equals(searchTerm) || t.Name.Contains(searchTerm))
-                .OrderBy(t => t.PostCodeFirst)
+        {
+            IQueryable<District> model = FilterDistrictQuery(db.Districts, searchTerm);
+
+            var modelPaged = model.OrderBy(t => t.PostCodeFirst)
                 .ThenBy(t => t.Name)
                 .ToPagedList(page, 100);
 
             ViewBag.SearchTerm = searchTerm;
 
-            return View(model);
+            return View(modelPaged);
         }
 
         #endregion
@@ -124,18 +123,44 @@ namespace MVCApp.Controllers
 
         public ActionResult Autocomplete(string term)
         {
-            var model =
-                db.Districts
-                .Where(t => t.Name.StartsWith(term))
+            IQueryable modelJson;
+            DistrictQueryType queryType = DetectDistrictQueryType(term);
+            IQueryable<District> model = FilterDistrictQuery(db.Districts, term)
                 .OrderBy(t => t.PostCodeFirst)
                 .ThenBy(t => t.Name)
-                .Take(10)
-                .Select( d => new 
-                {
-                    label = d.Name
-                });
+                .Take(10);
 
-            return Json(model, JsonRequestBehavior.AllowGet);
+            term = ExtractSearchTerm(term, queryType);
+
+            var prefix = GetDistrictFilterPrefix(queryType);
+
+            switch (queryType)
+            {
+                case DistrictQueryType.Number:
+                    modelJson = model.Select( d => new 
+                    {
+                        label = prefix + d.Number
+                    });
+                    break;
+                case DistrictQueryType.User:
+                    modelJson = db.UserProfiles
+                        .Where(u => u.UserName.StartsWith(term))
+                        .OrderBy(u => u.UserName)
+                        .Take(10)
+                        .Select( u => new 
+                        {
+                            label = prefix + u.UserName
+                        });
+                    break;
+                default:
+                    modelJson = model.Select( d => new 
+                    {
+                        label = d.Name
+                    });
+                    break;
+            }
+
+            return Json(modelJson, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
@@ -171,6 +196,93 @@ namespace MVCApp.Controllers
 
             return RedirectToAction("Index");
         }
+        #endregion
+
+        #region Helpers
+
+        protected enum DistrictQueryType { None, Name, Number, User };
+
+        /// <summary>
+        /// Filters district query.
+        /// </summary>
+        /// <param name="model">District query.</param>
+        /// <param name="searchTerm">Search term.</param>
+        /// <returns>District query with filter.</returns>
+        protected IQueryable<District> FilterDistrictQuery(IQueryable<District> model, string searchTerm)
+        {
+            DistrictQueryType queryType = DetectDistrictQueryType(searchTerm);
+
+            searchTerm = ExtractSearchTerm(searchTerm, queryType);
+
+            if (!String.IsNullOrEmpty(searchTerm))
+            {
+                switch (queryType)
+                {
+                    case DistrictQueryType.Name:
+                        return model.Where(t => t.Name.StartsWith(searchTerm));
+
+                    case DistrictQueryType.Number:
+                        return model = model.Where(t => t.Number.StartsWith(searchTerm));
+
+                    case DistrictQueryType.User:
+                        return model.Where(t => t.AssignedTo.UserName.StartsWith(searchTerm));
+                }
+            }
+            else
+            {
+                if (queryType == DistrictQueryType.User)
+                {
+                    return model.Where(t => t.AssignedTo.Equals(null));
+                }
+            }
+
+            return model;
+        }        
+
+        protected DistrictQueryType DetectDistrictQueryType(string searchTerm)
+        {
+            if (!String.IsNullOrEmpty(searchTerm))
+            {
+                if (searchTerm.StartsWith(GetDistrictFilterPrefix(DistrictQueryType.User)))
+                {
+                    return DistrictQueryType.User;
+                }
+                else if (searchTerm.StartsWith(GetDistrictFilterPrefix(DistrictQueryType.Number)))
+                {
+                    return DistrictQueryType.Number;
+                }
+                else
+                {
+                    return DistrictQueryType.Name;
+                }
+            }
+
+            return DistrictQueryType.None;
+        }
+
+        protected string ExtractSearchTerm(string searchTerm, DistrictQueryType queryType)
+        {
+            if (searchTerm == null)
+            {
+                return null;
+            }
+
+            return searchTerm.Substring(GetDistrictFilterPrefix(queryType).Length);
+        }
+
+        protected string GetDistrictFilterPrefix(DistrictQueryType queryType)
+        {
+            switch (queryType)
+            {
+                case DistrictQueryType.Number:
+                    return "n:";
+                case DistrictQueryType.User:
+                    return "u:";
+                default:
+                    return "";
+            }
+        }
+
         #endregion
 
         #region Database Access

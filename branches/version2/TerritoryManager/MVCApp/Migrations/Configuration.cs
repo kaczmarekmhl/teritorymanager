@@ -47,6 +47,26 @@ namespace MVCApp.Migrations
                 roles.AddUsersToRoles(new[] { "kurtp" }, new[] { SystemRoles.Elder.ToString() });
             }
 
+            if (membership.GetUser("zdzisiekw", false) != null && !roles.GetRolesForUser("zdzisiekw").Contains(SystemRoles.Elder.ToString()))
+            {
+                roles.AddUsersToRoles(new[] { "zdzisiekw" }, new[] { SystemRoles.Elder.ToString() });
+            }            
+
+            if (membership.GetUser("slawekz", false) != null && !roles.GetRolesForUser("slawekz").Contains(SystemRoles.Elder.ToString()))
+            {
+                roles.AddUsersToRoles(new[] { "slawekz" }, new[] { SystemRoles.Elder.ToString() });
+            } 
+            
+            if (membership.GetUser("jakubw", false) != null && !roles.GetRolesForUser("jakubw").Contains(SystemRoles.Elder.ToString()))
+            {
+                roles.AddUsersToRoles(new[] { "jakubw" }, new[] { SystemRoles.Elder.ToString() });
+            } 
+
+            if (membership.GetUser("bartoszs", false) != null && !roles.GetRolesForUser("bartoszs").Contains(SystemRoles.Elder.ToString()))
+            {
+                roles.AddUsersToRoles(new[] { "bartoszs" }, new[] { SystemRoles.Elder.ToString() });
+            }             
+
             if (membership.GetUser("testuser", false) == null)
             {
                 membership.CreateUserAndAccount("testuser", "Karslunde");

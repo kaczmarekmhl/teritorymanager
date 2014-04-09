@@ -407,6 +407,11 @@ div.infoMessage {
     background-color:#CAE8CD;
 }
 
+div.smallNote {
+    color:GrayText;
+    font-size: 0.8em;
+}
+
 /* District details*/
 #districtDetails {
     float: left;
