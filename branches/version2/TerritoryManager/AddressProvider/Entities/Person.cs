@@ -41,7 +41,7 @@
 
         public override int GetHashCode()
         {
-            return Name.GetHashCode() ^ Lastname.GetHashCode() ^ PostCode.GetHashCode() ^ StreetAddress.GetHashCode();
+            return PostCode.GetHashCode() ^ StreetAddress.GetHashCode();
         }
     }
 }
