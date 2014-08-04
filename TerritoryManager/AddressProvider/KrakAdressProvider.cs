@@ -196,6 +196,12 @@
         private JsonLocation parseLocation(HtmlNode personSingleNode)
         {
             HtmlNode locNode = personSingleNode.SelectSingleNode(".//div[contains(@class, 'hit-address-location')]");
+
+            if (locNode == null)
+            {
+                return null;
+            }
+
             return JsonConvert.DeserializeObject<JsonLocation>(locNode.GetAttributeValue("data-coordinate", ""));
         }
 
