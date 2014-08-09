@@ -99,6 +99,11 @@ namespace MVCApp.Models
         /// </sumary>
         public virtual ICollection<DistrictReport> DistrictReports { get; set; }
 
+        /// <summary>
+        /// Congregation that this district belongs to.
+        /// </summary>
+        public virtual Congregation Congregation { get; set; }
+
         #endregion
 
 
@@ -172,7 +177,7 @@ namespace MVCApp.Models
                 districtReports = DistrictReports.Where(dr =>
                             dr.UserId == WebSecurity.CurrentUserId
                             && dr.Type == DistrictReport.ReportTypes.Complete
-                            && (lastRequest == null || dr.Date >= lastRequest.Date))
+                            && (lastRequest == null || dr.Date.Date >= lastRequest.Date.Date))
                             .OrderByDescending(dr => dr.Date)
                             .ToList();
             }

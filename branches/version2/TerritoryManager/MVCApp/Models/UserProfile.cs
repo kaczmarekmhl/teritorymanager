@@ -21,6 +21,11 @@ namespace MVCApp.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
+        /// <summary>
+        /// Congregation that this district belongs to.
+        /// </summary>
+        public virtual Congregation Congregation { get; set; }
+
         #endregion
 
         private SimpleRoleProvider roles = (SimpleRoleProvider)Roles.Provider;

@@ -10,7 +10,7 @@ using WebMatrix.WebData;
 namespace MVCApp.Controllers
 {
     [Authorize]
-    public class DistrictReportController : Controller
+    public class DistrictReportController : BaseController
     {
         #region IndexAction
 
@@ -19,7 +19,7 @@ namespace MVCApp.Controllers
         {
             if (reports == null)
             {
-                reports = db.DistrictReports.
+                reports = SetCurrentCongregationFilter(db.DistrictReports).
                     Where(dr => dr.State == state).
                     OrderBy(dr => dr.District.Number).
                     ThenBy(dr => dr.Date).
@@ -49,7 +49,7 @@ namespace MVCApp.Controllers
 
             var latestCompleteReport = district.Reports_LatestCompleteReport;
 
-            if (latestCompleteReport != null && latestCompleteReport.Date >= date)
+            if (latestCompleteReport != null && latestCompleteReport.Date.Date >= date.Date)
             {
                 return new HttpNotFoundResult();
             }
@@ -101,31 +101,11 @@ namespace MVCApp.Controllers
         [Authorize(Roles = "Admin")]        
         public PartialViewResult PendingReportsCount()
         {
-            ViewBag.PendingReportsCount = db.DistrictReports.Count(dr => dr.State == DistrictReport.ReportStates.Pending);
+            ViewBag.PendingReportsCount = SetCurrentCongregationFilter(db.DistrictReports).Count(dr => dr.State == DistrictReport.ReportStates.Pending);
 
             return PartialView("_PendingReportsCount");
         }
         #endregion
 
-        #region Database Access
-
-        DistictManagerDb db;
-
-        public DistrictReportController()
-        {
-            db = new DistictManagerDb();
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (db != null)
-            {
-                db.Dispose();
-            }
-
-            base.Dispose(disposing);
-        }
-
-        #endregion
     }
 }

@@ -10,7 +10,7 @@ using WebMatrix.WebData;
 namespace MVCApp.Controllers
 {
     [Authorize]
-    public class DistrictController : Controller
+    public class DistrictController : BaseController
     {
         #region IndexAction
 
@@ -50,27 +50,6 @@ namespace MVCApp.Controllers
         public bool LastSearchEnabled(District district)
         {
             return db.Persons.Count(p => p.District.Id == district.Id && p.AddedByUserId == WebSecurity.CurrentUserId) > 0;               
-        }
-
-        #endregion
-
-        #region Database Access
-
-        DistictManagerDb db;
-
-        public DistrictController()
-        {
-            db = new DistictManagerDb();
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (db != null)
-            {
-                db.Dispose();
-            }
-
-            base.Dispose(disposing);
         }
 
         #endregion

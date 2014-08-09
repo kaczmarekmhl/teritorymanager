@@ -9,7 +9,7 @@ using WebMatrix.WebData;
 namespace MVCApp.Controllers
 {
     [Authorize]
-    public class MyDistrictsController : Controller
+    public class MyDistrictsController : BaseController
     {
         public ActionResult Index()
         {
@@ -22,25 +22,5 @@ namespace MVCApp.Controllers
             return View(model.ToList());
         }
 
-        #region Database Access
-
-        DistictManagerDb db;
-
-        public MyDistrictsController()
-        {
-            db = new DistictManagerDb();
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (db != null)
-            {
-                db.Dispose();
-            }
-
-            base.Dispose(disposing);
-        }
-
-        #endregion
     }
 }

@@ -33,6 +33,7 @@ namespace MVCApp.Models
         public DbSet<Person> Persons { get; set; }
         public DbSet<District> Districts { get; set; }
         public DbSet<DistrictReport> DistrictReports { get; set; }
+        public DbSet<Congregation> Congregations { get; set; }
 
         protected override DbEntityValidationResult ValidateEntity(DbEntityEntry entityEntry, IDictionary<object, object> items)
         {

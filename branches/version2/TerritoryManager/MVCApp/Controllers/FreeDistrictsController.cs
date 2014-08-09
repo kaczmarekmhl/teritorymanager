@@ -9,7 +9,7 @@ using System.Web.Mvc;
 namespace MVCApp.Controllers
 {
     [Authorize(Roles = "Admin, Elder")]
-    public class FreeDistrictsController : Controller
+    public class FreeDistrictsController : BaseController
     {
         #region IndexAction
         
@@ -25,7 +25,7 @@ namespace MVCApp.Controllers
         public ActionResult MapKml()
         {
             var freeDistricts =
-                db.Districts
+                SetCurrentCongregationFilter(db.Districts)
                 .Where(d => d.AssignedToUserId == null)
                 .OrderBy(t => t.PostCodeFirst)
                 .ThenBy(t => t.Name)
@@ -52,25 +52,5 @@ namespace MVCApp.Controllers
 
         #endregion
 
-        #region Database Access
-
-        DistictManagerDb db;
-
-        public FreeDistrictsController()
-        {
-            db = new DistictManagerDb();
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (db != null)
-            {
-                db.Dispose();
-            }
-
-            base.Dispose(disposing);
-        }
-
-        #endregion
     }
 }
