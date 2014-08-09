@@ -9,7 +9,7 @@
     using System.Web.Security;
     using WebMatrix.WebData;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<MVCApp.Models.DistictManagerDb>
+    internal class Configuration : DbMigrationsConfiguration<MVCApp.Models.DistictManagerDb>
     {
         public Configuration()
         {
@@ -19,6 +19,8 @@
 
         protected override void Seed(MVCApp.Models.DistictManagerDb context)
         {
+            MVCApp.MvcApplication.InitializeSimpleMembershipProvider();
+            
             AddUsersAndRoles(context);
             AddCongregations(context);
             AddDistricts(context);
@@ -26,7 +28,6 @@
 
         protected void AddUsersAndRoles(MVCApp.Models.DistictManagerDb context)
         {
-            MVCApp.MvcApplication.InitializeSimpleMembershipProvider();
             var roles = (SimpleRoleProvider)Roles.Provider;
             var membership = (SimpleMembershipProvider)Membership.Provider;
 
@@ -109,7 +110,7 @@
                      Name = jutName
                  });
 
-            var congregationCph = context.Congregations.First(c => c.Name.Equals(cphName));
+            /*var congregationCph = context.Congregations.First(c => c.Name.Equals(cphName));
             var congregationJut = context.Congregations.First(c => c.Name.Equals(jutName));
 
             var admin = context.UserProfiles.First(u => u.UserName == "admin");
@@ -120,7 +121,7 @@
 
             context.Entry(admin).State = EntityState.Modified;
             context.Entry(jut).State = EntityState.Modified;
-            context.SaveChanges();
+            context.SaveChanges();*/
         }
 
         protected void AddDistricts(MVCApp.Models.DistictManagerDb context)
