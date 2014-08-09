@@ -1,4 +1,4 @@
-namespace MVCApp.Migrations
+﻿namespace MVCApp.Migrations
 {
     using MVCApp.Models;
     using System;
@@ -18,7 +18,14 @@ namespace MVCApp.Migrations
         }
 
         protected override void Seed(MVCApp.Models.DistictManagerDb context)
-        {/*
+        {
+            AddUsersAndRoles(context);
+            AddCongregations(context);
+            AddDistricts(context);
+        }
+
+        protected void AddUsersAndRoles(MVCApp.Models.DistictManagerDb context)
+        {
             MVCApp.MvcApplication.InitializeSimpleMembershipProvider();
             var roles = (SimpleRoleProvider)Roles.Provider;
             var membership = (SimpleMembershipProvider)Membership.Provider;
@@ -27,6 +34,13 @@ namespace MVCApp.Migrations
             {
                 roles.CreateRole(SystemRoles.Admin.ToString());
             }
+
+            if (!roles.RoleExists(SystemRoles.Elder.ToString()))
+            {
+                roles.CreateRole(SystemRoles.Elder.ToString());
+            }
+
+
             if (membership.GetUser("admin", false) == null)
             {
                 membership.CreateUserAndAccount("admin", "Karslunde");
@@ -36,11 +50,17 @@ namespace MVCApp.Migrations
             {
                 roles.AddUsersToRoles(new[] { "admin" }, new[] { SystemRoles.Admin.ToString() });
             }
-
-            if (!roles.RoleExists(SystemRoles.Elder.ToString()))
+            
+            if (membership.GetUser("jutlandia", false) == null)
             {
-                roles.CreateRole(SystemRoles.Elder.ToString());
+                membership.CreateUserAndAccount("jutlandia", "niebieskipomidor27");
             }
+
+            if (!roles.GetRolesForUser("jutlandia").Contains(SystemRoles.Admin.ToString()))
+            {
+                roles.AddUsersToRoles(new[] { "jutlandia" }, new[] { SystemRoles.Admin.ToString() });
+            }
+            
 
             if (membership.GetUser("kurtp", false) != null && !roles.GetRolesForUser("kurtp").Contains(SystemRoles.Elder.ToString()))
             {
@@ -50,29 +70,63 @@ namespace MVCApp.Migrations
             if (membership.GetUser("zdzisiekw", false) != null && !roles.GetRolesForUser("zdzisiekw").Contains(SystemRoles.Elder.ToString()))
             {
                 roles.AddUsersToRoles(new[] { "zdzisiekw" }, new[] { SystemRoles.Elder.ToString() });
-            }            
+            }
 
             if (membership.GetUser("slawekz", false) != null && !roles.GetRolesForUser("slawekz").Contains(SystemRoles.Elder.ToString()))
             {
                 roles.AddUsersToRoles(new[] { "slawekz" }, new[] { SystemRoles.Elder.ToString() });
-            } 
-            
+            }
+
             if (membership.GetUser("jakubw", false) != null && !roles.GetRolesForUser("jakubw").Contains(SystemRoles.Elder.ToString()))
             {
                 roles.AddUsersToRoles(new[] { "jakubw" }, new[] { SystemRoles.Elder.ToString() });
-            } 
+            }
 
             if (membership.GetUser("bartoszs", false) != null && !roles.GetRolesForUser("bartoszs").Contains(SystemRoles.Elder.ToString()))
             {
                 roles.AddUsersToRoles(new[] { "bartoszs" }, new[] { SystemRoles.Elder.ToString() });
-            }             
+            }
 
             if (membership.GetUser("testuser", false) == null)
             {
                 membership.CreateUserAndAccount("testuser", "Karslunde");
-            } 
+            }
+        }
 
-            var user = context.UserProfiles.First(p => p.UserName == "testuser");
+        protected void AddCongregations(MVCApp.Models.DistictManagerDb context)
+        {
+            var cphName = "København Polsk Menighed";
+            var jutName = "Skanderborg højvang menighed";
+
+            context.Congregations.AddOrUpdate(
+                c => c.Name,
+                new Congregation
+                {
+                    Name = cphName
+                },
+                 new Congregation
+                 {
+                     Name = jutName
+                 });
+
+            var congregationCph = context.Congregations.First(c => c.Name.Equals(cphName));
+            var congregationJut = context.Congregations.First(c => c.Name.Equals(jutName));
+
+            var admin = context.UserProfiles.First(u => u.UserName == "admin");
+            admin.Congregation = congregationCph;
+
+            var jut = context.UserProfiles.First(u => u.UserName == "jutlandia");
+            jut.Congregation = congregationJut;
+
+            context.Entry(admin).State = EntityState.Modified;
+            context.Entry(jut).State = EntityState.Modified;
+            context.SaveChanges();
+        }
+
+        protected void AddDistricts(MVCApp.Models.DistictManagerDb context)
+        {
+            /*
+            var user = context.UserProfiles.First(p => p.UserName == "testuser");            
 
             context.Districts.AddOrUpdate(
                 t => t.Name,
@@ -82,6 +136,7 @@ namespace MVCApp.Migrations
                     Name = "Ballerup",
                     PostCodeFirst = 2750,
                     AssignedTo = user,
+                    Congregation = congregation
                 },
                 new District
                 {
@@ -89,6 +144,7 @@ namespace MVCApp.Migrations
                     Name = "Hedehusene",
                     PostCodeFirst = 2640,
                     AssignedTo = user,
+                    Congregation = congregation
                 },
                 new District
                 {
@@ -96,6 +152,7 @@ namespace MVCApp.Migrations
                     Name = "Ishoj",
                     PostCodeFirst = 2635,
                     AssignedTo = null,
+                    Congregation = congregation
                 },
                 new District
                 {
@@ -103,6 +160,7 @@ namespace MVCApp.Migrations
                     Name = "Osterbro",
                     PostCodeFirst = 2100,
                     AssignedTo = user,
+                    Congregation = congregation
                 },
                 new District
                 {
@@ -110,6 +168,7 @@ namespace MVCApp.Migrations
                     Name = "Norrebro",
                     PostCodeFirst = 2200,
                     AssignedTo = user,
+                    Congregation = congregation
                 },
                 new District
                 {
@@ -117,6 +176,7 @@ namespace MVCApp.Migrations
                     Name = "Kobenhavn S",
                     PostCodeFirst = 2200,
                     AssignedTo = user,
+                    Congregation = congregation
                 },
                 new District
                 {
@@ -133,7 +193,9 @@ namespace MVCApp.Migrations
                     PostCodeFirst = 1551,
                     PostCodeLast = 1600,
                     AssignedTo = user,
-                });*/
+                    Congregation = congregation
+               });
+             */
         }
     }
 }

@@ -11,11 +11,12 @@ using WebMatrix.WebData;
 using MVCApp.Filters;
 using MVCApp.Models;
 using MVCApp.Translate;
+using System.Data.Entity;
 
 namespace MVCApp.Controllers
 {
     [Authorize]
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         //
         // GET: /Account/Login
@@ -80,6 +81,9 @@ namespace MVCApp.Controllers
                 try
                 {
                     WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
+
+                    updateCongregation(model);
+
                     return RedirectToAction("Index", "Home");
                 }
                 catch (MembershipCreateUserException e)
@@ -189,6 +193,14 @@ namespace MVCApp.Controllers
             SetPasswordSuccess
         }
 
+        private void updateCongregation(RegisterModel model)
+        {
+            var user = db.UserProfiles.First(u => u.UserName == model.UserName);
+            user.Congregation = GetCurrentCongregation();
+
+            db.Entry(user).State = EntityState.Modified;
+            db.SaveChanges();
+        }
    
         private static string ErrorCodeToString(MembershipCreateStatus createStatus)
         {
@@ -228,5 +240,6 @@ namespace MVCApp.Controllers
             }
         }
         #endregion
+
     }
 }

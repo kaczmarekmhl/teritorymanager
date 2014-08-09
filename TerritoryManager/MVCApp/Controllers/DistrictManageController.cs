@@ -10,11 +10,12 @@ using System.Data;
 using System.IO;
 using System.Xml;
 using MapLibrary;
+using WebMatrix.WebData;
 
 namespace MVCApp.Controllers
 {
     [Authorize(Roles = "Admin")]
-    public class DistrictManageController : Controller
+    public class DistrictManageController : BaseController
     {
         #region IndexAction
 
@@ -48,6 +49,8 @@ namespace MVCApp.Controllers
             {
                 district.LoadExternalDistrictBoundaryKml();
 
+                district.Congregation = GetCurrentCongregation();
+
                 db.Districts.Add(district);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -73,7 +76,7 @@ namespace MVCApp.Controllers
             district.LoadExternalDistrictBoundaryKml();
 
             //Select dropdown values
-            ViewBag.AssignedToUserId = new SelectList(db.UserProfiles.OrderBy( u => u.UserName), "UserId", "UserName", district.AssignedToUserId);
+            ViewBag.AssignedToUserId = new SelectList(SetCurrentCongregationFilter(db.UserProfiles).OrderBy( u => u.UserName), "UserId", "UserName", district.AssignedToUserId);
 
             return View(district);
         }
@@ -210,8 +213,9 @@ namespace MVCApp.Controllers
         /// <returns>District query with filter.</returns>
         protected IQueryable<District> FilterDistrictQuery(IQueryable<District> model, string searchTerm)
         {
-            DistrictQueryType queryType = DetectDistrictQueryType(searchTerm);
+            model = SetCurrentCongregationFilter(model);
 
+            DistrictQueryType queryType = DetectDistrictQueryType(searchTerm);
             searchTerm = ExtractSearchTerm(searchTerm, queryType);
 
             if (!String.IsNullOrEmpty(searchTerm))
@@ -222,7 +226,7 @@ namespace MVCApp.Controllers
                         return model.Where(t => t.Name.StartsWith(searchTerm));
 
                     case DistrictQueryType.Number:
-                        return model = model.Where(t => t.Number.StartsWith(searchTerm));
+                        return model.Where(t => t.Number.StartsWith(searchTerm));
 
                     case DistrictQueryType.User:
                         return model.Where(t => t.AssignedTo.UserName.StartsWith(searchTerm));
@@ -285,25 +289,5 @@ namespace MVCApp.Controllers
 
         #endregion
 
-        #region Database Access
-
-        DistictManagerDb db;
-
-        public DistrictManageController()
-        {
-            db = new DistictManagerDb();
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (db != null)
-            {
-                db.Dispose();
-            }
-
-            base.Dispose(disposing);
-        }
-
-        #endregion
     }
 }

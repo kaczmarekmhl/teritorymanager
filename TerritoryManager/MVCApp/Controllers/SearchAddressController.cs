@@ -21,7 +21,7 @@ using System.Data.SqlClient;
 namespace MVCApp.Controllers
 {
     [Authorize]
-    public class SearchAddressController : Controller
+    public class SearchAddressController : BaseController
     {
         const int personListPageSize = 100;
 
@@ -414,26 +414,6 @@ namespace MVCApp.Controllers
         }
 
         #endregion
-
-        #region Database Access
-
-        DistictManagerDb db;
-
-        public SearchAddressController()
-        {
-            db = new DistictManagerDb();
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (db != null)
-            {
-                db.Dispose();
-            }
-
-            base.Dispose(disposing);
-        }
-
-        #endregion
+               
     }
 }

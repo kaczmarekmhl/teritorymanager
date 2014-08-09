@@ -8,14 +8,14 @@ using System.Web.Mvc;
 namespace MVCApp.Controllers
 {
     [Authorize(Roles = "Admin")]
-    public class UsersController : Controller
+    public class UsersController : BaseController
     {
         #region IndexAction
 
         public ActionResult Index()
         {
             var model =
-                db.UserProfiles
+                SetCurrentCongregationFilter(db.UserProfiles)
                 .OrderBy(u => u.UserName);
 
             return View(model);
@@ -23,25 +23,5 @@ namespace MVCApp.Controllers
 
         #endregion
 
-        #region Database Access
-
-        DistictManagerDb db;
-
-        public UsersController()
-        {
-            db = new DistictManagerDb();
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (db != null)
-            {
-                db.Dispose();
-            }
-
-            base.Dispose(disposing);
-        }
-
-        #endregion
     }
 }

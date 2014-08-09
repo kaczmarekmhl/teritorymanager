@@ -276,4 +276,10 @@
   <data name="UnexpectedErrorOccured" xml:space="preserve">
     <value>Wystąpił nieoczekiway błąd :(</value>
   </data>
+  <data name="CongregationName" xml:space="preserve">
+    <value>Nazwa</value>
+  </data>
+  <data name="MenuCongregations" xml:space="preserve">
+    <value>Zbory</value>
+  </data>
 </root>
