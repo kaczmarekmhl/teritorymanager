@@ -1,7 +1,6 @@
 ﻿namespace AddressSearch.AdressProvider.Filters.PersonFilter
 {
     using AddressSearch.AdressProvider.Entities;
-    using AddressSearch.AdressProvider.Filters.PersonFilter.Helpers;
     using System;
     using System.Collections;
     using System.Collections.Generic;
