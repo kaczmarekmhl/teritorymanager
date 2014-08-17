@@ -40,10 +40,9 @@
                     <li>@Html.ActionLink(Strings.MenuMyDistricts, "Index", "MyDistricts")</li>
                 }
                 
-                @if (User.IsInRole("Admin") || User.IsInRole("Elder"))
-                {    
-                    <li>@Html.ActionLink(Strings.MenuFreeDistricts, "Index", "FreeDistricts")</li>
-                }
+
+                <li>@Html.ActionLink(Strings.MenuFreeDistricts, "Index", "FreeDistricts")</li>
+                
                     
                 @if (User.IsInRole("Admin"))
                 {                   
