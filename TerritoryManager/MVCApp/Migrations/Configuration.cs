@@ -20,7 +20,7 @@
         protected override void Seed(MVCApp.Models.DistictManagerDb context)
         {
             MVCApp.MvcApplication.InitializeSimpleMembershipProvider();
-            
+
             AddUsersAndRoles(context);
             AddCongregations(context);
             AddDistricts(context);
@@ -51,7 +51,7 @@
             {
                 roles.AddUsersToRoles(new[] { "admin" }, new[] { SystemRoles.Admin.ToString() });
             }
-            
+
             if (membership.GetUser("jutlandia", false) == null)
             {
                 membership.CreateUserAndAccount("jutlandia", "niebieskipomidor27");
@@ -61,7 +61,17 @@
             {
                 roles.AddUsersToRoles(new[] { "jutlandia" }, new[] { SystemRoles.Admin.ToString() });
             }
-            
+
+            if (membership.GetUser("molde", false) == null)
+            {
+                membership.CreateUserAndAccount("molde", "niebieskifiord25");
+            }
+
+            if (!roles.GetRolesForUser("molde").Contains(SystemRoles.Admin.ToString()))
+            {
+                roles.AddUsersToRoles(new[] { "molde" }, new[] { SystemRoles.Admin.ToString() });
+            }
+
 
             if (membership.GetUser("kurtp", false) != null && !roles.GetRolesForUser("kurtp").Contains(SystemRoles.Elder.ToString()))
             {
@@ -98,6 +108,7 @@
         {
             var cphName = "København Polsk Menighed";
             var jutName = "Skanderborg højvang menighed";
+            var moldeName = "Molde menighet";
 
             context.Congregations.AddOrUpdate(
                 c => c.Name,
@@ -108,6 +119,11 @@
                  new Congregation
                  {
                      Name = jutName
+                 },
+                 new Congregation
+                 {
+                     Name = moldeName,
+                     Country = Enums.Country.Norway
                  });
 
             /*var congregationCph = context.Congregations.First(c => c.Name.Equals(cphName));

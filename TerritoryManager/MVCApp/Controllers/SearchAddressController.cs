@@ -17,6 +17,7 @@ using System.IO;
 using System.Text;
 using RazorPDF;
 using System.Data.SqlClient;
+using AddressSearch.AdressProvider.SearchStrategies;
 
 namespace MVCApp.Controllers
 {
@@ -314,8 +315,8 @@ namespace MVCApp.Controllers
         private List<Person> GetPersonListFromKrak(District district)
         {
             var personList = new List<Person>();
-            var addressProvider = new AddressProvider();
-            var personListFromKrak = addressProvider.getPersonList(district.PostCodeFirst, district.PostCodeLast);
+            var addressProvider = GetAddressProviderForDistrict(district);
+            var personListFromKrak = !String.IsNullOrEmpty(district.SearchPhrase)? addressProvider.getPersonList(district.SearchPhrase) : addressProvider.getPersonList(district.PostCodeFirst, district.PostCodeLast);
             
             // Filtering
             var filterList = new List<AddressSearch.AdressProvider.Filters.PersonFilter.IPersonFilter> {
@@ -411,6 +412,30 @@ namespace MVCApp.Controllers
                     || d.PostCodeFirst == district.PostCodeLast
                     || d.PostCodeLast == district.PostCodeLast))
                     > 0;*/
+        }
+
+        /// <summary>
+        /// Returns AddressProvider class for given district based on its country
+        /// </summary>
+        /// <param name="district">District</param>
+        /// <returns>AddressProvider class</returns>
+        private AddressProvider GetAddressProviderForDistrict(District district)
+        {
+            ISearchStrategy searchStrategy;
+
+            switch (district.Congregation.Country)
+            {
+                case Enums.Country.Denmark:
+                    searchStrategy = new KrakDkSearchStrategy();
+                    break;
+                case Enums.Country.Norway:
+                    searchStrategy = new GuleSiderNoSearchStrategy();
+                    break;
+                default:
+                    throw new Exception("Address provider cannot be returned for given country");
+            }
+
+            return new AddressProvider(searchStrategy);
         }
 
         #endregion

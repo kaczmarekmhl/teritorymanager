@@ -1,6 +1,7 @@
 ﻿namespace AddressSearch.AdressProvider.Filters.PersonFilter
 {
     using AddressSearch.AdressProvider.Entities;
+    using AddressSearch.AdressProvider.Filters.PersonFilter.Helpers;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -14,20 +15,12 @@
     {
         public override bool SatisfiesCriteria(Person person)
         {
-            if (!isNameExact(person))
+            if (!NameHelper.isNameExact(person))
             {
                 return base.SatisfiesCriteria(person);
             }
 
             return false;
-        }
-
-        /// <summary>
-        /// Check if given person name is exact match to the search name
-        /// </summary>
-        protected bool isNameExact(Person person)
-        {
-            return person.Name.Contains(person.SearchName.Name);
         }
     }
 }

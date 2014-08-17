@@ -9,37 +9,38 @@
     using AddressSearch.AdressProvider.Filters;
     using AddressSearch.AdressProvider.Filters.PersonFilter;
     using System.IO;
+    using AddressSearch.AdressProvider.SearchStrategies;
 
     class Program
     {
         static void Main(string[] args)
         {
-            var addressProvider = new AddressProvider();
-            /*int postCode;
+            var addressProvider = new AddressProvider(new GuleSiderNoSearchStrategy());
+            string searchPhrase;
 
-            if (!int.TryParse(args[0], out postCode))
+            if (String.IsNullOrEmpty(args[0]))
             {
-                Console.WriteLine("Usage: ConsoleClient [postCode]");
-            }*/
+                Console.WriteLine("Usage: ConsoleClient [searchPhrase]");
+            }
+
+            searchPhrase = args[0];
 
             var start = DateTime.Now;
 
-            List<Person> resultList = addressProvider.getPersonList(2635);
+            List<Person> resultList = addressProvider.getPersonList(searchPhrase);
             
-            Console.WriteLine("Count: " + resultList.Count);
-            Console.WriteLine("Time: " + (DateTime.Now - start).TotalSeconds);
-            Console.ReadKey();
+            Console.WriteLine(searchPhrase + ": count: " + resultList.Count);
+            //Console.WriteLine("Time: " + (DateTime.Now - start).TotalSeconds);
+            //Console.ReadKey();
 
-            /*
-            WriteResultToFile(String.Format("result{0}_Full.txt", "KO"), resultList);
-
+            WriteResultToFile(String.Format("result{0}_Full.txt", searchPhrase), resultList);
             
             var filteredResultList = FilterManager.GetFilteredPersonList(resultList, new List<IPersonFilter> {
                 new ScandinavianSurname(),
             });
-            WriteResultToFile(String.Format("result{0}_Scand.txt", "KO"), filteredResultList);
+            WriteResultToFile(String.Format("result{0}_Scand.txt", searchPhrase), filteredResultList);
 
-            
+            /*
             filteredResultList = FilterManager.GetFilteredPersonList(resultList, new List<IPersonFilter> {
                 new ScandinavianSurname(),
                 new NonPolishSurnameNonExactName()
@@ -61,7 +62,7 @@
 
             fileLines.Add("Count: " + personList.Count);
 
-            foreach (var person in personList)
+            foreach (var person in personList.OrderBy(p => p.Name).ThenBy(p => p.Lastname))
             {
                 fileLines.Add(String.Format("{0}; {1};  Address: {2} \t{3}", person.Name, person.Lastname, person.StreetAddress, person.PostCode));
             }

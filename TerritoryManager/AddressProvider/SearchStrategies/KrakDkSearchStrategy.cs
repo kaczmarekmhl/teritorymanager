@@ -1,4 +1,4 @@
-﻿namespace AddressSearch.AdressProvider
+﻿namespace AddressSearch.AdressProvider.SearchStrategies
 {
     using AddressSearch.AdressProvider.Entities;
     using HtmlAgilityPack;
@@ -11,7 +11,7 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    class KrakAddressProvider
+    public class KrakDkSearchStrategy : ISearchStrategy
     {
         class JsonLocation
         {
@@ -24,6 +24,11 @@
             public string HitNumber { get; set; }
             public JsonLocationCoordinate Coordinate { get; set; }
         };
+
+        /// <summary>
+        /// URL to the Krak.dk web page or similar one.
+        /// </summary>
+        protected String webPageUrl = "http://www.krak.dk/person/resultat/{0}/{1}/{2}";
 
         public List<Person> getPersonList(string searchPhrase, List<SearchName> searchNameList)
         {
@@ -235,9 +240,9 @@
             }
         }
 
-        private string getKrakPersonUrl(string name, string searchPhrase, int page = 1)
+        protected string getKrakPersonUrl(string name, string searchPhrase, int page = 1)
         {
-            return string.Format("http://www.krak.dk/person/resultat/{0}/{1}/{2}", name, searchPhrase, page);
+            return string.Format(webPageUrl, name, searchPhrase, page);
         }
     }
 }

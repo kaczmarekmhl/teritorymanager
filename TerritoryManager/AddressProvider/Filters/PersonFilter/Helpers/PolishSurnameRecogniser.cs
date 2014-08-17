@@ -11,9 +11,12 @@
     /// </summary>
     public class PolishSurnameRecogniser
     {
+        ScandinavianSurname scandinavianSurname;
+
         public PolishSurnameRecogniser()
         {
             LoadSurnameList();
+            scandinavianSurname = new ScandinavianSurname();
         }
 
         /// <summary>
@@ -47,6 +50,8 @@
         /// </summary>
         public bool ContainsPolishSurname(string text, bool skipFirstPart = false)
         {
+            
+
             foreach (var textPart in text.Split(new char[] { ' ', '-' }))
             {
                 if (skipFirstPart)
@@ -62,6 +67,12 @@
 
                 if (polishSurnameSuffix.Any(suffix => textPart.EndsWith(suffix)))
                 {
+                    // Suffixes as 'vik', 'bak', etc. are recognized as polish ones
+                    if (scandinavianSurname.ContainsScandinavianSurname(textPart))
+                    {
+                        return false;
+                    }
+
                     return true;
                 }
             }
@@ -126,11 +137,13 @@
             "bozena",
             "czeslawa",
             "danuta",
+            "dariusz",
             "elzbieta",
             "eugenia",
             "ewelina",
             "genowefa",
             "grazyna",
+            "irena",
             "jadwiga",
             "janina",
             "jolanta",
