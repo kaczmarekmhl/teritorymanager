@@ -151,6 +151,15 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Country.
+        /// </summary>
+        public static string Country {
+            get {
+                return ResourceManager.GetString("Country", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Date.
         /// </summary>
         public static string Date {
@@ -264,6 +273,15 @@ namespace MVCApp.Translate {
         public static string DistrictReportTypes_Return {
             get {
                 return ResourceManager.GetString("DistrictReportTypes_Return", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location name.
+        /// </summary>
+        public static string DistrictSearchPhrase {
+            get {
+                return ResourceManager.GetString("DistrictSearchPhrase", resourceCulture);
             }
         }
         

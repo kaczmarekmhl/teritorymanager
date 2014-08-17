@@ -104,6 +104,13 @@ namespace MVCApp.Models
         /// </summary>
         public virtual Congregation Congregation { get; set; }
 
+        /// <summary>
+        /// Search Phrase
+        /// </summary>
+        [StringLength(30)]
+        [Display(ResourceType = typeof(Strings), Name = "DistrictSearchPhrase")]
+        public string SearchPhrase { get; set; }
+
         #endregion
 
 
@@ -230,6 +237,7 @@ namespace MVCApp.Models
 
         public District()
         {
+            PostCodeFirst = 0;
         }
 
         #endregion

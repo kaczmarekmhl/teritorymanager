@@ -282,4 +282,10 @@
   <data name="MenuCongregations" xml:space="preserve">
     <value>Zbory</value>
   </data>
+  <data name="Country" xml:space="preserve">
+    <value>Kraj</value>
+  </data>
+  <data name="DistrictSearchPhrase" xml:space="preserve">
+    <value>Nazwa obszaru</value>
+  </data>
 </root>

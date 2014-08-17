@@ -47,14 +47,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddressProvider.cs" />
+    <Compile Include="SearchStrategies\GuleSiderNoSearchStrategy.cs" />
+    <Compile Include="SearchStrategies\ISearchStrategy.cs" />
     <Compile Include="Entities\Person.cs" />
     <Compile Include="Entities\SearchName.cs" />
     <Compile Include="Filters\FilterManager.cs" />
+    <Compile Include="Filters\PersonFilter\Helpers\NameHelper.cs" />
     <Compile Include="Filters\PersonFilter\Helpers\PolishSurnameRecogniser.cs" />
     <Compile Include="Filters\PersonFilter\IPersonFilter.cs" />
     <Compile Include="Filters\PersonFilter\NonPolishSurname.cs" />
     <Compile Include="Filters\PersonFilter\NonPolishSurnameNonExactName.cs" />
-    <Compile Include="KrakAdressProvider.cs" />
+    <Compile Include="SearchStrategies\KrakDkSearchStrategy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Filters\PersonFilter\ScandinavianSurname.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -76,6 +79,7 @@
   <ItemGroup>
     <None Include="Resources\TypicalPolishSurnames.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

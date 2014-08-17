@@ -943,7 +943,6 @@
             "Edvardsen",
             "Heide",
             "Lodberg",
-            "Malik",
             "Morsing",
             "Thorhauge",
             "Duelund",
@@ -1073,6 +1072,7 @@
             "Lindgren",
             "Oddershede",
             "Guldbæk",
+            "Vik"
         };
 
 

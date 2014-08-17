@@ -45,6 +45,14 @@
             @Html.ValidationMessageFor(model => model.PostCodeLast)
         </div>
 
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SearchPhrase)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.SearchPhrase)
+            @Html.ValidationMessageFor(model => model.SearchPhrase)
+        </div>
+
         <p>
             <input type="submit" value="Create" />
         </p>

@@ -2,6 +2,7 @@
 {
     using AddressSearch.AdressProvider.Entities;
     using AddressSearch.AdressProvider.Properties;
+    using AddressSearch.AdressProvider.SearchStrategies;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -10,9 +11,12 @@
     public class AddressProvider
     {
         public static List<SearchName> polishSearchNameList;
+        private ISearchStrategy searchStrategy;
 
-        public AddressProvider()
+        public AddressProvider(ISearchStrategy searchStrategy)
         {
+            this.searchStrategy = searchStrategy;
+
             LoadSearchNameList();
         }
 
@@ -44,6 +48,16 @@
             return personList;
         }
 
+        /// <summary>
+        /// Returns person list for given search phrase.
+        /// </summary>
+        public List<Person> getPersonList(string searchPhrase)
+        {
+            var personList = searchStrategy.getPersonList(searchPhrase, polishSearchNameList);
+
+            return RemovePersonListDuplicates(personList);
+        }
+
         public void UpdatePersonList(List<Person> outdatedPersonList, out List<Person> newPersonList, out List<Person> removedPersonList, int postCodeFirst, int? postCodeLast = null)
         {
             // Get up to date person list
@@ -58,16 +72,7 @@
             var removedPersonSet = new HashSet<Person>(outdatedPersonList);
             removedPersonSet.ExceptWith(updatedPersonList);
             removedPersonList = removedPersonSet.ToList();
-        }
-
-        /// <summary>
-        /// Returns person list for given post code.
-        /// </summary>
-        protected List<Person> getPersonList(string searchPhrase)
-        {
-            KrakAddressProvider krakAddressProvider = new KrakAddressProvider();
-            return krakAddressProvider.getPersonList(searchPhrase, polishSearchNameList);
-        }
+        }        
 
         /// <summary>
         /// Removes search results outside post code range.

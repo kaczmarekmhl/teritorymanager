@@ -51,7 +51,6 @@
       <HintPath>..\packages\iTextSharp.4.1.2\lib\itextsharp.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="MySql.Web, Version=6.7.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -210,6 +209,7 @@
     <Compile Include="Controllers\DistrictManageController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Crypt\Crypter.cs" />
+    <Compile Include="Enums\Country.cs" />
     <Compile Include="Exceptions\InvalidDistrictException.cs" />
     <Compile Include="Filters\MinItemsSelectedAttribute.cs" />
     <Compile Include="Filters\LogAttribute.cs" />
@@ -227,6 +227,14 @@
     <Compile Include="Migrations\201408091408495_Congregations.cs" />
     <Compile Include="Migrations\201408091408495_Congregations.Designer.cs">
       <DependentUpon>201408091408495_Congregations.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201408171757587_CongregationCountry.cs" />
+    <Compile Include="Migrations\201408171757587_CongregationCountry.Designer.cs">
+      <DependentUpon>201408171757587_CongregationCountry.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201408171815590_DistrictSearchPhrase.cs" />
+    <Compile Include="Migrations\201408171815590_DistrictSearchPhrase.Designer.cs">
+      <DependentUpon>201408171815590_DistrictSearchPhrase.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Congregation.cs" />
@@ -411,6 +419,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201408091408495_Congregations.resx">
       <DependentUpon>201408091408495_Congregations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201408171757587_CongregationCountry.resx">
+      <DependentUpon>201408171757587_CongregationCountry.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201408171815590_DistrictSearchPhrase.resx">
+      <DependentUpon>201408171815590_DistrictSearchPhrase.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Translate\Strings.pl.resx" />
     <EmbeddedResource Include="Translate\Strings.resx">
