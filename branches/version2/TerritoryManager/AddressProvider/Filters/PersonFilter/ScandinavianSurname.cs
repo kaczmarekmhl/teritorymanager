@@ -14,7 +14,7 @@
     {
         public bool SatisfiesCriteria(Person person)
         {
-            if (person.SearchName.IsMale == true)
+            if (person.SearchName.IsMale == true || ContainsScandinavianUniqueFemaleName(person))
             {
                 if (ContainsScandinavianSurname(person.Lastname))
                 {
@@ -23,6 +23,22 @@
 
                 // Sometimes it happens that surename is in name
                 if (ContainsScandinavianSurname(person.Name))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        ///     Checks if sting contains unique scandinavian female name that will not be polish.
+        /// </summary>
+        public bool ContainsScandinavianUniqueFemaleName(Person person)
+        {
+            foreach (var textPart in person.Name.Split(new char[] { ' ', '-' }))
+            {
+                if (scandinavianUniqueFemaleList.Contains(textPart))
                 {
                     return true;
                 }
@@ -51,6 +67,14 @@
 
             return false;
         }
+
+        protected static HashSet<string> scandinavianUniqueFemaleList = new HashSet<string>
+        {
+            "Eva",
+            "Camilla",
+            "Nina",
+            "Monica"
+        };
 
         public static List<string> scandinavianSurnameSuffix = new List<string>{
             "sen", 
