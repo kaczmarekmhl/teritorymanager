@@ -225,7 +225,7 @@ namespace MVCApp.Models
         /// </summary>
         public bool IsMultiPostCode()
         {
-            return PostCodeLast.HasValue && PostCodeFirst != PostCodeLast.Value;
+            return PostCodeFirst == 0 || PostCodeLast.HasValue && PostCodeFirst != PostCodeLast.Value;
         }
 
         #region Constructors

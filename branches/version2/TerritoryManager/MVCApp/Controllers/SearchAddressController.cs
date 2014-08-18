@@ -394,7 +394,14 @@ namespace MVCApp.Controllers
         /// <returns>File name.</returns>
         private string GetSelectedAdressesFileName(District district)
         {
-            return String.Format("{0}_{1}", district.Name, district.PostCode);
+            if (district.PostCodeFirst == 0)
+            {
+                return district.Name;
+            }
+            else
+            {
+                return String.Format("{0}_{1}", district.Name, district.PostCode);
+            }
         }
 
         /// <summary>

@@ -1,5 +1,9 @@
 ﻿@model IEnumerable<MVCApp.Models.District>
 
+@{
+    ViewBag.NoPostCode = Model.Count(m => m.PostCodeFirst == 0) == Model.Count();
+}
+
 <table>
     <tr>
         <th>
@@ -8,9 +12,12 @@
         <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
+        @if(!ViewBag.NoPostCode)
+        {
         <th>
             @Html.DisplayNameFor(model => model.PostCode)
         </th>
+        }
         <th>
             @Strings.DistrictReportTypes_Complete
         </th>
@@ -24,9 +31,12 @@
             <td>
                 @Html.ActionLink(item.Name, "Index", "District", new { id = item.Id }, null)
             </td>
+            @if(!ViewBag.NoPostCode)
+            {
             <td>
                 @Html.DisplayFor(modelItem => item.PostCode)
             </td>
+            }
             <td>
                 @Html.DisplayFor(modelItem => item.UserReports_DistrictComplete.FirstOrDefault().Date)
             </td>
