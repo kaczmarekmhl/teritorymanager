@@ -36,6 +36,10 @@
     <script type="text/javascript" src="~/Scripts/geoxml3.js"></script>
     <script src="//google-maps-utility-library-v3.googlecode.com/svn/trunk/geolocationmarker/src/geolocationmarker-compiled.js"></script>
     <script>
+
+        var map;
+        var infowindow;
+
         function initialize() {
 
             var map_canvas = document.getElementById('map_canvas');
@@ -43,12 +47,13 @@
                 center: new google.maps.LatLng(56.0000, 12.0000),
                 zoom: 7                
             }
-            var map = new google.maps.Map(map_canvas, map_options)
+            map = new google.maps.Map(map_canvas, map_options)
 
             var myParser = new geoXML3.parser({
                 map: map,
                 singleInfoWindow: true,
-                polygonOptions: { clickable: false }
+                polygonOptions: { clickable: false },
+                createMarker: createMarker
             });
             myParser.parse('@Url.Action("SelectedAdressesMapKml", new { id = Model.Id })');
 
@@ -56,7 +61,47 @@
             if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
                 GeoMarker = new GeolocationMarker();
                 GeoMarker.setMap(map);
-            }                    }
+            }            
+        }
+
+        function createMarker(placemark, doc) {
+            var markerOptions = {
+                title: placemark.name,
+                infocontent: placemark.description,
+                position: placemark.latlng,
+                icon: 'http://chart.apis.google.com/chart?chst=d_map_spin&chld=0.8|0|FE6256|12|_|' + getPersonNumber(placemark.name),
+                map: map
+            };
+
+            // Create the marker on the map
+            var marker = new google.maps.Marker(markerOptions);
+            infowindow = new google.maps.InfoWindow();
+
+            google.maps.event.addListener(marker, 'click', function () {
+                
+                var contentString = '<div id="content">' +
+      '<div id="siteNotice">' +
+      '</div>' +
+      '<h3>' + marker.title + '</h3>' +
+      '<div id="bodyContent">' +
+      '<p>' + marker.infocontent + '</p>' +
+      '</div>' +
+      '</div>';
+
+                infowindow.setContent(contentString);
+                infowindow.open(map, marker);
+            });
+        }
+
+        function getPersonNumber(text) {
+            var matches = text.match(/[0-9]+/);
+
+            if (matches != null) {
+                return matches[0];
+            }
+
+            return '';
+        }
 
         google.maps.event.addDomListener(window, 'load', initialize);
     </script>
