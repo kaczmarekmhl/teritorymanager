@@ -38,11 +38,12 @@
                 @if (User.Identity.IsAuthenticated)
                 {
                     <li>@Html.ActionLink(Strings.MenuMyDistricts, "Index", "MyDistricts")</li>
+                    <li>@Html.ActionLink(Strings.MenuFreeDistricts, "Index", "FreeDistricts")</li>
                 }
-                
-
-                <li>@Html.ActionLink(Strings.MenuFreeDistricts, "Index", "FreeDistricts")</li>
-                
+                else
+                {
+                    <li> </li>
+                }
                     
                 @if (User.IsInRole("Admin"))
                 {                   
