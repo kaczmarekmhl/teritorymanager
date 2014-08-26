@@ -208,13 +208,42 @@ namespace MVCApp.Models
         /// <summary>
         /// Returns KmlDocument with preprocessed district boundary.
         /// </summary>
+        /// <param name="completedDateColor">If true boundary color will be based on last completed date</param>
         /// <returns>KmlDocument with district boundary</returns>
-        public KmlDocument GetDistrictBoundaryKmlDoc()
+        public KmlDocument GetDistrictBoundaryKmlDoc(bool completedDateColor = false)
         {
+            string borderColor = "ff0000ff";
+
+            string greenColor = "5950c24a";
+            string yellowColor = "5919d9ff";
+            string redColor = "594b6fff";
+
             LoadExternalDistrictBoundaryKml();
 
             var kmlDoc = new KmlDocument(DistrictBoundaryKml);
-            kmlDoc.ChangeBoundaryColor("ff0000ff", "5950c24a");
+
+            if (completedDateColor)
+            {
+                var completedReport = Reports_LatestCompleteReport;
+
+                if (completedReport == null || completedReport.Date < DateTime.Now.Date.AddMonths(-12))
+                {
+                    kmlDoc.ChangeBoundaryColor(borderColor, redColor);
+                }
+                else if (completedReport.Date < DateTime.Now.Date.AddMonths(-6))
+                {
+                    kmlDoc.ChangeBoundaryColor(borderColor, yellowColor);
+                }
+                else
+                {
+                    kmlDoc.ChangeBoundaryColor(borderColor, greenColor);
+                }
+            }
+            else
+            {
+                kmlDoc.ChangeBoundaryColor(borderColor, greenColor);
+            }
+
             kmlDoc.SetBoundaryName(Name);
 
             return kmlDoc;
