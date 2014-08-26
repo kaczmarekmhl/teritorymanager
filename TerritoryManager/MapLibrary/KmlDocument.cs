@@ -104,6 +104,35 @@ namespace MapLibrary
             foreach (var element in kmlDocument.Flatten().OfType<PolygonStyle>())
             {
                 element.Color = Color32.Parse(fillColor);
+
+                var styleParent = element.GetParent<Style>();
+
+                if(styleParent != null)
+                {
+                    var newStyleId = styleParent.Id + '_' + fillColor;
+                    
+                    // Fix pair style id
+                    foreach (var pair in kmlDocument.Flatten().OfType<Pair>().Where(p => p.StyleUrl.OriginalString == '#' + styleParent.Id))
+                    {
+                        pair.StyleUrl = new Uri('#' + newStyleId, UriKind.Relative);
+                    }
+
+                    styleParent.Id = newStyleId;
+
+                    // Fix style map style id
+                    foreach (var styleMap in kmlDocument.Flatten().OfType<StyleMapCollection>())
+                    {
+                        var newStyleMapId = styleMap.Id + '_' + fillColor;
+
+                        foreach (var placemark in kmlDocument.Flatten().OfType<Placemark>().Where(p => p.StyleUrl.OriginalString == '#' + styleMap.Id))
+                        {
+                            placemark.StyleUrl = new Uri('#' + newStyleMapId, UriKind.Relative);
+                        }
+
+                        styleMap.Id = newStyleMapId;
+                    }
+
+                }
             }
         }
 

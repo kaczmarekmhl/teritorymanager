@@ -396,6 +396,7 @@
     <Content Include="Views\Congregations\Create.cshtml" />
     <Content Include="Views\Congregations\Edit.cshtml" />
     <Content Include="Views\Congregations\Delete.cshtml" />
+    <Content Include="Views\FreeDistricts\_ReportCompleteMapLegend.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

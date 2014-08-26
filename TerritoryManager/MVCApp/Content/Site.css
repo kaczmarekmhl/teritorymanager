@@ -431,6 +431,38 @@ div.smallNote {
     height: 550px;
 }
 
+div.mapLegend {
+    margin-top:15px;
+}
+
+div.mapLegend ul
+{
+    list-style-type:none;
+    padding-left:0;
+} 
+
+div.mapLegendBox 
+{
+    width:24px; 
+    height:12px; 
+    display:inline-block;
+}
+
+div.mapLegendBoxGreen
+{
+    background:#4AC250;
+}
+
+div.mapLegendBoxYellow 
+{
+    background:#FFD919;
+}
+
+div.mapLegendBoxRed 
+{
+    background:#FF6F4B;
+}
+
 /* Report completion */
 #toggleReportCompletion {
     margin-top: 80px;
@@ -836,6 +868,7 @@ tr.pager td {
 
     .main-content {
         min-height: 300px;
+        min-width: 300px;
     }
 
     #main-body .content-margin {

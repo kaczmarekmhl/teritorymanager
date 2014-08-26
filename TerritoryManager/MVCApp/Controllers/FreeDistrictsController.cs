@@ -44,10 +44,20 @@ namespace MVCApp.Controllers
                     }
                 }
 
-                resultKmlDoc.MergeDocuments(district.GetDistrictBoundaryKmlDoc());
+
+
+                resultKmlDoc.MergeDocuments(district.GetDistrictBoundaryKmlDoc(true));
             }
 
             return this.Content(resultKmlDoc.ToString(), "text/xml");
+        }
+
+        #endregion
+
+        #region Helpers
+        private void ApplyCompletedDateColor(District district)
+        {
+
         }
 
         #endregion
