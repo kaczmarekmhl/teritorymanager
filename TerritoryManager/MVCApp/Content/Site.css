@@ -407,6 +407,15 @@ div.infoMessage {
     background-color:#CAE8CD;
 }
 
+div.warningMessage {
+    padding-left:0.3em;
+    padding-right:0.3em;
+    padding-top:0.8em;
+    padding-bottom:0.8em;
+
+    background-color:#FFDEC1;
+}
+
 div.smallNote {
     color:GrayText;
     font-size: 0.8em;

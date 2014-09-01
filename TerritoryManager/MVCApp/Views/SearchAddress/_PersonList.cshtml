@@ -4,6 +4,11 @@
     int districtId = ViewBag.DistrictId;
 }
 
+@if (ViewBag.NoPersonFound != null && ViewBag.NoPersonFound == true)
+{
+    <div class="warningMessage">@Strings.SearchAdressNoPerson</div>
+}
+
 @if (Model != null && Model.Count() != 0)
 {
     <div>
@@ -11,7 +16,7 @@
         @if (Model.IsFirstPage)
         {
             <h4>@(String.Format(Strings.SearchAddressesCount, Model.TotalItemCount))</h4>
-        }
+        }        
 
         <table>
             <tr>

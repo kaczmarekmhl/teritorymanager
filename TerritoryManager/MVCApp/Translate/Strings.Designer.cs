@@ -484,6 +484,15 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No people have been found during search. This might indicate search engine issues..
+        /// </summary>
+        public static string SearchAdressNoPerson {
+            get {
+                return ResourceManager.GetString("SearchAdressNoPerson", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Display adresses of selected people.
         /// </summary>
         public static string SearchDisplaySelected {
