@@ -89,9 +89,9 @@ namespace MVCApp.Models
         /// <summary>
         /// Kml file with district boundary.
         /// </summary>
-        [Display(Name = "Boundary Kml")]
         [AllowHtml]
         [DataType(DataType.MultilineText)]
+        [Display(ResourceType = typeof(Strings), Name = "DistrictBoundaryKml")]
         public string DistrictBoundaryKml { get; set; }
 
         /// <sumary>
