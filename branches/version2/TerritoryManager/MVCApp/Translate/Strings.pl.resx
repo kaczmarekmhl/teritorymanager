@@ -288,4 +288,7 @@
   <data name="DistrictSearchPhrase" xml:space="preserve">
     <value>Nazwa obszaru</value>
   </data>
+  <data name="SearchAdressNoPerson" xml:space="preserve">
+    <value>Brak znalezionych osób :( Powodem może być awaria wyszukiwarki.</value>
+  </data>
 </root>

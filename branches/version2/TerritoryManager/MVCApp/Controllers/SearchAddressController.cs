@@ -70,6 +70,11 @@ namespace MVCApp.Controllers
             {
                 ViewBag.DistrictId = district.Id;
 
+                if (personList.Count == 0)
+                {
+                    ViewBag.NoPersonFound = true;
+                }
+
                 return PartialView("_PersonList", personList);
             }
             else
@@ -232,9 +237,7 @@ namespace MVCApp.Controllers
         /// <returns>Person list</returns>
         private List<Person> SearchAddressOnKrak(District district)
         {
-            List<Person> personList;
-
-            personList = GetPersonListFromKrak(district);
+            var personList = GetPersonListFromKrak(district);
             personList = PreliminarySelection(personList);
             PersistPersonList(district.Id, personList);
 
