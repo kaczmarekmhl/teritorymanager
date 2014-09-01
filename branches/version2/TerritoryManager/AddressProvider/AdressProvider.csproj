@@ -47,6 +47,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddressProvider.cs" />
+    <Compile Include="CustomWebClient\CookieAwareWebClient.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="SearchStrategies\GuleSiderNoSearchStrategy.cs" />
     <Compile Include="SearchStrategies\ISearchStrategy.cs" />
     <Compile Include="Entities\Person.cs" />

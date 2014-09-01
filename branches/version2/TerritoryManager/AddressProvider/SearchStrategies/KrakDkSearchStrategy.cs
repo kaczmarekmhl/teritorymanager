@@ -1,6 +1,7 @@
 ﻿namespace AddressSearch.AdressProvider.SearchStrategies
 {
     using AddressSearch.AdressProvider.Entities;
+    using AddressSearch.AdressProvider.CustomWebClient;
     using HtmlAgilityPack;
     using Newtonsoft.Json;
     using System;
@@ -25,16 +26,23 @@
             public JsonLocationCoordinate Coordinate { get; set; }
         };
 
+        CookieAwareWebClient webClient;
+
         /// <summary>
         /// URL to the Krak.dk web page or similar one.
         /// </summary>
         protected String webPageUrl = "http://www.krak.dk/person/resultat/{0}/{1}/{2}";
 
-        public List<Person> getPersonList(string searchPhrase, List<SearchName> searchNameList)
+        public KrakDkSearchStrategy()
+        {
+            SetupWebClient();
+        }
+
+        public virtual List<Person> getPersonList(string searchPhrase, List<SearchName> searchNameList)
         {
             ConcurrentBag<Person> personList = new ConcurrentBag<Person>();
 
-            Parallel.ForEach(Partitioner.Create(0, searchNameList.Count), range =>
+            /*Parallel.ForEach(Partitioner.Create(0, searchNameList.Count), range =>
             {
                 for (int i = range.Item1; i < range.Item2; i++)
                 {
@@ -43,20 +51,20 @@
                         personList.Add(person);
                     }
                 }                
-            });
+            });*/
 
-            /*foreach (var name in searchNameList)
+            foreach (var name in searchNameList)
             {
                 foreach (var person in getPersonList(searchPhrase, name))
                 {
                     personList.Add(person);
                 }
-            }*/
+            }
 
             return personList.ToList();
         }
 
-        protected List<Person> getPersonList(string searchPhrase, SearchName searchName)
+        protected virtual List<Person> getPersonList(string searchPhrase, SearchName searchName)
         {
             List<Person> resultList = new List<Person>();
             HtmlDocument doc = new HtmlDocument();
@@ -213,14 +221,12 @@
         private string getKrakPersonHtml(string name, string searchPhrase, int page = 1)
         {
             int tryCount = 0;
-
-            var webClient = new WebClient();
-            webClient.Encoding = Encoding.UTF8;
-
+            
             while (true)
             {
                 try
                 {
+                    SetWebRequestHeaders(webClient);
                     return webClient.DownloadString(getKrakPersonUrl(name, searchPhrase, page));
                 }
                 catch (WebException webException)
@@ -243,6 +249,20 @@
         protected string getKrakPersonUrl(string name, string searchPhrase, int page = 1)
         {
             return string.Format(webPageUrl, name, searchPhrase, page);
+        }
+
+        protected void SetupWebClient()
+        {
+            webClient = new CookieAwareWebClient();
+            webClient.Encoding = Encoding.UTF8;
+        }
+
+        protected void SetWebRequestHeaders(WebClient webclient)
+        {
+            webClient.Headers.Clear();
+            webClient.Headers.Add(HttpRequestHeader.Accept, "text/html, application/xhtml+xml, */*");
+            webClient.Headers.Add(HttpRequestHeader.AcceptLanguage, "en-US,en;q=0.8,da;q=0.5,pl;q=0.3");
+            webClient.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko");
         }
     }
 }
