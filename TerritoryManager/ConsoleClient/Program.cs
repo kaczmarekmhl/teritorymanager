@@ -15,7 +15,7 @@
     {
         static void Main(string[] args)
         {
-            var addressProvider = new AddressProvider(new KrakDkSearchStrategy());
+            var addressProvider = new AddressProvider(new GuleSiderNoSearchStrategy());
             string searchPhrase;
 
             if (String.IsNullOrEmpty(args[0]))
@@ -30,8 +30,8 @@
             List<Person> resultList = addressProvider.getPersonList(searchPhrase);
             
             Console.WriteLine(searchPhrase + ": count: " + resultList.Count);
-            //Console.WriteLine("Time: " + (DateTime.Now - start).TotalSeconds);
-            //Console.ReadKey();
+            Console.WriteLine("Time: " + (DateTime.Now - start).TotalSeconds);
+            Console.ReadKey();
 
             WriteResultToFile(String.Format("result{0}_Full.txt", searchPhrase), resultList);
             
