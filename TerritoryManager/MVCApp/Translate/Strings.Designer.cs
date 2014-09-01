@@ -178,6 +178,15 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Boundary .kml file.
+        /// </summary>
+        public static string DistrictBoundaryKml {
+            get {
+                return ResourceManager.GetString("DistrictBoundaryKml", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to First post code.
         /// </summary>
         public static string DistrictFirstPostCode {

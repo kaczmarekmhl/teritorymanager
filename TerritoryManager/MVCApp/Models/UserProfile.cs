@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MVCApp.Translate;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -16,7 +17,10 @@ namespace MVCApp.Models
 
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+
         public int UserId { get; set; }
+
+        [Display(ResourceType = typeof(Strings), Name = "AccountUserName")]
         public string UserName { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
