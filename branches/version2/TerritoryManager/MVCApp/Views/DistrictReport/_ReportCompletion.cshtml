@@ -72,7 +72,7 @@
             dateFormat: 'dd-mm-yy',
             altFormat: "mm-dd-yy",
             altField: "#altDate",
-            minDate: new Date(@minDate.Year, @minDate.Month, @minDate.Day),
+            minDate: new Date(@minDate.Year, @minDate.Month - 1, @minDate.Day),
             maxDate: new Date()
         });
     });
