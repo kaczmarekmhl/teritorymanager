@@ -250,6 +250,15 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid date given.
+        /// </summary>
+        public static string DistrictReportInvalidDate {
+            get {
+                return ResourceManager.GetString("DistrictReportInvalidDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Report type.
         /// </summary>
         public static string DistrictReportType {
@@ -462,6 +471,15 @@ namespace MVCApp.Translate {
         public static string SearchAddressesCount {
             get {
                 return ResourceManager.GetString("SearchAddressesCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Address map.
+        /// </summary>
+        public static string SearchAddressMap {
+            get {
+                return ResourceManager.GetString("SearchAddressMap", resourceCulture);
             }
         }
         

@@ -4,6 +4,8 @@
     int counter = Model.UserReports_DistrictComplete.Count;
     string displayDateFormat = @"dd-MM-yyyy";
     string actualDateFormat = @"MM-dd-yyyy";
+
+    DateTime minDate = Model.UserReport_MinDateForCompletion.Date;
 }
 
 <div id="reportCompletion">
@@ -64,12 +66,13 @@
 </div>
 
 <script>
+
     $(function () {
         $('#displayDate').datepicker({
             dateFormat: 'dd-mm-yy',
             altFormat: "mm-dd-yy",
             altField: "#altDate",
-            minDate: new Date('@Model.UserReport_MinDateForCompletion.ToString(actualDateFormat)'),
+            minDate: new Date(@minDate.Year, @minDate.Month, @minDate.Day),
             maxDate: new Date()
         });
     });
@@ -82,7 +85,14 @@
         var inputDate = $("#displayDate").datepicker("getDate");
         var maxDate = $("#displayDate").datepicker("option", "maxDate");
         var minDate = $("#displayDate").datepicker("option", "minDate");
-        return inputDate >= minDate && inputDate <= maxDate;
+        
+        var result = inputDate >= minDate && inputDate <= maxDate;
+
+        if (!result) {
+            alert("@Strings.DistrictReportInvalidDate");
+        }
+
+        return result;
     }
 
 </script>

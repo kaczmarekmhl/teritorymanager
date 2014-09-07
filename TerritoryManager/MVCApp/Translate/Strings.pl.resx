@@ -294,4 +294,10 @@
   <data name="DistrictBoundaryKml" xml:space="preserve">
     <value>Plik .kml z granicą terenu</value>
   </data>
+  <data name="SearchAddressMap" xml:space="preserve">
+    <value>Mapa z adresami</value>
+  </data>
+  <data name="DistrictReportInvalidDate" xml:space="preserve">
+    <value>Data opracowania terenu jest nieprawidłowa</value>
+  </data>
 </root>
