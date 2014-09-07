@@ -2,6 +2,7 @@
 
 @{
     Layout = null;
+    ViewBag.Title = Strings.SearchAddressMap;
 }
 
 
@@ -9,7 +10,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>@ViewBag.Title Find Poles in Denmark</title>
+    <title>@Strings.WebPageTitle  - @Model.Name - @ViewBag.Title</title>
     <meta name="viewport" content="width=device-width" />
     <style>
 
@@ -105,6 +106,8 @@
 
         google.maps.event.addDomListener(window, 'load', initialize);
     </script>
+
+    @Html.Partial("_GoogleAnalytics")
 </body>
 </html>
 

@@ -294,4 +294,10 @@
   <data name="DistrictBoundaryKml" xml:space="preserve">
     <value>Boundary .kml file</value>
   </data>
+  <data name="SearchAddressMap" xml:space="preserve">
+    <value>Address map</value>
+  </data>
+  <data name="DistrictReportInvalidDate" xml:space="preserve">
+    <value>Invalid date given</value>
+  </data>
 </root>
