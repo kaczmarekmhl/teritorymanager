@@ -4,20 +4,11 @@
     ViewBag.NoPostCode = Model.Count(m => m.PostCodeFirst == 0) == Model.Count();
 }
 
-<table>
+<table id="myDistricts">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Number)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Name)
-        </th>
-        @if(!ViewBag.NoPostCode)
-        {
-        <th>
-            @Html.DisplayNameFor(model => model.PostCode)
-        </th>
-        }
+        </th>        
         <th>
             @Strings.DistrictReportTypes_Complete
         </th>
@@ -26,17 +17,8 @@
         {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Number)
-            </td>
-            <td>
                 @Html.ActionLink(item.Name, "Index", "District", new { id = item.Id }, null)
             </td>
-            @if(!ViewBag.NoPostCode)
-            {
-            <td>
-                @Html.DisplayFor(modelItem => item.PostCode)
-            </td>
-            }
             <td>
                 @Html.DisplayFor(modelItem => item.UserReports_DistrictComplete.FirstOrDefault().Date)
             </td>
