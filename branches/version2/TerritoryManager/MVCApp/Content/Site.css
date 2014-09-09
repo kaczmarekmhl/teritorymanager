@@ -779,6 +779,10 @@ tr.pager td {
     padding: 0 0.25em 0 0;
 }
 
+#personList {
+    overflow:auto;
+}
+
 #personList tr.selected {
     background-color: #f0f4fc;
 }
@@ -865,6 +869,7 @@ tr.pager td {
         ul#menu li {
             margin: 0;
             padding: 0;
+            padding-bottom:10px;
         }
 
 
@@ -876,7 +881,8 @@ tr.pager td {
     }
 
     .main-content {
-        min-height: 300px;
+        min-height: 400px;
+        min-width: 360px;
         min-width: 300px;
     }
 
@@ -890,6 +896,9 @@ tr.pager td {
         padding-right: 7px;
         padding-left: 7px;
         min-width: 0;
+        -moz-box-shadow: none;
+        -webkit-box-shadow: none;
+        box-shadow: none;
     }
 
     .featured .content-wrapper {
@@ -977,6 +986,12 @@ tr.pager td {
         display: none;
     }
 
+    /* My districts*/
+    #myDistricts td {
+        padding-top: 0.7em;
+        padding-bottom: 0.7em;
+    }
+
     /* District details*/
     #districtDetails {
         display: inline-block;
@@ -1002,7 +1017,7 @@ tr.pager td {
     }
 
     div.spacer {
-        clear: right;
+         /* clear: right;*/
     }
 
     /* footer
@@ -1015,7 +1030,6 @@ tr.pager td {
     footer {
         text-align: center;
         height: auto;
-        padding: 10px 0;
     }
 
         footer p {
