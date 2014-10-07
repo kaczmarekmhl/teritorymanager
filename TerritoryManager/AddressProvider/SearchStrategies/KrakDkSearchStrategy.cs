@@ -11,6 +11,8 @@
     using System.Net;
     using System.Text;
     using System.Threading.Tasks;
+    using System.Net.Sockets;
+    using System.Diagnostics;
 
     public class KrakDkSearchStrategy : ISearchStrategy
     {
@@ -220,28 +222,27 @@
 
         private string getKrakPersonHtml(string name, string searchPhrase, int page = 1)
         {
-            int tryCount = 0;
-            
+            int retryTimes = 5;
+
             while (true)
             {
                 try
-                {
+                { 
                     SetWebRequestHeaders(webClient);
-                    return webClient.DownloadString(getKrakPersonUrl(name, searchPhrase, page));
-                }
-                catch (WebException webException)
-                {
-                    tryCount++;
-                    System.Threading.Thread.Sleep(1000);
 
-                    if (tryCount >= 5)
-                    {
-                        throw webException;
-                    }
+                    Trace.WriteLine(string.Format("Search for url {0}", getKrakPersonUrl(name, searchPhrase, page)));
+
+                    string personHtml = webClient.DownloadString(getKrakPersonUrl(name, searchPhrase, page));
+                    return personHtml;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    throw;
+                    if ((!(ex is SocketException) && !(ex is WebException)) || retryTimes-- <= 0)
+                    {
+                        throw;
+                    }
+
+                    SetupWebClient();
                 }
             }
         }

@@ -11,6 +11,9 @@ namespace AddressSearch.AdressProvider.CustomWebClient
     /// </summary>
     public class CookieAwareWebClient : WebClient
     {
+        // Absolute Uri to proxy servers managed by Azure Traffic Manager
+        private const string proxyAddressAndPath = "http://tereny-proxy.trafficmanager.net/proxy?url=";
+
         //Properties to handle implementing a timeout
         private int? _timeout = null;
         public int? Timeout
@@ -31,7 +34,7 @@ namespace AddressSearch.AdressProvider.CustomWebClient
         //Constructor
         public CookieAwareWebClient()
         {
-            CookieContainer = new CookieContainer();
+           CookieContainer = new CookieContainer();
         }
 
         //Method to handle setting the optional timeout (in milliseconds)
@@ -43,9 +46,13 @@ namespace AddressSearch.AdressProvider.CustomWebClient
         //This handles using and storing the Cookie information as well as managing the Request timeout
         protected override WebRequest GetWebRequest(Uri address)
         {
+            // example of uri that proxy can process: http://tereny-proxy-northeurope.azurewebsites.net/proxy?url=http://www.krak.dk
+            Uri uriProxy = new Uri(proxyAddressAndPath + address.AbsoluteUri);
+
             //Handles the CookieContainer
-            var request = (HttpWebRequest)base.GetWebRequest(address);
+            var request = (HttpWebRequest)base.GetWebRequest(uriProxy);
             request.CookieContainer = CookieContainer;
+            request.KeepAlive = true;
 
             //Sets the Timeout if it exists
             if (_timeout.HasValue)
