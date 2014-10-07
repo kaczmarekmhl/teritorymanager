@@ -12,6 +12,7 @@
     using System.Text;
     using System.Threading.Tasks;
     using System.Net.Sockets;
+    using System.Net.Sockets;
     using System.Diagnostics;
 
     public class KrakDkSearchStrategy : ISearchStrategy
@@ -28,23 +29,16 @@
             public JsonLocationCoordinate Coordinate { get; set; }
         };
 
-        CookieAwareWebClient webClient;
-
         /// <summary>
         /// URL to the Krak.dk web page or similar one.
         /// </summary>
         protected String webPageUrl = "http://www.krak.dk/person/resultat/{0}/{1}/{2}";
 
-        public KrakDkSearchStrategy()
-        {
-            SetupWebClient();
-        }
-
         public virtual List<Person> getPersonList(string searchPhrase, List<SearchName> searchNameList)
         {
             ConcurrentBag<Person> personList = new ConcurrentBag<Person>();
 
-            /*Parallel.ForEach(Partitioner.Create(0, searchNameList.Count), range =>
+            Parallel.ForEach(Partitioner.Create(0, searchNameList.Count), range =>
             {
                 for (int i = range.Item1; i < range.Item2; i++)
                 {
@@ -52,16 +46,16 @@
                     {
                         personList.Add(person);
                     }
-                }                
-            });*/
+                }
+            });
 
-            foreach (var name in searchNameList)
+            /*foreach (var name in searchNameList)
             {
                 foreach (var person in getPersonList(searchPhrase, name))
                 {
                     personList.Add(person);
                 }
-            }
+            }*/
 
             return personList.ToList();
         }
@@ -106,7 +100,7 @@
         {
             int postCode = 0;
 
-            if(personSingleNode == null)
+            if (personSingleNode == null)
             {
                 return null;
             }
@@ -118,10 +112,10 @@
             {
                 return null;
             }
-                       
+
             //Parse post code
             int.TryParse(getSingleNodeText(".//span[@class='hit-postal-code']", personSingleNode), out postCode);
-    
+
             //Parse name and last name
             string nameString = System.Net.WebUtility.HtmlDecode(getSingleNodeText(".//span[@class='hit-name-ellipsis']/a[@href]", personSingleNode));
             string[] nameParts = nameString.Split(' ');
@@ -222,12 +216,14 @@
 
         private string getKrakPersonHtml(string name, string searchPhrase, int page = 1)
         {
-            int retryTimes = 5;
+            int tryCount = 0;
 
             while (true)
             {
                 try
                 { 
+                    var webClient = SetupWebClient();
+
                     SetWebRequestHeaders(webClient);
 
                     Trace.WriteLine(string.Format("Search for url {0}", getKrakPersonUrl(name, searchPhrase, page)));
@@ -237,12 +233,21 @@
                 }
                 catch (Exception ex)
                 {
-                    if ((!(ex is SocketException) && !(ex is WebException)) || retryTimes-- <= 0)
+                    if (ex is WebException || ex is SocketException)
                     {
-                        throw;
-                    }
+                        tryCount++;
+                        System.Threading.Thread.Sleep(100);
 
-                    SetupWebClient();
+                        if (tryCount >= 5)
+                        {
+                            throw ex;
+                        }
+                    }
+                    else
+                    {
+
+                        throw ex;
+                    }
                 }
             }
         }
@@ -252,13 +257,16 @@
             return string.Format(webPageUrl, name, searchPhrase, page);
         }
 
-        protected void SetupWebClient()
+        protected CookieAwareWebClient SetupWebClient()
         {
-            webClient = new CookieAwareWebClient();
+            var webClient = new CookieAwareWebClient();
             webClient.Encoding = Encoding.UTF8;
+            webClient.Proxy = new WebProxy("tereny-proxy-vm.trafficmanager.net:21777");
+
+            return webClient;
         }
 
-        protected void SetWebRequestHeaders(WebClient webclient)
+        protected void SetWebRequestHeaders(WebClient webClient)
         {
             webClient.Headers.Clear();
             webClient.Headers.Add(HttpRequestHeader.Accept, "text/html, application/xhtml+xml, */*");
