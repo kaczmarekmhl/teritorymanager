@@ -300,4 +300,34 @@
   <data name="DistrictReportInvalidDate" xml:space="preserve">
     <value>Data opracowania terenu jest nieprawidłowa</value>
   </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Usuń</value>
+  </data>
+  <data name="DistrictDelete" xml:space="preserve">
+    <value>Usuń teren</value>
+  </data>
+  <data name="DistrictEdit" xml:space="preserve">
+    <value>Edytuj teren</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edytuj</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Zapisz</value>
+  </data>
+  <data name="UserEdit" xml:space="preserve">
+    <value>Edytuj użytkownika</value>
+  </data>
+  <data name="UserDelete" xml:space="preserve">
+    <value>Usuń użytkownika</value>
+  </data>
+  <data name="BackToList" xml:space="preserve">
+    <value>&lt;&lt; Powrót do listy</value>
+  </data>
+  <data name="UserDeleteConfirmation" xml:space="preserve">
+    <value>Czy chcesz usunąć użytkownika {0}?</value>
+  </data>
+  <data name="UserDeleteDistrictsAssigned" xml:space="preserve">
+    <value>Usunięcie użytkownika jest niemożliwe, ponieważ ma on do siebie przypisane tereny.</value>
+  </data>
 </root>

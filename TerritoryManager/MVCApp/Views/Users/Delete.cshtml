@@ -1,0 +1,27 @@
+﻿@model MVCApp.Models.UserProfile
+
+@{
+    ViewBag.Title = @Strings.UserDelete;
+}
+
+<h2>@Strings.UserDelete</h2>
+
+@if (ViewBag.UserHasDistricts)
+{
+    <div class="warningMessage">
+        @Strings.UserDeleteDistrictsAssigned
+    </div>
+}
+else
+{
+    <h3>@String.Format(Strings.UserDeleteConfirmation, Model.UserName)</h3>
+    
+    using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+        <p>
+            <input type="submit" value="@Strings.Delete" />
+        </p>
+    }
+}
+
+<p>@Html.ActionLink(Strings.BackToList, "Index")</p>

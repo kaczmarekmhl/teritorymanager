@@ -84,7 +84,7 @@ namespace MVCApp.Controllers
 
                     updateCongregation(model);
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Users");
                 }
                 catch (MembershipCreateUserException e)
                 {
