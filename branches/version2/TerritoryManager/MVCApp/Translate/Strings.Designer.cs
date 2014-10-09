@@ -142,6 +142,15 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;&lt; Back to list.
+        /// </summary>
+        public static string BackToList {
+            get {
+                return ResourceManager.GetString("BackToList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
         public static string CongregationName {
@@ -169,6 +178,15 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string Delete {
+            get {
+                return ResourceManager.GetString("Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to District.
         /// </summary>
         public static string District {
@@ -183,6 +201,24 @@ namespace MVCApp.Translate {
         public static string DistrictBoundaryKml {
             get {
                 return ResourceManager.GetString("DistrictBoundaryKml", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete district.
+        /// </summary>
+        public static string DistrictDelete {
+            get {
+                return ResourceManager.GetString("DistrictDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit district.
+        /// </summary>
+        public static string DistrictEdit {
+            get {
+                return ResourceManager.GetString("DistrictEdit", resourceCulture);
             }
         }
         
@@ -300,6 +336,15 @@ namespace MVCApp.Translate {
         public static string DistrictSearchPhrase {
             get {
                 return ResourceManager.GetString("DistrictSearchPhrase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        public static string Edit {
+            get {
+                return ResourceManager.GetString("Edit", resourceCulture);
             }
         }
         
@@ -457,6 +502,15 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        public static string Save {
+            get {
+                return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Search.
         /// </summary>
         public static string Search {
@@ -588,6 +642,42 @@ namespace MVCApp.Translate {
         public static string UnexpectedErrorOccured {
             get {
                 return ResourceManager.GetString("UnexpectedErrorOccured", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete user.
+        /// </summary>
+        public static string UserDelete {
+            get {
+                return ResourceManager.GetString("UserDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you want to delete user {0}?.
+        /// </summary>
+        public static string UserDeleteConfirmation {
+            get {
+                return ResourceManager.GetString("UserDeleteConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User deletion is impossible because he has districts assigned..
+        /// </summary>
+        public static string UserDeleteDistrictsAssigned {
+            get {
+                return ResourceManager.GetString("UserDeleteDistrictsAssigned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit user.
+        /// </summary>
+        public static string UserEdit {
+            get {
+                return ResourceManager.GetString("UserEdit", resourceCulture);
             }
         }
         

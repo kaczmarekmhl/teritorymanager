@@ -31,7 +31,8 @@
             @string.Join(", ", item.GetRoles())
         </td>
         <td>
-            @*@Html.ActionLink("Delete", "Delete", new { id=item.UserId })*@
+            @Html.ActionLink(Strings.Edit, "Edit", new { id=item.UserId })
+            @Html.ActionLink(Strings.Delete, "Delete", new { id=item.UserId })
         </td>
     </tr>
 }

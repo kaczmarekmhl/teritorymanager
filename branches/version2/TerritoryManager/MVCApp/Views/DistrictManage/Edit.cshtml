@@ -1,10 +1,10 @@
 ﻿@model MVCApp.Models.District
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = @Strings.DistrictEdit;
 }
 
-<h2>Edit</h2>
+<h2>@Strings.DistrictEdit</h2>
 
 @using (Html.BeginForm("Edit", "DistrictManage", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
@@ -74,13 +74,13 @@
         </div>
 
         <p>
-            <input type="submit" value="Save" />
+            <input type="submit" value="@Strings.Save" />
         </p>
     </fieldset>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink(Strings.BackToList, "Index")
 </div>
 
 @section Scripts {

@@ -300,4 +300,34 @@
   <data name="DistrictReportInvalidDate" xml:space="preserve">
     <value>Invalid date given</value>
   </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DistrictDelete" xml:space="preserve">
+    <value>Delete district</value>
+  </data>
+  <data name="DistrictEdit" xml:space="preserve">
+    <value>Edit district</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="UserEdit" xml:space="preserve">
+    <value>Edit user</value>
+  </data>
+  <data name="UserDelete" xml:space="preserve">
+    <value>Delete user</value>
+  </data>
+  <data name="BackToList" xml:space="preserve">
+    <value>&lt;&lt; Back to list</value>
+  </data>
+  <data name="UserDeleteConfirmation" xml:space="preserve">
+    <value>Do you want to delete user {0}?</value>
+  </data>
+  <data name="UserDeleteDistrictsAssigned" xml:space="preserve">
+    <value>User deletion is impossible because he has districts assigned.</value>
+  </data>
 </root>
