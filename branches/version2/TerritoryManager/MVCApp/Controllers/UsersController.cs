@@ -68,6 +68,7 @@ namespace MVCApp.Controllers
             }
 
             ViewBag.UserHasDistricts = db.Districts.Count(d => d.AssignedToUserId == id) > 0;
+            ViewBag.UserIsAdmin = ((SimpleRoleProvider)Roles.Provider).IsUserInRole(model.UserName, "admin");
 
             return View(model);
         }

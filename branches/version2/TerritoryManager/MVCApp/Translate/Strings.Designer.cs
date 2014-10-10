@@ -655,6 +655,15 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot delete admin user.
+        /// </summary>
+        public static string UserDeleteAdmin {
+            get {
+                return ResourceManager.GetString("UserDeleteAdmin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Do you want to delete user {0}?.
         /// </summary>
         public static string UserDeleteConfirmation {
