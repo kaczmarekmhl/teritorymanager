@@ -330,4 +330,7 @@
   <data name="UserDeleteDistrictsAssigned" xml:space="preserve">
     <value>User deletion is impossible because he has districts assigned.</value>
   </data>
+  <data name="UserDeleteAdmin" xml:space="preserve">
+    <value>Cannot delete admin user</value>
+  </data>
 </root>

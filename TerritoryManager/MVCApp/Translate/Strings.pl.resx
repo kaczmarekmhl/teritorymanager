@@ -330,4 +330,7 @@
   <data name="UserDeleteDistrictsAssigned" xml:space="preserve">
     <value>Usunięcie użytkownika jest niemożliwe, ponieważ ma on do siebie przypisane tereny.</value>
   </data>
+  <data name="UserDeleteAdmin" xml:space="preserve">
+    <value>Usunięcie konta administratora jest niemożliwe.</value>
+  </data>
 </root>

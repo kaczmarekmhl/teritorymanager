@@ -6,11 +6,17 @@
 
 <h2>@Strings.UserDelete</h2>
 
-@if (ViewBag.UserHasDistricts)
+@if (ViewBag.UserIsAdmin)
 {
     <div class="warningMessage">
-        @Strings.UserDeleteDistrictsAssigned
+        @Strings.UserDeleteAdmin
     </div>
+}
+else if (ViewBag.UserHasDistricts)
+{
+<div class="warningMessage">
+    @Strings.UserDeleteDistrictsAssigned
+</div>
 }
 else
 {
