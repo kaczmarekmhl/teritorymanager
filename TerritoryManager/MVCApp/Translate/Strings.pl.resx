@@ -333,4 +333,7 @@
   <data name="UserDeleteAdmin" xml:space="preserve">
     <value>Usunięcie konta administratora jest niemożliwe.</value>
   </data>
+  <data name="SearchAdressComplete" xml:space="preserve">
+    <value>Wyszukiwanie zakończone. Zaznacz Polaków na poniższej liście.</value>
+  </data>
 </root>

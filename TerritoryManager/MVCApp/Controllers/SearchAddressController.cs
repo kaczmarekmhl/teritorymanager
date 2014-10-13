@@ -74,6 +74,10 @@ namespace MVCApp.Controllers
                 {
                     ViewBag.NoPersonFound = true;
                 }
+                else
+                {
+                    ViewBag.SearchComplete = true;
+                }
 
                 return PartialView("_PersonList", personList);
             }

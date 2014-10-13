@@ -547,6 +547,15 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Search complete. Select Poles on below list..
+        /// </summary>
+        public static string SearchAdressComplete {
+            get {
+                return ResourceManager.GetString("SearchAdressComplete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Do you want to search for new adresses? Note: It will clear all previous selects..
         /// </summary>
         public static string SearchAdressConfirm {

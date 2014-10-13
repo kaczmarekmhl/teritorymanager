@@ -789,6 +789,12 @@ tr.pager td {
     cursor: pointer;
 }
 
+#personList .infoMessage 
+{
+    margin-bottom: 0.8em;
+    margin-top: 0.2em;
+}
+
 /* Google Maps styles
 ----------------------------------------------------------*/
 .gm-style h3 {
