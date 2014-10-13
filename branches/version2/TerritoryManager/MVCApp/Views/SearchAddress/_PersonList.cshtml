@@ -9,6 +9,12 @@
     <div class="warningMessage">@Strings.SearchAdressNoPerson</div>
 }
 
+@if (ViewBag.SearchComplete != null && ViewBag.SearchComplete == true)
+{
+    <div class="infoMessage">@Strings.SearchAdressComplete</div>
+}
+
+
 @if (Model != null && Model.Count() != 0)
 {
     <div>
