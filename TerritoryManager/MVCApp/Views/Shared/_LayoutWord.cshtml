@@ -1,0 +1,40 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Word Document</title>
+
+    <style>
+        body {
+            font-family: Calibri;
+        }
+
+        h2.personListHeader {
+            color: darkgray;
+            font-weight: bold;
+            color: darkgray;
+            text-decoration: underline;
+            font-size:14pt;
+        }
+
+        #personList table {
+            width:100%;
+        }
+
+        #personList th {
+            text-align: left;
+            border-bottom: 1px solid;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        @RenderBody()
+    </div>
+</body>
+</html>

@@ -231,7 +231,31 @@ namespace MVCApp.Controllers
         }
 
         #endregion
-        
+
+        #region SelectedAdressesDocFile
+
+        [WordDocumentAttribute]
+        public ActionResult SelectedAdressesDocFile(int id)
+        {
+            var district = db.Districts.Find(id);
+
+            if (district == null)
+            {
+                return null;
+            }
+
+            ViewBag.WordDocumentFilename = district.Name;
+
+            ViewBag.DistrictName = district.Name;
+            ViewBag.DistrictPostCode = district.PostCode;
+            ViewBag.IsMultiPostCode = district.IsMultiPostCode();
+
+            return View(GetSelectedPersonList(district.Id));
+        }
+
+        #endregion
+
+
         #region Helpers
 
         /// <summary>

@@ -610,6 +610,15 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save as Word.
+        /// </summary>
+        public static string SearchSaveSelectedAsDoc {
+            get {
+                return ResourceManager.GetString("SearchSaveSelectedAsDoc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save as PDF.
         /// </summary>
         public static string SearchSaveSelectedAsPdf {
