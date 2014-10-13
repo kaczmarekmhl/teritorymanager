@@ -336,4 +336,7 @@
   <data name="SearchAdressComplete" xml:space="preserve">
     <value>Search complete. Select Poles on below list.</value>
   </data>
+  <data name="SearchSaveSelectedAsDoc" xml:space="preserve">
+    <value>Save as Word</value>
+  </data>
 </root>

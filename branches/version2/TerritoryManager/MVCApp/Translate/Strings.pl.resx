@@ -336,4 +336,7 @@
   <data name="SearchAdressComplete" xml:space="preserve">
     <value>Wyszukiwanie zakończone. Zaznacz Polaków na poniższej liście.</value>
   </data>
+  <data name="SearchSaveSelectedAsDoc" xml:space="preserve">
+    <value>Zapisz jako Word</value>
+  </data>
 </root>

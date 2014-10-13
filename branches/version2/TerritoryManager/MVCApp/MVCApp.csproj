@@ -223,6 +223,7 @@
     <Compile Include="Exceptions\InvalidDistrictException.cs" />
     <Compile Include="Filters\MinItemsSelectedAttribute.cs" />
     <Compile Include="Filters\LogAttribute.cs" />
+    <Compile Include="Filters\WordDocumentAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -412,6 +413,8 @@
     <Content Include="Views\Shared\_GoogleAnalytics.cshtml" />
     <Content Include="Views\Users\Edit.cshtml" />
     <Content Include="Views\Users\Delete.cshtml" />
+    <Content Include="Views\Shared\_LayoutWord.cshtml" />
+    <Content Include="Views\SearchAddress\SelectedAdressesDocFile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
