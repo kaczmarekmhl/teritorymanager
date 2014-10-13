@@ -1,4 +1,39 @@
+1. Create VM from gallery - Ubuntu Server 14.04 LTS
+2. Add Endpoint - name: Squid, port: 21777
+2. Add Html Endpoint
+3. Connect to the VM using SSH (windows: Putty)
+4. Execute those commands to install squid proxy:
+
+sudo apt-get install squid
+cd /etc/squid3
+sudo cp squid.conf squid.conf.bak
+sudo rm squid.conf
+sudo touch sqiud.conf
+sudo vim squid.conf
+	
+In vim insert:
+	http_access allow all
+	http_port 21777
+
+sudo service squid3 restart
+
+4. Execute those commands to install health test:
+
 sudo apt-get install apache2
 sudo apt-get install php5 libapache2-mod-php5
 sudo apt-get install php5-curl
 sudo /etc/init.d/apache2 restart
+
+cd /var/www/html/
+sudo touch healthTest.php
+sudo vim  healthTest.php
+
+In vim insert ProxyVm\healthTest.php file contents from svn
+
+5. Execute those commands to install hostname for test:
+
+sudo cp index.html index.html.bak
+sudo rm index.html
+sudo vim index.html
+
+6. Add new vm to traffic manager
