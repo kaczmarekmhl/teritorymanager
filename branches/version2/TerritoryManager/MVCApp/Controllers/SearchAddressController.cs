@@ -18,6 +18,9 @@ using System.Text;
 using RazorPDF;
 using System.Data.SqlClient;
 using AddressSearch.AdressProvider.SearchStrategies;
+using Novacode;
+using System.Drawing;
+using MVCApp.Translate;
 
 namespace MVCApp.Controllers
 {
@@ -234,7 +237,6 @@ namespace MVCApp.Controllers
 
         #region SelectedAdressesDocFile
 
-        [WordDocumentAttribute]
         public ActionResult SelectedAdressesDocFile(int id)
         {
             var district = db.Districts.Find(id);
@@ -244,13 +246,97 @@ namespace MVCApp.Controllers
                 return null;
             }
 
-            ViewBag.WordDocumentFilename = district.Name;
+            var personList = GetSelectedPersonList(district.Id);
 
-            ViewBag.DistrictName = district.Name;
-            ViewBag.DistrictPostCode = district.PostCode;
-            ViewBag.IsMultiPostCode = district.IsMultiPostCode();
+            MemoryStream stream = new MemoryStream();
+            using (DocX doc = DocX.Create(stream))
+            {
+                //Header
+                doc.AddHeaders();
 
-            return View(GetSelectedPersonList(district.Id));
+                doc.Headers.odd
+                    .Paragraphs[0]
+                    .Append(String.Format("{0}, {1}", district.Name, district.PostCode))
+                    .FontSize(16)
+                    .Color(Color.DarkGray)
+                    .Bold()
+                    .UnderlineStyle(UnderlineStyle.singleLine);
+
+                //Table with adresses
+                Table table = doc.AddTable(personList.Count + 1, 3 + (district.IsMultiPostCode()?1:0));
+
+                //table header
+                var cellHeader = 0;
+                table.Rows[0].Cells[cellHeader++].Paragraphs[0].Append("#");
+                table.Rows[0].Cells[cellHeader++].Paragraphs[0].Append(Strings.PersonName);
+
+                if (district.IsMultiPostCode())
+                {
+                    table.Rows[0].Cells[cellHeader++].Paragraphs[0].Append(Strings.DistrictPostCode);
+                }
+
+                table.Rows[0].Cells[cellHeader++].Paragraphs[0].Append(Strings.PersonTelephoneNum);
+
+                int i = 1;
+                int counter = 1;
+                string lastStreetAddress = ""; 
+                foreach (var person in personList)
+                {
+                    int cell = 0;
+
+                    if (lastStreetAddress != person.StreetAddress)
+                    {
+                        table.Rows[i].Cells[cell++].Paragraphs[0].Append(String.Format("{0}.", counter));
+                        counter++;
+                    }
+                    else
+                    {
+                        cell++;
+                    }
+                    lastStreetAddress = person.StreetAddress;
+
+                    table.Rows[i].Cells[cell++].Paragraphs[0].Append(person.Name + ' ' + person.Lastname);
+                    
+                    if (district.IsMultiPostCode())
+                    {
+                        table.Rows[i].Cells[cell++].Paragraphs[0].Append(person.PostCode.ToString());
+                    }
+
+                    table.Rows[i].Cells[cell++].Paragraphs[0].Append(person.TelephoneNumber);
+
+                    i++;
+                }
+
+                //table style
+                table.Design = TableDesign.MediumList2Accent1;
+                table.AutoFit = AutoFit.Contents;
+
+                //table cell styles
+                int rowNum = 0;
+                foreach (var row in table.Rows)
+                {
+                    foreach (var cell in row.Cells)
+                    {
+                        if (rowNum == 0)
+                        {
+                            cell.Paragraphs[0].Bold();
+                        }
+
+                        cell.Paragraphs[0].FontSize(14);
+                        cell.Paragraphs[0].Font(new System.Drawing.FontFamily("Calibri"));
+                        cell.MarginBottom = 2;
+                        cell.MarginTop = 2;
+                    }
+
+                    rowNum++;
+                }
+
+                doc.InsertTable(table);
+
+                doc.Save();
+            }
+
+            return File(stream.ToArray(), "application/octet-stream", GetSelectedAdressesFileName(district) + ".docx");
         }
 
         #endregion
