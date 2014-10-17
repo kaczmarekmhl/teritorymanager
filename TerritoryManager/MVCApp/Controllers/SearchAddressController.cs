@@ -263,12 +263,13 @@ namespace MVCApp.Controllers
                     .UnderlineStyle(UnderlineStyle.singleLine);
 
                 //Table with adresses
-                Table table = doc.AddTable(personList.Count + 1, 3 + (district.IsMultiPostCode()?1:0));
+                Table table = doc.AddTable(personList.Count + 1, 4 + (district.IsMultiPostCode()?1:0));
 
                 //table header
                 var cellHeader = 0;
                 table.Rows[0].Cells[cellHeader++].Paragraphs[0].Append("#");
                 table.Rows[0].Cells[cellHeader++].Paragraphs[0].Append(Strings.PersonName);
+                table.Rows[0].Cells[cellHeader++].Paragraphs[0].Append(Strings.PersonAddress);
 
                 if (district.IsMultiPostCode())
                 {
@@ -296,6 +297,8 @@ namespace MVCApp.Controllers
                     lastStreetAddress = person.StreetAddress;
 
                     table.Rows[i].Cells[cell++].Paragraphs[0].Append(person.Name + ' ' + person.Lastname);
+
+                    table.Rows[i].Cells[cell++].Paragraphs[0].Append(person.StreetAddress);
                     
                     if (district.IsMultiPostCode())
                     {
@@ -322,7 +325,7 @@ namespace MVCApp.Controllers
                             cell.Paragraphs[0].Bold();
                         }
 
-                        cell.Paragraphs[0].FontSize(14);
+                        cell.Paragraphs[0].FontSize(12);
                         cell.Paragraphs[0].Font(new System.Drawing.FontFamily("Calibri"));
                         cell.MarginBottom = 2;
                         cell.MarginTop = 2;
@@ -340,8 +343,7 @@ namespace MVCApp.Controllers
         }
 
         #endregion
-
-
+        
         #region Helpers
 
         /// <summary>
