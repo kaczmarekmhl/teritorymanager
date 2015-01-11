@@ -34,7 +34,14 @@ namespace MapLibrary
 
         public KmlDocument(string xml)
         {
-            kmlDocument = Parse(xml);
+            if (String.IsNullOrEmpty(xml))
+            {
+                kmlDocument = new Document();
+            }
+            else
+            {
+                kmlDocument = Parse(xml);
+            }
         }
 
         /// <summary>
@@ -142,7 +149,7 @@ namespace MapLibrary
         /// <param name="name">Boundary name</param>
         public void SetBoundaryName(string name)
         {
-            var polygon = kmlDocument.Flatten().OfType<Polygon>().First();
+            var polygon = kmlDocument.Flatten().OfType<Polygon>().FirstOrDefault();
 
             if (polygon != null)
             {
