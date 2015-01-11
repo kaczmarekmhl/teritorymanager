@@ -47,9 +47,9 @@ namespace MVCApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                district.LoadExternalDistrictBoundaryKml();
-
                 district.Congregation = GetCurrentCongregation();
+
+                district.LoadExternalDistrictBoundaryKml();                
 
                 db.Districts.Add(district);
                 db.SaveChanges();

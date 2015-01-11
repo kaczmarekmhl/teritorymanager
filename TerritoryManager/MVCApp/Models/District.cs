@@ -199,7 +199,7 @@ namespace MVCApp.Models
         /// </summary>
         public void LoadExternalDistrictBoundaryKml(Boolean overrideKml = false)
         {
-            if (overrideKml || string.IsNullOrEmpty(DistrictBoundaryKml))
+            if ((overrideKml || string.IsNullOrEmpty(DistrictBoundaryKml)) && Congregation.Country == Enums.Country.Denmark)
             {
                 DistrictBoundaryKml = ExternalKmlProvider.LoadKml(PostCodeFirst);
             }
