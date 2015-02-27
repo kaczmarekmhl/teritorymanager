@@ -233,6 +233,14 @@
                 }
                 catch (Exception ex)
                 {
+                    if (ex is WebException
+                        && ((WebException)ex).Response is HttpWebResponse
+                        &&((HttpWebResponse)((WebException)ex).Response).StatusCode == HttpStatusCode.NotFound)
+                    {
+                        //Krak generated 404 errors when no person was found
+                        return String.Empty;
+                    }
+
                     if (ex is WebException || ex is SocketException)
                     {
                         tryCount++;
