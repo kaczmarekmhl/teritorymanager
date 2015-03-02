@@ -323,7 +323,9 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <None Include="Properties\PublishProfiles\release.pubxml" />
+    <None Include="Properties\PublishProfiles\tereny - FTP %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\tereny - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\tereny - Web Deploy %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\tereny - Web Deploy.pubxml">
       <SubType>Designer</SubType>
     </None>

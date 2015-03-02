@@ -47,7 +47,7 @@ namespace MVCApp.Migrations
                         District_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Districts", t => t.District_Id)
+                .ForeignKey("dbo.Districts", t => t.District_Id, cascadeDelete:true)
                 .Index(t => t.District_Id);
             
         }

@@ -237,7 +237,7 @@
                         && ((WebException)ex).Response is HttpWebResponse
                         &&((HttpWebResponse)((WebException)ex).Response).StatusCode == HttpStatusCode.NotFound)
                     {
-                        //Krak generated 404 errors when no person was found
+                        //Krak generates 404 errors when no person was found
                         return String.Empty;
                     }
 
