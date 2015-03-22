@@ -1,26 +1,19 @@
 ﻿using AddressSearch.AdressProvider;
 using AddressSearch.AdressProvider.Filters;
 using AddressSearch.AdressProvider.Filters.PersonFilter;
+using AddressSearch.AdressProvider.Filters.PersonFilter.Helpers;
+using AddressSearch.AdressProvider.SearchStrategies;
+using MapLibrary;
 using MVCApp.Models;
+using Novacode;
+using PagedList;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using PagedList;
-using System.Web.UI;
-using AddressSearch.AdressProvider.Filters.PersonFilter.Helpers;
 using WebMatrix.WebData;
-using System.Xml.Linq;
-using MapLibrary;
-using System.IO;
-using System.Text;
-using RazorPDF;
-using System.Data.SqlClient;
-using AddressSearch.AdressProvider.SearchStrategies;
-using Novacode;
-using System.Drawing;
-using MVCApp.Translate;
 
 namespace MVCApp.Controllers
 {
@@ -112,236 +105,6 @@ namespace MVCApp.Controllers
                 Data = new { selected = person.Selected }
             };
         }
-        #endregion
-
-        #region SelectedAdressesAction
-
-        public ActionResult SelectedAdresses(int id, int page = 1)
-        {
-            var district = db.Districts.Find(id);
-
-            if (district == null)
-            {
-                return new HttpNotFoundResult();
-            }
-
-            ViewBag.DistrictId = district.Id;
-            ViewBag.DistrictName = district.Name;
-            ViewBag.IsMultiPostCode = district.IsMultiPostCode();
-
-            return View(GetSelectedPersonList(district.Id));
-        }
-
-        #endregion
-
-        #region SelectedAdressesMapAction
-
-        public ActionResult SelectedAdressesMap(int id)
-        {
-            var district = db.Districts.Find(id);
-
-            if (district == null)
-            {
-                return new HttpNotFoundResult();
-            }
-
-            return View(district);
-        }
-
-        #endregion
-
-        #region SelectedAdressesMapKmlAction
-
-        public ActionResult SelectedAdressesMapKml(int id)
-        {
-            var district = db.Districts.Find(id);
-
-            if (district == null)
-            {
-                return new HttpNotFoundResult();
-            }
-
-            var kmlDoc = district.GetDistrictBoundaryKmlDoc();
-
-            var counter = 1;
-            string lastStreetAddress = "";
-            foreach (var person in GetSelectedPersonList(district.Id))
-            {
-                if (lastStreetAddress != person.StreetAddress)
-                {  
-                    kmlDoc.AddPlacemark(
-                        String.Format("{0}. {1} {2}", counter++, person.Name, person.Lastname),
-                        person.StreetAddress,
-                        person.Longitude,
-                        person.Latitude);
-                }
-
-                lastStreetAddress = person.StreetAddress;
-            }
-
-            return this.Content(kmlDoc.GetKmlWithPlacemarks().ToString(), "text/xml");
-        }
-
-        #endregion
-
-        #region SelectedAdressesTextFileAction
-
-        public FileResult SelectedAdressesTextFile(int id)
-        {
-            var district = db.Districts.Find(id);
-
-            if (district == null)
-            {
-                return null;
-            }
-
-            int counter = 1;
-            StringBuilder result = new StringBuilder();       
-            foreach (var person in GetSelectedPersonList(district.Id))
-            {
-                result.AppendLine(String.Format("{0}. {1} {2}\t\t{3}\t{4}\t{5}", counter++, person.Name, person.Lastname, person.StreetAddress,person.PostCode, person.TelephoneNumber));
-            }
-
-            var fileResult = new FileContentResult(Encoding.UTF8.GetBytes(result.ToString()), "text/plain");
-            fileResult.FileDownloadName = String.Format("{0}.txt", GetSelectedAdressesFileName(district));
-
-            return fileResult;
-        }
-
-        #endregion
-
-        #region SelectedAdressesPdfFileAction
-
-        public ActionResult SelectedAdressesPdfFile(int id)
-        {
-            var district = db.Districts.Find(id);
-
-            if (district == null)
-            {
-                return null;
-            }
-
-            Response.ContentType = "application/pdf";
-            Response.AddHeader("Content-Disposition", String.Format("attachment; filename={0}.pdf", GetSelectedAdressesFileName(district)));
-
-            var pdf = new PdfResult(GetSelectedPersonList(district.Id), "SelectedAdressesPdf");
-
-            pdf.ViewBag.DistrictName = district.Name;
-            pdf.ViewBag.DistrictPostCode = district.PostCode;
-            pdf.ViewBag.IsMultiPostCode = district.IsMultiPostCode();
-
-            return pdf;
-        }
-
-        #endregion
-
-        #region SelectedAdressesDocFile
-
-        public ActionResult SelectedAdressesDocFile(int id)
-        {
-            var district = db.Districts.Find(id);
-
-            if (district == null)
-            {
-                return null;
-            }
-
-            var personList = GetSelectedPersonList(district.Id);
-
-            MemoryStream stream = new MemoryStream();
-            using (DocX doc = DocX.Create(stream))
-            {
-                //Header
-                doc.AddHeaders();
-
-                doc.Headers.odd
-                    .Paragraphs[0]
-                    .Append(String.Format("{0}, {1}", district.Name, district.PostCode))
-                    .FontSize(16)
-                    .Color(Color.DarkGray)
-                    .Bold()
-                    .UnderlineStyle(UnderlineStyle.singleLine);
-
-                //Table with adresses
-                Table table = doc.AddTable(personList.Count + 1, 4 + (district.IsMultiPostCode()?1:0));
-
-                //table header
-                var cellHeader = 0;
-                table.Rows[0].Cells[cellHeader++].Paragraphs[0].Append("#");
-                table.Rows[0].Cells[cellHeader++].Paragraphs[0].Append(Strings.PersonName);
-                table.Rows[0].Cells[cellHeader++].Paragraphs[0].Append(Strings.PersonAddress);
-
-                if (district.IsMultiPostCode())
-                {
-                    table.Rows[0].Cells[cellHeader++].Paragraphs[0].Append(Strings.DistrictPostCode);
-                }
-
-                table.Rows[0].Cells[cellHeader++].Paragraphs[0].Append(Strings.PersonTelephoneNum);
-
-                int i = 1;
-                int counter = 1;
-                string lastStreetAddress = ""; 
-                foreach (var person in personList)
-                {
-                    int cell = 0;
-
-                    if (lastStreetAddress != person.StreetAddress)
-                    {
-                        table.Rows[i].Cells[cell++].Paragraphs[0].Append(String.Format("{0}.", counter));
-                        counter++;
-                    }
-                    else
-                    {
-                        cell++;
-                    }
-                    lastStreetAddress = person.StreetAddress;
-
-                    table.Rows[i].Cells[cell++].Paragraphs[0].Append(person.Name + ' ' + person.Lastname);
-
-                    table.Rows[i].Cells[cell++].Paragraphs[0].Append(person.StreetAddress);
-                    
-                    if (district.IsMultiPostCode())
-                    {
-                        table.Rows[i].Cells[cell++].Paragraphs[0].Append(person.PostCode.ToString());
-                    }
-
-                    table.Rows[i].Cells[cell++].Paragraphs[0].Append(person.TelephoneNumber);
-
-                    i++;
-                }
-
-                //table style
-                table.Design = TableDesign.MediumList2Accent1;
-                table.AutoFit = AutoFit.Contents;
-
-                //table cell styles
-                int rowNum = 0;
-                foreach (var row in table.Rows)
-                {
-                    foreach (var cell in row.Cells)
-                    {
-                        if (rowNum == 0)
-                        {
-                            cell.Paragraphs[0].Bold();
-                        }
-
-                        cell.Paragraphs[0].FontSize(12);
-                        cell.Paragraphs[0].Font(new System.Drawing.FontFamily("Calibri"));
-                        cell.MarginBottom = 2;
-                        cell.MarginTop = 2;
-                    }
-
-                    rowNum++;
-                }
-
-                doc.InsertTable(table);
-
-                doc.Save();
-            }
-
-            return File(stream.ToArray(), "application/octet-stream", GetSelectedAdressesFileName(district) + ".docx");
-        }
-
         #endregion
         
         #region Helpers
@@ -465,20 +228,6 @@ namespace MVCApp.Controllers
         }
 
         /// <summary>
-        /// Loads persisted and selected person list.
-        /// </summary>
-        /// <param name="district">District that the search will be done for.</param>
-        /// <returns>Selected person list.</returns>
-        private List<Person> GetSelectedPersonList(int districtId)
-        {
-            var list =  db.Persons
-                .Where(p => p.District.Id == districtId && p.AddedByUserId == WebSecurity.CurrentUserId && p.Selected == true)
-                .ToList();
-
-            return list.OrderBy(p => p.PostCode).ThenBy(p => p.StreetAddress).ToList();
-        }
-
-        /// <summary>
         /// Persists person list.
         /// </summary>
         /// <param name="district">District for which person list will be persisted.</param>
@@ -503,23 +252,6 @@ namespace MVCApp.Controllers
                 }
 
                 db.SaveChanges();
-            }
-        }
-
-        /// <summary>
-        /// Returns string that should be used as a file name of selected adresses file.
-        /// </summary>
-        /// <param name="district">Distris for which the file name will be returned.</param>
-        /// <returns>File name.</returns>
-        private string GetSelectedAdressesFileName(District district)
-        {
-            if (district.PostCodeFirst == 0)
-            {
-                return district.Name;
-            }
-            else
-            {
-                return String.Format("{0}_{1}", district.Name, district.PostCode);
             }
         }
 

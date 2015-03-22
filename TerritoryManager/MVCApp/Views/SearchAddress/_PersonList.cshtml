@@ -66,7 +66,7 @@
         @if(Model.IsLastPage)
         {
         <div class="button float-right">
-            @Html.ActionLink(Strings.SearchDisplaySelected, "SelectedAdresses", "SearchAddress", new { id = districtId}, null)
+            @Html.ActionLink(Strings.SearchDisplaySelected, "Index", "DistrictAddresses", new { id = districtId}, null)
         </div>
         <div class="spacer" />
         }

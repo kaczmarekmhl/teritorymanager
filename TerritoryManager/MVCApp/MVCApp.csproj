@@ -213,6 +213,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CongregationsController.cs" />
+    <Compile Include="Controllers\DistrictAddressesController.cs" />
     <Compile Include="Controllers\DistrictController.cs" />
     <Compile Include="Controllers\DistrictReportController.cs" />
     <Compile Include="Controllers\FreeDistrictsController.cs" />
@@ -394,10 +395,6 @@
     <Content Include="Views\SearchAddress\Index.cshtml" />
     <Content Include="Views\MyDistricts\_List.cshtml" />
     <Content Include="Views\SearchAddress\_PersonList.cshtml" />
-    <Content Include="Views\SearchAddress\SelectedAdresses.cshtml" />
-    <Content Include="Views\SearchAddress\_SelectedPersonList.cshtml" />
-    <Content Include="Views\SearchAddress\SelectedAdressesMap.cshtml" />
-    <Content Include="Views\SearchAddress\SelectedAdressesPdf.cshtml" />
     <Content Include="Views\District\Index.cshtml" />
     <Content Include="Views\District\_Map.cshtml" />
     <Content Include="Views\FreeDistricts\Index.cshtml" />
@@ -418,6 +415,10 @@
     <Content Include="Views\Users\Edit.cshtml" />
     <Content Include="Views\Users\Delete.cshtml" />
     <Content Include="Views\Shared\_LayoutWord.cshtml" />
+    <Content Include="Views\DistrictAddresses\Index.cshtml" />
+    <Content Include="Views\DistrictAddresses\AdressesMap.cshtml" />
+    <Content Include="Views\DistrictAddresses\AdressesPdf.cshtml" />
+    <Content Include="Views\DistrictAddresses\_SelectedPersonList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
