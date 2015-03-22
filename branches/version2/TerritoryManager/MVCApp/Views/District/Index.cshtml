@@ -17,7 +17,7 @@
         if (ViewBag.LastSearchEnabled)
         {
             <div class="button spacer">
-                @Html.ActionLink(Strings.LastSearchResults, "SelectedAdresses", "SearchAddress", new { id = Model.Id }, null)
+                @Html.ActionLink(Strings.LastSearchResults, "Index", "DistrictAddresses", new { id = Model.Id }, null)
             </div>
         }
 
