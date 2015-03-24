@@ -495,7 +495,7 @@ div.mapLegendBoxRed
     }
 
 /* Add person*/
-#addPersonForm {
+#addPersonFormWrapper {
     float: left;
     width: 30%;
 }

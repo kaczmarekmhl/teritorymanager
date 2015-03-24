@@ -247,7 +247,7 @@ namespace MVCApp.Controllers
                 db.Persons.Add(person);
                 db.SaveChanges();
                 //return RedirectToAction("Index", new { id = person.District.Id });
-                return Content("Person added", "text/html");
+                return Content("Dodano nowy adres", "text/html");
             }
 
             //return View(person);

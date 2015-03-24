@@ -7,9 +7,9 @@
     Model.PostCode = ViewBag.DistrictPostCode;
 }
 
-<div id="result"></div>
+<div id="addPersonFormWrapper">
 
-<div id="addPersonForm">
+    <div class="infoMessage" id="result"></div>
 
 @using (Ajax.BeginForm("AddPerson", null, new AjaxOptions { UpdateTargetId = "result", OnBegin = "validatePerson" }, new { id = "addPersonForm" }))
 {
@@ -46,7 +46,7 @@
         <div class="editor-label">
             @Html.LabelFor(model => model.StreetAddress)
         </div>
-        <input id="geocomplete" type="text" placeholder="@Strings.PersonAddress" />
+        <input id="geocomplete" type="text" placeholder="@Strings.AutocompleteAddressEnterLocation" />
         <span class="field-validation-error" hidden="hidden" id="GeoCompleteValidationError"></span>
 
         <div class="editor-label">
@@ -62,7 +62,7 @@
         </p>
     </fieldset>
 }
-
+    
 </div>
 
 <div id="addPersonMap">
@@ -70,6 +70,8 @@
 </div>
 
 <div class="spacer" />
+
+
 
 @{
     string country = "";
@@ -87,15 +89,28 @@
 <script>
     function validatePerson(ajaxContext) {
         
+        return validateAddress();
+    }
+
+    function validateAddress() {
+
+        $("#GeoCompleteValidationError").text("");
+        $("#GeoCompleteValidationError").hide();
+
         if ($("#Route").val() == '') {
-            $("#GeoCompleteValidationError").text("Proszę podaj nazwę ulicy");
+            $("#GeoCompleteValidationError").text("Podaj nazwę ulicy");
             $("#GeoCompleteValidationError").show();
 
             return false;
         }
-        else if ($("#StreetNumber").val() == '')
-        {
-            $("#GeoCompleteValidationError").text("Proszę podaj numer ulicy");
+        else if ($("#StreetNumber").val() == '') {
+            $("#GeoCompleteValidationError").text("Podaj numer ulicy");
+            $("#GeoCompleteValidationError").show();
+
+            return false;
+        }
+        else if ($("input[data-geo='lat']").val() == '' || $("input[data-geo='lng']").val() == '') {
+            $("#GeoCompleteValidationError").text("Nie można określić lokalizacji adresu. Wpisz ponownie dokładny adres.");
             $("#GeoCompleteValidationError").show();
 
             return false;
@@ -103,6 +118,7 @@
 
         return true;
     }
+
 </script>
 
 <script src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
@@ -126,6 +142,8 @@
             function (event, result)
             {
                 $("#StreetAddress").val($("#Route").val() + ' ' + $("#StreetNumber").val());
+
+                validateAddress();
             })
 
         //Add map to geo-autocomplete
