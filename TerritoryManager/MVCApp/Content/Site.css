@@ -494,6 +494,23 @@ div.mapLegendBoxRed
         width:100%;
     }
 
+/* Add person*/
+#addPersonForm {
+    float: left;
+    width: 30%;
+}
+
+#addPersonMap {
+    width: 66%;
+    height: 260px;
+    float: right;
+}
+
+    #addPersonMap .addPersonMapCanvas {
+        width:100%;
+        height:100%;
+    }
+
 /*Ajax loader*/
 #ajaxLoader {
     margin-top: 1em;

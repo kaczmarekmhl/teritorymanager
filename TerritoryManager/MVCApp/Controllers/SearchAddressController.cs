@@ -131,7 +131,7 @@ namespace MVCApp.Controllers
         {
             //Entity framework does not support deleting data through direct SQL
             //We need to do it due to performance reasons
-            string sqlDeleteStatement = "DELETE FROM People WHERE District_id = @districtId AND AddedByUserId = @userId";
+            string sqlDeleteStatement = "DELETE FROM People WHERE District_id = @districtId AND AddedByUserId = @userId AND Manual = 0";
 
             List<SqlParameter> parameterList = new List<SqlParameter>();
             parameterList.Add(new SqlParameter("@districtId", districtId));
@@ -222,7 +222,7 @@ namespace MVCApp.Controllers
         private IPagedList<Person> GetPersistedPersonList(int districtId, int page = 1)
         {
             return db.Persons
-                .Where(p => p.District.Id == districtId && p.AddedByUserId == WebSecurity.CurrentUserId)
+                .Where(p => p.District.Id == districtId && p.AddedByUserId == WebSecurity.CurrentUserId && p.Manual == false)
                 .OrderBy(p => p.Name)
                 .ToPagedList(page, personListPageSize);
         }
