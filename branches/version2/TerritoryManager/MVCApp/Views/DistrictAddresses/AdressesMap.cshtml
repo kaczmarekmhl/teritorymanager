@@ -1,0 +1,113 @@
+﻿@model MVCApp.Models.District
+
+@{
+    Layout = null;
+    ViewBag.Title = Strings.SearchAddressMap;
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@Strings.WebPageTitle  - @Model.Name - @ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width" />
+    <style>
+
+        html {
+            height:100%;
+        }
+
+        body {
+            margin:0;
+            padding:0;
+            height: 100%;
+        }
+
+        #map_canvas {
+            width:auto;
+            height:100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="map_canvas"/>
+
+    <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript" src="~/Scripts/geoxml3.js"></script>
+    <script src="//google-maps-utility-library-v3.googlecode.com/svn/trunk/geolocationmarker/src/geolocationmarker-compiled.js"></script>
+    <script>
+
+        var map;
+        var infowindow;
+
+        function initialize() {
+
+            var map_canvas = document.getElementById('map_canvas');
+            var map_options = {
+                center: new google.maps.LatLng(56.0000, 12.0000),
+                zoom: 7                
+            }
+            map = new google.maps.Map(map_canvas, map_options)
+
+            var myParser = new geoXML3.parser({
+                map: map,
+                singleInfoWindow: true,
+                polygonOptions: { clickable: false },
+                createMarker: createMarker
+            });
+            myParser.parse('@Url.Action("AdressesMapKml", new { id = Model.Id })');
+
+            // You current location on mobile devices
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                GeoMarker = new GeolocationMarker();
+                GeoMarker.setMap(map);
+            }            
+        }
+
+        function createMarker(placemark, doc) {
+            var markerOptions = {
+                title: placemark.name,
+                infocontent: placemark.description,
+                position: placemark.latlng,
+                icon: 'http://chart.apis.google.com/chart?chst=d_map_spin&chld=0.8|0|FE6256|12|_|' + getPersonNumber(placemark.name),
+                map: map
+            };
+
+            // Create the marker on the map
+            var marker = new google.maps.Marker(markerOptions);
+            infowindow = new google.maps.InfoWindow();
+
+            google.maps.event.addListener(marker, 'click', function () {
+                
+                var contentString = '<div id="content">' +
+      '<div id="siteNotice">' +
+      '</div>' +
+      '<h3>' + marker.title + '</h3>' +
+      '<div id="bodyContent">' +
+      '<p>' + marker.infocontent + '</p>' +
+      '</div>' +
+      '</div>';
+
+                infowindow.setContent(contentString);
+                infowindow.open(map, marker);
+            });
+        }
+
+        function getPersonNumber(text) {
+            var matches = text.match(/[0-9]+/);
+
+            if (matches != null) {
+                return matches[0];
+            }
+
+            return '';
+        }
+
+        google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+
+    @Html.Partial("_GoogleAnalytics")
+</body>
+</html>
+

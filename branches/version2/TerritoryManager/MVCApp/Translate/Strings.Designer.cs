@@ -142,6 +142,15 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter a location.
+        /// </summary>
+        public static string AutocompleteAddressEnterLocation {
+            get {
+                return ResourceManager.GetString("AutocompleteAddressEnterLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;&lt; Back to list.
         /// </summary>
         public static string BackToList {

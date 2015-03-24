@@ -339,4 +339,7 @@
   <data name="SearchSaveSelectedAsDoc" xml:space="preserve">
     <value>Zapisz jako Word</value>
   </data>
+  <data name="AutocompleteAddressEnterLocation" xml:space="preserve">
+    <value>Wpisz adres</value>
+  </data>
 </root>

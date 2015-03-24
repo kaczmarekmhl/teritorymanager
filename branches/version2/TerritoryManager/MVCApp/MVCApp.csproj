@@ -250,6 +250,10 @@
     <Compile Include="Migrations\201408171815590_DistrictSearchPhrase.Designer.cs">
       <DependentUpon>201408171815590_DistrictSearchPhrase.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201503221851303_ManualAddress.cs" />
+    <Compile Include="Migrations\201503221851303_ManualAddress.Designer.cs">
+      <DependentUpon>201503221851303_ManualAddress.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Congregation.cs" />
     <Compile Include="Models\District.cs" />
@@ -335,6 +339,9 @@
     <Content Include="Images\FrontPicture.jpg" />
     <Content Include="Images\Logo.png" />
     <Content Include="Scripts\geoxml3.js" />
+    <Content Include="Scripts\jquery.geocomplete\jquery.geocomplete.js" />
+    <Content Include="Scripts\jquery.geocomplete\jquery.geocomplete.min.js" />
+    <Content Include="Scripts\jquery.geocomplete\MIT-LICENSE.txt" />
     <Content Include="Scripts\jquery.ui.datepicker-pl.js" />
     <Content Include="Scripts\personSelect.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
@@ -419,6 +426,7 @@
     <Content Include="Views\DistrictAddresses\AdressesMap.cshtml" />
     <Content Include="Views\DistrictAddresses\AdressesPdf.cshtml" />
     <Content Include="Views\DistrictAddresses\_SelectedPersonList.cshtml" />
+    <Content Include="Views\DistrictAddresses\_AddPerson.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -448,6 +456,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201408171815590_DistrictSearchPhrase.resx">
       <DependentUpon>201408171815590_DistrictSearchPhrase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503221851303_ManualAddress.resx">
+      <DependentUpon>201503221851303_ManualAddress.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Translate\Strings.pl.resx" />
     <EmbeddedResource Include="Translate\Strings.resx">

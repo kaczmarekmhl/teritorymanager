@@ -143,6 +143,11 @@ namespace MVCApp.Models
         [Display(ResourceType = typeof(Strings), Name = "PersonSelected")]
         public bool Selected { get; set; }
 
+        /// <summary>
+        /// Is this person added manually.
+        /// </summary>
+        public bool Manual { get; set; }
+
         #endregion
 
         #region Crypted Properties
