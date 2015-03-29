@@ -1,0 +1,29 @@
+﻿@model MVCApp.Models.Person
+
+<tr>
+    <td>
+        @if(!String.IsNullOrEmpty(ViewBag.PersonCounter.ToString())) 
+        {
+            @ViewBag.PersonCounter@:.
+        }
+    </td>
+            
+    <td>
+        @Html.DisplayFor(modelItem => Model.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => Model.Lastname)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => Model.StreetAddress)
+    </td>
+    @if(ViewBag.IsMultiPostCode)
+    {
+    <td>
+        @Html.DisplayFor(modelItem => Model.PostCode)
+    </td>
+    }
+    <td>
+        @Html.DisplayFor(modelItem => Model.TelephoneNumber)
+    </td>
+</tr>

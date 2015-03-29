@@ -246,11 +246,16 @@ namespace MVCApp.Controllers
 
                 db.Persons.Add(person);
                 db.SaveChanges();
-                //return RedirectToAction("Index", new { id = person.District.Id });
-                return Content("Dodano nowy adres", "text/html");
+
+                System.Threading.Thread.Sleep(5000);
+
+                ViewBag.IsMultiPostCode = person.District.IsMultiPostCode();
+                ViewBag.PersonCounter = String.Empty;
+                return PartialView("_SelectedPersonRow", person);
             }
 
             //return View(person);
+            //return Json(modelJson, JsonRequestBehavior.AllowGet);
             return Content("Error", "text/html");
         }
         #endregion
