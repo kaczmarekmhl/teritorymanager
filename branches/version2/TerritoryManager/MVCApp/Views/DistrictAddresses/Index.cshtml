@@ -7,8 +7,6 @@
 
 <h2>@Html.ActionLink(districtName, "Index", "District", new { id = districtId }, null) -  @Strings.SearchSelectedAdresses</h2>
 
-@Html.Partial("_AddPerson", new MVCApp.Models.Person())
-
     <div class="button">
         @Html.ActionLink(Strings.SearchSaveSelectedAsPdf, "AdressesPdfFile", new { id = districtId })
     </div>
@@ -19,6 +17,8 @@
         @Html.ActionLink(Strings.SearchDisplaySelectedOnMap, "AdressesMap", new { id = districtId }, new { target = "_blank" })
     </div>
     <div class="spacer" />
+
+@Html.Partial("_AddPerson", new MVCApp.Models.Person())
 
 <div id="personList">
     @Html.Partial("_SelectedPersonList")

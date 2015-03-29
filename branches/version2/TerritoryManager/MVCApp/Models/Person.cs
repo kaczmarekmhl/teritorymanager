@@ -77,7 +77,7 @@ namespace MVCApp.Models
         [NotMapped]
         [StringLength(30)]
         [Display(ResourceType = typeof(Strings), Name = "PersonTelephoneNum")]
-        [DisplayFormat(NullDisplayText = "None")]
+        [DisplayFormat(NullDisplayText = " ")]
         public string TelephoneNumber
         {
             get

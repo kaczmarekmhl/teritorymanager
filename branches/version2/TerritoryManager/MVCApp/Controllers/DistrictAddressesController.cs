@@ -247,8 +247,6 @@ namespace MVCApp.Controllers
                 db.Persons.Add(person);
                 db.SaveChanges();
 
-                System.Threading.Thread.Sleep(5000);
-
                 ViewBag.IsMultiPostCode = person.District.IsMultiPostCode();
                 ViewBag.PersonCounter = String.Empty;
                 return PartialView("_SelectedPersonRow", person);
