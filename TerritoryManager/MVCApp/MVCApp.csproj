@@ -427,6 +427,7 @@
     <Content Include="Views\DistrictAddresses\AdressesPdf.cshtml" />
     <Content Include="Views\DistrictAddresses\_SelectedPersonList.cshtml" />
     <Content Include="Views\DistrictAddresses\_AddPerson.cshtml" />
+    <Content Include="Views\DistrictAddresses\_SelectedPersonRow.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

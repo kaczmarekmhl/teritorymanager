@@ -11,7 +11,11 @@
 
     <div class="infoMessage" id="result"></div>
 
-@using (Ajax.BeginForm("AddPerson", null, new AjaxOptions { UpdateTargetId = "result", OnBegin = "validatePerson" }, new { id = "addPersonForm" }))
+@using (Ajax.BeginForm("AddPerson", null, new AjaxOptions { 
+    OnBegin = "validatePerson", 
+    OnSuccess = "personAdded",
+    LoadingElementId = "ajaxLoader"},
+    new { id = "addPersonForm" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -59,6 +63,9 @@
 
         <p>
             <input type="submit" value="Dodaj" />
+            <div id="ajaxLoader" style="display:none">
+                <img src="~/Images/ajax-loader.gif">
+            </div>
         </p>
     </fieldset>
 }
@@ -89,7 +96,13 @@
 <script>
     function validatePerson(ajaxContext) {
         
-        return validateAddress();
+        if (validateAddress()) {
+            $("#AddPerson").submit(false);
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     function validateAddress() {
@@ -117,6 +130,15 @@
         }
 
         return true;
+    }
+
+    function personAdded(ajaxContext) {
+
+        $("#result").text("Adres został dodany");
+
+        $("#personList table tr").eq(0).after(ajaxContext);
+
+        $("#AddPerson").submit(true);
     }
 
 </script>

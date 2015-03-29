@@ -31,35 +31,20 @@
         </tr>
 
     @foreach (var item in Model) {
-        <tr>
-            <td>
-                @if(lastStreetAddress != item.StreetAddress)
-                {
-                    @counter@:.
-                    counter = counter + 1;
-                }
-                @{ lastStreetAddress = item.StreetAddress; }
-            </td>
-            
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Lastname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StreetAddress)
-            </td>
-            @if(ViewBag.IsMultiPostCode)
-            {
-            <td>
-                @Html.DisplayFor(modelItem => item.PostCode)
-            </td>
-            }
-            <td>
-                @Html.DisplayFor(modelItem => item.TelephoneNumber)
-            </td>
-        </tr>       
+        
+        if(lastStreetAddress != item.StreetAddress)
+        {
+            ViewBag.PersonCounter = counter;
+            counter = counter + 1;
+        }
+        else
+        {
+           ViewBag.PersonCounter = ""; 
+        }
+                        
+        @Html.Partial("_SelectedPersonRow", item);
+
+        lastStreetAddress = item.StreetAddress;
     }
     </table>
     
