@@ -340,6 +340,12 @@
     <value>Save as Word</value>
   </data>
   <data name="AutocompleteAddressEnterLocation" xml:space="preserve">
-    <value>Enter a location</value>
+    <value>Route with number</value>
+  </data>
+  <data name="AutocompleteAddressEnterLocationDetails" xml:space="preserve">
+    <value>1tv, basement, etc</value>
+  </data>
+  <data name="PersonNameSurname" xml:space="preserve">
+    <value>Name &amp; surname</value>
   </data>
 </root>

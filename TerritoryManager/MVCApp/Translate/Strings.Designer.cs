@@ -142,11 +142,20 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enter a location.
+        ///   Looks up a localized string similar to Route with number.
         /// </summary>
         public static string AutocompleteAddressEnterLocation {
             get {
                 return ResourceManager.GetString("AutocompleteAddressEnterLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1tv, basement, etc.
+        /// </summary>
+        public static string AutocompleteAddressEnterLocationDetails {
+            get {
+                return ResourceManager.GetString("AutocompleteAddressEnterLocationDetails", resourceCulture);
             }
         }
         
@@ -462,6 +471,15 @@ namespace MVCApp.Translate {
         public static string PersonName {
             get {
                 return ResourceManager.GetString("PersonName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name &amp; surname.
+        /// </summary>
+        public static string PersonNameSurname {
+            get {
+                return ResourceManager.GetString("PersonNameSurname", resourceCulture);
             }
         }
         

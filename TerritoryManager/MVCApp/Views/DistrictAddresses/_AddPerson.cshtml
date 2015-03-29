@@ -7,77 +7,70 @@
     Model.PostCode = ViewBag.DistrictPostCode;
 }
 
-<div id="addPersonFormWrapper">
+<a href="#" id="AddPersonButton">+Dodaj adresy</a>
 
-    <div class="infoMessage" id="result"></div>
+<div id="addPersonWrapper" style="display:none">
 
-@using (Ajax.BeginForm("AddPerson", null, new AjaxOptions { 
-    OnBegin = "validatePerson", 
-    OnSuccess = "personAdded",
-    LoadingElementId = "ajaxLoader"},
-    new { id = "addPersonForm" }))
-{
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
+    <div id="addPersonFormWrapper">
+        @using (Ajax.BeginForm("AddPerson", null, new AjaxOptions { 
+            OnBegin = "validatePerson",     
+            OnSuccess = "personAdded",
+            LoadingElementId = "ajaxLoader"},
+            new { id = "addPersonForm" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
 
-    <fieldset>
-        <legend>Add person</legend>
+            <fieldset>
+                <legend>Add person</legend>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Name)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Name)
-            @Html.ValidationMessageFor(model => model.Name)
-        </div>
+                <div class="editor-label">
+                    <label>@Strings.PersonNameSurname</label>
+                </div>
+                <div class="editor-field">
+                    <input id="NameSurname" type="text"/>
+                </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Lastname)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Lastname)
-            @Html.ValidationMessageFor(model => model.Lastname)
-        </div>
+                @Html.HiddenFor(model => model.District.Id, new { Value = districtId })
+                @Html.HiddenFor(model => model.Name)
+                @Html.HiddenFor(model => model.Lastname)
+                @Html.HiddenFor(model => model.Latitude, new { data_geo = "lat" })
+                @Html.HiddenFor(model => model.Longitude, new { data_geo = "lng" })
+                @Html.HiddenFor(model => model.PostCode, new { data_geo = "postal_code" })
+                @Html.HiddenFor(model => model.StreetAddress)
+        
+                <input id="Route" name="Route" type="hidden" data-geo="route">
+                <input id="StreetNumber" name="StreetNumber" type="hidden" data-geo="street_number">
 
-        @Html.HiddenFor(model => model.District.Id, new { Value = districtId })
-        @Html.HiddenFor(model => model.Latitude, new { data_geo = "lat" })
-        @Html.HiddenFor(model => model.Longitude, new { data_geo = "lng" })
-        @Html.HiddenFor(model => model.PostCode, new { data_geo = "postal_code" })
-        @Html.HiddenFor(model => model.StreetAddress)
-        <input id="Route" name="Route" type="hidden" data-geo="route">
-        <input id="StreetNumber" name="StreetNumber" type="hidden" data-geo="street_number">
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.StreetAddress)
+                </div>
+                <input id="geocomplete" type="text" placeholder="@Strings.AutocompleteAddressEnterLocation" />
+                <span class="field-validation-error" hidden="hidden" id="GeoCompleteValidationError"></span>
+                <input id="StreetNumberDetails" type="text" placeholder="@Strings.AutocompleteAddressEnterLocationDetails" />
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.StreetAddress)
-        </div>
-        <input id="geocomplete" type="text" placeholder="@Strings.AutocompleteAddressEnterLocation" />
-        <span class="field-validation-error" hidden="hidden" id="GeoCompleteValidationError"></span>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.TelephoneNumber)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.TelephoneNumber)
+                    @Html.ValidationMessageFor(model => model.TelephoneNumber)
+                </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.TelephoneNumber)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.TelephoneNumber)
-            @Html.ValidationMessageFor(model => model.TelephoneNumber)
-        </div>
+                <p>
+                    <input type="submit" value="Dodaj" />
+                </p>
+            </fieldset>
+        }
+    </div>
 
-        <p>
-            <input type="submit" value="Dodaj" />
-            <div id="ajaxLoader" style="display:none">
-                <img src="~/Images/ajax-loader.gif">
-            </div>
-        </p>
-    </fieldset>
-}
-    
-</div>
-
-<div id="addPersonMap">
-    <div class="addPersonMapCanvas"></div>
+    <div id="addPersonMap">
+        <div class="addPersonMapCanvas"></div>
+    </div>
+ 
 </div>
 
 <div class="spacer" />
-
 
 
 @{
@@ -94,10 +87,27 @@
 }
 
 <script>
-    function validatePerson(ajaxContext) {
-        
+
+    var geoCompleteEnabled = false;
+
+    //Needed to keep street addres in sync with all fields
+    $("#addPersonForm input[type='text']").focusout(function () {
+        updateFields();
+    })
+
+    $("#AddPersonButton").click(function () {
+        $("#addPersonWrapper").toggle();
+
+        if (!geoCompleteEnabled) {
+            enableGeoComplete();
+            geoCompleteEnabled = false;
+        }
+
+    })
+
+    function validatePerson(ajaxContext) {    
         if (validateAddress()) {
-            $("#AddPerson").submit(false);
+            setFormEnabled(false);
             return true;
         }
         else {
@@ -134,11 +144,45 @@
 
     function personAdded(ajaxContext) {
 
-        $("#result").text("Adres został dodany");
-
+        //Add new person to person list table
         $("#personList table tr").eq(0).after(ajaxContext);
 
-        $("#AddPerson").submit(true);
+        //Highlight newly added row
+        $("#personList table tr").eq(1).effect("highlight", {}, 5000);
+        
+        resetForm();
+        setFormEnabled(true);
+    }
+
+    function resetForm() {
+        $("#addPersonForm").find("input[type='text']").val("");
+        $("#Route").val('');
+    }
+
+    function setFormEnabled(enabled) {
+        if (enabled == false) {
+            $("#addPersonForm").find("input[type='text'], input[type='submit']").attr('disabled', 'disabled');
+        }
+        else {
+            $("#addPersonForm").find("input[type='text'], input[type='submit']").removeAttr('disabled');
+        }
+    }
+
+    function updateFields() {
+
+        //Name and Lastname
+        var nameElements = $("#NameSurname").val().split(" ");
+
+        $("#Lastname").val(nameElements.pop());
+        $("#Name").val(nameElements.join(" "));
+
+        //Street address
+        $("#StreetAddress").val($("#Route").val() + ' ' + $("#StreetNumber").val());
+
+        if ($("#StreetNumberDetails").val()) {
+            $("#StreetAddress").val($("#StreetAddress").val() + ', ' + $("#StreetNumberDetails").val())
+        }
+
     }
 
 </script>
@@ -148,7 +192,7 @@
 <script type="text/javascript" src="~/Scripts/geoxml3.js"></script>
 
 <script>
-      $(function(){
+      function enableGeoComplete(){
 
         //setup geo-autocomplete input
         $("#geocomplete").geocomplete({
@@ -163,8 +207,7 @@
             "geocode:result",
             function (event, result)
             {
-                $("#StreetAddress").val($("#Route").val() + ' ' + $("#StreetNumber").val());
-
+                updateFields();
                 validateAddress();
             })
 
@@ -181,5 +224,5 @@
         });
         myParser.parse('@Url.Action("MapKml", "District", new { id = ViewBag.DistrictId })');
 
-      });
+      }
 </script>
