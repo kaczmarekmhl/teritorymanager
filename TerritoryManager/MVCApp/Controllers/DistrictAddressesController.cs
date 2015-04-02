@@ -242,6 +242,7 @@ namespace MVCApp.Controllers
             if (ModelState.IsValid)
             {
                 person.Manual = true;
+                person.Selected = true; //If false it is not displayed
                 person.AddedByUserId = WebSecurity.CurrentUserId;
 
                 db.Persons.Add(person);
@@ -249,13 +250,38 @@ namespace MVCApp.Controllers
 
                 ViewBag.IsMultiPostCode = person.District.IsMultiPostCode();
                 ViewBag.PersonCounter = String.Empty;
+                ViewBag.DistrictId = person.District.Id;
+                ViewBag.ShowEditButtons = true;
                 return PartialView("_SelectedPersonRow", person);
             }
 
-            //return View(person);
-            //return Json(modelJson, JsonRequestBehavior.AllowGet);
-            return Content("Error", "text/html");
+            return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
         }
+        #endregion
+
+        #region DeletePerson
+
+        [HttpPost]
+        public ActionResult DeletePerson(int personId, int districtId)
+        {
+            Person person = db.Persons.Find(personId);
+            db.Entry(person).Reference(p => p.District).Load(); 
+
+            if (person == null || person.District.Id != districtId)
+            {
+                return new HttpNotFoundResult();
+            }
+
+            //Person addresses are not removed just deselected, also for manually added
+            person.Selected = false;
+            db.SaveChanges();
+
+            return new JsonResult()
+            {
+                Data = new { personId = person.Id }
+            };
+        }
+
         #endregion
 
         #region Helpers
@@ -269,7 +295,7 @@ namespace MVCApp.Controllers
             var list = db.Persons
                 .Where(p => p.District.Id == districtId 
                     && p.AddedByUserId == WebSecurity.CurrentUserId 
-                    && (p.Selected == true || p.Manual == true))
+                    && (p.Selected == true))
                 .ToList();
 
             return list.OrderBy(p => p.PostCode).ThenBy(p => p.StreetAddress).ToList();

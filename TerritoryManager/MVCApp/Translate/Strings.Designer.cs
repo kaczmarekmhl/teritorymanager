@@ -457,11 +457,29 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to + Add address.
+        ///   Looks up a localized string similar to Cannot find location. Please retype address..
         /// </summary>
-        public static string PersonAddButton {
+        public static string PersonAddCannotFindLocation {
             get {
-                return ResourceManager.GetString("PersonAddButton", resourceCulture);
+                return ResourceManager.GetString("PersonAddCannotFindLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Provide street name.
+        /// </summary>
+        public static string PersonAddProvideStreet {
+            get {
+                return ResourceManager.GetString("PersonAddProvideStreet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Provide street number.
+        /// </summary>
+        public static string PersonAddProvideStreetNumber {
+            get {
+                return ResourceManager.GetString("PersonAddProvideStreetNumber", resourceCulture);
             }
         }
         
@@ -480,6 +498,24 @@ namespace MVCApp.Translate {
         public static string PersonAddSuccess {
             get {
                 return ResourceManager.GetString("PersonAddSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you want to delete {0} {1}, {2}?.
+        /// </summary>
+        public static string PersonDeleteConfirmation {
+            get {
+                return ResourceManager.GetString("PersonDeleteConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add\Delete addresses.
+        /// </summary>
+        public static string PersonEditButton {
+            get {
+                return ResourceManager.GetString("PersonEditButton", resourceCulture);
             }
         }
         

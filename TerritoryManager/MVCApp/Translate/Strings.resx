@@ -348,10 +348,22 @@
   <data name="PersonNameSurname" xml:space="preserve">
     <value>Name &amp; surname</value>
   </data>
-  <data name="PersonAddButton" xml:space="preserve">
-    <value>+ Add address</value>
+  <data name="PersonEditButton" xml:space="preserve">
+    <value>Add\Delete addresses</value>
+  </data>
+  <data name="PersonAddCannotFindLocation" xml:space="preserve">
+    <value>Cannot find location. Please retype address.</value>
+  </data>
+  <data name="PersonAddProvideStreet" xml:space="preserve">
+    <value>Provide street name</value>
+  </data>
+  <data name="PersonAddProvideStreetNumber" xml:space="preserve">
+    <value>Provide street number</value>
   </data>
   <data name="PersonAddSuccess" xml:space="preserve">
     <value>New address added!</value>
+  </data>
+  <data name="PersonDeleteConfirmation" xml:space="preserve">
+    <value>Do you want to delete {0} {1}, {2}?</value>
   </data>
 </root>
