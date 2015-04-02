@@ -28,6 +28,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.First().TelephoneNumber)
             </th>
+            <th></th>
         </tr>
 
     @foreach (var item in Model) {
@@ -49,3 +50,180 @@
     </table>
     
 }
+
+@{
+    string country = "";
+    
+    if(ViewBag.DistrictCountry == MVCApp.Enums.Country.Denmark)
+    {
+        country = "dk";
+    }
+    else  if(ViewBag.DistrictCountry == MVCApp.Enums.Country.Norway)
+    {
+        country = "no";
+    }
+}
+
+<script src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
+<script type="text/javascript" src="~/Scripts/geoxml3.js"></script>
+@Scripts.Render("~/bundles/jquery.geocomplete")
+
+<script>
+    var geoCompleteEnabled = false;
+
+    $("#EditPersonButton").click(function () {
+
+		$("#EditPersonButton").toggleClass("pressed");
+        $("span[data-type=PersonEditButtons]").toggle();
+
+        $("#addPersonWrapper").toggle();
+		
+
+        if (!geoCompleteEnabled) {
+            enableGeoComplete();
+            geoCompleteEnabled = true;
+        }
+
+    })
+
+    function personDeleted(ajaxContext) {
+        //Remove person from list
+        $("tr[data-personId=" + ajaxContext.personId + "]").hide(1000);
+    }
+
+    function personDeleteError(ajaxContext) {
+        alert("@Strings.UnexpectedErrorOccured");
+    }
+
+    //Needed to keep street addres in sync with all fields
+    $("#addPersonForm input[type='text']").focusout(function () {
+        updateFields();
+    })
+
+    function validatePerson(ajaxContext) {
+        if (validateAddress()) {
+            setFormEnabled(false);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    function validateAddress() {
+
+        $("#GeoCompleteValidationError").text("");
+        $("#GeoCompleteValidationError").hide();
+
+        if ($("#Route").val() == '') {
+            $("#GeoCompleteValidationError").text("@Strings.PersonAddProvideStreet");
+            $("#GeoCompleteValidationError").show();
+
+            return false;
+        }
+        else if ($("#StreetNumber").val() == '') {
+            $("#GeoCompleteValidationError").text("@Strings.PersonAddProvideStreetNumber");
+        $("#GeoCompleteValidationError").show();
+
+        //return false; Allow users to add address withoud street number, because some small streets on Google does not have it.
+    }
+    else if ($("input[data-geo='lat']").val() == '' || $("input[data-geo='lng']").val() == '') {
+        $("#GeoCompleteValidationError").text("@Strings.PersonAddCannotFindLocation");
+            $("#GeoCompleteValidationError").show();
+
+            return false;
+        }
+
+    return true;
+}
+
+function personAdded(ajaxContext) {
+
+    var fadeOutTime = 6000;
+
+    //Add info message
+    $("#addPersonInfoMessage").text("@Strings.PersonAddSuccess").show(0).delay(fadeOutTime).hide(0);
+
+    //Add new person to person list table
+    $("#personList table tr").eq(0).after(ajaxContext);
+
+    //Highlight newly added row
+    $("#personList table tr").eq(1).effect("highlight", {}, fadeOutTime);
+
+    
+
+    resetForm();
+    setFormEnabled(true);
+}
+
+function personAddError(ajaxContext) {
+    alert("@Strings.UnexpectedErrorOccured");
+    setFormEnabled(true);
+}
+
+function resetForm() {
+    $("#addPersonForm").find("input[type='text']").val("");
+    $("#Route").val('');
+    $("#GeoCompleteValidationError").hide();
+}
+
+function setFormEnabled(enabled) {
+    if (enabled == false) {
+        $("#addPersonForm").find("input[type='text'], input[type='submit']").attr('disabled', 'disabled');
+    }
+    else {
+        $("#addPersonForm").find("input[type='text'], input[type='submit']").removeAttr('disabled');
+    }
+}
+
+function updateFields() {
+
+    //Name and Lastname
+    var nameElements = $("#NameSurname").val().split(" ");
+
+    $("#Lastname").val(nameElements.pop());
+    $("#Name").val(nameElements.join(" "));
+
+    //Street address
+    $("#StreetAddress").val($("#Route").val() + ' ' + $("#StreetNumber").val());
+
+    if ($("#StreetNumberDetails").val()) {
+        $("#StreetAddress").val($("#StreetAddress").val() + ', ' + $("#StreetNumberDetails").val())
+    }
+
+}
+
+function enableGeoComplete() {
+
+    //setup geo-autocomplete input
+    $("#geocomplete").geocomplete({
+        map: ".addPersonMapCanvas",
+        types: ['address'],
+        country: '@country',
+        details: "#addPersonForm",
+        detailsAttribute: "data-geo"
+    });
+
+    $("#geocomplete").bind(
+        "geocode:result",
+        function (event, result) {
+            updateFields();
+            validateAddress();
+        })
+
+    //Add map to geo-autocomplete
+    var map = $("#geocomplete").geocomplete("map");
+    map.setCenter(new google.maps.LatLng(56.0000, 12.0000));
+    map.setZoom(7);
+
+    //Display district boundary
+    var myParser = new geoXML3.parser({
+        map: map,
+        zoom: true,
+        singleInfoWindow: true
+    });
+    myParser.parse('@Url.Action("MapKml", "District", new { id = ViewBag.DistrictId })');
+
+}
+
+</script>

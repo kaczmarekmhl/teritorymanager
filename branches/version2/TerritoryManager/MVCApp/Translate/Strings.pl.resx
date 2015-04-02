@@ -348,10 +348,22 @@
   <data name="PersonNameSurname" xml:space="preserve">
     <value>Imię i nazwisko</value>
   </data>
-  <data name="PersonAddButton" xml:space="preserve">
-    <value>+ Dodaj adres</value>
+  <data name="PersonEditButton" xml:space="preserve">
+    <value>Dodaj\usuń adresy</value>
+  </data>
+  <data name="PersonAddCannotFindLocation" xml:space="preserve">
+    <value>Nie można określić lokalizacji adresu. Wpisz ponownie dokładny adres.</value>
+  </data>
+  <data name="PersonAddProvideStreet" xml:space="preserve">
+    <value>Podaj nazwę ulicy</value>
+  </data>
+  <data name="PersonAddProvideStreetNumber" xml:space="preserve">
+    <value>Podaj numer domu, jeśli to możliwe.</value>
   </data>
   <data name="PersonAddSuccess" xml:space="preserve">
     <value>Nowy adres został dodany :)</value>
+  </data>
+  <data name="PersonDeleteConfirmation" xml:space="preserve">
+    <value>Czy chcesz usunąć {0} {1}, {2}?</value>
   </data>
 </root>

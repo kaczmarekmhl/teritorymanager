@@ -1,6 +1,10 @@
 ﻿@model MVCApp.Models.Person
 
-<tr>
+@{
+    int districtId = @ViewBag.DistrictId; 
+}
+
+<tr data-personId="@Model.Id">
     <td>
         @if(!String.IsNullOrEmpty(ViewBag.PersonCounter.ToString())) 
         {
@@ -25,5 +29,22 @@
     }
     <td>
         @Html.DisplayFor(modelItem => Model.TelephoneNumber)
+    </td>
+    <td >
+        <span data-type="PersonEditButtons" 
+			@if(ViewBag.ShowEditButtons == null || !ViewBag.ShowEditButtons){ 
+				@: style="display:none"
+			}
+			>
+        @Ajax.ActionLink("Usuń", "DeletePerson", 
+            new { personId = @Model.Id, districtId = districtId}, 
+            new AjaxOptions 
+            { 
+                HttpMethod = "post",
+                Confirm = @String.Format(@Strings.PersonDeleteConfirmation, Model.Name, Model.Lastname, Model.StreetAddress),
+                OnSuccess = "personDeleted",
+                OnFailure = "personDeleteError"                
+            })
+        </span>
     </td>
 </tr>

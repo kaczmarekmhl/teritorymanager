@@ -8,19 +8,26 @@
 <h2>@Html.ActionLink(districtName, "Index", "District", new { id = districtId }, null) -  @Strings.SearchSelectedAdresses</h2>
 
     <div class="button">
-        @Html.ActionLink(Strings.SearchSaveSelectedAsPdf, "AdressesPdfFile", new { id = districtId })
+        <a href="@Url.Action("AdressesPdfFile", new { id = districtId })" target="_blank" class="withImage">
+            <img src='~/Images/WindowsIcons/Light/appbar.page.file.pdf.svg'/> @Strings.SearchSaveSelectedAsPdf
+        </a>
     </div>
     <div class="button">
-        @Html.ActionLink(Strings.SearchSaveSelectedAsDoc, "AdressesDocFile", new { id = districtId })
+        <a href="@Url.Action("AdressesDocFile", new { id = districtId })" target="_blank" class="withImage">
+            <img src='~/Images/WindowsIcons/Light/appbar.office.word.svg'/> @Strings.SearchSaveSelectedAsDoc
+        </a>
     </div>
     <div class="button">
-        @Html.ActionLink(Strings.SearchDisplaySelectedOnMap, "AdressesMap", new { id = districtId }, new { target = "_blank" })
+        <a href="@Url.Action("AdressesMap", new { id = districtId })" target="_blank" class="withImage">
+            <img src='~/Images/WindowsIcons/Light/appbar.map.gps.svg'/> @Strings.SearchDisplaySelectedOnMap
+        </a>
     </div>
     <div class="button buttonIn">
-        <a href="#" id="AddPersonButton">@Strings.PersonAddButton</a>
+        <a href="#" id="EditPersonButton" class="withImage">
+            <img src='~/Images/WindowsIcons/Light/appbar.edit.add.svg'/> @Strings.PersonEditButton
+        </a>
     </div>
     <div class="spacer" />
-
 @Html.Partial("_AddPerson", new MVCApp.Models.Person())
 
 <div id="personList">

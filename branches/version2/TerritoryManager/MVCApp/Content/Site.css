@@ -17,7 +17,7 @@ a {
     padding-left: 3px;
     padding-right: 3px;
     text-decoration: none;
-    color: #3fa2bf;
+    color: #4A6DA7;
     cursor: pointer;
 }
 
@@ -42,6 +42,20 @@ a {
         text-decoration: none;
         background-color: #5f85c5;
     }
+
+.button a.withImage {
+    padding-top:2px;
+    padding-bottom:2px;
+}
+
+.button a.pressed {
+    background-color:#107668;
+}
+
+.button a img {
+    width:41px;
+    vertical-align:middle;
+}
 
 header, footer, hgroup,
 nav, section {
@@ -219,7 +233,7 @@ div.spacer {
         margin-right: 3px;
         padding: 3px 4px;
         text-decoration: none;
-        color: #85d2e8;
+        color: #A1B8DF;
     }
 
         #login a.username {
