@@ -10,16 +10,16 @@
 
     @if(Model.AssignedToUserId == WebSecurity.CurrentUserId)
     {
-        <div class="button">
-            @Html.ActionLink(Strings.SearchAdresses, "Index", "SearchAddress", new { id = Model.Id }, null)
-        </div>
-
         if (ViewBag.LastSearchEnabled)
         {
-            <div class="button spacer">
-                @Html.ActionLink(Strings.LastSearchResults, "Index", "DistrictAddresses", new { id = Model.Id }, null)
+            <div class="button">
+                @Html.ActionLink(Strings.DistrictAddresses, "Index", "DistrictAddresses", new { id = Model.Id }, null)
             </div>
         }
+        
+        <div class="button spacer">
+            @Html.ActionLink(Strings.SearchAdresses, "Index", "SearchAddress", new { id = Model.Id }, null)
+        </div>        
 
         <h3 id="toggleReportCompletion">
             <span>@Strings.ReportDistrictCompletion </span><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>

@@ -334,7 +334,7 @@
     <value>Usunięcie konta administratora jest niemożliwe.</value>
   </data>
   <data name="SearchAdressComplete" xml:space="preserve">
-    <value>Wyszukiwanie zakończone. Zaznacz Polaków na poniższej liście.</value>
+    <value>Wyszukiwanie zakończone. Zaznacz Polaków na poniższej liście, aby dodać ich do listy adresów na terenie.</value>
   </data>
   <data name="SearchSaveSelectedAsDoc" xml:space="preserve">
     <value>Zapisz jako Word</value>
@@ -365,5 +365,11 @@
   </data>
   <data name="PersonDeleteConfirmation" xml:space="preserve">
     <value>Czy chcesz usunąć {0} {1}, {2}?</value>
+  </data>
+  <data name="AddPerson" xml:space="preserve">
+    <value>Dodaj adres</value>
+  </data>
+  <data name="DistrictAddresses" xml:space="preserve">
+    <value>Lista adresów</value>
   </data>
 </root>
