@@ -7,9 +7,13 @@
     Model.PostCode = ViewBag.DistrictPostCode;
 }
 
-<div id="addPersonWrapper" style="display:none">
+<div id="addPersonWrapper" class="clear-fix" style="display:none">
 
-    <div id="addPersonFormWrapper">
+    <div id="addPersonMap" class="float-right">
+        <div class="addPersonMapCanvas"></div>
+    </div>
+
+    <div id="addPersonFormWrapper" class="float-left">
         @using (Ajax.BeginForm("AddPerson", null, new AjaxOptions { 
             OnBegin = "validatePerson",     
             OnSuccess = "personAdded",
@@ -57,19 +61,18 @@
 
                 <p>
                     <input type="submit" value="Dodaj" />
+                    <span id="addPersonInfoMessage" class="infoMessage" style="display:none"></span>
                 </p>
+                
             </fieldset>
         }
     </div>
 
-    <div id="addPersonMap">
-        <div class="addPersonMapCanvas"></div>
-    </div>
+    
+
+    
  
 </div>
-
-<div class="spacer" />
-
 
 @{
     string country = "";
@@ -142,11 +145,16 @@
 
     function personAdded(ajaxContext) {
 
+        var fadeOutTime = 6000;
+
         //Add new person to person list table
         $("#personList table tr").eq(0).after(ajaxContext);
 
         //Highlight newly added row
-        $("#personList table tr").eq(1).effect("highlight", {}, 5000);
+        $("#personList table tr").eq(1).effect("highlight", {}, fadeOutTime);
+
+        //Add info message
+        $("#addPersonInfoMessage").text("@Strings.PersonAddSuccess").show(0).delay(fadeOutTime).hide(0);
         
         resetForm();
         setFormEnabled(true);
