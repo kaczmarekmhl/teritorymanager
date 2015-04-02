@@ -457,11 +457,29 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to + Add address.
+        /// </summary>
+        public static string PersonAddButton {
+            get {
+                return ResourceManager.GetString("PersonAddButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Address.
         /// </summary>
         public static string PersonAddress {
             get {
                 return ResourceManager.GetString("PersonAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New address added!.
+        /// </summary>
+        public static string PersonAddSuccess {
+            get {
+                return ResourceManager.GetString("PersonAddSuccess", resourceCulture);
             }
         }
         

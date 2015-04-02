@@ -398,7 +398,7 @@ aside {
     font-weight: 700;
 }
 
-div.infoMessage {
+.infoMessage {
     padding-left:0.3em;
     padding-right:0.3em;
     padding-top:0.6em;
@@ -407,7 +407,7 @@ div.infoMessage {
     background-color:#CAE8CD;
 }
 
-div.warningMessage {
+.warningMessage {
     padding-left:0.3em;
     padding-right:0.3em;
     padding-top:0.8em;
@@ -496,14 +496,12 @@ div.mapLegendBoxRed
 
 /* Add person*/
 #addPersonFormWrapper {
-    float: left;
-    width: 30%;
+    width: 320px;
 }
 
 #addPersonMap {
-    width: 66%;
+    width: 60%;
     height: 260px;
-    float: right;
 }
 
     #addPersonMap .addPersonMapCanvas {
@@ -1039,6 +1037,12 @@ tr.pager td {
 
     div.spacer {
          /* clear: right;*/
+    }
+
+    /* Add person*/
+    #addPersonMap {
+        width: 100%;
+        height: 200px;
     }
 
     /* footer

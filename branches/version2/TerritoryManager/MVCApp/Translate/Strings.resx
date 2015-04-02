@@ -348,4 +348,10 @@
   <data name="PersonNameSurname" xml:space="preserve">
     <value>Name &amp; surname</value>
   </data>
+  <data name="PersonAddButton" xml:space="preserve">
+    <value>+ Add address</value>
+  </data>
+  <data name="PersonAddSuccess" xml:space="preserve">
+    <value>New address added!</value>
+  </data>
 </root>
