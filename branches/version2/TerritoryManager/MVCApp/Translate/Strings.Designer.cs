@@ -124,6 +124,15 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add address.
+        /// </summary>
+        public static string AddPerson {
+            get {
+                return ResourceManager.GetString("AddPerson", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Approve.
         /// </summary>
         public static string Approve {
@@ -210,6 +219,15 @@ namespace MVCApp.Translate {
         public static string District {
             get {
                 return ResourceManager.GetString("District", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to District adresses.
+        /// </summary>
+        public static string DistrictAddresses {
+            get {
+                return ResourceManager.GetString("DistrictAddresses", resourceCulture);
             }
         }
         
