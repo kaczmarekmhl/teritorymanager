@@ -334,9 +334,11 @@
     <Content Include="Images\FrontPicture.jpg" />
     <Content Include="Images\Logo.png" />
     <Content Include="Images\WindowsIcons\Light\appbar.edit.add.svg" />
+    <Content Include="Images\WindowsIcons\Light\appbar.magnify.browse.svg" />
     <Content Include="Images\WindowsIcons\Light\appbar.map.gps.svg" />
     <Content Include="Images\WindowsIcons\Light\appbar.office.word.svg" />
     <Content Include="Images\WindowsIcons\Light\appbar.page.file.pdf.svg" />
+    <Content Include="Images\WindowsIcons\Light\appbar.people.profile.svg" />
     <Content Include="Scripts\geoxml3.js" />
     <Content Include="Scripts\jquery.geocomplete\jquery.geocomplete.js" />
     <Content Include="Scripts\jquery.geocomplete\jquery.geocomplete.min.js" />
@@ -482,7 +484,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>23344</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:57647/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
