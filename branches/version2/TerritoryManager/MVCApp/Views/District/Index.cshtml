@@ -13,12 +13,16 @@
         if (ViewBag.LastSearchEnabled)
         {
             <div class="button">
-                @Html.ActionLink(Strings.DistrictAddresses, "Index", "DistrictAddresses", new { id = Model.Id }, null)
+                <a href="@Url.Action("Index", "DistrictAddresses",  new { id = Model.Id })" class="withImage">
+                    <img src='~/Images/WindowsIcons/Light/appbar.people.profile.svg'/> @Strings.DistrictAddresses
+                </a>
             </div>
         }
         
         <div class="button spacer">
-            @Html.ActionLink(Strings.SearchAdresses, "Index", "SearchAddress", new { id = Model.Id }, null)
+            <a href="@Url.Action("Index", "SearchAddress",  new { id = Model.Id })" class="withImage">
+                <img src='~/Images/WindowsIcons/Light/appbar.magnify.browse.svg'/> @Strings.SearchAdresses
+            </a>
         </div>        
 
         <h3 id="toggleReportCompletion">
