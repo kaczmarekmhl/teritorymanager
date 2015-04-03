@@ -343,7 +343,7 @@
     <value>Ulica z numerem domu</value>
   </data>
   <data name="AutocompleteAddressEnterLocationDetails" xml:space="preserve">
-    <value>Numer mieszkania, inne szczegóły</value>
+    <value>Inne szczegóły adresu</value>
   </data>
   <data name="PersonNameSurname" xml:space="preserve">
     <value>Imię i nazwisko</value>
