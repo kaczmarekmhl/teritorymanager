@@ -21,9 +21,9 @@
         {
             MVCApp.MvcApplication.InitializeSimpleMembershipProvider();
 
-            AddUsersAndRoles(context);
-            AddCongregations(context);
-            AddDistricts(context);
+            //AddUsersAndRoles(context);
+            //AddCongregations(context);
+            //AddDistricts(context);
         }
 
         protected void AddUsersAndRoles(MVCApp.Models.DistictManagerDb context)
