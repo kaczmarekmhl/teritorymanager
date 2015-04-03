@@ -3,10 +3,9 @@
 @{
     int districtId = ViewBag.DistrictId;
     string districtName = ViewBag.DistrictName;
-    ViewBag.Title = String.Format("{0} - {1}", districtName, @Strings.SearchAdresses);
 }
 
-<h2>@ViewBag.Title</h2>
+<h2>@Html.ActionLink(districtName, "Index", "District", new { id = districtId }, null) -  @Strings.SearchAdresses</h2>
 
 @if (Model.IsFirstPage)
 {
