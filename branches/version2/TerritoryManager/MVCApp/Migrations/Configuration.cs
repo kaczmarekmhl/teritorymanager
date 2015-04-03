@@ -15,6 +15,7 @@
         {
             AutomaticMigrationsEnabled = false;
             ContextKey = "MVCApp.Models.DistictManagerDb";
+            this.CommandTimeout = 60 * 5;
         }
 
         protected override void Seed(MVCApp.Models.DistictManagerDb context)
