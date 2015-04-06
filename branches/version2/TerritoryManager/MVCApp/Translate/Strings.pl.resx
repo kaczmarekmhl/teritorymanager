@@ -189,9 +189,6 @@
   <data name="SearchAdresses" xml:space="preserve">
     <value>Wyszukiwarka adresów</value>
   </data>
-  <data name="SearchDisplaySelected" xml:space="preserve">
-    <value>Wyświetl adresy zaznaczonych osób</value>
-  </data>
   <data name="SearchDisplaySelectedOnMap" xml:space="preserve">
     <value>Wyświetl na mapie</value>
   </data>
@@ -334,7 +331,7 @@
     <value>Usunięcie konta administratora jest niemożliwe.</value>
   </data>
   <data name="SearchAdressComplete" xml:space="preserve">
-    <value>Wyszukiwanie zakończone. Zaznacz Polaków na poniższej liście, aby dodać ich do listy adresów na terenie.</value>
+    <value>Wyszukiwanie zakończone! Zaznacz Polaków na poniższej liście wyników wyszukiwania, aby dodać ich do listy adresów na terenie.</value>
   </data>
   <data name="SearchSaveSelectedAsDoc" xml:space="preserve">
     <value>Zapisz jako Word</value>
@@ -370,6 +367,12 @@
     <value>Dodaj adres</value>
   </data>
   <data name="DistrictAddresses" xml:space="preserve">
-    <value>Lista adresów</value>
+    <value>Lista adresów na terenie</value>
+  </data>
+  <data name="PersonListEmpty" xml:space="preserve">
+    <value>Brak adresów. Uruchom {0}, albo dodaj adresy ręcznie.</value>
+  </data>
+  <data name="PersonListEmptySearchEngineLink" xml:space="preserve">
+    <value>wyszukiwarkę adresów</value>
   </data>
 </root>

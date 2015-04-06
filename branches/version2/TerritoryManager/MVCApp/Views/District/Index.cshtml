@@ -10,14 +10,12 @@
 
     @if(Model.AssignedToUserId == WebSecurity.CurrentUserId)
     {
-        if (ViewBag.LastSearchEnabled)
-        {
-            <div class="button">
-                <a href="@Url.Action("Index", "DistrictAddresses",  new { id = Model.Id })" class="withImage">
-                    <img src='~/Images/WindowsIcons/Light/appbar.people.profile.svg'/> @Strings.DistrictAddresses
-                </a>
-            </div>
-        }
+
+        <div class="button">
+            <a href="@Url.Action("Index", "DistrictAddresses",  new { id = Model.Id })" class="withImage">
+                <img src='~/Images/WindowsIcons/Light/appbar.people.profile.svg'/> @Strings.DistrictAddresses
+            </a>
+        </div>        
         
         <div class="button spacer">
             <a href="@Url.Action("Index", "SearchAddress",  new { id = Model.Id })" class="withImage">

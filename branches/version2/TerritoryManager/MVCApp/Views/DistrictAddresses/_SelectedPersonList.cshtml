@@ -5,9 +5,14 @@
     string lastStreetAddress = "";
 }
 
-@if (Model != null && Model.Count() != 0)
+@if (Model == null || Model.Count() == 0) 
 {
-    <table>
+    <div class="warningMessage">
+        @Html.Raw(String.Format(Strings.PersonListEmpty, Html.ActionLink(Strings.PersonListEmptySearchEngineLink, "Index", "SearchAddress", new { id = ViewBag.DistrictId }, null)))
+    </div>
+}
+
+<table>
         <tr>
             <th>#</th>
             <th>
@@ -31,7 +36,11 @@
             <th></th>
         </tr>
 
-    @foreach (var item in Model) {
+@if (Model != null && Model.Count() != 0)
+{
+    
+
+    foreach (var item in Model) {
         
         if(lastStreetAddress != item.StreetAddress)
         {
@@ -47,9 +56,9 @@
 
         lastStreetAddress = item.StreetAddress;
     }
-    </table>
-    
+   
 }
+</table>
 
 @{
     string country = "";
@@ -145,12 +154,10 @@ function personAdded(ajaxContext) {
     $("#addPersonInfoMessage").text("@Strings.PersonAddSuccess").show(0).delay(fadeOutTime).hide(0);
 
     //Add new person to person list table
-    $("#personList table tr").eq(0).after(ajaxContext);
+    $("#personList table tr").eq(0).after(ajaxContext);    
 
     //Highlight newly added row
-    $("#personList table tr").eq(1).effect("highlight", {}, fadeOutTime);
-
-    
+    $("#personList table tr").eq(1).effect("highlight", {}, fadeOutTime);    
 
     resetForm();
     setFormEnabled(true);

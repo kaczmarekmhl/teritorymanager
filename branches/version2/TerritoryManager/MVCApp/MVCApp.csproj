@@ -254,6 +254,10 @@
     <Compile Include="Migrations\201503221851303_ManualAddress.Designer.cs">
       <DependentUpon>201503221851303_ManualAddress.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201504061631097_SearchUpdate.cs" />
+    <Compile Include="Migrations\201504061631097_SearchUpdate.Designer.cs">
+      <DependentUpon>201504061631097_SearchUpdate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Congregation.cs" />
     <Compile Include="Models\District.cs" />
@@ -462,10 +466,14 @@
     <EmbeddedResource Include="Migrations\201503221851303_ManualAddress.resx">
       <DependentUpon>201503221851303_ManualAddress.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201504061631097_SearchUpdate.resx">
+      <DependentUpon>201504061631097_SearchUpdate.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Translate\Strings.pl.resx" />
     <EmbeddedResource Include="Translate\Strings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

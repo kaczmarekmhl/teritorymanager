@@ -5,7 +5,7 @@
     string districtName = ViewBag.DistrictName;
 }
 
-<h2>@Html.ActionLink(districtName, "Index", "District", new { id = districtId }, null) -  @Strings.SearchSelectedAdresses</h2>
+<h2>@Html.ActionLink(districtName, "Index", "District", new { id = districtId }, null) -  @Strings.DistrictAddresses</h2>
 
     <div class="button">
         <a href="@Url.Action("AdressesPdfFile", new { id = districtId })" target="_blank" class="withImage">
