@@ -257,16 +257,6 @@ namespace MVCApp.Models
             return PostCodeFirst == 0 || PostCodeLast.HasValue && PostCodeFirst != PostCodeLast.Value;
         }
 
-        /// <summary>
-        /// Specifies if people for this district has already been searched.
-        /// </summary>
-        public bool IsPeopleSearched()
-        {
-            var districtReports = new List<DistrictReport>();
-
-            return PersonList.Count(p => p.AddedByUserId == WebSecurity.CurrentUserId) > 0;  
-        }
-
         #region Constructors
 
         public District(string postCode)

@@ -3,6 +3,7 @@ using AddressSearch.AdressProvider.Filters;
 using AddressSearch.AdressProvider.Filters.PersonFilter;
 using AddressSearch.AdressProvider.Filters.PersonFilter.Helpers;
 using AddressSearch.AdressProvider.SearchStrategies;
+using SearchEntities = AddressSearch.AdressProvider.Entities;
 using MapLibrary;
 using MVCApp.Models;
 using Novacode;
@@ -36,7 +37,7 @@ namespace MVCApp.Controllers
             ViewBag.DistrictId = district.Id;
             ViewBag.DistrictName = district.Name;
 
-            var personList = GetPersistedPersonList(district.Id, page);
+            var personList = GetPersistedPersonListPaged(district.Id, page);
 
             return View(personList);
         }
@@ -56,9 +57,9 @@ namespace MVCApp.Controllers
             {
                 return new HttpNotFoundResult();
             }
-
+                        
             var personList =
-                SearchAddressOnKrak(district)
+                GetPersonList(district)
                 .OrderBy(p => p.Name)
                 .ToPagedList(1, personListPageSize);
 
@@ -114,24 +115,116 @@ namespace MVCApp.Controllers
         /// </summary>
         /// <param name="district">District that the search will be done for.</param>
         /// <returns>Person list</returns>
-        private List<Person> SearchAddressOnKrak(District district)
+        private List<Person> GetPersonList(District district)
         {
-            var personList = GetPersonListFromKrak(district);
+            List<Person> previousPersonList = new List<Person>();
+
+            var personList = GetPersonListFromSearchEngine(district, out previousPersonList);
             personList = PreliminarySelection(personList);
             PersistPersonList(district.Id, personList);
 
+            if(previousPersonList.Count > 0)
+            {
+                personList.AddRange(previousPersonList);
+            }
+
             return personList;
+        }
+                
+        /// <summary>
+        /// Loads person list from search engine.
+        /// </summary>
+        /// <param name="district">District that the search will be done for.</param>
+        /// <returns>Person list</returns>
+        private List<Person> GetPersonListFromSearchEngine(District district, out List<Person> previousPersonList)
+        {
+            var addressProvider = GetAddressProviderForDistrict(district);
+            var personListFromSearch = !String.IsNullOrEmpty(district.SearchPhrase) ? addressProvider.getPersonList(district.SearchPhrase) : addressProvider.getPersonList(district.PostCodeFirst, district.PostCodeLast);
+
+            personListFromSearch = FilterPersonListFromSearchEngine(district, personListFromSearch);
+
+            previousPersonList = GetPersistedPersonListQuery(district.Id).ToList();
+
+            //List can be updated
+            if (previousPersonList.Count > 0)
+            {
+                var outdatedPersonList = previousPersonList.Select(p => new SearchEntities.Person()
+                    {
+                        Name = p.Name,
+                        Lastname = p.Lastname,
+                        PostCode = p.PostCode,
+                        StreetAddress = p.StreetAddress
+                    }).ToList();
+
+                var newPersonList = new List<SearchEntities.Person>();
+                var removedPersonList = new List<SearchEntities.Person>();
+
+                addressProvider.GetDifferenceOfUpdatedPersonList(personListFromSearch, outdatedPersonList, out newPersonList, out removedPersonList);
+
+                previousPersonList.ForEach(p => p.NewPersonUpdate = false);
+
+                // Conversion to model
+                return newPersonList.Select(p => new Person(p, district)).ToList();
+            }
+
+            // Conversion to model
+            return personListFromSearch.Select(p => new Person(p, district)).ToList();
+        }
+
+        /// <summary>
+        /// Filters out people received from search engine.
+        /// </summary>
+        /// <param name="district">District.</param>
+        /// <param name="personListFromSearch">List with person models.</param>
+        /// <returns></returns>
+        private List<SearchEntities.Person> FilterPersonListFromSearchEngine(District district, List<SearchEntities.Person> personListFromSearch)
+        {
+            var filterList = new List<AddressSearch.AdressProvider.Filters.PersonFilter.IPersonFilter> {
+                    new ScandinavianSurname()
+                };
+            FilterManager.FilterPersonList(personListFromSearch, filterList);
+
+            personListFromSearch = FilterPeopleOutsideBoundary(personListFromSearch, district);
+
+            return personListFromSearch;
+        }
+
+        /// <summary>
+        /// Filters out people outside district boundary.
+        /// </summary>
+        /// <param name="personList">List with person models.</param>
+        /// <param name="district">District</param>
+        /// <returns>List with people inside district boundary.</returns>
+        private List<SearchEntities.Person> FilterPeopleOutsideBoundary(List<SearchEntities.Person> personList, District district)
+        {
+            if (String.IsNullOrEmpty(district.DistrictBoundaryKml) || !IsDistrictPartial(district))
+            {
+                return personList;
+            }
+
+            var resultList = new List<AddressSearch.AdressProvider.Entities.Person>();
+            var kmlDoc = new KmlDocument(district.DistrictBoundaryKml);
+
+            foreach (var person in personList)
+            {
+                if (kmlDoc.IsPointInsideBounday(person.Longitude, person.Latitude))
+                {
+                    resultList.Add(person);
+                }
+            }
+
+            return resultList;
         }
 
         /// <summary>
         /// Deletes people for given district.
         /// </summary>
         /// <param name="districtId">District id that the delete will be done for.</param>
-        private void DeletePeopleInDistrict(int districtId)
+        private void MarkPeopleAsOldSearch(int districtId)
         {
             //Entity framework does not support deleting data through direct SQL
             //We need to do it due to performance reasons
-            string sqlDeleteStatement = "DELETE FROM People WHERE District_id = @districtId AND AddedByUserId = @userId AND Manual = 0";
+            string sqlDeleteStatement = "Update People SET NewPersonUpdate = 0 WHERE District_id = @districtId AND AddedByUserId = @userId AND Manual = 0";
 
             List<SqlParameter> parameterList = new List<SqlParameter>();
             parameterList.Add(new SqlParameter("@districtId", districtId));
@@ -162,56 +255,15 @@ namespace MVCApp.Controllers
             return personList;
         }
 
-        /// <summary>
-        /// Filters our people outside district boundary.
-        /// </summary>
-        /// <param name="personList">List with person models.</param>
-        /// <param name="district">District</param>
-        /// <returns>List with people inside district boundary.</returns>
-        private List<AddressSearch.AdressProvider.Entities.Person> FilterPeopleOutsideBoundary(List<AddressSearch.AdressProvider.Entities.Person> personList, District district)
-        {
-            if (String.IsNullOrEmpty(district.DistrictBoundaryKml) || !IsDistrictPartial(district))
-            {
-                return personList;
-            }
-
-            var resultList = new List<AddressSearch.AdressProvider.Entities.Person>();
-            var kmlDoc = new KmlDocument(district.DistrictBoundaryKml);
-
-            foreach (var person in personList)
-            {
-                if (kmlDoc.IsPointInsideBounday(person.Longitude, person.Latitude))
-                {
-                    resultList.Add(person);
-                }
-            }
-
-            return resultList;
-        }
 
         /// <summary>
-        /// Loads person list from Krak website.
+        /// Loads persisted person list.
         /// </summary>
         /// <param name="district">District that the search will be done for.</param>
-        /// <returns>Person list</returns>
-        private List<Person> GetPersonListFromKrak(District district)
+        /// <returns></returns>
+        private IPagedList<Person> GetPersistedPersonListPaged(int districtId, int page = 1)
         {
-            var personList = new List<Person>();
-            var addressProvider = GetAddressProviderForDistrict(district);
-            var personListFromKrak = !String.IsNullOrEmpty(district.SearchPhrase)? addressProvider.getPersonList(district.SearchPhrase) : addressProvider.getPersonList(district.PostCodeFirst, district.PostCodeLast);
-            
-            // Filtering
-            var filterList = new List<AddressSearch.AdressProvider.Filters.PersonFilter.IPersonFilter> {
-                    new ScandinavianSurname()
-                };
-            FilterManager.FilterPersonList(personListFromKrak, filterList);
-
-            personListFromKrak = FilterPeopleOutsideBoundary(personListFromKrak, district);
-
-            // Conversion to model
-            personList = personListFromKrak.Select(p => new Person(p, district)).ToList();
-
-            return personList;
+            return GetPersistedPersonListQuery(districtId).ToPagedList(page, personListPageSize);
         }
 
         /// <summary>
@@ -219,12 +271,11 @@ namespace MVCApp.Controllers
         /// </summary>
         /// <param name="district">District that the search will be done for.</param>
         /// <returns></returns>
-        private IPagedList<Person> GetPersistedPersonList(int districtId, int page = 1)
+        private IQueryable<Person> GetPersistedPersonListQuery(int districtId)
         {
             return db.Persons
                 .Where(p => p.District.Id == districtId && p.AddedByUserId == WebSecurity.CurrentUserId && p.Manual == false)
-                .OrderBy(p => p.Name)
-                .ToPagedList(page, personListPageSize);
+                .OrderBy(p => p.Name);
         }
 
         /// <summary>
@@ -236,7 +287,10 @@ namespace MVCApp.Controllers
         {
             if (personList.Count > 0)
             {
-                DeletePeopleInDistrict(districtId);
+                MarkPeopleAsOldSearch(districtId);
+
+                //Mark as new update
+                personList.ForEach(p => p.NewPersonUpdate = true);
 
                 db.Persons.AddRange(personList);
 
