@@ -58,11 +58,8 @@
             return RemovePersonListDuplicates(personList);
         }
 
-        public void UpdatePersonList(List<Person> outdatedPersonList, out List<Person> newPersonList, out List<Person> removedPersonList, int postCodeFirst, int? postCodeLast = null)
+        public void GetDifferenceOfUpdatedPersonList(List<Person> updatedPersonList, List<Person> outdatedPersonList, out List<Person> newPersonList, out List<Person> removedPersonList)
         {
-            // Get up to date person list
-            var updatedPersonList = getPersonList(postCodeFirst, postCodeLast);
-
             // Get new people list
             var newPersonSet = new HashSet<Person>(updatedPersonList);
             newPersonSet.ExceptWith(outdatedPersonList);
@@ -72,7 +69,7 @@
             var removedPersonSet = new HashSet<Person>(outdatedPersonList);
             removedPersonSet.ExceptWith(updatedPersonList);
             removedPersonList = removedPersonSet.ToList();
-        }        
+        }  
 
         /// <summary>
         /// Removes search results outside post code range.
