@@ -66,8 +66,11 @@
         @if(Model.IsLastPage)
         {
         <div class="button float-right">
-            @Html.ActionLink(Strings.SearchDisplaySelected, "Index", "DistrictAddresses", new { id = districtId}, null)
-        </div>
+            <a href="@Url.Action("Index", "DistrictAddresses",  new { id = districtId })" class="withImage">
+                <img src='~/Images/WindowsIcons/Light/appbar.people.profile.svg'/> @Strings.DistrictAddresses
+            </a>
+        </div>    
+            
         <div class="spacer" />
         }
 

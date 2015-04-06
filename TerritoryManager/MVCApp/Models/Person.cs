@@ -148,6 +148,11 @@ namespace MVCApp.Models
         /// </summary>
         public bool Manual { get; set; }
 
+        /// <summary>
+        /// Is this person added as a new one, after original list was updated.
+        /// </summary>
+        public bool NewPersonUpdate { get; set; }
+
         #endregion
 
         #region Crypted Properties

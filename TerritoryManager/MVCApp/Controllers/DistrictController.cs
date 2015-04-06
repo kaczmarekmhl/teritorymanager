@@ -23,8 +23,6 @@ namespace MVCApp.Controllers
                 return new HttpNotFoundResult();
             }
 
-            ViewBag.LastSearchEnabled = LastSearchEnabled(district);
-
             return View(district);
         }
 
@@ -45,14 +43,5 @@ namespace MVCApp.Controllers
         }
 
         #endregion
-
-        #region Helpers
-        public bool LastSearchEnabled(District district)
-        {
-            return db.Persons.Count(p => p.District.Id == district.Id && p.AddedByUserId == WebSecurity.CurrentUserId) > 0;               
-        }
-
-        #endregion
-
     }
 }

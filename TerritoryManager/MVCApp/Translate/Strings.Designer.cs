@@ -538,6 +538,24 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No addresses. Run {0} or add adresses manually..
+        /// </summary>
+        public static string PersonListEmpty {
+            get {
+                return ResourceManager.GetString("PersonListEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to search engine.
+        /// </summary>
+        public static string PersonListEmptySearchEngineLink {
+            get {
+                return ResourceManager.GetString("PersonListEmptySearchEngineLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
         public static string PersonName {
@@ -678,15 +696,6 @@ namespace MVCApp.Translate {
         public static string SearchAdressNoPerson {
             get {
                 return ResourceManager.GetString("SearchAdressNoPerson", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Display adresses of selected people.
-        /// </summary>
-        public static string SearchDisplaySelected {
-            get {
-                return ResourceManager.GetString("SearchDisplaySelected", resourceCulture);
             }
         }
         

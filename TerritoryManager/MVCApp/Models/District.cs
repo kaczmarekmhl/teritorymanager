@@ -84,7 +84,7 @@ namespace MVCApp.Models
         /// <summary>
         /// The list of Person found in this dictrict.
         /// </summary>
-        public ICollection<Person> PersonList { get; set; }
+        public virtual ICollection<Person> PersonList { get; set; }
 
         /// <summary>
         /// Kml file with district boundary.
@@ -255,6 +255,16 @@ namespace MVCApp.Models
         public bool IsMultiPostCode()
         {
             return PostCodeFirst == 0 || PostCodeLast.HasValue && PostCodeFirst != PostCodeLast.Value;
+        }
+
+        /// <summary>
+        /// Specifies if people for this district has already been searched.
+        /// </summary>
+        public bool IsPeopleSearched()
+        {
+            var districtReports = new List<DistrictReport>();
+
+            return PersonList.Count(p => p.AddedByUserId == WebSecurity.CurrentUserId) > 0;  
         }
 
         #region Constructors

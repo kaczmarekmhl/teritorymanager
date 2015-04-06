@@ -189,9 +189,6 @@
   <data name="SearchAdresses" xml:space="preserve">
     <value>Search adresses</value>
   </data>
-  <data name="SearchDisplaySelected" xml:space="preserve">
-    <value>Display adresses of selected people</value>
-  </data>
   <data name="SearchDisplaySelectedOnMap" xml:space="preserve">
     <value>Show map</value>
   </data>
@@ -371,5 +368,11 @@
   </data>
   <data name="DistrictAddresses" xml:space="preserve">
     <value>District adresses</value>
+  </data>
+  <data name="PersonListEmpty" xml:space="preserve">
+    <value>No addresses. Run {0} or add adresses manually.</value>
+  </data>
+  <data name="PersonListEmptySearchEngineLink" xml:space="preserve">
+    <value>search engine</value>
   </data>
 </root>
