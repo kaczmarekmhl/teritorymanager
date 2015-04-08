@@ -1,0 +1,19 @@
+﻿@model IPagedList<MVCApp.Models.Person>
+
+@{
+    int districtId = ViewBag.DistrictId;
+    string districtName = ViewBag.DistrictName;
+}
+
+<h2>@Html.ActionLink(districtName, "Index", "District", new { id = districtId }, null) -  @Strings.SearchAdresses - @Strings.SearchAddressesPrevious</h2>
+
+<div class="button">
+    <a href="@Url.Action("Index", "SearchAddress", new { id = districtId })">
+        @Strings.SearchAddressesNew
+    </a>
+</div>
+<div class="spacer" />
+
+<div id="personList">
+    @Html.Partial("_PersonList")
+</div>

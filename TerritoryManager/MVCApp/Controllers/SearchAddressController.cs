@@ -36,8 +36,31 @@ namespace MVCApp.Controllers
 
             ViewBag.DistrictId = district.Id;
             ViewBag.DistrictName = district.Name;
+            ViewBag.NewResults = true;
 
-            var personList = GetPersistedPersonListPaged(district.Id, page);
+            var personList = GetPersistedPersonListPaged(district.Id, page, true);
+
+            return View(personList);
+        }
+
+        #endregion
+
+        #region PreviousSearchAction
+
+        public ActionResult PreviousSearch(int id, int page = 1)
+        {
+            var district = db.Districts.Find(id);
+
+            if (district == null)
+            {
+                return new HttpNotFoundResult();
+            }
+
+            ViewBag.DistrictId = district.Id;
+            ViewBag.DistrictName = district.Name;
+            ViewBag.NewResults = false;
+
+            var personList = GetPersistedPersonListPaged(district.Id, page, false);
 
             return View(personList);
         }
@@ -60,7 +83,8 @@ namespace MVCApp.Controllers
                         
             var personList =
                 GetPersonList(district)
-                .OrderBy(p => p.Name)
+                .OrderByDescending(p => p.NewPersonUpdate)
+                .ThenBy(p => p.Name)
                 .ToPagedList(1, personListPageSize);
 
             if (Request.IsAjaxRequest())
@@ -123,11 +147,6 @@ namespace MVCApp.Controllers
             personList = PreliminarySelection(personList);
             PersistPersonList(district.Id, personList);
 
-            if(previousPersonList.Count > 0)
-            {
-                personList.AddRange(previousPersonList);
-            }
-
             return personList;
         }
                 
@@ -143,7 +162,7 @@ namespace MVCApp.Controllers
 
             personListFromSearch = FilterPersonListFromSearchEngine(district, personListFromSearch);
 
-            previousPersonList = GetPersistedPersonListQuery(district.Id).ToList();
+            previousPersonList = GetPersistedPersonListQuery(district.Id, null).ToList();
 
             //List can be updated
             if (previousPersonList.Count > 0)
@@ -261,21 +280,24 @@ namespace MVCApp.Controllers
         /// </summary>
         /// <param name="district">District that the search will be done for.</param>
         /// <returns></returns>
-        private IPagedList<Person> GetPersistedPersonListPaged(int districtId, int page = 1)
+        private IPagedList<Person> GetPersistedPersonListPaged(int districtId, int page = 1, bool? newPersonUpdate = true)
         {
-            return GetPersistedPersonListQuery(districtId).ToPagedList(page, personListPageSize);
+            return GetPersistedPersonListQuery(districtId, newPersonUpdate).ToPagedList(page, personListPageSize);
         }
 
         /// <summary>
         /// Loads persisted person list.
         /// </summary>
         /// <param name="district">District that the search will be done for.</param>
-        /// <returns></returns>
-        private IQueryable<Person> GetPersistedPersonListQuery(int districtId)
+        private IQueryable<Person> GetPersistedPersonListQuery(int districtId, bool? newPersonUpdate = true)
         {
             return db.Persons
-                .Where(p => p.District.Id == districtId && p.AddedByUserId == WebSecurity.CurrentUserId && p.Manual == false)
-                .OrderBy(p => p.Name);
+                .Where(p => 
+                    p.District.Id == districtId && 
+                    p.AddedByUserId == WebSecurity.CurrentUserId && 
+                    p.Manual == false &&
+                    (p.NewPersonUpdate == newPersonUpdate || newPersonUpdate == null))
+                    .OrderBy(p => p.Name);
         }
 
         /// <summary>

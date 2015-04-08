@@ -375,4 +375,13 @@
   <data name="PersonListEmptySearchEngineLink" xml:space="preserve">
     <value>search engine</value>
   </data>
+  <data name="SearchAddressesNew" xml:space="preserve">
+    <value>New search results</value>
+  </data>
+  <data name="SearchAddressesPrevious" xml:space="preserve">
+    <value>Previous search results</value>
+  </data>
+  <data name="SearchAddressesPreviousCount" xml:space="preserve">
+    <value>Adresses found in previous search: {0}</value>
+  </data>
 </root>

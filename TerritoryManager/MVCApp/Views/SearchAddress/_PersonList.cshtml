@@ -21,7 +21,16 @@
 
         @if (Model.IsFirstPage)
         {
-            <h4>@(String.Format(Strings.SearchAddressesCount, Model.TotalItemCount))</h4>
+            if (ViewBag.NewResults == true)
+            {
+                <h4>@(String.Format(Strings.SearchAddressesCount, Model.TotalItemCount))</h4>
+            }
+            else
+            {
+                <h4>@(String.Format(Strings.SearchAddressesPreviousCount, Model.TotalItemCount))</h4>
+            }
+            
+            <div class="messageBox">Zaznacz Polaków na poniższej liście, aby dodać ich do listy adresów na terenie.</div>
         }        
 
         <table>
