@@ -94,11 +94,16 @@ namespace MVCApp.Controllers
                 if (personList.Count == 0)
                 {
                     ViewBag.NoPersonFound = true;
+
+                    // Load previous results
+                    personList = GetPersistedPersonListPaged(district.Id, 1, true);
                 }
                 else
                 {
                     ViewBag.SearchComplete = true;
                 }
+
+                ViewBag.NewResults = true;
 
                 return PartialView("_PersonList", personList);
             }

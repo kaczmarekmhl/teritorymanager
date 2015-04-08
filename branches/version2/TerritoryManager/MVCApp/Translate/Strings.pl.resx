@@ -181,7 +181,7 @@
     <value>Tel.</value>
   </data>
   <data name="SearchAddressesCount" xml:space="preserve">
-    <value>Liczba nowych adresów: {0}</value>
+    <value>Nowe adresy: {0}</value>
   </data>
   <data name="SearchAddressWait" xml:space="preserve">
     <value>Wyszukiwanie nowych adresów na terenie. To może potrwać kilka minut...</value>
@@ -286,7 +286,7 @@
     <value>Nazwa obszaru (zastępuje szukanie po kodach)</value>
   </data>
   <data name="SearchAdressNoPerson" xml:space="preserve">
-    <value>Brak znalezionych osób :( Powodem może być awaria wyszukiwarki.</value>
+    <value>Nie znaleziono nowych osób na terenie. Twoja lista jest aktualna :)</value>
   </data>
   <data name="DistrictBoundaryKml" xml:space="preserve">
     <value>Plik .kml z granicą terenu</value>
@@ -376,10 +376,10 @@
     <value>wyszukiwarkę adresów</value>
   </data>
   <data name="SearchAddressesNew" xml:space="preserve">
-    <value>Nowe wyniki wyszukiwania</value>
+    <value>Nowo wyszukane adresy</value>
   </data>
   <data name="SearchAddressesPrevious" xml:space="preserve">
-    <value>Poprzednie wyniki wyszukiwania</value>
+    <value>Poprzednio wyszukane adresy</value>
   </data>
   <data name="SearchAddressesPreviousCount" xml:space="preserve">
     <value>Liczba adresów: {0}</value>

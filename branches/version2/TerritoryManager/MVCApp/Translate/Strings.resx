@@ -286,7 +286,7 @@
     <value>Location name</value>
   </data>
   <data name="SearchAdressNoPerson" xml:space="preserve">
-    <value>No people have been found during search. This might indicate search engine issues.</value>
+    <value>No new people have been found during search. </value>
   </data>
   <data name="DistrictBoundaryKml" xml:space="preserve">
     <value>Boundary .kml file</value>
