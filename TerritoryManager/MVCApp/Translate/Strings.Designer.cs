@@ -718,7 +718,7 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No people have been found during search. This might indicate search engine issues..
+        ///   Looks up a localized string similar to No new people have been found during search. .
         /// </summary>
         public static string SearchAdressNoPerson {
             get {
