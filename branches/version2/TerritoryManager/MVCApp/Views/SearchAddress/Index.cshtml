@@ -25,6 +25,11 @@
             },
             new { id = "searchOnKrak" })
     </div>
+    <div class="button">
+        <a href="@Url.Action("PreviousSearch", "SearchAddress", new { id = districtId })">
+            @Strings.SearchAddressesPrevious
+        </a>
+    </div>
     <div class="spacer" />
 </div>
 

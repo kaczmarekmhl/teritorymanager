@@ -433,6 +433,7 @@
     <Content Include="Views\DistrictAddresses\_SelectedPersonList.cshtml" />
     <Content Include="Views\DistrictAddresses\_AddPerson.cshtml" />
     <Content Include="Views\DistrictAddresses\_SelectedPersonRow.cshtml" />
+    <Content Include="Views\SearchAddress\PreviousSearch.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

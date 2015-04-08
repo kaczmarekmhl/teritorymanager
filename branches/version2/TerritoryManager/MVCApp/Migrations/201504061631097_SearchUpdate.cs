@@ -7,7 +7,7 @@ namespace MVCApp.Migrations
     {
         public override void Up()
         {
-            AddColumn("dbo.People", "NewPersonUpdate", c => c.Boolean(nullable: false));
+            AddColumn("dbo.People", "NewPersonUpdate", c => c.Boolean(nullable: false, defaultValue:true));
         }
         
         public override void Down()

@@ -646,6 +646,33 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New search results.
+        /// </summary>
+        public static string SearchAddressesNew {
+            get {
+                return ResourceManager.GetString("SearchAddressesNew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Previous search results.
+        /// </summary>
+        public static string SearchAddressesPrevious {
+            get {
+                return ResourceManager.GetString("SearchAddressesPrevious", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Adresses found in previous search: {0}.
+        /// </summary>
+        public static string SearchAddressesPreviousCount {
+            get {
+                return ResourceManager.GetString("SearchAddressesPreviousCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Address map.
         /// </summary>
         public static string SearchAddressMap {

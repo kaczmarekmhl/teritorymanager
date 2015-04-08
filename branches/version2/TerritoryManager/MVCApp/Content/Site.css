@@ -412,6 +412,15 @@ aside {
     font-weight: 700;
 }
 
+.messageBox {
+    padding-left:0.3em;
+    padding-right:0.3em;
+    padding-top:0.6em;
+    padding-bottom:0.6em;
+
+    background-color:#f0f4fc;
+}
+
 .infoMessage {
     padding-left:0.3em;
     padding-right:0.3em;
