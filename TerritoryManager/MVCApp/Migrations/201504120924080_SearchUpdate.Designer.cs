@@ -13,7 +13,7 @@ namespace MVCApp.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201504061631097_SearchUpdate"; }
+            get { return "201504120924080_SearchUpdate"; }
         }
         
         string IMigrationMetadata.Source

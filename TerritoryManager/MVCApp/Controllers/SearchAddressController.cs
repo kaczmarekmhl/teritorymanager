@@ -82,8 +82,8 @@ namespace MVCApp.Controllers
             }
                         
             var personList =
-                GetPersonList(district)
-                .OrderByDescending(p => p.NewPersonUpdate)
+                SearchAndPersistNewPersonList(district)
+                .OrderByDescending(p => p.SearchUpdate)
                 .ThenBy(p => p.Name)
                 .ToPagedList(1, personListPageSize);
 
@@ -140,59 +140,69 @@ namespace MVCApp.Controllers
         #region Helpers
 
         /// <summary>
-        /// Returns person list for the given district.
+        /// Returns newly found person list for the given district.
         /// </summary>
         /// <param name="district">District that the search will be done for.</param>
         /// <returns>Person list</returns>
-        private List<Person> GetPersonList(District district)
+        private List<Person> SearchAndPersistNewPersonList(District district)
         {
-            List<Person> previousPersonList = new List<Person>();
-
-            var personList = GetPersonListFromSearchEngine(district, out previousPersonList);
+            var personList = GetNewPersonListFromSearchEngine(district);
             personList = PreliminarySelection(personList);
             PersistPersonList(district.Id, personList);
 
             return personList;
         }
-                
+          
+        /// <summary>
+        /// Loads person list from search engine and return only new persons found.
+        /// </summary>
+        /// <param name="district">District that the search will be done for.</param>
+        /// <returns>Person list of new people</returns>
+        private List<Person> GetNewPersonListFromSearchEngine(District district)
+        {
+            var personListFromSearch = GetPersonListFromSearchEngine(district);
+            var previousPersonList = GetPersistedPersonListQuery(district.Id, null).ToList();
+
+            //List can be updated
+            if (previousPersonList.Count > 0)
+            {
+                //convert person list to address provider entities
+                var previousPersonListSearchEntitiy = previousPersonList.Select(p => new SearchEntities.Person()
+                {
+                    Name = p.Name,
+                    Lastname = p.Lastname,
+                    PostCode = p.PostCode,
+                    StreetAddress = p.StreetAddress
+                }).ToList();
+
+                var newPersonList = new List<SearchEntities.Person>();
+                var removedPersonList = new List<SearchEntities.Person>();
+
+                GetAddressProviderForDistrict(district).GetDifferenceOfUpdatedPersonList(personListFromSearch, previousPersonListSearchEntitiy, out newPersonList, out removedPersonList);
+
+                // Conversion to model
+                return newPersonList.Select(p => new Person(p, district)).ToList();
+            }
+            else
+            {
+                // Conversion to model
+                return personListFromSearch.Select(p => new Person(p, district)).ToList();
+            }
+        }
+
         /// <summary>
         /// Loads person list from search engine.
         /// </summary>
         /// <param name="district">District that the search will be done for.</param>
         /// <returns>Person list</returns>
-        private List<Person> GetPersonListFromSearchEngine(District district, out List<Person> previousPersonList)
+        private List<SearchEntities.Person> GetPersonListFromSearchEngine(District district)
         {
+            //Load person list
             var addressProvider = GetAddressProviderForDistrict(district);
             var personListFromSearch = !String.IsNullOrEmpty(district.SearchPhrase) ? addressProvider.getPersonList(district.SearchPhrase) : addressProvider.getPersonList(district.PostCodeFirst, district.PostCodeLast);
 
-            personListFromSearch = FilterPersonListFromSearchEngine(district, personListFromSearch);
-
-            previousPersonList = GetPersistedPersonListQuery(district.Id, null).ToList();
-
-            //List can be updated
-            if (previousPersonList.Count > 0)
-            {
-                var outdatedPersonList = previousPersonList.Select(p => new SearchEntities.Person()
-                    {
-                        Name = p.Name,
-                        Lastname = p.Lastname,
-                        PostCode = p.PostCode,
-                        StreetAddress = p.StreetAddress
-                    }).ToList();
-
-                var newPersonList = new List<SearchEntities.Person>();
-                var removedPersonList = new List<SearchEntities.Person>();
-
-                addressProvider.GetDifferenceOfUpdatedPersonList(personListFromSearch, outdatedPersonList, out newPersonList, out removedPersonList);
-
-                previousPersonList.ForEach(p => p.NewPersonUpdate = false);
-
-                // Conversion to model
-                return newPersonList.Select(p => new Person(p, district)).ToList();
-            }
-
-            // Conversion to model
-            return personListFromSearch.Select(p => new Person(p, district)).ToList();
+            //Filter person list
+            return FilterPersonListFromSearchEngine(district, personListFromSearch);
         }
 
         /// <summary>
@@ -248,7 +258,7 @@ namespace MVCApp.Controllers
         {
             //Entity framework does not support deleting data through direct SQL
             //We need to do it due to performance reasons
-            string sqlDeleteStatement = "Update People SET NewPersonUpdate = 0 WHERE District_id = @districtId AND AddedByUserId = @userId AND Manual = 0";
+            string sqlDeleteStatement = "Update People SET SearchUpdate = 0 WHERE District_id = @districtId AND AddedByUserId = @userId AND Manual = 0";
 
             List<SqlParameter> parameterList = new List<SqlParameter>();
             parameterList.Add(new SqlParameter("@districtId", districtId));
@@ -285,23 +295,23 @@ namespace MVCApp.Controllers
         /// </summary>
         /// <param name="district">District that the search will be done for.</param>
         /// <returns></returns>
-        private IPagedList<Person> GetPersistedPersonListPaged(int districtId, int page = 1, bool? newPersonUpdate = true)
+        private IPagedList<Person> GetPersistedPersonListPaged(int districtId, int page = 1, bool? searchUpdate = true)
         {
-            return GetPersistedPersonListQuery(districtId, newPersonUpdate).ToPagedList(page, personListPageSize);
+            return GetPersistedPersonListQuery(districtId, searchUpdate).ToPagedList(page, personListPageSize);
         }
 
         /// <summary>
         /// Loads persisted person list.
         /// </summary>
         /// <param name="district">District that the search will be done for.</param>
-        private IQueryable<Person> GetPersistedPersonListQuery(int districtId, bool? newPersonUpdate = true)
+        private IQueryable<Person> GetPersistedPersonListQuery(int districtId, bool? searchUpdate = true)
         {
             return db.Persons
                 .Where(p => 
                     p.District.Id == districtId && 
                     p.AddedByUserId == WebSecurity.CurrentUserId && 
                     p.Manual == false &&
-                    (p.NewPersonUpdate == newPersonUpdate || newPersonUpdate == null))
+                    (p.SearchUpdate == searchUpdate || searchUpdate == null))
                     .OrderBy(p => p.Name);
         }
 
@@ -314,25 +324,37 @@ namespace MVCApp.Controllers
         {
             if (personList.Count > 0)
             {
-                MarkPeopleAsOldSearch(districtId);
-
-                //Mark as new update
-                personList.ForEach(p => p.NewPersonUpdate = true);
-
-                db.Persons.AddRange(personList);
-
-                foreach (var validationResults in db.GetValidationErrors())
+                using (var dbContextTransaction = db.Database.BeginTransaction()) 
                 {
-                    if (!validationResults.IsValid)
+                    try
                     {
-                        var invalidEntity = (Person)validationResults.Entry.Entity;
+                        MarkPeopleAsOldSearch(districtId);
 
-                        db.Persons.Remove(invalidEntity);
-                        personList.Remove(invalidEntity);
+                        //Mark as new update
+                        personList.ForEach(p => p.SearchUpdate = true);
+
+                        db.Persons.AddRange(personList);
+
+                        foreach (var validationResults in db.GetValidationErrors())
+                        {
+                            if (!validationResults.IsValid)
+                            {
+                                var invalidEntity = (Person)validationResults.Entry.Entity;
+
+                                db.Persons.Remove(invalidEntity);
+                                personList.Remove(invalidEntity);
+                            }
+                        }
+
+                        db.SaveChanges();
+
+                        dbContextTransaction.Commit();
                     }
-                }
-
-                db.SaveChanges();
+                    catch (Exception)
+                    {
+                        dbContextTransaction.Rollback();
+                    } 
+                }                 
             }
         }
 

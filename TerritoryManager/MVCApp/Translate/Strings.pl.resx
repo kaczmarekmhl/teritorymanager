@@ -214,7 +214,7 @@
     <value>Strona {0} z {1}</value>
   </data>
   <data name="SearchAdressConfirm" xml:space="preserve">
-    <value>Czy na pewno chcesz zaktualizować listę adresów? </value>
+    <value>Czy na pewno chcesz zaktualizować listę adresów? Obecne zaznaczenia zostaną zachowane i poniżej zobaczysz tylko nowo znalezione adresy.</value>
   </data>
   <data name="MenuFreeDistricts" xml:space="preserve">
     <value>Wolne tereny</value>
@@ -376,10 +376,10 @@
     <value>wyszukiwarkę adresów</value>
   </data>
   <data name="SearchAddressesNew" xml:space="preserve">
-    <value>Nowo wyszukane adresy</value>
+    <value>Adresy z najnowszego wyszukiwania</value>
   </data>
   <data name="SearchAddressesPrevious" xml:space="preserve">
-    <value>Poprzednio wyszukane adresy</value>
+    <value>Adresy z poprzednich wyszukiwań</value>
   </data>
   <data name="SearchAddressesPreviousCount" xml:space="preserve">
     <value>Liczba adresów: {0}</value>

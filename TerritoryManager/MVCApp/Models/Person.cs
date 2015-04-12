@@ -149,9 +149,9 @@ namespace MVCApp.Models
         public bool Manual { get; set; }
 
         /// <summary>
-        /// Is this person added as a new one, after original list was updated.
+        /// Is this person marked as comming from new search update.
         /// </summary>
-        public bool NewPersonUpdate { get; set; }
+        public bool SearchUpdate { get; set; }
 
         #endregion
 

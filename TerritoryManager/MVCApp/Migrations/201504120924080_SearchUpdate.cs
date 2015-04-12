@@ -7,12 +7,12 @@ namespace MVCApp.Migrations
     {
         public override void Up()
         {
-            AddColumn("dbo.People", "NewPersonUpdate", c => c.Boolean(nullable: false, defaultValue:true));
+            AddColumn("dbo.People", "SearchUpdate", c => c.Boolean(nullable: false, defaultValue:true));
         }
         
         public override void Down()
         {
-            DropColumn("dbo.People", "NewPersonUpdate");
+            DropColumn("dbo.People", "SearchUpdate");
         }
     }
 }

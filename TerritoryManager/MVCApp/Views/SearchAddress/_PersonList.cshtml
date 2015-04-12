@@ -101,3 +101,10 @@
     
     @Scripts.Render("~/bundles/personSelect")
 }
+else
+{
+    if (ViewBag.NewResults == false)
+    {
+        <div class="messageBox">Tutaj znajdziesz wyniki poprzednich wyszukiwań, po tym jak uruchomisz aktualizację adresów.</div>
+    }
+}
