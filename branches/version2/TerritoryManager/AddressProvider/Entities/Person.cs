@@ -30,18 +30,32 @@
 
             if (Name.Equals(p.Name)
                 && Lastname.Equals(p.Lastname)
-                && PostCode.Equals(p.PostCode)
-                && StreetAddress.Equals(p.StreetAddress))
+                && PostCode.Equals(p.PostCode))
             {
+                if (!StreetAddress.Equals(p.StreetAddress))
+                {
+                    return CompareStreetAddress(StreetAddress, p.StreetAddress);
+                }
+
                 return true;
             }
 
             return false;
         }
 
+        private bool CompareStreetAddress(String oldStreet, String newStreet)
+        {
+            var separators = new char[] { '.',',',';',' ' };
+
+            oldStreet = String.Join("", oldStreet.Split(separators));
+            newStreet = String.Join("", newStreet.Split(separators));
+
+            return oldStreet.Equals(newStreet);
+        }
+
         public override int GetHashCode()
         {
-            return PostCode.GetHashCode() ^ StreetAddress.GetHashCode();
+            return PostCode.GetHashCode();
         }
     }
 }
