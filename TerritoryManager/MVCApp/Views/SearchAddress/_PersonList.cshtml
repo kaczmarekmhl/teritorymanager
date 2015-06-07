@@ -54,7 +54,7 @@
                         model => item.Selected,
                         new {
                             personId = item.Id,
-                            districtId = item.District.Id,
+                            districtId = districtId,
                             ajax_selector = "personSelectCheckbox",
                             id = "personSelectCheckbox_" + item.Id,
                             data_url = Url.Action("SelectPerson")
@@ -82,7 +82,7 @@
         }
 
         <div class="pagedList">
-            @Html.PagedListPager(Model, page => Url.Action( "Index", new { Model.First().District.Id, page }), 
+            @Html.PagedListPager(Model, page => Url.Action( "Index", new { districtId, page }), 
             new PagedListRenderOptions { 
                 Display = PagedListDisplayMode.IfNeeded, 
                 MaximumPageNumbersToDisplay = 5, 

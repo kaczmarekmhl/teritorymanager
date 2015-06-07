@@ -384,4 +384,10 @@
   <data name="SearchAddressesPreviousCount" xml:space="preserve">
     <value>Liczba adresów: {0}</value>
   </data>
+  <data name="SearchAddressComplete" xml:space="preserve">
+    <value>Wyszukiwanie zostało zakończone. Trwa ładowanie aktualnej listy adresów.</value>
+  </data>
+  <data name="SearchAddressSave" xml:space="preserve">
+    <value>Zapisywanie znalezionych adresów.</value>
+  </data>
 </root>
