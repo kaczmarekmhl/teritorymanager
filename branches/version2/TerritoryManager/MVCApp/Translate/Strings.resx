@@ -384,4 +384,10 @@
   <data name="SearchAddressesPreviousCount" xml:space="preserve">
     <value>Adresses found in previous search: {0}</value>
   </data>
+  <data name="SearchAddressComplete" xml:space="preserve">
+    <value>Search is complete</value>
+  </data>
+  <data name="SearchAddressSave" xml:space="preserve">
+    <value>Saving found adresses.</value>
+  </data>
 </root>

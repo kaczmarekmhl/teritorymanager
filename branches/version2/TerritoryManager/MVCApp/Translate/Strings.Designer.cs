@@ -637,6 +637,15 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Search is complete.
+        /// </summary>
+        public static string SearchAddressComplete {
+            get {
+                return ResourceManager.GetString("SearchAddressComplete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Adresses found: {0}.
         /// </summary>
         public static string SearchAddressesCount {
@@ -678,6 +687,15 @@ namespace MVCApp.Translate {
         public static string SearchAddressMap {
             get {
                 return ResourceManager.GetString("SearchAddressMap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Saving found adresses..
+        /// </summary>
+        public static string SearchAddressSave {
+            get {
+                return ResourceManager.GetString("SearchAddressSave", resourceCulture);
             }
         }
         
