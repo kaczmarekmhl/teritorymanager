@@ -2,23 +2,27 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$url = 'http://krak.dk/';
+$url = 'http://www.gulesider.no/person/resultat/tomasz/Molde/1';
+$url2 = 'http://www.krak.dk/person/resultat/tomasz/2100/1';
 $proxy = '127.0.0.1:21777';
 
 isPageAccessible($url, $proxy);
+isPageAccessible($url2, $proxy);
 
 function isPageAccessible($url, $proxy)
 {
         if(getPageHtml($url, $proxy) != '')
         {
-                echo 'good :)';
+                echo 'good :) ' . $url . '</br>';
+
         }
         else
         {
-                echo 'bad :(';
+                echo 'bad :( ' . $url . '</br>';
                 header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
         }
 }
+
 
 function getPageHtml($url, $proxy)
 {
