@@ -390,4 +390,7 @@
   <data name="SearchAddressSave" xml:space="preserve">
     <value>Saving found adresses.</value>
   </data>
+  <data name="SearchAddressLoadingOldAdresses" xml:space="preserve">
+    <value>Loading list of previously found adresses...</value>
+  </data>
 </root>

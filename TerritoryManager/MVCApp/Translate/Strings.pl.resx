@@ -385,9 +385,12 @@
     <value>Liczba adresów: {0}</value>
   </data>
   <data name="SearchAddressComplete" xml:space="preserve">
-    <value>Wyszukiwanie zostało zakończone. Trwa ładowanie aktualnej listy adresów.</value>
+    <value>Wyszukiwanie zostało zakończone. Trwa ładowanie listy nowych adresów...</value>
   </data>
   <data name="SearchAddressSave" xml:space="preserve">
-    <value>Zapisywanie znalezionych adresów.</value>
+    <value>Zapisywanie nowo znalezionych adresów...</value>
+  </data>
+  <data name="SearchAddressLoadingOldAdresses" xml:space="preserve">
+    <value>Ładowanie listy poprzednio wyszukanych adresów, by porównać ją z nowymi adresami...</value>
   </data>
 </root>
