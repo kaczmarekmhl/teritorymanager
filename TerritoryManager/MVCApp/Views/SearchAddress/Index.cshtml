@@ -33,6 +33,13 @@
     @Html.Partial("_PersonList")
 </div>
 
+@if (Model.Count == 0)
+{
+<script>
+    $('#search').click();
+</script>
+}
+
 @section scripts {
     <!--Script references. -->
     <!--The jQuery library is required and is referenced by default in _Layout.cshtml. -->
@@ -43,6 +50,9 @@
     <!--SignalR script to update the chat page and send messages.--> 
     <script>
         $(function () {
+            
+            var modelCount = @Model.Count;
+
             // Reference the auto-generated proxy for the hub.  
             var searchAddressHub = $.connection.searchAddressHub;
             
@@ -62,11 +72,13 @@
                         $('#ajaxLoader').hide();
                     }
                 });                
-            };
+            };                      
 
             // Start the connection.
             $.connection.hub.start().done(function () {
-                $('#search').click(function () {
+                $('#search').click(function (e) {
+
+                    e.preventDefault();
 
                     var modelCount = @Model.Count;
 
@@ -81,6 +93,10 @@
                     } 
                 });
             });
+
+            if(modelCount == 0) {
+                $('#search').click();
+            }
         });
     </script>
 }
