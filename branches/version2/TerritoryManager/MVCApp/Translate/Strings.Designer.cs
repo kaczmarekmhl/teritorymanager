@@ -682,6 +682,15 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Loading list of previously found adresses....
+        /// </summary>
+        public static string SearchAddressLoadingOldAdresses {
+            get {
+                return ResourceManager.GetString("SearchAddressLoadingOldAdresses", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Address map.
         /// </summary>
         public static string SearchAddressMap {

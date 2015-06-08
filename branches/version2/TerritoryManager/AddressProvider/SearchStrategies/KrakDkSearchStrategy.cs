@@ -221,15 +221,21 @@
             while (true)
             {
                 try
-                { 
-                    var webClient = SetupWebClient();
+                {
+                    using (var webClient = SetupWebClient())
+                    {
+                        //SetWebRequestHeaders(webClient);
 
-                    SetWebRequestHeaders(webClient);
+                        var url = getKrakPersonUrl(name, searchPhrase, page);
 
-                    Trace.WriteLine(string.Format("Search for url {0}", getKrakPersonUrl(name, searchPhrase, page)));
+                        Trace.TraceInformation("Request start: " + url);
 
-                    string personHtml = webClient.DownloadString(getKrakPersonUrl(name, searchPhrase, page));
-                    return personHtml;
+                        string personHtml = webClient.DownloadString(url);
+
+                        Trace.TraceInformation("Request end: " + url);
+
+                        return personHtml;
+                    }                    
                 }
                 catch (Exception ex)
                 {
@@ -237,12 +243,15 @@
                         && ((WebException)ex).Response is HttpWebResponse
                         &&((HttpWebResponse)((WebException)ex).Response).StatusCode == HttpStatusCode.NotFound)
                     {
+                        Trace.TraceInformation("Request end: adresses not found");
+
                         //Krak generates 404 errors when no person was found
                         return String.Empty;
                     }
 
                     if (ex is WebException || ex is SocketException)
                     {
+                        Trace.TraceError("Request failed: " + ex.Message);
                         tryCount++;
                         System.Threading.Thread.Sleep(100);
 
@@ -277,9 +286,9 @@
         protected void SetWebRequestHeaders(WebClient webClient)
         {
             webClient.Headers.Clear();
-            webClient.Headers.Add(HttpRequestHeader.Accept, "text/html, application/xhtml+xml, */*");
-            webClient.Headers.Add(HttpRequestHeader.AcceptLanguage, "en-US,en;q=0.8,da;q=0.5,pl;q=0.3");
-            webClient.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko");
+            webClient.Headers.Add(HttpRequestHeader.Accept, "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
+            webClient.Headers.Add(HttpRequestHeader.AcceptLanguage, "pl-PL,pl;q=0.8,en-US;q=0.6,en;q=0.4");
+            webClient.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36");
         }
     }
 }

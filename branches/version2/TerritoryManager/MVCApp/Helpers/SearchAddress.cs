@@ -99,6 +99,8 @@ namespace MVCApp.Helpers
         private List<Person> GetNewPersonListFromSearchEngine(District district)
         {
             var personListFromSearch = GetPersonListFromSearchEngine(district);
+
+            SetProgressMessage(Strings.SearchAddressLoadingOldAdresses);
             var previousPersonList = GetPersistedPersonListQuery(district.Id, null).ToList();
 
             //List can be updated
