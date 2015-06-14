@@ -1,13 +1,11 @@
 ﻿using AddressSearch.AdressProvider.Entities;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace AddressSearch.AdressProvider.SearchStrategies
 {
     public interface ISearchStrategy
     {
-        List<Person> getPersonList(string searchPhrase, List<SearchName> searchNameList);
+        Task<List<Person>> getPersonListAsync(string searchPhrase, List<SearchName> searchNameList);
     }
 }
