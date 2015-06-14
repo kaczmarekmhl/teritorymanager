@@ -7,6 +7,7 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Threading.Tasks;
 
     public class AddressProvider
     {
@@ -23,7 +24,7 @@
         /// <summary>
         /// Returns person list for given post code range.
         /// </summary>
-        public List<Person> getPersonList(int postCodeFirst, int? postCodeLast = null)
+        public async Task<List<Person>> getPersonListAsync(int postCodeFirst, int? postCodeLast = null)
         {
             if(!postCodeLast.HasValue)
             {
@@ -39,7 +40,7 @@
 
             foreach (var searchPhrase in GetSearchPhrases(postCodeFirst, postCodeLast.Value))
             {
-                personList.AddRange(getPersonList(searchPhrase));
+                personList.AddRange(await getPersonListAsync(searchPhrase));
             }
 
             personList = RemovePeopleOutsidePostCodeRange(personList, postCodeFirst, postCodeLast.Value);
@@ -51,9 +52,9 @@
         /// <summary>
         /// Returns person list for given search phrase.
         /// </summary>
-        public List<Person> getPersonList(string searchPhrase)
+        public async Task<List<Person>> getPersonListAsync(string searchPhrase)
         {
-            var personList = searchStrategy.getPersonList(searchPhrase, polishSearchNameList);
+            var personList = await searchStrategy.getPersonListAsync(searchPhrase, polishSearchNameList);
 
             return RemovePersonListDuplicates(personList);
         }

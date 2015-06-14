@@ -1,19 +1,17 @@
 ﻿namespace AddressSearch.AdressProvider.SearchStrategies
 {
     using AddressSearch.AdressProvider.Entities;
-    using AddressSearch.AdressProvider.CustomWebClient;
     using HtmlAgilityPack;
     using Newtonsoft.Json;
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using System.Net;
-    using System.Text;
+    using System.Net.Http;
+    using System.Net.Sockets;
     using System.Threading.Tasks;
-    using System.Net.Sockets;
-    using System.Net.Sockets;
-    using System.Diagnostics;
 
     public class KrakDkSearchStrategy : ISearchStrategy
     {
@@ -32,51 +30,71 @@
         /// <summary>
         /// URL to the Krak.dk web page or similar one.
         /// </summary>
-        protected String webPageUrl = "http://www.krak.dk/person/resultat/{0}/{1}/{2}";
+        protected readonly string webPageUrl = "http://www.krak.dk/person/resultat/{0}/{1}/{2}";
 
-        public virtual List<Person> getPersonList(string searchPhrase, List<SearchName> searchNameList)
+        public virtual async Task<List<Person>> getPersonListAsync(string searchPhrase, List<SearchName> searchNameList)
         {
-            ConcurrentBag<Person> personList = new ConcurrentBag<Person>();
+            //ConcurrentBag<Person> personList = new ConcurrentBag<Person>();
+            var personList = new List<Person>();
 
-            Parallel.ForEach(Partitioner.Create(0, searchNameList.Count), range =>
+            /*Parallel.ForEach(Partitioner.Create(0, searchNameList.Count), range =>
             {
                 for (int i = range.Item1; i < range.Item2; i++)
                 {
-                    foreach (var person in getPersonList(searchPhrase, searchNameList.ElementAt(i)))
+                    foreach (var person in getPersonListAsync(searchPhrase, searchNameList.ElementAt(i)).Result)
                     {
                         personList.Add(person);
                     }
                 }
-            });
+            });*/
 
-            /*foreach (var name in searchNameList)
+            foreach (var name in searchNameList)
             {
-                foreach (var person in getPersonList(searchPhrase, name))
+                foreach (var person in await getPersonListAsync(searchPhrase, name))
                 {
                     personList.Add(person);
                 }
+            }
+
+            /*List<Task<List<Person>>> taskList = (from name in searchNameList select getPersonListAsync(searchPhrase, name)).ToList();
+
+            await Task.WhenAll(taskList);
+
+            foreach (var task in taskList)
+            {
+                personList.AddRange(task.Result);
             }*/
 
-            return personList.ToList();
+            return personList;
         }
 
-        protected virtual List<Person> getPersonList(string searchPhrase, SearchName searchName)
+        protected virtual async Task<List<Person>> getPersonListAsync(string searchPhrase, SearchName searchName)
         {
+            //TODO concurency with result list?
             List<Person> resultList = new List<Person>();
             HtmlDocument doc = new HtmlDocument();
             int totalPageCount = 1;
 
-            doc.LoadHtml(getKrakPersonHtml(searchName.Name, searchPhrase));
+            //First page
+            doc.LoadHtml(await getKrakPersonHtmlAsync(searchName.Name, searchPhrase));
+            resultList.AddRange(getPersonListFromHtmlDocument(doc, searchName));
 
+            //Next pages
             totalPageCount = getTotalPageFromHtmlDocument(doc);
 
-            for (int currentPage = 1; currentPage <= totalPageCount; currentPage++)
-            {
-                if (currentPage > 1)
-                {
-                    doc.LoadHtml(getKrakPersonHtml(searchName.Name, searchPhrase, currentPage));
-                }
+            var downloadTaskList = new List<Task<string>>();
 
+            for (int currentPage = 2; currentPage <= totalPageCount; currentPage++)
+            {
+                downloadTaskList.Add(getKrakPersonHtmlAsync(searchName.Name, searchPhrase, currentPage));
+            }
+
+            while (downloadTaskList.Count > 0)
+            {
+                var finishedTask = await Task.WhenAny(downloadTaskList);
+                downloadTaskList.Remove(finishedTask);
+
+                doc.LoadHtml(finishedTask.Result);
                 resultList.AddRange(getPersonListFromHtmlDocument(doc, searchName));
             }
 
@@ -214,56 +232,47 @@
             return JsonConvert.DeserializeObject<JsonLocation>(locNode.GetAttributeValue("data-coordinate", ""));
         }
 
-        private string getKrakPersonHtml(string name, string searchPhrase, int page = 1)
+        private async Task<string> getKrakPersonHtmlAsync(string name, string searchPhrase, int page = 1)
         {
             int tryCount = 0;
 
             while (true)
             {
-                try
+                using (var httpClient = SetupHttpClient())
                 {
-                    using (var webClient = SetupWebClient())
+                    SetWebRequestHeaders(httpClient);
+
+                    string url = getKrakPersonUrl(name, searchPhrase, page);
+
+                    Trace.TraceInformation("Request start: " + url);
+
+                    HttpClient client = new HttpClient();
+
+                    using (HttpResponseMessage response = await client.GetAsync(url))
                     {
-                        //SetWebRequestHeaders(webClient);
-
-                        var url = getKrakPersonUrl(name, searchPhrase, page);
-
-                        Trace.TraceInformation("Request start: " + url);
-
-                        string personHtml = webClient.DownloadString(url);
-
-                        Trace.TraceInformation("Request end: " + url);
-
-                        return personHtml;
-                    }                    
-                }
-                catch (Exception ex)
-                {
-                    if (ex is WebException
-                        && ((WebException)ex).Response is HttpWebResponse
-                        &&((HttpWebResponse)((WebException)ex).Response).StatusCode == HttpStatusCode.NotFound)
-                    {
-                        Trace.TraceInformation("Request end: adresses not found");
-
-                        //Krak generates 404 errors when no person was found
-                        return String.Empty;
-                    }
-
-                    if (ex is WebException || ex is SocketException)
-                    {
-                        Trace.TraceError("Request failed: " + ex.Message);
-                        tryCount++;
-                        System.Threading.Thread.Sleep(100);
-
-                        if (tryCount >= 5)
+                        if (response.IsSuccessStatusCode)
                         {
-                            throw ex;
-                        }
-                    }
-                    else
-                    {
+                            Trace.TraceInformation("Request end: " + url);
 
-                        throw ex;
+                            return await response.Content.ReadAsStringAsync();
+                        }
+                        else if (response.StatusCode == HttpStatusCode.NotFound)
+                        {
+                            Trace.TraceInformation("Request end: adresses not found");
+
+                            //Krak generates 404 errors when no person was found
+                            return String.Empty;
+                        }
+                        else
+                        {
+                            Trace.TraceError("Request failed: " + response.ReasonPhrase);
+                            tryCount++;
+
+                            if (tryCount >= 5)
+                            {
+                                throw new HttpRequestException("Request failed with message: " + response.RequestMessage);
+                            }
+                        }
                     }
                 }
             }
@@ -274,21 +283,24 @@
             return string.Format(webPageUrl, name, searchPhrase, page);
         }
 
-        protected CookieAwareWebClient SetupWebClient()
+        protected HttpClient SetupHttpClient()
         {
-            var webClient = new CookieAwareWebClient();
-            webClient.Encoding = Encoding.UTF8;
-            webClient.Proxy = new WebProxy("tereny-proxy-vm.trafficmanager.net:21777");
+            var httpClientHandler = new HttpClientHandler
+            {
+                Proxy = new WebProxy("tereny-proxy-vm.trafficmanager.net:21777", false),
+                UseProxy = true,
+                UseCookies = true
+            };
 
-            return webClient;
+            return new HttpClient(httpClientHandler);
         }
 
-        protected void SetWebRequestHeaders(WebClient webClient)
+        protected void SetWebRequestHeaders(HttpClient httpClient)
         {
-            webClient.Headers.Clear();
-            webClient.Headers.Add(HttpRequestHeader.Accept, "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
-            webClient.Headers.Add(HttpRequestHeader.AcceptLanguage, "pl-PL,pl;q=0.8,en-US;q=0.6,en;q=0.4");
-            webClient.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36");
+            httpClient.DefaultRequestHeaders.Clear();
+            httpClient.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
+            httpClient.DefaultRequestHeaders.Add("Accept-Language", "pl-PL,pl;q=0.8,en-US;q=0.6,en;q=0.4");
+            httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36");
         }
     }
 }

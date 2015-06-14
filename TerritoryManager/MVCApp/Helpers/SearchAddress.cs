@@ -139,7 +139,7 @@ namespace MVCApp.Helpers
         {
             //Load person list
             var addressProvider = GetAddressProviderForDistrict(district);
-            var personListFromSearch = !String.IsNullOrEmpty(district.SearchPhrase) ? addressProvider.getPersonList(district.SearchPhrase) : addressProvider.getPersonList(district.PostCodeFirst, district.PostCodeLast);
+            var personListFromSearch = !String.IsNullOrEmpty(district.SearchPhrase) ? addressProvider.getPersonListAsync(district.SearchPhrase).Result : addressProvider.getPersonListAsync(district.PostCodeFirst, district.PostCodeLast).Result;
 
             //Filter person list
             return FilterPersonListFromSearchEngine(district, personListFromSearch);
