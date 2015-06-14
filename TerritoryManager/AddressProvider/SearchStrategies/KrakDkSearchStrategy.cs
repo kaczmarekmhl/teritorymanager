@@ -30,7 +30,7 @@
         /// <summary>
         /// URL to the Krak.dk web page or similar one.
         /// </summary>
-        protected readonly string webPageUrl = "http://www.krak.dk/person/resultat/{0}/{1}/{2}";
+        protected string webPageUrl = "http://www.krak.dk/person/resultat/{0}/{1}/{2}";
 
         public virtual async Task<List<Person>> getPersonListAsync(string searchPhrase, List<SearchName> searchNameList)
         {
