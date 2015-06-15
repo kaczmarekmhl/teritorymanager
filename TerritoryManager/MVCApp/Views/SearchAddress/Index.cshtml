@@ -11,10 +11,11 @@
 {
 <div>
     <div class="button">
-        <a href="#" id="search">
-            @Strings.SearchRunOnKrak
-        </a>        
-    </div>
+        <a href="#" id="search" class="withImage">
+            <img src='~/Images/WindowsIcons/Light/appbar.refresh.svg'/> @Strings.SearchRunOnKrak
+        </a>
+    </div> 
+
     <div class="button">
         <a href="@Url.Action("PreviousSearch", "SearchAddress", new { id = districtId })">
             @Strings.SearchAddressesPrevious
