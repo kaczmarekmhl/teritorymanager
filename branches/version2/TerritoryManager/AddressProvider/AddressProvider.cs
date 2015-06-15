@@ -16,7 +16,7 @@
 
         public AddressProvider(ISearchStrategy searchStrategy)
         {
-            this._searchStrategy = searchStrategy;
+            _searchStrategy = searchStrategy;
 
             LoadSearchNameList();
         }
@@ -77,17 +77,7 @@
         /// </summary>
         protected List<Person> RemovePeopleOutsidePostCodeRange(List<Person> personList, int postCodeFirst, int postCodeLast)
         {
-            var resultList = new List<Person>();
-
-            foreach (var person in personList)
-            {
-                if (person.PostCode >= postCodeFirst && person.PostCode <= postCodeLast)
-                {
-                    resultList.Add(person);
-                }
-            }
-
-            return resultList;
+            return personList.Where(person => person.PostCode >= postCodeFirst && person.PostCode <= postCodeLast).ToList();
         }
 
         /// <summary>
@@ -95,13 +85,8 @@
         /// </summary>
         protected List<Person> RemovePersonListDuplicates(List<Person> personList)
         {
-            if (personList == null)
-            {
-                return null;
-            }
-
             //Convert to HashSet to remove duplicates
-            return new HashSet<Person>(personList).ToList<Person>();
+            return personList == null ? null : new HashSet<Person>(personList).ToList();
         }
 
         /// <summary>
@@ -111,7 +96,7 @@
         {
             HashSet<string> phrases = new HashSet<string>();
 
-            for (int postCode = postCodeFirst; postCode <= postCodeLast; postCode++)
+            for (var postCode = postCodeFirst; postCode <= postCodeLast; postCode++)
             {
                 if (postCode >= 1000 && postCode <= 1499)
                 {
@@ -149,7 +134,7 @@
                 string line;
                 while ((line = reader.ReadLine()) != null)
                 {
-                    if (!String.IsNullOrEmpty(line))
+                    if (!string.IsNullOrEmpty(line))
                     {
                         PolishSearchNameList.Add(new SearchName { Name = line.Trim() });
                     }

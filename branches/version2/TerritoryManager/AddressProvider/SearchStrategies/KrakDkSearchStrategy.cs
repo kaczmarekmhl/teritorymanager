@@ -6,6 +6,7 @@
     using System.Linq;
     using System.Net;
     using System.Net.Http;
+    using System.Threading;
     using System.Threading.Tasks;
     using Entities;
     using HtmlAgilityPack;
@@ -25,6 +26,8 @@
             public JsonLocationCoordinate Coordinate { get; set; }
         };
 
+        private int _completedNames;
+
         /// <summary>
         /// URL to the Krak.dk web page or similar one.
         /// </summary>
@@ -32,26 +35,16 @@
 
         public virtual async Task<List<Person>> GetPersonListAsync(string searchPhrase, List<SearchName> searchNameList)
         {
-            //ConcurrentBag<Person> personList = new ConcurrentBag<Person>();
             var personList = new List<Person>();
+            _completedNames = 0;
 
-            /*Parallel.ForEach(Partitioner.Create(0, searchNameList.Count), range =>
-            {
-                for (int i = range.Item1; i < range.Item2; i++)
-                {
-                    foreach (var person in GetPersonListAsync(searchPhrase, searchNameList.ElementAt(i)).Result)
-                    {
-                        personList.Add(person);
-                    }
-                }
-            });*/
-
-            /*foreach (var name in searchNameList)
+            /*Slower version
+             * foreach (var name in searchNameList)
             {
                 personList.AddRange(await GetPersonListAsync(searchPhrase, name));
             }*/
 
-            List<Task<List<Person>>> taskList = (from name in searchNameList select GetPersonListAsync(searchPhrase, name)).ToList();
+            var taskList = (from name in searchNameList select GetPersonListAsync(searchPhrase, name)).ToList();
 
             await Task.WhenAll(taskList);
 
@@ -59,13 +52,12 @@
             {
                 personList.AddRange(task.GetAwaiter().GetResult());
             }
-
+            
             return personList;
         }
 
         protected virtual async Task<List<Person>> GetPersonListAsync(string searchPhrase, SearchName searchName)
         {
-            //TODO concurency with result list?
             var resultList = new List<Person>();
             var doc = new HtmlDocument();
             int totalPageCount = 1;
@@ -92,6 +84,8 @@
                 doc.LoadHtml(finishedTask.GetAwaiter().GetResult());
                 resultList.AddRange(GetPersonListFromHtmlDocument(doc, searchName));
             }
+
+            Interlocked.Increment(ref _completedNames);
 
             return resultList;
         }
@@ -256,7 +250,7 @@
                                 //Krak generates 404 errors when no person was found
                                 return string.Empty;
                             }
-                            
+
                             Trace.TraceError("Request failed: " + response.ReasonPhrase);
                             tryCount++;
                         }
@@ -269,6 +263,7 @@
 
                     if (tryCount >= 5)
                     {
+                        Console.WriteLine(string.Format("Request for name {0} failed", name));
                         throw new HttpRequestException(string.Format("Request for name {0} failed", name));
                     }
                 }
