@@ -52,6 +52,11 @@
             {
                 personList.AddRange(task.GetAwaiter().GetResult());
             }
+
+            if (_completedNames != searchNameList.Count)
+            {
+                throw new Exception("All names have not been processed");
+            }
             
             return personList;
         }
