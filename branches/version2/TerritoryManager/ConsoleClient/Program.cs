@@ -16,18 +16,17 @@
         static void Main(string[] args)
         {
             var addressProvider = new AddressProvider(new KrakDkSearchStrategy());
-            string searchPhrase;
 
             if (String.IsNullOrEmpty(args[0]))
             {
                 Console.WriteLine("Usage: ConsoleClient [searchPhrase]");
             }
 
-            searchPhrase = args[0];
+            var searchPhrase = args[0];
 
             var start = DateTime.Now;
 
-            List<Person> resultList = addressProvider.getPersonListAsync(searchPhrase).Result;
+            List<Person> resultList = addressProvider.GetPersonListAsync(searchPhrase).Result;
             
             Console.WriteLine(searchPhrase + ": count: " + resultList.Count);
             Console.WriteLine("Time: " + (DateTime.Now - start).TotalSeconds);
@@ -35,11 +34,11 @@
 
             WriteResultToFile(String.Format("result{0}_Full.txt", searchPhrase), resultList);
             
-            var filteredResultList = FilterManager.GetFilteredPersonList(resultList, new List<IPersonFilter> {
+            /*var filteredResultList = FilterManager.GetFilteredPersonList(resultList, new List<IPersonFilter> {
                 new ScandinavianSurname(),
             });
             WriteResultToFile(String.Format("result{0}_Scand.txt", searchPhrase), filteredResultList);
-
+            */
             /*
             filteredResultList = FilterManager.GetFilteredPersonList(resultList, new List<IPersonFilter> {
                 new ScandinavianSurname(),

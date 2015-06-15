@@ -16,7 +16,7 @@
 
         public override string ToString()
         {
-            return String.Format("{0} {1}; {2}, {3}", Name, Lastname, StreetAddress, PostCode);
+            return string.Format("{0} {1}; {2}, {3}", Name, Lastname, StreetAddress, PostCode);
         }
         
         public override bool Equals(System.Object obj)

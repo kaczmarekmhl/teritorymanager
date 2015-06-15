@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-
-namespace AddressSearch.AdressProvider.CustomWebClient
+﻿namespace AddressSearch.AdressProvider.CustomWebClient
 {
+    using System;
+    using System.Net;
+
     /// <summary>
     /// A Cookie-aware WebClient that will store authentication cookie information and persist it through subsequent requests.
     /// </summary>

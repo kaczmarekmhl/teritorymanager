@@ -1,21 +1,23 @@
-﻿using AddressSearch.AdressProvider;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
+using AddressSearch.AdressProvider;
 using AddressSearch.AdressProvider.Filters;
 using AddressSearch.AdressProvider.Filters.PersonFilter;
 using AddressSearch.AdressProvider.Filters.PersonFilter.Helpers;
 using AddressSearch.AdressProvider.SearchStrategies;
-using SearchEntities = AddressSearch.AdressProvider.Entities;
-using MVCApp.Models;
-using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
-using WebMatrix.WebData;
 using MapLibrary;
+using MVCApp.Enums;
+using MVCApp.Models;
 using MVCApp.Translate;
+using WebMatrix.WebData;
+using SearchEntities = AddressSearch.AdressProvider.Entities;
 
 namespace MVCApp.Helpers
 {
+    using System.Threading.Tasks;
+
     public class SearchAddress
     {
         #region SetProgressMessage
@@ -115,8 +117,8 @@ namespace MVCApp.Helpers
                     StreetAddress = p.StreetAddress
                 }).ToList();
 
-                var newPersonList = new List<SearchEntities.Person>();
-                var removedPersonList = new List<SearchEntities.Person>();
+                List<SearchEntities.Person> newPersonList;
+                List<SearchEntities.Person> removedPersonList;
 
                 GetAddressProviderForDistrict(district).GetDifferenceOfUpdatedPersonList(personListFromSearch, previousPersonListSearchEntitiy, out newPersonList, out removedPersonList);
 
@@ -139,7 +141,11 @@ namespace MVCApp.Helpers
         {
             //Load person list
             var addressProvider = GetAddressProviderForDistrict(district);
-            var personListFromSearch = !String.IsNullOrEmpty(district.SearchPhrase) ? addressProvider.getPersonListAsync(district.SearchPhrase).Result : addressProvider.getPersonListAsync(district.PostCodeFirst, district.PostCodeLast).Result;
+
+            //Search must be run in separate thread, otherwhise it will deadlock IIS 
+            var personListFromSearch = !string.IsNullOrEmpty(district.SearchPhrase)
+                ? Task.Run(async () => await addressProvider.GetPersonListAsync(district.SearchPhrase)).GetAwaiter().GetResult()
+                : Task.Run(async () => await addressProvider.GetPersonListAsync(district.PostCodeFirst, district.PostCodeLast)).GetAwaiter().GetResult();
 
             //Filter person list
             return FilterPersonListFromSearchEngine(district, personListFromSearch);
@@ -153,7 +159,7 @@ namespace MVCApp.Helpers
         /// <returns></returns>
         private List<SearchEntities.Person> FilterPersonListFromSearchEngine(District district, List<SearchEntities.Person> personListFromSearch)
         {
-            var filterList = new List<AddressSearch.AdressProvider.Filters.PersonFilter.IPersonFilter> {
+            var filterList = new List<IPersonFilter> {
                     new ScandinavianSurname()
                 };
             FilterManager.FilterPersonList(personListFromSearch, filterList);
@@ -176,7 +182,7 @@ namespace MVCApp.Helpers
                 return personList;
             }
 
-            var resultList = new List<AddressSearch.AdressProvider.Entities.Person>();
+            var resultList = new List<SearchEntities.Person>();
             var kmlDoc = new KmlDocument(district.DistrictBoundaryKml);
 
             foreach (var person in personList)
@@ -283,10 +289,10 @@ namespace MVCApp.Helpers
 
             switch (district.Congregation.Country)
             {
-                case Enums.Country.Denmark:
+                case Country.Denmark:
                     searchStrategy = new KrakDkSearchStrategy();
                     break;
-                case Enums.Country.Norway:
+                case Country.Norway:
                     searchStrategy = new GuleSiderNoSearchStrategy();
                     break;
                 default:

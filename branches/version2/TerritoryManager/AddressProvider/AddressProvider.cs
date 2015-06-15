@@ -1,8 +1,8 @@
 ﻿namespace AddressSearch.AdressProvider
 {
-    using AddressSearch.AdressProvider.Entities;
-    using AddressSearch.AdressProvider.Properties;
-    using AddressSearch.AdressProvider.SearchStrategies;
+    using Entities;
+    using Properties;
+    using SearchStrategies;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -11,12 +11,12 @@
 
     public class AddressProvider
     {
-        public static List<SearchName> polishSearchNameList;
-        private ISearchStrategy searchStrategy;
+        public static List<SearchName> PolishSearchNameList;
+        private readonly ISearchStrategy _searchStrategy;
 
         public AddressProvider(ISearchStrategy searchStrategy)
         {
-            this.searchStrategy = searchStrategy;
+            this._searchStrategy = searchStrategy;
 
             LoadSearchNameList();
         }
@@ -24,7 +24,7 @@
         /// <summary>
         /// Returns person list for given post code range.
         /// </summary>
-        public async Task<List<Person>> getPersonListAsync(int postCodeFirst, int? postCodeLast = null)
+        public async Task<List<Person>> GetPersonListAsync(int postCodeFirst, int? postCodeLast = null)
         {
             if(!postCodeLast.HasValue)
             {
@@ -36,11 +36,11 @@
                 throw new Exception("Invalid post code range");
             }
 
-            List<Person> personList = new List<Person>();
+            var personList = new List<Person>();
 
             foreach (var searchPhrase in GetSearchPhrases(postCodeFirst, postCodeLast.Value))
             {
-                personList.AddRange(await getPersonListAsync(searchPhrase));
+                personList.AddRange(await GetPersonListAsync(searchPhrase));
             }
 
             personList = RemovePeopleOutsidePostCodeRange(personList, postCodeFirst, postCodeLast.Value);
@@ -52,9 +52,9 @@
         /// <summary>
         /// Returns person list for given search phrase.
         /// </summary>
-        public async Task<List<Person>> getPersonListAsync(string searchPhrase)
+        public async Task<List<Person>> GetPersonListAsync(string searchPhrase)
         {
-            var personList = await searchStrategy.getPersonListAsync(searchPhrase, polishSearchNameList);
+            var personList = await _searchStrategy.GetPersonListAsync(searchPhrase, PolishSearchNameList);
 
             return RemovePersonListDuplicates(personList);
         }
@@ -137,12 +137,12 @@
         protected void LoadSearchNameList()
         {
             // Load names only once
-            if (polishSearchNameList != null)
+            if (PolishSearchNameList != null)
             {
                 return;
             }
 
-            polishSearchNameList = new List<SearchName>();
+            PolishSearchNameList = new List<SearchName>();
 
             using (var reader = new StringReader(Resources.PolishNames))
             {
@@ -151,7 +151,7 @@
                 {
                     if (!String.IsNullOrEmpty(line))
                     {
-                        polishSearchNameList.Add(new SearchName { Name = line.Trim() });
+                        PolishSearchNameList.Add(new SearchName { Name = line.Trim() });
                     }
                 }
             }            

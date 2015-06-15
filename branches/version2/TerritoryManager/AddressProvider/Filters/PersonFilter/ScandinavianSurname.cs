@@ -1,12 +1,9 @@
-﻿namespace AddressSearch.AdressProvider.Filters.PersonFilter
-{
-    using AddressSearch.AdressProvider.Entities;
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
+﻿using System.Collections.Generic;
+using System.Linq;
+using AddressSearch.AdressProvider.Entities;
 
+namespace AddressSearch.AdressProvider.Filters.PersonFilter
+{
     /// <summary>
     ///     Satisfies criteria if person is a male and has scandinavian surname
     /// </summary>

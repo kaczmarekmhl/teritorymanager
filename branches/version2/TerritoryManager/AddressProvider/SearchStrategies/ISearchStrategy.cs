@@ -6,6 +6,6 @@ namespace AddressSearch.AdressProvider.SearchStrategies
 {
     public interface ISearchStrategy
     {
-        Task<List<Person>> getPersonListAsync(string searchPhrase, List<SearchName> searchNameList);
+        Task<List<Person>> GetPersonListAsync(string searchPhrase, List<SearchName> searchNameList);
     }
 }

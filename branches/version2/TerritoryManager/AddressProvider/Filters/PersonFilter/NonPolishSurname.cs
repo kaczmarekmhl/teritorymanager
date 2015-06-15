@@ -1,34 +1,29 @@
 ﻿namespace AddressSearch.AdressProvider.Filters.PersonFilter
 {
-    using AddressSearch.AdressProvider.Entities;
-    using AddressSearch.AdressProvider.Filters.PersonFilter.Helpers;
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Text;
+    using Entities;
+    using Helpers;
 
     /// <summary>
     ///     Satisfies criteria if person does not have typical polish surname.
     /// </summary>
     public class NonPolishSurname : IPersonFilter
     {
-        PolishSurnameRecogniser polishSurnameRecognizer;
+        readonly PolishSurnameRecogniser _polishSurnameRecognizer;
 
         public NonPolishSurname()
         {
-            polishSurnameRecognizer = new PolishSurnameRecogniser(); 
+            _polishSurnameRecognizer = new PolishSurnameRecogniser(); 
         }
 
         public virtual bool SatisfiesCriteria(Person person)
         {
-            if (polishSurnameRecognizer.ContainsPolishSurname(person.Lastname))
+            if (_polishSurnameRecognizer.ContainsPolishSurname(person.Lastname))
             {
                 return false;
             }
 
             // Sometimes it happens that surename is in name
-            if (polishSurnameRecognizer.ContainsPolishSurname(person.Name, true))
+            if (_polishSurnameRecognizer.ContainsPolishSurname(person.Name, true))
             {
                 return false;
             }
