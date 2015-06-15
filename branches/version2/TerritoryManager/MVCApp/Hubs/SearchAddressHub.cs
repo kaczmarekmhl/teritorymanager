@@ -7,6 +7,7 @@ using MVCApp.Controllers;
 using MVCApp.Helpers;
 using MVCApp.Models;
 using System.Web.Mvc;
+using MVCApp.Translate;
 
 namespace MVCApp.Hubs
 {
@@ -21,19 +22,16 @@ namespace MVCApp.Hubs
                 {
                     throw new ArgumentException("id");
                 }
-
-                var search = new SearchAddress(db);
                 
-                search.SetProgressMessage = new SearchAddress.SetProgressMessageDelegate(SetProgressInClient);
-
                 try
                 {
+                    var search = new SearchAddress(db) { SetProgressMessage = SetProgressInClient };
                     var personList = search.SearchAndPersistNewPersonList(district);
                     Clients.Caller.searchComplete(personList.Count != 0);
                 }
                 catch (Exception e)
                 {
-                    Clients.Caller.setProgressMessage("Something wrong happened: " + e.Message);
+                    Clients.Caller.searchError(string.Format(Strings.SearchAdressesError, e.Message));
                 }                
             }
         }

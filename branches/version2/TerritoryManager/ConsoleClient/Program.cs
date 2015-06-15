@@ -26,7 +26,14 @@
 
             var start = DateTime.Now;
 
-            List<Person> resultList = addressProvider.GetPersonListAsync(searchPhrase).Result;
+            var progress = new Progress<int>();
+            progress.ProgressChanged += (s, e) =>
+            {
+                Console.Clear();
+                Console.WriteLine(e);
+            };
+
+            List<Person> resultList = addressProvider.GetPersonListAsync(searchPhrase, progress).Result;
             
             Console.WriteLine(searchPhrase + ": count: " + resultList.Count);
             Console.WriteLine("Time: " + (DateTime.Now - start).TotalSeconds);

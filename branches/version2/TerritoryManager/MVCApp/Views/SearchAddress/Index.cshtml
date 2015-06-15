@@ -24,9 +24,10 @@
 </div>
 
 
-<div id="ajaxLoader" style="display:none">
-    <img src="~/Images/ajax-loader.gif"> <span id="progressMessage"></span>
-</div>
+    <div id="ajaxLoader" style="display: none">
+        <img src="~/Images/ajax-loader.gif"> <span id="progressMessage"></span>
+    </div>
+    <div id="searchError" class="warningMessage" style="display: none"></div>
 }
 
 <div id="personList">
@@ -60,6 +61,12 @@
                 $('#progressMessage').text(message);
             };
 
+            searchAddressHub.client.searchError = function (message) {
+                $('#ajaxLoader').hide();
+                $('#searchError').text(message);
+                $('#searchError').show();
+            };
+
             searchAddressHub.client.searchComplete = function (addressFound) {
 
                 $.ajax({
@@ -90,6 +97,7 @@
                     if (confirmed == true) {
                         searchAddressHub.server.search(@districtId);
                         $('#ajaxLoader').show();
+                        $('#searchError').hide();
                     } 
                 });
 

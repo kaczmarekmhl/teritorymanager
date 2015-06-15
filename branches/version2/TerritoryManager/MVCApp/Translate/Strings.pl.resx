@@ -393,4 +393,10 @@
   <data name="SearchAddressLoadingOldAdresses" xml:space="preserve">
     <value>Ładowanie listy poprzednio wyszukanych adresów, by porównać ją z nowymi adresami...</value>
   </data>
+  <data name="SearchAddressWaitProgress" xml:space="preserve">
+    <value>Postęp wyszukiwania: {0}%</value>
+  </data>
+  <data name="SearchAdressesError" xml:space="preserve">
+    <value>Wystąpił błąd podczas wyszkukiwania: "{0}". Jeśli będzie się on powtarzać skontaktuj się z administratorem.</value>
+  </data>
 </root>

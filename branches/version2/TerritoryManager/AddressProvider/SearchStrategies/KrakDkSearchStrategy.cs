@@ -27,16 +27,18 @@
         };
 
         private int _completedNames;
+        private int _totalNames;
 
         /// <summary>
         /// URL to the Krak.dk web page or similar one.
         /// </summary>
         protected string WebPageUrl = "http://www.krak.dk/person/resultat/{0}/{1}/{2}";
 
-        public virtual async Task<List<Person>> GetPersonListAsync(string searchPhrase, List<SearchName> searchNameList)
+        public virtual async Task<List<Person>> GetPersonListAsync(string searchPhrase, List<SearchName> searchNameList, IProgress<int> progress)
         {
             var personList = new List<Person>();
             _completedNames = 0;
+            _totalNames = searchNameList.Count;
 
             /*Slower version
              * foreach (var name in searchNameList)
@@ -44,7 +46,7 @@
                 personList.AddRange(await GetPersonListAsync(searchPhrase, name));
             }*/
 
-            var taskList = (from name in searchNameList select GetPersonListAsync(searchPhrase, name)).ToList();
+            var taskList = (from name in searchNameList select GetPersonListAsync(searchPhrase, name, progress)).ToList();
 
             await Task.WhenAll(taskList);
 
@@ -53,7 +55,7 @@
                 personList.AddRange(task.GetAwaiter().GetResult());
             }
 
-            if (_completedNames != searchNameList.Count)
+            if (_completedNames != _totalNames)
             {
                 throw new Exception("All names have not been processed");
             }
@@ -61,7 +63,7 @@
             return personList;
         }
 
-        protected virtual async Task<List<Person>> GetPersonListAsync(string searchPhrase, SearchName searchName)
+        protected virtual async Task<List<Person>> GetPersonListAsync(string searchPhrase, SearchName searchName, IProgress<int> progress)
         {
             var resultList = new List<Person>();
             var doc = new HtmlDocument();
@@ -91,6 +93,11 @@
             }
 
             Interlocked.Increment(ref _completedNames);
+
+            if (progress != null)
+            {
+                progress.Report((int)Math.Round((decimal)_completedNames * 100 / _totalNames, 0));
+            }
 
             return resultList;
         }

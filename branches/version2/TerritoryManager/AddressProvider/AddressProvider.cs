@@ -24,7 +24,7 @@
         /// <summary>
         /// Returns person list for given post code range.
         /// </summary>
-        public async Task<List<Person>> GetPersonListAsync(int postCodeFirst, int? postCodeLast = null)
+        public async Task<List<Person>> GetPersonListAsync(int postCodeFirst, int? postCodeLast = null, IProgress<int> progress = null)
         {
             if(!postCodeLast.HasValue)
             {
@@ -40,7 +40,7 @@
 
             foreach (var searchPhrase in GetSearchPhrases(postCodeFirst, postCodeLast.Value))
             {
-                personList.AddRange(await GetPersonListAsync(searchPhrase));
+                personList.AddRange(await GetPersonListAsync(searchPhrase, progress));
             }
 
             personList = RemovePeopleOutsidePostCodeRange(personList, postCodeFirst, postCodeLast.Value);
@@ -52,9 +52,9 @@
         /// <summary>
         /// Returns person list for given search phrase.
         /// </summary>
-        public async Task<List<Person>> GetPersonListAsync(string searchPhrase)
+        public async Task<List<Person>> GetPersonListAsync(string searchPhrase, IProgress<int> progress = null)
         {
-            var personList = await _searchStrategy.GetPersonListAsync(searchPhrase, PolishSearchNameList);
+            var personList = await _searchStrategy.GetPersonListAsync(searchPhrase, PolishSearchNameList, progress);
 
             return RemovePersonListDuplicates(personList);
         }

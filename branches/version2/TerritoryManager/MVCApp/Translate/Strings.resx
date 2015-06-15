@@ -393,4 +393,10 @@
   <data name="SearchAddressLoadingOldAdresses" xml:space="preserve">
     <value>Loading list of previously found adresses...</value>
   </data>
+  <data name="SearchAddressWaitProgress" xml:space="preserve">
+    <value>Search progress: {0}%</value>
+  </data>
+  <data name="SearchAdressesError" xml:space="preserve">
+    <value>Error occured while search: {0}</value>
+  </data>
 </root>
