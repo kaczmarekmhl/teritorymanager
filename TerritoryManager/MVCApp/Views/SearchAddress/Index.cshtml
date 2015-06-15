@@ -10,7 +10,7 @@
 @if (Model.IsFirstPage)
 {
 <div>
-    <div class="button">
+    <div class="button buttonIn">
         <a href="#" id="search" class="withImage">
             <img src='~/Images/WindowsIcons/Light/appbar.refresh.svg'/> @Strings.SearchRunOnKrak
         </a>
@@ -66,6 +66,7 @@
                 $('#ajaxLoader').hide();
                 $('#searchError').text(message);
                 $('#searchError').show();
+                $('#search').removeClass("pressed");
             };
 
             searchAddressHub.client.searchComplete = function (addressFound) {
@@ -78,6 +79,7 @@
                     success: function(data){
                         $('#personList').html(data);
                         $('#ajaxLoader').hide();
+                        $('#search').removeClass("pressed");
                     }
                 });                
             };                      
@@ -99,6 +101,7 @@
                         searchAddressHub.server.search(@districtId);
                         $('#ajaxLoader').show();
                         $('#searchError').hide();
+                        $('#search').addClass("pressed");
                     } 
                 });
 
