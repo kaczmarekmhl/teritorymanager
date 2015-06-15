@@ -6,8 +6,7 @@
 
         public bool IsMale 
         { 
-            get { return !Name.EndsWith("a"); } 
-            private set { }
+            get { return !Name.EndsWith("a"); }
         }
     }
 }

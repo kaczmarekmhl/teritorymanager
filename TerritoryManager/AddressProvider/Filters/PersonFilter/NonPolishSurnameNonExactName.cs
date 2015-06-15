@@ -1,11 +1,7 @@
 ﻿namespace AddressSearch.AdressProvider.Filters.PersonFilter
 {
-    using AddressSearch.AdressProvider.Entities;
-    using AddressSearch.AdressProvider.Filters.PersonFilter.Helpers;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
+    using Entities;
+    using Helpers;
 
     /// <summary>
     ///     Satisfies criteria if person's name is different that the SearchName.Name
@@ -15,7 +11,7 @@
     {
         public override bool SatisfiesCriteria(Person person)
         {
-            if (!NameHelper.isNameExact(person))
+            if (!NameHelper.IsNameExact(person))
             {
                 return base.SatisfiesCriteria(person);
             }

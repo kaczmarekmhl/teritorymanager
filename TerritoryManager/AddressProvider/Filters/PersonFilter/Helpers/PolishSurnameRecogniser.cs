@@ -1,6 +1,6 @@
 ﻿namespace AddressSearch.AdressProvider.Filters.PersonFilter.Helpers
 {
-    using AddressSearch.AdressProvider.Properties;
+    using Properties;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -11,12 +11,12 @@
     /// </summary>
     public class PolishSurnameRecogniser
     {
-        ScandinavianSurname scandinavianSurname;
+        readonly ScandinavianSurname _scandinavianSurname;
 
         public PolishSurnameRecogniser()
         {
             LoadSurnameList();
-            scandinavianSurname = new ScandinavianSurname();
+            _scandinavianSurname = new ScandinavianSurname();
         }
 
         /// <summary>
@@ -50,8 +50,6 @@
         /// </summary>
         public bool ContainsPolishSurname(string text, bool skipFirstPart = false)
         {
-            
-
             foreach (var textPart in text.Split(new char[] { ' ', '-' }))
             {
                 if (skipFirstPart)
@@ -68,7 +66,7 @@
                 if (polishSurnameSuffix.Any(suffix => textPart.EndsWith(suffix)))
                 {
                     // Suffixes as 'vik', 'bak', etc. are recognized as polish ones
-                    if (scandinavianSurname.ContainsScandinavianSurname(textPart))
+                    if (_scandinavianSurname.ContainsScandinavianSurname(textPart))
                     {
                         return false;
                     }

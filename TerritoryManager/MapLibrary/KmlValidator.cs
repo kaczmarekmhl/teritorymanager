@@ -11,7 +11,7 @@ namespace MapLibrary
         /// <summary>
         /// Validates kml file.
         /// </summary>
-        /// <param name="kml">Xml in string.</param>
+        /// <param name="xml">Xml in string.</param>
         /// <returns>Validation result</returns>
         public static bool isValid(string xml)
         {

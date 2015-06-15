@@ -1,15 +1,16 @@
-﻿using MVCApp.Models;
-using MVCApp.Translate;
-using Novacode;
-using RazorPDF;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
+using System.Net;
 using System.Web.Mvc;
+using MVCApp.Models;
+using MVCApp.Translate;
+using Novacode;
+using RazorPDF;
 using WebMatrix.WebData;
+
 namespace MVCApp.Controllers
 {
     public class DistrictAddressesController : BaseController
@@ -202,7 +203,7 @@ namespace MVCApp.Controllers
                         }
 
                         cell.Paragraphs[0].FontSize(12);
-                        cell.Paragraphs[0].Font(new System.Drawing.FontFamily("Calibri"));
+                        cell.Paragraphs[0].Font(new FontFamily("Calibri"));
                         cell.MarginBottom = 2;
                         cell.MarginTop = 2;
                     }
@@ -255,7 +256,7 @@ namespace MVCApp.Controllers
                 return PartialView("_SelectedPersonRow", person);
             }
 
-            return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
         }
         #endregion
 
