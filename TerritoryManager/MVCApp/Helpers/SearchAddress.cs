@@ -16,6 +16,8 @@ using SearchEntities = AddressSearch.AdressProvider.Entities;
 
 namespace MVCApp.Helpers
 {
+    using System.Globalization;
+    using System.Threading;
     using System.Threading.Tasks;
 
     public class SearchAddress
@@ -27,11 +29,7 @@ namespace MVCApp.Helpers
         public SetProgressMessageDelegate SetProgressMessage
         {
             get {
-                if (_setProgressMessage == null)
-                {
-                    _setProgressMessage = new SetProgressMessageDelegate(SetProgressMessageFake);
-                }
-                return _setProgressMessage; 
+                return _setProgressMessage ?? (_setProgressMessage = SetProgressMessageFake);
             }
             set { _setProgressMessage = value; }
         }
@@ -49,7 +47,7 @@ namespace MVCApp.Helpers
                 throw new ArgumentNullException("db");
             }
 
-            this.db = db;
+            this.Db = db;
         }
 
         /// <summary>
@@ -73,24 +71,16 @@ namespace MVCApp.Helpers
         /// <summary>
         /// Loads persisted person list.
         /// </summary>
-        /// <param name="district">District that the search will be done for.</param>
+        /// <param name="districtId">District that the search will be done for.</param>
         public IQueryable<Person> GetPersistedPersonListQuery(int districtId, bool? searchUpdate = true)
         {
-            return db.Persons
+            return Db.Persons
                 .Where(p =>
                     p.District.Id == districtId &&
                     p.AddedByUserId == WebSecurity.CurrentUserId &&
                     p.Manual == false &&
                     (p.SearchUpdate == searchUpdate || searchUpdate == null))
                     .OrderBy(p => p.Name);
-        }        
-
-        private void SetProgressMessage2(string message)
-        {
-            if (SetProgressMessage != null)
-            {
-                SetProgressMessage(message);
-            }
         }
 
         /// <summary>
@@ -144,8 +134,8 @@ namespace MVCApp.Helpers
 
             //Search must be run in separate thread, otherwhise it will deadlock IIS 
             var personListFromSearch = !string.IsNullOrEmpty(district.SearchPhrase)
-                ? Task.Run(async () => await addressProvider.GetPersonListAsync(district.SearchPhrase)).GetAwaiter().GetResult()
-                : Task.Run(async () => await addressProvider.GetPersonListAsync(district.PostCodeFirst, district.PostCodeLast)).GetAwaiter().GetResult();
+                ? Task.Run(async () => await addressProvider.GetPersonListAsync(district.SearchPhrase, GetAddressProviderProgress())).GetAwaiter().GetResult()
+                : Task.Run(async () => await addressProvider.GetPersonListAsync(district.PostCodeFirst, district.PostCodeLast, GetAddressProviderProgress())).GetAwaiter().GetResult();
 
             //Filter person list
             return FilterPersonListFromSearchEngine(district, personListFromSearch);
@@ -157,7 +147,7 @@ namespace MVCApp.Helpers
         /// <param name="district">District.</param>
         /// <param name="personListFromSearch">List with person models.</param>
         /// <returns></returns>
-        private List<SearchEntities.Person> FilterPersonListFromSearchEngine(District district, List<SearchEntities.Person> personListFromSearch)
+        private static List<SearchEntities.Person> FilterPersonListFromSearchEngine(District district, List<SearchEntities.Person> personListFromSearch)
         {
             var filterList = new List<IPersonFilter> {
                     new ScandinavianSurname()
@@ -175,7 +165,7 @@ namespace MVCApp.Helpers
         /// <param name="personList">List with person models.</param>
         /// <param name="district">District</param>
         /// <returns>List with people inside district boundary.</returns>
-        private List<SearchEntities.Person> FilterPeopleOutsideBoundary(List<SearchEntities.Person> personList, District district)
+        private static List<SearchEntities.Person> FilterPeopleOutsideBoundary(List<SearchEntities.Person> personList, District district)
         {
             if (String.IsNullOrEmpty(district.DistrictBoundaryKml))
             {
@@ -201,7 +191,7 @@ namespace MVCApp.Helpers
         /// </summary>
         /// <param name="personList">List with person models.</param>
         /// <returns>Preliminary selected list of person models.</returns>
-        private List<Person> PreliminarySelection(List<Person> personList)
+        private static List<Person> PreliminarySelection(List<Person> personList)
         {
             var polishSurnameRecogniser = new PolishSurnameRecogniser();
 
@@ -220,13 +210,13 @@ namespace MVCApp.Helpers
         /// <summary>
         /// Persists person list.
         /// </summary>
-        /// <param name="district">District for which person list will be persisted.</param>
+        /// <param name="districtId">District for which person list will be persisted.</param>
         /// <param name="personList">Person list to persist.</param>
         private void PersistPersonList(int districtId, List<Person> personList)
         {
             if (personList.Count > 0)
             {
-                using (var dbContextTransaction = db.Database.BeginTransaction())
+                using (var dbContextTransaction = Db.Database.BeginTransaction())
                 {
                     try
                     {
@@ -235,20 +225,20 @@ namespace MVCApp.Helpers
                         //Mark as new update
                         personList.ForEach(p => p.SearchUpdate = true);
 
-                        db.Persons.AddRange(personList);
+                        Db.Persons.AddRange(personList);
 
-                        foreach (var validationResults in db.GetValidationErrors())
+                        foreach (var validationResults in Db.GetValidationErrors())
                         {
                             if (!validationResults.IsValid)
                             {
                                 var invalidEntity = (Person)validationResults.Entry.Entity;
 
-                                db.Persons.Remove(invalidEntity);
+                                Db.Persons.Remove(invalidEntity);
                                 personList.Remove(invalidEntity);
                             }
                         }
 
-                        db.SaveChanges();
+                        Db.SaveChanges();
 
                         dbContextTransaction.Commit();
                     }
@@ -270,12 +260,12 @@ namespace MVCApp.Helpers
             //We need to do it due to performance reasons
             string sqlDeleteStatement = "Update People SET SearchUpdate = 0 WHERE District_id = @districtId AND AddedByUserId = @userId AND Manual = 0";
 
-            List<SqlParameter> parameterList = new List<SqlParameter>();
-            parameterList.Add(new SqlParameter("@districtId", districtId));
-            parameterList.Add(new SqlParameter("@userId", WebSecurity.CurrentUserId));
+            var parameterList = new object[2];
+            parameterList[0]= new SqlParameter("@districtId", districtId);
+            parameterList[1] = new SqlParameter("@userId", WebSecurity.CurrentUserId);
 
-            db.Database.ExecuteSqlCommand(sqlDeleteStatement, parameterList.ToArray());
-            db.SaveChanges();
+            Db.Database.ExecuteSqlCommand(sqlDeleteStatement, parameterList);
+            Db.SaveChanges();
         }
 
         /// <summary>
@@ -302,6 +292,18 @@ namespace MVCApp.Helpers
             return new AddressProvider(searchStrategy);
         }
 
-        protected DistictManagerDb db;
+        protected IProgress<int> GetAddressProviderProgress()
+        {
+            var progress = new Progress<int>();
+            progress.ProgressChanged += (s, e) =>
+            {
+                //Required to change language as this code is executed not in UI thread
+                Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("pl-PL");
+                SetProgressMessage(string.Format(Strings.SearchAddressWaitProgress, e));
+            };
+            return progress;
+        }
+
+        protected DistictManagerDb Db;
     }
 }

@@ -718,6 +718,15 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Search progress: {0}%.
+        /// </summary>
+        public static string SearchAddressWaitProgress {
+            get {
+                return ResourceManager.GetString("SearchAddressWaitProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Search complete. Select Poles on below list..
         /// </summary>
         public static string SearchAdressComplete {
@@ -741,6 +750,15 @@ namespace MVCApp.Translate {
         public static string SearchAdresses {
             get {
                 return ResourceManager.GetString("SearchAdresses", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error occured while search: {0}.
+        /// </summary>
+        public static string SearchAdressesError {
+            get {
+                return ResourceManager.GetString("SearchAdressesError", resourceCulture);
             }
         }
         
