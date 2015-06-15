@@ -361,6 +361,7 @@
     <Content Include="Images\WindowsIcons\Light\appbar.office.word.svg" />
     <Content Include="Images\WindowsIcons\Light\appbar.page.file.pdf.svg" />
     <Content Include="Images\WindowsIcons\Light\appbar.people.profile.svg" />
+    <Content Include="Images\WindowsIcons\Light\appbar.refresh.svg" />
     <Content Include="Scripts\geoxml3.js" />
     <Content Include="Scripts\jquery.geocomplete\jquery.geocomplete.js" />
     <Content Include="Scripts\jquery.geocomplete\jquery.geocomplete.min.js" />
