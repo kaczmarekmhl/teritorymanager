@@ -60,7 +60,7 @@
                 throw new Exception("All names have not been processed");
             }
 
-            Trace.TraceInformation("Request for {0} completed successfully :)", searchPhrase);
+            Trace.TraceInformation("Request for {0} completed successfully :) {1}", searchPhrase, WebPageUrl);
             
             return personList;
         }
@@ -265,7 +265,7 @@
                                 return string.Empty;
                             }
 
-                            Trace.TraceError("Request failed for name {0} with reason {1}: ", name, response.ReasonPhrase);
+                            Trace.TraceError("Request failed for {0} with reason {1}", url, response.ReasonPhrase);
                             tryCount++;
                         }
                     }
@@ -277,7 +277,7 @@
 
                     if (tryCount >= 5)
                     {
-                        Trace.TraceError("Search for name {0} failed :(", name);
+                        Trace.TraceError("Search for name {0} failed (searchPhrase:{1})", name, searchPhrase);
                         throw new HttpRequestException(string.Format("Request for name {0} failed", name));
                     }
                 }
