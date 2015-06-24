@@ -59,6 +59,8 @@
             {
                 throw new Exception("All names have not been processed");
             }
+
+            Trace.TraceInformation("Request for {0} completed successfully :)", searchPhrase);
             
             return personList;
         }
@@ -245,25 +247,25 @@
 
                     try
                     {
-                        Trace.TraceInformation("Request start: " + url);
+                        //Trace.TraceInformation("Request start: " + url);
 
                         using (var response = await httpClient.GetAsync(url))
                         {
                             if (response.IsSuccessStatusCode)
                             {
-                                Trace.TraceInformation("Request competed: " + url);
+                                //Trace.TraceInformation("Request competed: " + url);
                                 return await response.Content.ReadAsStringAsync();
                             }
                             
                             if (response.StatusCode == HttpStatusCode.NotFound)
                             {
-                                Trace.TraceInformation("Request completed: adresses not found");
+                                //Trace.TraceInformation("Request completed: adresses not found");
 
                                 //Krak generates 404 errors when no person was found
                                 return string.Empty;
                             }
 
-                            Trace.TraceError("Request failed: " + response.ReasonPhrase);
+                            Trace.TraceError("Request failed for name {0} with reason {1}: ", name, response.ReasonPhrase);
                             tryCount++;
                         }
                     }
@@ -275,7 +277,7 @@
 
                     if (tryCount >= 5)
                     {
-                        Console.WriteLine(string.Format("Request for name {0} failed", name));
+                        Trace.TraceError("Search for name {0} failed :(", name);
                         throw new HttpRequestException(string.Format("Request for name {0} failed", name));
                     }
                 }
