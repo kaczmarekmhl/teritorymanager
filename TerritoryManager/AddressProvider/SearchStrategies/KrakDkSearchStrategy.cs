@@ -241,7 +241,10 @@
             {
                 using (var httpClient = SetupHttpClient())
                 {
-                    SetWebRequestHeaders(httpClient);
+                    if (tryCount % 2 == 1)
+                    {
+                        SetWebRequestHeaders(httpClient);
+                    }
 
                     var url = GetKrakPersonUrl(name, searchPhrase, page);
 
