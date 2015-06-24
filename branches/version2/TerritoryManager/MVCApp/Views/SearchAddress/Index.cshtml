@@ -3,6 +3,8 @@
 @{
     int districtId = ViewBag.DistrictId;
     string districtName = ViewBag.DistrictName;
+
+    ViewBag.Title = districtName + " - " + Strings.SearchAdresses;
 }
 
 <h2>@Html.ActionLink(districtName, "Index", "District", new { id = districtId }, null) -  @Strings.SearchAdresses</h2>
