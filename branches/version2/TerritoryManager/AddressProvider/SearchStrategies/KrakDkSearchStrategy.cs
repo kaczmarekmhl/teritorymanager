@@ -98,7 +98,7 @@
 
             if (progress != null)
             {
-                progress.Report((int)Math.Round((decimal)_completedNames * 100 / _totalNames, 0));
+                progress.Report((int)Math.Floor((decimal)_completedNames * 100 / _totalNames));
             }
 
             return resultList;
