@@ -36,6 +36,8 @@ a {
     margin-bottom: 4px;
     background-color: #4A6DA7;
     color: #ffffff;
+    padding-top: 12px;
+    padding-bottom: 14px;
 }
 
     .button a:hover {
@@ -46,6 +48,7 @@ a {
 .button a.withImage {
     padding-top:2px;
     padding-bottom:2px;
+    min-height: 41px;
 }
 
 .button a.pressed {
