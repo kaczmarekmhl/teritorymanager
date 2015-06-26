@@ -1,7 +1,7 @@
 ﻿@model IPagedList<MVCApp.Models.Person>
 
 @{
-    int districtId = ViewBag.DistrictId;
+    int id = ViewBag.DistrictId;
 }
 
 @if (ViewBag.NoPersonFound != null && ViewBag.NoPersonFound == true)
@@ -54,7 +54,7 @@
                         model => item.Selected,
                         new {
                             personId = item.Id,
-                            districtId = districtId,
+                            districtId = id,
                             ajax_selector = "personSelectCheckbox",
                             id = "personSelectCheckbox_" + item.Id,
                             data_url = Url.Action("SelectPerson")
@@ -73,7 +73,7 @@
         @if(Model.IsLastPage)
         {
         <div class="button float-right">
-            <a href="@Url.Action("Index", "DistrictAddresses",  new { id = districtId })" class="withImage">
+            <a href="@Url.Action("Index", "DistrictAddresses",  new { id = id })" class="withImage">
                 <img src='~/Images/WindowsIcons/Light/appbar.people.profile.svg'/> @Strings.DistrictAddresses
             </a>
         </div>    
@@ -82,19 +82,20 @@
         }
 
         <div class="pagedList">
-            @Html.PagedListPager(Model, page => Url.Action( "Index", new { districtId, page }), 
-            new PagedListRenderOptions { 
-                Display = PagedListDisplayMode.IfNeeded, 
-                MaximumPageNumbersToDisplay = 5, 
-                DisplayLinkToIndividualPages = true, 
-                DisplayPageCountAndCurrentLocation = true, 
-                DisplayEllipsesWhenNotShowingAllPageNumbers = false,
-                DisplayLinkToFirstPage = PagedListDisplayMode.Never,
-                DisplayLinkToPreviousPage = PagedListDisplayMode.IfNeeded,
-                PageCountAndCurrentLocationFormat = Strings.PagetListPageCountAndCurrentLocationFormat,    
-                DisplayLinkToLastPage = PagedListDisplayMode.Never,
-                LinkToNextPageFormat = Strings.PagedListLinkToNextPageFormat      
-                } )
+            @Html.PagedListPager(Model, page => Url.Action(ViewBag.NewResults == true ? "Index" : "PreviousSearch", new {id, page}),
+                new PagedListRenderOptions
+                {
+                    Display = PagedListDisplayMode.IfNeeded,
+                    MaximumPageNumbersToDisplay = 5,
+                    DisplayLinkToIndividualPages = true,
+                    DisplayPageCountAndCurrentLocation = true,
+                    DisplayEllipsesWhenNotShowingAllPageNumbers = false,
+                    DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+                    DisplayLinkToPreviousPage = PagedListDisplayMode.IfNeeded,
+                    PageCountAndCurrentLocationFormat = Strings.PagetListPageCountAndCurrentLocationFormat,
+                    DisplayLinkToLastPage = PagedListDisplayMode.Never,
+                    LinkToNextPageFormat = Strings.PagedListLinkToNextPageFormat
+                })
         </div>
         
     </div>
