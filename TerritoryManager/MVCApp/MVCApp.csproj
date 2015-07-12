@@ -276,6 +276,10 @@
     <Compile Include="Migrations\201504120924080_SearchUpdate.Designer.cs">
       <DependentUpon>201504120924080_SearchUpdate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201507122041562_PersonRemarks.cs" />
+    <Compile Include="Migrations\201507122041562_PersonRemarks.Designer.cs">
+      <DependentUpon>201507122041562_PersonRemarks.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Congregation.cs" />
     <Compile Include="Models\District.cs" />
@@ -457,6 +461,7 @@
     <Content Include="Views\DistrictAddresses\_AddPerson.cshtml" />
     <Content Include="Views\DistrictAddresses\_SelectedPersonRow.cshtml" />
     <Content Include="Views\SearchAddress\PreviousSearch.cshtml" />
+    <None Include="Views\DistrictAddresses\EditPerson.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -492,6 +497,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201504120924080_SearchUpdate.resx">
       <DependentUpon>201504120924080_SearchUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507122041562_PersonRemarks.resx">
+      <DependentUpon>201507122041562_PersonRemarks.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Translate\Strings.pl.resx" />
     <EmbeddedResource Include="Translate\Strings.resx">

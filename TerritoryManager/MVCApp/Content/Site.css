@@ -648,6 +648,10 @@ input, textarea {
     width: 300px;
 }
 
+input:read-only {
+   background: #e6e6fa; 
+}
+
 textarea {
     font-family: inherit;
     width: 500px;

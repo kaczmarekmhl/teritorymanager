@@ -399,4 +399,7 @@
   <data name="SearchAdressesError" xml:space="preserve">
     <value>Wystąpił błąd podczas wyszkukiwania: "{0}". Jeśli będzie się on powtarzać skontaktuj się z administratorem.</value>
   </data>
+  <data name="PersonRemarks" xml:space="preserve">
+    <value>Uwagi</value>
+  </data>
 </root>
