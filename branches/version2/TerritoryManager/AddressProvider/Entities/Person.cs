@@ -21,7 +21,7 @@
         
         public override bool Equals(System.Object obj)
         {
-            if (obj == null || !(obj is Person))
+            if (!(obj is Person))
             {
                 return false;
             }

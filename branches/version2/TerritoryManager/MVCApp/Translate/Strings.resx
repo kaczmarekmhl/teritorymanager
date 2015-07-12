@@ -399,4 +399,7 @@
   <data name="SearchAdressesError" xml:space="preserve">
     <value>Error occured while search: {0}</value>
   </data>
+  <data name="PersonRemarks" xml:space="preserve">
+    <value>Remarks</value>
+  </data>
 </root>

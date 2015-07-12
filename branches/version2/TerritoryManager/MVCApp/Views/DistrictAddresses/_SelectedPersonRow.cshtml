@@ -30,6 +30,9 @@
     <td>
         @Html.DisplayFor(modelItem => Model.TelephoneNumber)
     </td>
+    <td>
+        @Html.DisplayFor(modelItem => Model.Remarks)
+    </td>
     <td >
         <span data-type="PersonEditButtons" 
 			@if(ViewBag.ShowEditButtons == null || !ViewBag.ShowEditButtons){ 
@@ -45,6 +48,8 @@
                 OnSuccess = "personDeleted",
                 OnFailure = "personDeleteError"                
             })
+            |
+            @Html.ActionLink("Edytuj", "EditPerson", new { id=@Model.Id })
         </span>
     </td>
 </tr>

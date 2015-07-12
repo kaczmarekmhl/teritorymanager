@@ -13,6 +13,8 @@ using WebMatrix.WebData;
 
 namespace MVCApp.Controllers
 {
+    using System.Data.Entity;
+
     public class DistrictAddressesController : BaseController
     {
         #region Index
@@ -257,6 +259,33 @@ namespace MVCApp.Controllers
             }
 
             return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        }
+        #endregion
+
+        #region EditPerson
+        public ActionResult EditPerson(int id)
+        {
+            var person = db.Persons.Include("District").Single(p => p.Id == id);
+            return View(person);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditPerson(int id, Person person)
+        {
+            if (ModelState.IsValid)
+            {
+                var personDb = db.Persons.Include("District").Single(p => p.Id == id);
+                personDb.Remarks = person.Remarks;
+                personDb.TelephoneNumber = person.TelephoneNumber;
+
+                db.Entry(personDb).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return RedirectToAction("Index", new { personDb.District.Id });
+            }
+
+            return View(person);
         }
         #endregion
 

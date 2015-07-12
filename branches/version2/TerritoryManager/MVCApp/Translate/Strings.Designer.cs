@@ -574,6 +574,15 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remarks.
+        /// </summary>
+        public static string PersonRemarks {
+            get {
+                return ResourceManager.GetString("PersonRemarks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select.
         /// </summary>
         public static string PersonSelected {

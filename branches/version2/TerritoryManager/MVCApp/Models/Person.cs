@@ -153,6 +153,13 @@ namespace MVCApp.Models
         /// </summary>
         public bool SearchUpdate { get; set; }
 
+        /// <summary>
+        /// Person name.
+        /// </summary>
+        [StringLength(100)]
+        [Display(ResourceType = typeof(Strings), Name = "PersonRemarks")]
+        public string Remarks { get; set; }
+
         #endregion
 
         #region Crypted Properties
