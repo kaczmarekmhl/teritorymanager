@@ -8,21 +8,24 @@
 
 <div id="districtDetails">
 
-    @if(Model.AssignedToUserId == WebSecurity.CurrentUserId)
+    @if (Model.AssignedToUserId == WebSecurity.CurrentUserId || ViewBag.IsAdressSharingEnabled)
     {
 
         <div class="button">
-            <a href="@Url.Action("Index", "DistrictAddresses",  new { id = Model.Id })" class="withImage">
+            <a href="@Url.Action("Index", "DistrictAddresses", new { id = Model.Id })" class="withImage">
                 <img src='~/Images/WindowsIcons/Light/appbar.people.profile.svg'/> @Strings.DistrictAddresses
             </a>
         </div>        
-        
+
         <div class="button spacer">
-            <a href="@Url.Action("Index", "SearchAddress",  new { id = Model.Id })" class="withImage">
+            <a href="@Url.Action("Index", "SearchAddress", new { id = Model.Id })" class="withImage">
                 <img src='~/Images/WindowsIcons/Light/appbar.magnify.browse.svg'/> @Strings.SearchAdresses
             </a>
-        </div>        
+        </div>
+    }
 
+    @if (Model.AssignedToUserId == WebSecurity.CurrentUserId)
+    { 
         <h3 id="toggleReportCompletion">
             <span>@Strings.ReportDistrictCompletion </span><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
         </h3>

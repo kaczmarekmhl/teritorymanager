@@ -196,7 +196,7 @@ namespace MVCApp.Controllers
         private void updateCongregation(RegisterModel model)
         {
             var user = db.UserProfiles.First(u => u.UserName == model.UserName);
-            user.Congregation = GetCurrentCongregation();
+            user.Congregation = CurrentCongregation;
 
             db.Entry(user).State = EntityState.Modified;
             db.SaveChanges();

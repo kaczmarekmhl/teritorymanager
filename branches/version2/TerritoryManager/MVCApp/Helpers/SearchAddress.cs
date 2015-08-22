@@ -22,6 +22,8 @@ namespace MVCApp.Helpers
 
     public class SearchAddress
     {
+        protected bool IsSharingAdressesEnabled;
+
         #region SetProgressMessage
         public delegate void SetProgressMessageDelegate(string message);
 
@@ -48,6 +50,7 @@ namespace MVCApp.Helpers
             }
 
             this.Db = db;
+            this.IsSharingAdressesEnabled = UserContext.IsSharingAdressesEnabled(db);
         }
 
         /// <summary>
@@ -72,12 +75,13 @@ namespace MVCApp.Helpers
         /// Loads persisted person list.
         /// </summary>
         /// <param name="districtId">District that the search will be done for.</param>
-        public IQueryable<Person> GetPersistedPersonListQuery(int districtId, bool? searchUpdate = true)
+        /// <param name="searchUpdate">Update adresses</param>
+        public IQueryable<Person> GetPersistedPersonListQuery(int districtId, bool? searchUpdate)
         {
             return Db.Persons
                 .Where(p =>
                     p.District.Id == districtId &&
-                    p.AddedByUserId == WebSecurity.CurrentUserId &&
+                    (p.AddedByUserId == WebSecurity.CurrentUserId || IsSharingAdressesEnabled) &&
                     p.Manual == false &&
                     (p.SearchUpdate == searchUpdate || searchUpdate == null))
                     .OrderBy(p => p.Name);
@@ -258,11 +262,22 @@ namespace MVCApp.Helpers
         {
             //Entity framework does not support deleting data through direct SQL
             //We need to do it due to performance reasons
-            string sqlDeleteStatement = "Update People SET SearchUpdate = 0 WHERE District_id = @districtId AND AddedByUserId = @userId AND Manual = 0";
+            string sqlDeleteStatement;
+            object[] parameterList;
 
-            var parameterList = new object[2];
-            parameterList[0]= new SqlParameter("@districtId", districtId);
-            parameterList[1] = new SqlParameter("@userId", WebSecurity.CurrentUserId);
+            if (IsSharingAdressesEnabled)
+            {
+                sqlDeleteStatement = "Update People SET SearchUpdate = 0 WHERE District_id = @districtId AND Manual = 0";
+                parameterList = new object[1];
+            }
+            else
+            {
+                sqlDeleteStatement = "Update People SET SearchUpdate = 0 WHERE District_id = @districtId AND AddedByUserId = @userId AND Manual = 0";
+                parameterList = new object[2];
+                parameterList[1] = new SqlParameter("@userId", WebSecurity.CurrentUserId);
+            }
+
+            parameterList[0] = new SqlParameter("@districtId", districtId);
 
             Db.Database.ExecuteSqlCommand(sqlDeleteStatement, parameterList);
             Db.SaveChanges();
