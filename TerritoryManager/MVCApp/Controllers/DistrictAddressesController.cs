@@ -242,6 +242,11 @@ namespace MVCApp.Controllers
                 TryValidateModel(person);
             }
 
+            if (!IsUserAuthorizedForDistrict(person.District))
+            {
+                return new HttpNotFoundResult();
+            }
+
             if (ModelState.IsValid)
             {
                 person.Manual = true;
@@ -266,6 +271,12 @@ namespace MVCApp.Controllers
         public ActionResult EditPerson(int id)
         {
             var person = db.Persons.Include("District").Single(p => p.Id == id);
+
+            if (!IsUserAuthrorizedForPerson(person))
+            {
+                return new HttpNotFoundResult();
+            }
+
             return View(person);
         }
 
@@ -295,7 +306,12 @@ namespace MVCApp.Controllers
         public ActionResult DeletePerson(int personId, int districtId)
         {
             Person person = db.Persons.Find(personId);
-            db.Entry(person).Reference(p => p.District).Load(); 
+            db.Entry(person).Reference(p => p.District).Load();
+
+            if (!IsUserAuthrorizedForPerson(person))
+            {
+                return new HttpNotFoundResult();
+            }
 
             if (person == null || person.District.Id != districtId)
             {
@@ -323,8 +339,8 @@ namespace MVCApp.Controllers
         private List<Person> GetPersonList(int districtId)
         {
             var list = db.Persons
-                .Where(p => p.District.Id == districtId 
-                    && p.AddedByUserId == WebSecurity.CurrentUserId 
+                .Where(p => p.District.Id == districtId
+                    && (p.AddedByUserId == WebSecurity.CurrentUserId || IsSharingAdressesEnabled)
                     && (p.Selected == true))
                 .ToList();
 
@@ -346,6 +362,16 @@ namespace MVCApp.Controllers
             {
                 return String.Format("{0}_{1}", district.Name, district.PostCode);
             }
+        }
+
+        protected bool IsUserAuthrorizedForPerson(Person person)
+        {
+            return person.AddedByUserId == WebSecurity.CurrentUserId || IsSharingAdressesEnabled;
+        }
+
+        protected bool IsUserAuthorizedForDistrict(District district)
+        {
+            return district.AssignedToUserId == WebSecurity.CurrentUserId || IsSharingAdressesEnabled;
         }
 
         #endregion

@@ -20,6 +20,13 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <MvcProjectUpgradeChecked>true</MvcProjectUpgradeChecked>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -247,6 +254,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\SearchAddress.cs" />
+    <Compile Include="Helpers\UserContext.cs" />
     <Compile Include="Hubs\SearchAddressHub.cs" />
     <Compile Include="Migrations\201312271615237_InitialCreate.cs" />
     <Compile Include="Migrations\201312271615237_InitialCreate.Designer.cs">
@@ -279,6 +287,10 @@
     <Compile Include="Migrations\201507122041562_PersonRemarks.cs" />
     <Compile Include="Migrations\201507122041562_PersonRemarks.Designer.cs">
       <DependentUpon>201507122041562_PersonRemarks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508221546062_SharingAdresses.cs" />
+    <Compile Include="Migrations\201508221546062_SharingAdresses.Designer.cs">
+      <DependentUpon>201508221546062_SharingAdresses.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Congregation.cs" />
@@ -500,6 +512,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201507122041562_PersonRemarks.resx">
       <DependentUpon>201507122041562_PersonRemarks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508221546062_SharingAdresses.resx">
+      <DependentUpon>201508221546062_SharingAdresses.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Translate\Strings.pl.resx" />
     <EmbeddedResource Include="Translate\Strings.resx">

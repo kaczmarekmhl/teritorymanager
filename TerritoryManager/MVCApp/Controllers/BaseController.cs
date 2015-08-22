@@ -1,4 +1,5 @@
-﻿using MVCApp.Models;
+﻿using MVCApp.Helpers;
+using MVCApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,19 +12,26 @@ namespace MVCApp.Controllers
     public abstract class BaseController : Controller
     {
         /// <summary>
+        /// Is sharing adresses enabled for current congretation.
+        /// </summary>
+        protected bool IsSharingAdressesEnabled
+        {
+            get
+            {
+                return UserContext.IsSharingAdressesEnabled(db);
+            }
+        }
+
+        /// <summary>
         /// Returns current congregation based on authenticated user.
         /// </summary>
         /// <returns></returns>
-        protected Congregation GetCurrentCongregation()
+        protected Congregation CurrentCongregation
         {
-            var currentUser = db.UserProfiles.Find(WebSecurity.CurrentUserId);
-
-            if (currentUser == null)
+            get
             {
-                throw new Exception("Current congregation not found!");
+                return UserContext.Congregation(db);
             }
-
-            return currentUser.Congregation;
         }
 
         /// <summary>
@@ -32,7 +40,7 @@ namespace MVCApp.Controllers
         /// <returns></returns>
         protected IQueryable<District> SetCurrentCongregationFilter(IQueryable<District> model)
         {
-            var currentCongregation = GetCurrentCongregation();
+            var currentCongregation = CurrentCongregation;
 
             return model.Where(t => t.Congregation.Id.Equals(currentCongregation.Id));
         }
@@ -43,7 +51,7 @@ namespace MVCApp.Controllers
         /// <returns></returns>
         protected IQueryable<UserProfile> SetCurrentCongregationFilter(IQueryable<UserProfile> model)
         {
-            var currentCongregation = GetCurrentCongregation();
+            var currentCongregation = CurrentCongregation;
 
             return model.Where(u => u.Congregation.Id.Equals(currentCongregation.Id));
         }
@@ -54,11 +62,11 @@ namespace MVCApp.Controllers
         /// <returns></returns>
         protected IQueryable<DistrictReport> SetCurrentCongregationFilter(IQueryable<DistrictReport> model)
         {
-            var currentCongregation = GetCurrentCongregation();
+            var currentCongregation = CurrentCongregation;
 
             return model.Where(u => u.District.Congregation.Id.Equals(currentCongregation.Id));
         }
-
+          
         #region Database Access
 
         protected DistictManagerDb db;

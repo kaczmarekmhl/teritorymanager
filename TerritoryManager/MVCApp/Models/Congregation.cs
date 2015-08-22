@@ -30,6 +30,12 @@ namespace MVCApp.Models
         [Display(ResourceType = typeof(Strings), Name = "Country")]
         public Country Country { get; set; }
 
+        /// <summary>
+        /// Determines weather sharing adresses between multiple users is enabled.
+        /// </summary>
+        [Display(ResourceType = typeof(Strings), Name = "SharingEnabled")]
+        public bool SharingAddressesEnabled { get; set; }
+
         #endregion
     }
 }

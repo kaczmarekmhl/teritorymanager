@@ -402,4 +402,7 @@
   <data name="PersonRemarks" xml:space="preserve">
     <value>Uwagi</value>
   </data>
+  <data name="SharingEnabled" xml:space="preserve">
+    <value>Włącz współdzielenie adresów</value>
+  </data>
 </root>

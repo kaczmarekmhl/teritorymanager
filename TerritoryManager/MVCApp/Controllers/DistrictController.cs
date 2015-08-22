@@ -23,6 +23,8 @@ namespace MVCApp.Controllers
                 return new HttpNotFoundResult();
             }
 
+            ViewBag.IsAdressSharingEnabled = IsSharingAdressesEnabled;
+
             return View(district);
         }
 
