@@ -104,7 +104,7 @@ namespace MVCApp.Controllers
             Response.AddHeader("Content-Disposition", String.Format("attachment; filename={0}.pdf", GetDistrictAdressFileName(district)));
 
             var pdf = new PdfResult(GetPersonList(district.Id), "AdressesPdf");
-
+            
             pdf.ViewBag.DistrictName = district.Name;
             pdf.ViewBag.DistrictPostCode = district.PostCode;
             pdf.ViewBag.IsMultiPostCode = district.IsMultiPostCode();
@@ -142,7 +142,7 @@ namespace MVCApp.Controllers
                     .UnderlineStyle(UnderlineStyle.singleLine);
 
                 //Table with adresses
-                Table table = doc.AddTable(personList.Count + 1, 4 + (district.IsMultiPostCode() ? 1 : 0));
+                Table table = doc.AddTable(personList.Count + 1, 5 + (district.IsMultiPostCode() ? 1 : 0));
 
                 //table header
                 var cellHeader = 0;
@@ -156,6 +156,7 @@ namespace MVCApp.Controllers
                 }
 
                 table.Rows[0].Cells[cellHeader++].Paragraphs[0].Append(Strings.PersonTelephoneNum);
+                table.Rows[0].Cells[cellHeader++].Paragraphs[0].Append(Strings.PersonRemarks);
 
                 int i = 1;
                 int counter = 1;
@@ -185,6 +186,7 @@ namespace MVCApp.Controllers
                     }
 
                     table.Rows[i].Cells[cell++].Paragraphs[0].Append(person.TelephoneNumber);
+                    table.Rows[i].Cells[cell++].Paragraphs[0].Append(person.Remarks);
 
                     i++;
                 }
@@ -197,6 +199,7 @@ namespace MVCApp.Controllers
                 int rowNum = 0;
                 foreach (var row in table.Rows)
                 {
+                    int cellNum = 0;
                     foreach (var cell in row.Cells)
                     {
                         if (rowNum == 0)
@@ -204,10 +207,20 @@ namespace MVCApp.Controllers
                             cell.Paragraphs[0].Bold();
                         }
 
-                        cell.Paragraphs[0].FontSize(12);
+                        if (cellNum > 2 && rowNum > 0)
+                        {
+                            cell.Paragraphs[0].FontSize(8);
+                        }
+                        else
+                        {
+                            cell.Paragraphs[0].FontSize(11);
+                        }
+                        
                         cell.Paragraphs[0].Font(new FontFamily("Calibri"));
                         cell.MarginBottom = 2;
                         cell.MarginTop = 2;
+
+                        cellNum++;
                     }
 
                     rowNum++;

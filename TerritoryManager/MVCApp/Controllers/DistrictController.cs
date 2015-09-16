@@ -25,6 +25,20 @@ namespace MVCApp.Controllers
 
             ViewBag.IsAdressSharingEnabled = IsSharingAdressesEnabled;
 
+            if (String.IsNullOrEmpty(district.DistrictBoundaryKml) && district.PostCodeFirst > 0)
+            {
+                ViewBag.MapCenterAddress = String.Format("{0}", district.PostCodeFirst);
+
+                if(CurrentCongregation.Country == Enums.Country.Norway)
+                {
+                    ViewBag.MapCountryCode = "NO";
+                }
+                else if (CurrentCongregation.Country == Enums.Country.Denmark)
+                {
+                    ViewBag.MapCountryCode = "DK";
+                }
+            }
+
             return View(district);
         }
 
@@ -39,7 +53,7 @@ namespace MVCApp.Controllers
             if (district == null)
             {
                 return new HttpNotFoundResult();
-            }
+            }            
 
             return this.Content(district.GetDistrictBoundaryKmlDoc().ToString(), "text/xml");
         }

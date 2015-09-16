@@ -98,17 +98,24 @@
 
             for (var postCode = postCodeFirst; postCode <= postCodeLast; postCode++)
             {
-                if (postCode >= 1000 && postCode <= 1499)
+                if (_searchStrategy.GetType() == typeof(KrakDkSearchStrategy))
                 {
-                    phrases.Add("København K");
-                }
-                else if (postCode >= 1500 && postCode <= 1799)
-                {
-                    phrases.Add("København V");
-                }
-                else if (postCode >= 1800 && postCode <= 1999)
-                {
-                    phrases.Add("Frederiksberg C");
+                    if (postCode >= 1000 && postCode <= 1499)
+                    {
+                        phrases.Add("København K");
+                    }
+                    else if (postCode >= 1500 && postCode <= 1799)
+                    {
+                        phrases.Add("København V");
+                    }
+                    else if (postCode >= 1800 && postCode <= 1999)
+                    {
+                        phrases.Add("Frederiksberg C");
+                    }
+                    else
+                    {
+                        phrases.Add(postCode.ToString());
+                    }
                 }
                 else
                 {
