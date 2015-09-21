@@ -110,7 +110,7 @@ namespace MVCApp.Controllers
             pdf.ViewBag.IsMultiPostCode = district.IsMultiPostCode();
 
             return pdf;
-        }
+        }        
 
         #endregion
 
@@ -125,6 +125,11 @@ namespace MVCApp.Controllers
                 return null;
             }
 
+            return File(GetDocFile(district).ToArray(), "application/octet-stream", GetDistrictAdressFileName(district) + ".docx");
+        }
+
+        protected MemoryStream GetDocFile(District district)
+        {
             var personList = GetPersonList(district.Id);
 
             MemoryStream stream = new MemoryStream();
@@ -182,7 +187,7 @@ namespace MVCApp.Controllers
 
                     if (district.IsMultiPostCode())
                     {
-                        table.Rows[i].Cells[cell++].Paragraphs[0].Append(person.PostCode.ToString());
+                        table.Rows[i].Cells[cell++].Paragraphs[0].Append(person.PostCodeFormat);
                     }
 
                     table.Rows[i].Cells[cell++].Paragraphs[0].Append(person.TelephoneNumber);
@@ -215,7 +220,7 @@ namespace MVCApp.Controllers
                         {
                             cell.Paragraphs[0].FontSize(11);
                         }
-                        
+
                         cell.Paragraphs[0].Font(new FontFamily("Calibri"));
                         cell.MarginBottom = 2;
                         cell.MarginTop = 2;
@@ -231,7 +236,7 @@ namespace MVCApp.Controllers
                 doc.Save();
             }
 
-            return File(stream.ToArray(), "application/octet-stream", GetDistrictAdressFileName(district) + ".docx");
+            return stream;
         }
 
         #endregion

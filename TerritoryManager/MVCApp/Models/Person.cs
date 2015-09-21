@@ -160,6 +160,16 @@ namespace MVCApp.Models
         [Display(ResourceType = typeof(Strings), Name = "PersonRemarks")]
         public string Remarks { get; set; }
 
+
+        [NotMapped]
+        public string PostCodeFormat
+        {
+            get
+            {
+                return PostCode.ToString().PadLeft(4, '0');
+            }
+        }
+
         #endregion
 
         #region Crypted Properties

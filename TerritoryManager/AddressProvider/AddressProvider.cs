@@ -119,7 +119,14 @@
                 }
                 else
                 {
-                    phrases.Add(postCode.ToString());
+                    string postCodeString = postCode.ToString();
+
+                    if (postCode < 1000)
+                    {
+                        postCodeString = string.Format("0{0}", postCodeString);
+                    }
+
+                    phrases.Add(postCodeString);
                 }
             }
 

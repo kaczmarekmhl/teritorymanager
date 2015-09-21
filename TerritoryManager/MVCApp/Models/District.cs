@@ -60,11 +60,11 @@ namespace MVCApp.Models
             {
                 if (!PostCodeLast.HasValue || PostCodeFirst == PostCodeLast.Value)
                 {
-                    return PostCodeFirst.ToString();
+                    return string.Format("{0:0000}", PostCodeFirst);
                 }
                 else
                 {
-                    return string.Format("{0}-{1}", PostCodeFirst, PostCodeLast);
+                    return string.Format("{0:0000}-{1:0000}", PostCodeFirst, PostCodeLast);
                 }
             }
 
