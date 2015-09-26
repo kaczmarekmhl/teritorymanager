@@ -23,6 +23,17 @@
             @Html.ValidationMessageFor(model => model.UserName)
         </div>
 
+        @if (User.Identity.Name.Equals("admin"))
+        {  
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Congregation)
+            </div>
+            <div class="editor-field">
+                @Html.DropDownListFor(model => model.CongregationId, new SelectList(ViewBag.Congregations, "Id", "Name"))
+                @Html.ValidationMessageFor(model => model.Congregation)
+            </div>
+        }
+
         <p>
             <input type="submit" value="@Strings.Save" />
         </p>

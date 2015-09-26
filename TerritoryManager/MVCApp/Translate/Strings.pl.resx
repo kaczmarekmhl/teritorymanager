@@ -405,6 +405,9 @@
   <data name="SharingEnabled" xml:space="preserve">
     <value>Włącz współdzielenie adresów</value>
   </data>
+  <data name="AccountCongregation" xml:space="preserve">
+    <value>Zbór</value>
+  </data>
   <data name="SearchAddressesDelete" xml:space="preserve">
     <value>Usuń wszystkie wyniki wyszukiwania</value>
   </data>

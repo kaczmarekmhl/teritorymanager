@@ -292,6 +292,10 @@
     <Compile Include="Migrations\201508221546062_SharingAdresses.Designer.cs">
       <DependentUpon>201508221546062_SharingAdresses.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201509261827349_congregationId.cs" />
+    <Compile Include="Migrations\201509261827349_congregationId.Designer.cs">
+      <DependentUpon>201509261827349_congregationId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Congregation.cs" />
     <Compile Include="Models\District.cs" />
@@ -517,6 +521,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508221546062_SharingAdresses.resx">
       <DependentUpon>201508221546062_SharingAdresses.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509261827349_congregationId.resx">
+      <DependentUpon>201509261827349_congregationId.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Translate\Strings.pl.resx" />
     <EmbeddedResource Include="Translate\Strings.resx">

@@ -26,8 +26,14 @@ namespace MVCApp.Models
         public string LastName { get; set; }
 
         /// <summary>
-        /// Congregation that this district belongs to.
+        /// The congregation ID of UserProfile.
         /// </summary>
+        public int? CongregationId { get; set; }
+
+        /// <summary>
+        /// Congregation that this user belongs to.
+        /// </summary>
+        [Display(ResourceType = typeof(Strings), Name = "AccountCongregation")]
         public virtual Congregation Congregation { get; set; }
 
         #endregion

@@ -61,6 +61,15 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Congregation.
+        /// </summary>
+        public static string AccountCongregation {
+            get {
+                return ResourceManager.GetString("AccountCongregation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hello.
         /// </summary>
         public static string AccountHello {

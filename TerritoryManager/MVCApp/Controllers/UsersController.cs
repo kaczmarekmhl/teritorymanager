@@ -38,6 +38,8 @@ namespace MVCApp.Controllers
                 return new HttpNotFoundResult();
             }
 
+            ViewBag.Congregations = db.Congregations.ToList();
+
             return View(user);
         }
 
@@ -47,10 +49,20 @@ namespace MVCApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(user).State = EntityState.Modified;
+                var model = db.UserProfiles.Find(id);
+                model.UserName = user.UserName;
+
+                if (User.Identity.Name.Equals("admin"))
+                {
+                    model.CongregationId = user.CongregationId;
+                }
+
+                db.Entry(model).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
+            ViewBag.Congregations = db.Congregations.ToList();
 
             return View(user);
         }
