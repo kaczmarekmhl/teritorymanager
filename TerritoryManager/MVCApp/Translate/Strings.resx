@@ -405,4 +405,13 @@
   <data name="SharingEnabled" xml:space="preserve">
     <value>Enable address sharing</value>
   </data>
+  <data name="SearchAddressesDelete" xml:space="preserve">
+    <value>Delete all search results</value>
+  </data>
+  <data name="SearchAddressesDeleteConfirm" xml:space="preserve">
+    <value>Do you really want to delete all search results?</value>
+  </data>
+  <data name="SearchAdressEmptyConfirm" xml:space="preserve">
+    <value>Do you want to start new search?</value>
+  </data>
 </root>

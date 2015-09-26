@@ -129,9 +129,47 @@ namespace MVCApp.Controllers
             };
         }
         #endregion
-        
+
+        #region DeleteSearch
+
+        public ActionResult DeleteSearch(int id)
+        {
+            var district = db.Districts.Find(id);
+
+            if (district == null)
+            {
+                return new HttpNotFoundResult();
+            }
+
+            //Entity framework does not support deleting data through direct SQL
+            //We need to do it due to performance reasons
+            string sqlDeleteStatement;
+            object[] parameterList;
+
+            if (IsSharingAdressesEnabled)
+            {
+                sqlDeleteStatement = "Delete from People WHERE District_id = @districtId AND Manual = 0";
+                parameterList = new object[1];
+            }
+            else
+            {
+                sqlDeleteStatement = "Delete People WHERE District_id = @districtId AND AddedByUserId = @userId AND Manual = 0";
+                parameterList = new object[2];
+                parameterList[1] = new SqlParameter("@userId", WebSecurity.CurrentUserId);
+            }
+
+            parameterList[0] = new SqlParameter("@districtId", district.Id);
+
+            db.Database.ExecuteSqlCommand(sqlDeleteStatement, parameterList);
+            db.SaveChanges();
+
+            return RedirectToAction("Index", new { id = id });
+        }
+
+        #endregion
+
         #region Helpers
-        
+
         /// <summary>
         /// Loads persisted person list.
         /// </summary>

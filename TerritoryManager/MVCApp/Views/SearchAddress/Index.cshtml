@@ -23,6 +23,12 @@
             @Strings.SearchAddressesPrevious
         </a>
     </div>
+
+    <div class="button">
+        <a href="@Url.Action("DeleteSearch", "SearchAddress", new { id = districtId })" id="deleteSearch">
+            @Strings.SearchAddressesDelete
+        </a>
+    </div>
     <div class="spacer" />
 </div>
 
@@ -54,12 +60,13 @@
     <!--SignalR script to update the chat page and send messages.--> 
     <script>
         $(function () {
-            
-            var modelCount = @Model.Count;
 
-            // Reference the auto-generated proxy for the hub.  
+            var modelCount = @Model.Count;
+            var searchInProgress = false;
+
+            // Reference the auto-generated proxy for the hub.
             var searchAddressHub = $.connection.searchAddressHub;
-            
+
             searchAddressHub.client.setProgressMessage = function (message) {
                 $('#progressMessage').text(message);
             };
@@ -69,6 +76,7 @@
                 $('#searchError').text(message);
                 $('#searchError').show();
                 $('#search').removeClass("pressed");
+                searchInProgress = false;
             };
 
             searchAddressHub.client.searchComplete = function (addressFound) {
@@ -82,9 +90,10 @@
                         $('#personList').html(data);
                         $('#ajaxLoader').hide();
                         $('#search').removeClass("pressed");
+                        searchInProgress = false;
                     }
-                });                
-            };                      
+                });
+            };
 
             // Start the connection.
             $.connection.hub.start().done(function () {
@@ -92,11 +101,20 @@
 
                     e.preventDefault();
 
+                    if(searchInProgress)
+                    {
+                        return;
+                    }
+
                     var modelCount = @Model.Count;
 
                     var confirmed = true;
                     if(modelCount != 0) {
                         confirmed = confirm('@Html.Raw(Strings.SearchAdressConfirm)');
+                    }
+                    else
+                    {
+                        confirmed = confirm('@Html.Raw(Strings.SearchAdressEmptyConfirm)');
                     }
 
                     if (confirmed == true) {
@@ -104,13 +122,20 @@
                         $('#ajaxLoader').show();
                         $('#searchError').hide();
                         $('#search').addClass("pressed");
-                    } 
+                        searchInProgress = true;
+                    }
                 });
 
                 if(modelCount == 0) {
                     $('#search').click();
                 }
-            });            
+
+
+                $('#deleteSearch').click(function (e) {
+                    return confirm('@Html.Raw(Strings.SearchAddressesDeleteConfirm)');
+                });
+                
+            });
         });
     </script>
 }

@@ -664,6 +664,24 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete all search results.
+        /// </summary>
+        public static string SearchAddressesDelete {
+            get {
+                return ResourceManager.GetString("SearchAddressesDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you really want to delete all search results?.
+        /// </summary>
+        public static string SearchAddressesDeleteConfirm {
+            get {
+                return ResourceManager.GetString("SearchAddressesDeleteConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New search results.
         /// </summary>
         public static string SearchAddressesNew {
@@ -750,6 +768,15 @@ namespace MVCApp.Translate {
         public static string SearchAdressConfirm {
             get {
                 return ResourceManager.GetString("SearchAdressConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you want to start new search?.
+        /// </summary>
+        public static string SearchAdressEmptyConfirm {
+            get {
+                return ResourceManager.GetString("SearchAdressEmptyConfirm", resourceCulture);
             }
         }
         

@@ -255,9 +255,9 @@ namespace MVCApp.Helpers
         }
 
         /// <summary>
-        /// Deletes people for given district.
+        /// Marks previous search as old.
         /// </summary>
-        /// <param name="districtId">District id that the delete will be done for.</param>
+        /// <param name="districtId">District id for which people will be marked as old.</param>
         private void MarkPeopleAsOldSearch(int districtId)
         {
             //Entity framework does not support deleting data through direct SQL

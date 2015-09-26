@@ -15,7 +15,7 @@
     {
         static void Main(string[] args)
         {
-            var addressProvider = new AddressProvider(new GuleSiderNoSearchStrategy());
+            var addressProvider = new AddressProvider(new KrakDkSearchStrategy());
 
             if (String.IsNullOrEmpty(args[0]))
             {
