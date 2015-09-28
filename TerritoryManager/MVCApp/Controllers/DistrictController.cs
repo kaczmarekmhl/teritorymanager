@@ -27,7 +27,7 @@ namespace MVCApp.Controllers
 
             if (String.IsNullOrEmpty(district.DistrictBoundaryKml) && district.PostCodeFirst > 0)
             {
-                ViewBag.MapCenterAddress = String.Format("{0}", district.PostCodeFirst);
+                ViewBag.MapCenterAddress = String.Format("{0:0000}", district.PostCodeFirst);
 
                 if(CurrentCongregation.Country == Enums.Country.Norway)
                 {

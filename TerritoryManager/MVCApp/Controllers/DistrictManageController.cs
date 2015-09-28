@@ -148,6 +148,7 @@ namespace MVCApp.Controllers
                 case DistrictQueryType.User:
                     modelJson = db.UserProfiles
                         .Where(u => u.UserName.StartsWith(term))
+                        .Where(u => u.CongregationId == CurrentCongregation.Id)
                         .OrderBy(u => u.UserName)
                         .Take(10)
                         .Select( u => new 

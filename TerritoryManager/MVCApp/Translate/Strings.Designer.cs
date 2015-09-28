@@ -232,6 +232,15 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add new district.
+        /// </summary>
+        public static string DistrictAdd {
+            get {
+                return ResourceManager.GetString("DistrictAdd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to District adresses.
         /// </summary>
         public static string DistrictAddresses {

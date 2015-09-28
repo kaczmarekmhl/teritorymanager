@@ -408,6 +408,9 @@
   <data name="AccountCongregation" xml:space="preserve">
     <value>Congregation</value>
   </data>
+  <data name="DistrictAdd" xml:space="preserve">
+    <value>Add new district</value>
+  </data>
   <data name="SearchAddressesDelete" xml:space="preserve">
     <value>Delete all search results</value>
   </data>

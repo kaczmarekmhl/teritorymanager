@@ -1,10 +1,10 @@
 ﻿@model MVCApp.Models.District
 
 @{
-    ViewBag.Title = "Add new district";
+    ViewBag.Title = @Strings.DistrictAdd;
 }
 
-<h2>Create</h2>
+<h2>@Strings.DistrictAdd</h2>
 
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
