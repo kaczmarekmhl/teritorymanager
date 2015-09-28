@@ -283,7 +283,7 @@
     <value>Kraj</value>
   </data>
   <data name="DistrictSearchPhrase" xml:space="preserve">
-    <value>Nazwa obszaru (zastępuje szukanie po kodach)</value>
+    <value>Nazwy obszarów lub numery kodów oddzielone przecinkami (zastępuje szukanie po przedziale kodów)</value>
   </data>
   <data name="SearchAdressNoPerson" xml:space="preserve">
     <value>Nie znaleziono nowych osób na terenie. Twoja lista jest aktualna :)</value>

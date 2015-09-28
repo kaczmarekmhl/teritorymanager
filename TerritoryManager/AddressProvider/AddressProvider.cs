@@ -50,6 +50,25 @@
         }
 
         /// <summary>
+        /// Returns person list for multiple search phrases.
+        /// </summary>
+        public async Task<List<Person>> GetPersonListAsync(List<string> searchPhraseList, IProgress<int> progress = null)
+        {
+            var personList = new List<Person>();
+
+            foreach (var searchPhrase in searchPhraseList)
+            {
+                var personListPartial = await _searchStrategy.GetPersonListAsync(searchPhrase.Trim(), PolishSearchNameList, progress);
+
+                personListPartial = RemovePeopleOutsidePostCodeRange(personListPartial, searchPhrase);
+
+                personList.AddRange(personListPartial);
+            }            
+
+            return RemovePersonListDuplicates(personList);
+        }
+
+        /// <summary>
         /// Returns person list for given search phrase.
         /// </summary>
         public async Task<List<Person>> GetPersonListAsync(string searchPhrase, IProgress<int> progress = null)
@@ -78,6 +97,20 @@
         protected List<Person> RemovePeopleOutsidePostCodeRange(List<Person> personList, int postCodeFirst, int postCodeLast)
         {
             return personList.Where(person => person.PostCode >= postCodeFirst && person.PostCode <= postCodeLast).ToList();
+        }
+
+        /// <summary>
+        /// Removes search results outside post code range.
+        /// </summary>
+        protected List<Person> RemovePeopleOutsidePostCodeRange(List<Person> personList, string searchPhrase)
+        {
+            int postCode;
+            if (int.TryParse(searchPhrase, out postCode))
+            {
+                personList = RemovePeopleOutsidePostCodeRange(personList, postCode, postCode);
+            }
+
+            return personList;
         }
 
         /// <summary>

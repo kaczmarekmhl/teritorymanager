@@ -138,7 +138,7 @@ namespace MVCApp.Helpers
 
             //Search must be run in separate thread, otherwhise it will deadlock IIS 
             var personListFromSearch = !string.IsNullOrEmpty(district.SearchPhrase)
-                ? Task.Run(async () => await addressProvider.GetPersonListAsync(district.SearchPhrase, GetAddressProviderProgress())).GetAwaiter().GetResult()
+                ? Task.Run(async () => await addressProvider.GetPersonListAsync(district.SearchPhrases, GetAddressProviderProgress())).GetAwaiter().GetResult()
                 : Task.Run(async () => await addressProvider.GetPersonListAsync(district.PostCodeFirst, district.PostCodeLast, GetAddressProviderProgress())).GetAwaiter().GetResult();
 
             //Filter person list

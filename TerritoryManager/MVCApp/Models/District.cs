@@ -111,11 +111,19 @@ namespace MVCApp.Models
         [Display(ResourceType = typeof(Strings), Name = "DistrictSearchPhrase")]
         public string SearchPhrase { get; set; }
 
+        [NotMapped]
+        public List<string> SearchPhrases {
+            get
+            {
+                return SearchPhrase.Split(',').ToList();
+            }            
+        }
+
         #endregion
 
 
         #region DistrictReport Area
-       
+
         [NotMapped]
         public DistrictReport Reports_LatestCompleteReport
         {

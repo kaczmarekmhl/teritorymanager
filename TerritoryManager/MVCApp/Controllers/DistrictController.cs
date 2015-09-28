@@ -25,11 +25,27 @@ namespace MVCApp.Controllers
 
             ViewBag.IsAdressSharingEnabled = IsSharingAdressesEnabled;
 
-            if (String.IsNullOrEmpty(district.DistrictBoundaryKml) && district.PostCodeFirst > 0)
+            if (string.IsNullOrEmpty(district.DistrictBoundaryKml))
             {
-                ViewBag.MapCenterAddress = String.Format("{0:0000}", district.PostCodeFirst);
+                if (!string.IsNullOrEmpty(district.SearchPhrase))
+                {
+                    foreach (var searchPhrase in district.SearchPhrases)
+                    {
+                        int postCode;
 
-                if(CurrentCongregation.Country == Enums.Country.Norway)
+                        if(int.TryParse(searchPhrase, out postCode))
+                        {
+                            ViewBag.MapCenterAddress = string.Format("{0:0000}", postCode);
+                            break;
+                        }
+                    }                    
+                }
+                else if (district.PostCodeFirst > 0)
+                { 
+                    ViewBag.MapCenterAddress = string.Format("{0:0000}", district.PostCodeFirst);
+                }
+
+                if (CurrentCongregation.Country == Enums.Country.Norway)
                 {
                     ViewBag.MapCountryCode = "NO";
                 }

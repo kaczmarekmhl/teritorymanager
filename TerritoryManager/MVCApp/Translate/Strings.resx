@@ -283,7 +283,7 @@
     <value>Country</value>
   </data>
   <data name="DistrictSearchPhrase" xml:space="preserve">
-    <value>Location name</value>
+    <value>Location names or post code numbers delimited by comas</value>
   </data>
   <data name="SearchAdressNoPerson" xml:space="preserve">
     <value>No new people have been found during search. </value>

@@ -385,7 +385,7 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Location name.
+        ///   Looks up a localized string similar to Location names or post code numbers delimited by comas.
         /// </summary>
         public static string DistrictSearchPhrase {
             get {
