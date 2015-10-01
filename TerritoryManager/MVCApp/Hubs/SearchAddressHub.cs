@@ -8,6 +8,7 @@ using MVCApp.Helpers;
 using MVCApp.Models;
 using System.Web.Mvc;
 using MVCApp.Translate;
+using Microsoft.ApplicationInsights;
 
 namespace MVCApp.Hubs
 {
@@ -22,16 +23,22 @@ namespace MVCApp.Hubs
                 {
                     throw new ArgumentException("id");
                 }
-                
+
+                var telemetry = new TelemetryClient();
+
+                var properties = new Dictionary<string, string> { { "districtName", district.Name } };
+
                 try
                 {
                     var search = new SearchAddress(db) { SetProgressMessage = SetProgressInClient };
                     var personList = search.SearchAndPersistNewPersonList(district);
                     Clients.Caller.searchComplete(personList.Count != 0);
+                    telemetry.TrackEvent("SearchComplete", properties);
                 }
                 catch (Exception e)
                 {
                     Clients.Caller.searchError(string.Format(Strings.SearchAdressesError, e.Message));
+                    telemetry.TrackEvent("SearchFail", properties);
                 }                
             }
         }

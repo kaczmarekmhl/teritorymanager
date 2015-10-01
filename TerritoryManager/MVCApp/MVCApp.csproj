@@ -507,6 +507,7 @@
     <Content Include="Views\SearchAddress\PreviousSearch.cshtml" />
     <Content Include="Views\DistrictAddresses\EditPerson.cshtml" />
     <Content Include="Service References\Application Insights\ConnectedService.json" />
+    <Content Include="Views\Shared\_ApplicationInsights.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
