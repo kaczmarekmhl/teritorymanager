@@ -1,59 +1,75 @@
 ﻿@model IEnumerable<MVCApp.Models.DistrictReport>
 
-<div id="ListReports">
+    <div id="ListReports">
 
-    @if (Model != null)
-    {
-        using (Ajax.BeginForm("Approve", "DistrictReport",
-        new AjaxOptions
+        @if (Model != null)
         {
-            HttpMethod = "post",
-            InsertionMode = InsertionMode.Replace,
-            UpdateTargetId = "ListReports"
-        }))
-        { 
-            
-        <input type="submit" value="@Strings.Approve" />
-    
-        <table>
-            <tr>
-                <th></th>
-                <th>
-                    @Html.DisplayNameFor(model => model.District.Number)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Date)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.User.UserName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Type)
-                </th>
-            </tr>
-
-            @foreach (var item in Model)
+            using (Ajax.BeginForm("Approve", "DistrictReport",
+            new AjaxOptions
             {
-                <tr>
-                    <td>
-                        <input type="checkbox" name="selectedReportId" value="@item.Id" checked="checked"/>
-                    </td>
-                    <td>
-                        @Html.ActionLink(item.District.Number, "Index", "District", new { id = item.District.Id }, new { title = item.District.Name })
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Date)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.User.UserName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Type)
-                    </td>
-                </tr>
-            }
+                HttpMethod = "post",
+                InsertionMode = InsertionMode.Replace,
+                UpdateTargetId = "ListReports"
+            }))
+            {
 
-        </table>
+                <input type="submit" value="@Strings.Approve" />
+
+                <table>
+                    <tr>
+                        <th>
+                            <input type="checkbox" name="selectAllreports" />
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.District.Number)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Type)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Date)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.User.UserName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.User.FullName)
+                        </th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="selectedReportId" value="@item.Id" />
+                            </td>
+                            <td>
+                                @Html.ActionLink(item.District.Number, "Index", "District", new { id = item.District.Id }, new { title = item.District.Name })
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Type)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Date)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.User.UserName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.User.FullName)
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            }
         }
-    }
-</div>
+    </div>
+
+    <script>
+
+        $("input[name='selectAllreports']").click(function () {
+            $("input[name='selectedReportId']").prop('checked', this.checked);
+        });
+
+    </script>

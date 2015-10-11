@@ -25,6 +25,15 @@ namespace MVCApp.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
+        [Display(ResourceType = typeof(Strings), Name = "UserFullName")]
+        public string FullName
+        {
+            get
+            {
+                return string.Join(" ", FirstName, LastName);
+            }
+        }
+
         /// <summary>
         /// The congregation ID of UserProfile.
         /// </summary>
@@ -57,7 +66,7 @@ namespace MVCApp.Models
         /// <param name="role">Role name.</param>
         public void AddToRole(SystemRoles role)
         {
-            roles.AddUsersToRoles(new string[] { UserName }, new string[] { role.ToString() }); 
+            roles.AddUsersToRoles(new string[] { UserName }, new string[] { role.ToString() });
         }
 
         /// <summary>
@@ -66,7 +75,7 @@ namespace MVCApp.Models
         /// <param name="role">Role name</param>
         public void RemoveUserFromRole(SystemRoles role)
         {
-            roles.RemoveUsersFromRoles(new string[] { UserName }, new string[] { role.ToString() }); 
+            roles.RemoveUsersFromRoles(new string[] { UserName }, new string[] { role.ToString() });
         }
     }
 }

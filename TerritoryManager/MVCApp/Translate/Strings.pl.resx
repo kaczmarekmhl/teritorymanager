@@ -420,4 +420,7 @@
   <data name="SearchAdressEmptyConfirm" xml:space="preserve">
     <value>Czy chcesz uruchomić nowe wyszukiwanie?</value>
   </data>
+  <data name="UserFullName" xml:space="preserve">
+    <value>Imię i nazwisko</value>
+  </data>
 </root>

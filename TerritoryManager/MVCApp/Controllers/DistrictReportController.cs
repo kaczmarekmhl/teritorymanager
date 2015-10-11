@@ -1,9 +1,7 @@
 ﻿using MVCApp.Models;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using WebMatrix.WebData;
 
@@ -19,11 +17,10 @@ namespace MVCApp.Controllers
         {
             if (reports == null)
             {
-                reports = SetCurrentCongregationFilter(db.DistrictReports).
-                    Where(dr => dr.State == state).
-                    OrderBy(dr => dr.District.Number).
-                    ThenBy(dr => dr.Date).
-                    ToList();
+                reports = SetCurrentCongregationFilter(db.DistrictReports).Where(dr => dr.State == state).
+                    ToList().
+                    OrderBy(dr => dr.District.Number, new District.DistrictNumberComparer()).
+                    ThenBy(dr => dr.Date);
             }
 
             if (Request.IsAjaxRequest())
@@ -79,13 +76,13 @@ namespace MVCApp.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Approve(int[] selectedReportId)
         {
-            var reports = db.DistrictReports.
-                Include("User").Include("District").
-                Where(dr => selectedReportId.Contains(dr.Id)).
-                ToList();
-
-            if (selectedReportId.Count() > 0)
+            if (selectedReportId != null && selectedReportId.Count() > 0)
             {
+                var reports = db.DistrictReports.
+                    Include("User").Include("District").
+                    Where(dr => selectedReportId.Contains(dr.Id)).
+                    ToList();
+
                 reports.ForEach(dr => dr.State = DistrictReport.ReportStates.Approved);
                 db.SaveChanges();
             }
@@ -98,7 +95,7 @@ namespace MVCApp.Controllers
         #region PendingReportsCountAction
 
         [ChildActionOnly]
-        [Authorize(Roles = "Admin")]        
+        [Authorize(Roles = "Admin")]
         public PartialViewResult PendingReportsCount()
         {
             ViewBag.PendingReportsCount = SetCurrentCongregationFilter(db.DistrictReports).Count(dr => dr.State == DistrictReport.ReportStates.Pending);
