@@ -460,6 +460,12 @@ div.smallNote {
     margin-bottom: 10px;
 }
 
+#listDistrictReports {
+    width: auto;
+    float: left;
+    display: none;
+}
+
 /* Free districts*/
 #freeDistrictsMap {
     width: 100%;

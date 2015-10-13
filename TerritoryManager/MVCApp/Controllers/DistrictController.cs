@@ -60,6 +60,17 @@ namespace MVCApp.Controllers
 
         #endregion
 
+        #region ListDistrictReportsAction
+
+        [ChildActionOnly]
+        [Authorize(Roles = "Admin")]
+        public PartialViewResult ListDistrictReports(IEnumerable<DistrictReport> reports)
+        {
+            return PartialView("_ListDistrictReports", reports.OrderByDescending(r => r.Date));
+        }
+
+        #endregion
+
         #region MapKmlAction
 
         public ActionResult MapKml(int id)

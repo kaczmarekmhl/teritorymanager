@@ -13,19 +13,19 @@
 
         <div class="button">
             <a href="@Url.Action("Index", "DistrictAddresses", new { id = Model.Id })" class="withImage">
-                <img src='~/Images/WindowsIcons/Light/appbar.people.profile.svg'/> @Strings.DistrictAddresses
+                <img src='~/Images/WindowsIcons/Light/appbar.people.profile.svg' /> @Strings.DistrictAddresses
             </a>
-        </div>        
+        </div>
 
         <div class="button spacer">
             <a href="@Url.Action("Index", "SearchAddress", new { id = Model.Id })" class="withImage">
-                <img src='~/Images/WindowsIcons/Light/appbar.magnify.browse.svg'/> @Strings.SearchAdresses
+                <img src='~/Images/WindowsIcons/Light/appbar.magnify.browse.svg' /> @Strings.SearchAdresses
             </a>
         </div>
     }
 
     @if (Model.AssignedToUserId == WebSecurity.CurrentUserId)
-    { 
+    {
         <h3 id="toggleReportCompletion">
             <span>@Strings.ReportDistrictCompletion </span><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
         </h3>
@@ -35,6 +35,22 @@
 </div>
 
 @Html.Partial("_Map")
+
+@if (User.IsInRole("Admin"))
+{
+    <div id="listDistrictReports">
+        @Html.Action("ListDistrictReports", "District", new { reports = @Model.DistrictReports })
+    </div>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#districtMap").width("55%");
+            $("#listDistrictReports").show();
+        });
+
+    </script>
+}
 
 <div class="spacer" />
 
