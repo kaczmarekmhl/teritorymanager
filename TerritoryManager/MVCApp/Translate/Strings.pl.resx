@@ -232,13 +232,13 @@
     <value>Wydarzenie</value>
   </data>
   <data name="DistrictReportTypes_Complete" xml:space="preserve">
-    <value>Opracowanie</value>
+    <value>Opracowano</value>
   </data>
   <data name="DistrictReportTypes_Request" xml:space="preserve">
-    <value>Przypisanie</value>
+    <value>Przypisano</value>
   </data>
   <data name="DistrictReportTypes_Return" xml:space="preserve">
-    <value>Zwrot</value>
+    <value>Zwrócono</value>
   </data>
   <data name="Pending" xml:space="preserve">
     <value>Oczekujący</value>

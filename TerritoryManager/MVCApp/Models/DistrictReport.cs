@@ -35,7 +35,7 @@ namespace MVCApp.Models
             Request = 2
         };
 
-        [NotMapped]
+        [NotMapped, Display(ResourceType = typeof(Strings), Name = "DistrictReportType")]
         public string ReportTypeString
         {
             get

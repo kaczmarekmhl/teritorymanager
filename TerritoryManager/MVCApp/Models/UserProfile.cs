@@ -34,7 +34,14 @@ namespace MVCApp.Models
         {
             get
             {
-                return string.Join(" ", LastName, FirstName);
+                if (!string.IsNullOrEmpty(this.FirstName) && !string.IsNullOrEmpty(this.LastName))
+                {
+                    return string.Format("{0} {1}", FirstName, LastName);
+                }
+                else
+                {
+                    return this.UserName;
+                }
             }
         }
 
@@ -43,20 +50,13 @@ namespace MVCApp.Models
         {
             get
             {
-                if (string.IsNullOrEmpty(LastName))
+                if (!string.IsNullOrEmpty(this.FirstName) && !string.IsNullOrEmpty(this.LastName))
                 {
-                    return FirstName;
+                    return string.Format("{0}. {1}", FirstName[0], LastName);
                 }
                 else
                 {
-                    if (!string.IsNullOrEmpty(FirstName))
-                    {
-                        return string.Format("{0}. {1}", FirstName[0], LastName);
-                    }
-                    else
-                    {
-                        return LastName;
-                    }
+                    return this.UserName;
                 }
             }
         }
