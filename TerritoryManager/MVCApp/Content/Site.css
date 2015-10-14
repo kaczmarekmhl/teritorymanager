@@ -450,7 +450,7 @@ div.smallNote {
 /* District details*/
 #districtDetails {
     float: left;
-    width: auto;
+    width: 40%;
 }
 
 #districtMap {

@@ -24,6 +24,17 @@
     {
         @Html.HiddenFor(d => d.Id);
 
+        if (ViewBag.UserSelectList != null)
+        {
+            <div class="editor-field">
+                @Html.DropDownList("UserId", (SelectList)ViewBag.UserSelectList)
+            </div>
+        }
+        else
+        {
+            <input type="hidden" name="UserId" value="@WebSecurity.CurrentUserId" />
+        }
+
         <div class="editor-field">
             @Strings.Date:
             <input type="text" id="displayDate" value="@DateTime.Now.ToString(displayDateFormat)" />
@@ -33,17 +44,6 @@
         <div class="button">
             <input type="submit" value="@Strings.Send" />
         </div>
-    }
-
-    @if (ViewBag.UserSelectList != null)
-    {
-        <div class="editor-field">
-            @Html.DropDownList("UserId", (SelectList)ViewBag.UserSelectList)
-        </div>
-    }
-    else
-    {
-        <input type="hidden" name="UserId" value="@WebSecurity.CurrentUserId" />
     }
 
     <div id="ajaxLoader" style="display:none">
