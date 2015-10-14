@@ -397,6 +397,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="ApplicationInsights.config" />
+    <None Include="Properties\PublishProfiles\tereny - FTP.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Images\ajax-loader.gif" />
     <Content Include="Images\FrontPicture.jpg" />
