@@ -10,59 +10,46 @@
 
 <div id="reportCompletion">
 
-    @using (Ajax.BeginForm("Create", "DistrictReport", new { type =  MVCApp.Models.DistrictReport.ReportTypes.Complete},
-        new AjaxOptions
-        {
-            HttpMethod = "post",
-            InsertionMode = InsertionMode.Replace,
-            UpdateTargetId = "reportCompletion",
-            Confirm = String.Format(Strings.DistrictReportCompleteConfirm, Model.Name),
-            LoadingElementId = "ajaxLoader",
-            OnFailure = "reportCompletionFailure",
-            OnBegin = "validateDate"
-        }))
+    @using (Ajax.BeginForm("Create", "DistrictReport", new { type = MVCApp.Models.DistrictReport.ReportTypes.Complete },
+            new AjaxOptions
+            {
+                HttpMethod = "post",
+                InsertionMode = InsertionMode.Replace,
+                UpdateTargetId = "districtReportsTable",
+                Confirm = String.Format(Strings.DistrictReportCompleteConfirm, Model.Name),
+                LoadingElementId = "ajaxLoader",
+                OnFailure = "reportCompletionFailure",
+                OnBegin = "validateDate"
+            }))
     {
         @Html.HiddenFor(d => d.Id);
-         
 
         <div class="editor-field">
             @Strings.Date:
-            <input type="text" id="displayDate" value="@DateTime.Now.ToString(displayDateFormat)"/>
-            <input type="hidden" id="altDate" name="date" value="@DateTime.Now.ToString(actualDateFormat)"/>
+            <input type="text" id="displayDate" value="@DateTime.Now.ToString(displayDateFormat)" />
+            <input type="hidden" id="altDate" name="date" value="@DateTime.Now.ToString(actualDateFormat)" />
         </div>
+
         <div class="button">
             <input type="submit" value="@Strings.Send" />
         </div>
     }
-      
+
+    @if (ViewBag.UserSelectList != null)
+    {
+        <div class="editor-field">
+            @Html.DropDownList("UserId", (SelectList)ViewBag.UserSelectList)
+        </div>
+    }
+    else
+    {
+        <input type="hidden" name="UserId" value="@WebSecurity.CurrentUserId" />
+    }
+
     <div id="ajaxLoader" style="display:none">
         <img src="~/Images/ajax-loader.gif">
     </div>
 
-    @if(ViewBag.ReportSuccessful == true)
-    {
-        <div class="infoMessage">@Strings.DistrictReportCompleteThanks</div>
-    }
-
-    @if (Model.UserReports_DistrictComplete.Count > 0)
-    {
-    <table>
-        <tr>
-            <th>
-                @Strings.YourCompletions
-            </th>
-        </tr>
-
-        @foreach (var item in Model.UserReports_DistrictComplete)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date)
-                </td>
-            </tr>
-        }
-    </table>
-    }
 </div>
 
 <script>
@@ -85,7 +72,7 @@
         var inputDate = $("#displayDate").datepicker("getDate");
         var maxDate = $("#displayDate").datepicker("option", "maxDate");
         var minDate = $("#displayDate").datepicker("option", "minDate");
-        
+
         var result = inputDate >= minDate && inputDate <= maxDate;
 
         if (!result) {

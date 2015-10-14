@@ -229,16 +229,16 @@
     <value>Data</value>
   </data>
   <data name="DistrictReportType" xml:space="preserve">
-    <value>Zaraportowano</value>
+    <value>Wydarzenie</value>
   </data>
   <data name="DistrictReportTypes_Complete" xml:space="preserve">
-    <value>Opracowany</value>
+    <value>Opracowanie</value>
   </data>
   <data name="DistrictReportTypes_Request" xml:space="preserve">
-    <value>Zażądany</value>
+    <value>Przypisanie</value>
   </data>
   <data name="DistrictReportTypes_Return" xml:space="preserve">
-    <value>Zwrócony</value>
+    <value>Zwrot</value>
   </data>
   <data name="Pending" xml:space="preserve">
     <value>Oczekujący</value>

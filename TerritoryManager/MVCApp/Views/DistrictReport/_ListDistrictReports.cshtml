@@ -1,0 +1,38 @@
+﻿@model IEnumerable<MVCApp.Models.DistrictReport>
+
+    @if (ViewBag.ReportSuccessful == true)
+    {
+        <div class="infoMessage">@Strings.DistrictReportCompleteThanks</div>
+    }
+
+    @if (Model != null)
+    {
+        <table>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Type)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.User.FullNameShort)
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReportTypeString)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.User.FullNameShort)
+                    </td>
+                </tr>
+            }
+        </table>
+    }

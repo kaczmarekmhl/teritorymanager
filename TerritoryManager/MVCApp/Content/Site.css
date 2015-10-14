@@ -450,20 +450,14 @@ div.smallNote {
 /* District details*/
 #districtDetails {
     float: left;
-    width: 30%;
+    width: auto;
 }
 
 #districtMap {
-    width: 66%;
+    width: 60%;
     height: 550px;
     float: right;
     margin-bottom: 10px;
-}
-
-#listDistrictReports {
-    width: auto;
-    float: left;
-    display: none;
 }
 
 /* Free districts*/
@@ -506,11 +500,11 @@ div.mapLegendBoxRed
 
 /* Report completion */
 #toggleReportCompletion {
-    margin-top: 80px;
     cursor: pointer;
 }
 
     #toggleReportCompletion span {
+        margin-top: 20px;
         display: inline-block;
     }
 

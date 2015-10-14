@@ -23,34 +23,25 @@
             </a>
         </div>
     }
+    
+    <h3 id="toggleReportCompletion">
+        <span>@Strings.ReportDistrictCompletion </span>
+        <span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
+    </h3>
+    
+    <div id="districtReports">
 
-    @if (Model.AssignedToUserId == WebSecurity.CurrentUserId)
-    {
-        <h3 id="toggleReportCompletion">
-            <span>@Strings.ReportDistrictCompletion </span><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
-        </h3>
+        @Html.Action("GetReportCompletionForm", "DistrictReport", new { district = Model })
 
-        @Html.Partial("~/Views/DistrictReport/_ReportCompletion.cshtml", Model)
-    }
+        <div id="districtReportsTable">
+            @Html.Action("ListDistrictReports", "DistrictReport", new { district = Model })
+        </div>
+
+    </div>
+
 </div>
 
 @Html.Partial("_Map")
-
-@if (User.IsInRole("Admin"))
-{
-    <div id="listDistrictReports">
-        @Html.Action("ListDistrictReports", "District", new { reports = @Model.DistrictReports })
-    </div>
-
-    <script type="text/javascript">
-
-        $(document).ready(function () {
-            $("#districtMap").width("55%");
-            $("#listDistrictReports").show();
-        });
-
-    </script>
-}
 
 <div class="spacer" />
 
@@ -60,7 +51,7 @@
 
         $(document).ready(function () {
             $("#toggleReportCompletion").click(function () {
-                $("#reportCompletion").toggle();
+                $("#districtReports").toggle();
             });
         });
 

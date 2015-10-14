@@ -33,16 +33,13 @@ namespace MVCApp.Controllers
 
         #endregion
 
+
+
         #region CreateAction
 
-        public ActionResult Create(int Id, DateTime date, DistrictReport.ReportTypes type, DistrictReport.ReportStates state = DistrictReport.ReportStates.Pending)
+        public ActionResult Create(int Id, int UserId, DateTime date, DistrictReport.ReportTypes type, DistrictReport.ReportStates state = DistrictReport.ReportStates.Pending)
         {
             var district = db.Districts.Find(Id);
-
-            if (district.AssignedToUserId != WebSecurity.CurrentUserId)
-            {
-                return new HttpNotFoundResult();
-            }
 
             var latestCompleteReport = district.Reports_LatestCompleteReport;
 
@@ -51,10 +48,12 @@ namespace MVCApp.Controllers
                 return new HttpNotFoundResult();
             }
 
+            var user = db.UserProfiles.Find(UserId);
+
             var districtReport = new DistrictReport()
             {
                 District = district,
-                User = district.AssignedTo,
+                User = user,
                 Date = date,
                 Type = type,
                 State = state
@@ -65,7 +64,40 @@ namespace MVCApp.Controllers
 
             ViewBag.ReportSuccessful = true;
 
+            return ListDistrictReports(district);
+        }
+
+        #endregion
+
+        #region GetReportCompletionForm
+
+        public PartialViewResult GetReportCompletionForm(District district)
+        {
+            if (User.IsInRole("Admin"))
+            {
+                //Select dropdown values
+                ViewBag.UserSelectList = new SelectList(
+                    SetCurrentCongregationFilter(db.UserProfiles).OrderBy(u => u.LastName).ThenBy(u => u.FirstName), "UserId", "FullName", district.AssignedToUserId);
+            }
+
             return PartialView("_ReportCompletion", district);
+        }
+
+        #endregion
+
+        #region ListDistrictReportsAction
+
+        [ChildActionOnly]
+        public PartialViewResult ListDistrictReports(District district)
+        {
+            var reports = district.DistrictReports;
+
+            if (!User.IsInRole("Admin"))
+            {
+                reports = reports.Where(r => r.UserId == WebSecurity.CurrentUserId).ToList();
+            }
+
+            return PartialView("_ListDistrictReports", reports.OrderByDescending(r => r.Id));
         }
 
         #endregion

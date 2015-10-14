@@ -25,12 +25,35 @@ namespace MVCApp.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
-        [Display(ResourceType = typeof(Strings), Name = "UserFullName")]
+        [NotMapped, Display(ResourceType = typeof(Strings), Name = "UserFullName")]
         public string FullName
         {
             get
             {
-                return string.Join(" ", FirstName, LastName);
+                return string.Join(" ", LastName, FirstName);
+            }
+        }
+
+        [NotMapped, Display(ResourceType = typeof(Strings), Name = "UserFullName")]
+        public string FullNameShort
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(LastName))
+                {
+                    return FirstName;
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(FirstName))
+                    {
+                        return string.Format("{0}. {1}", FirstName[0], LastName);
+                    }
+                    else
+                    {
+                        return LastName;
+                    }
+                }
             }
         }
 
