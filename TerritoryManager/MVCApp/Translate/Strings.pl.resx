@@ -423,4 +423,10 @@
   <data name="UserFullName" xml:space="preserve">
     <value>Imię i nazwisko</value>
   </data>
+  <data name="UserFistName" xml:space="preserve">
+    <value>Imię</value>
+  </data>
+  <data name="UserLastName" xml:space="preserve">
+    <value>Nazwisko</value>
+  </data>
 </root>

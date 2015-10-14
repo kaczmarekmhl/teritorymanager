@@ -22,7 +22,11 @@ namespace MVCApp.Models
 
         [Display(ResourceType = typeof(Strings), Name = "AccountUserName")]
         public string UserName { get; set; }
+
+        [Display(ResourceType = typeof(Strings), Name = "UserFistName")]
         public string FirstName { get; set; }
+
+        [Display(ResourceType = typeof(Strings), Name = "UserLastName")]
         public string LastName { get; set; }
 
         [Display(ResourceType = typeof(Strings), Name = "UserFullName")]
