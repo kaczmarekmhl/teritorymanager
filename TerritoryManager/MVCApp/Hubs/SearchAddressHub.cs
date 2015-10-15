@@ -23,23 +23,44 @@ namespace MVCApp.Hubs
                 {
                     throw new ArgumentException("id");
                 }
-
+                
+                //Telemetry - start
                 var telemetry = new TelemetryClient();
-
                 var properties = new Dictionary<string, string> { { "districtName", district.Name } };
+                var metrics = new Dictionary<string, double> ();
+                var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+                string eventName = string.Empty;
+                //Telemetry - end
 
                 try
                 {
                     var search = new SearchAddress(db) { SetProgressMessage = SetProgressInClient };
                     var personList = search.SearchAndPersistNewPersonList(district);
                     Clients.Caller.searchComplete(personList.Count != 0);
-                    telemetry.TrackEvent("SearchComplete", properties);
+
+                    //Telemetry - start
+                    metrics.Add("PersonCount", personList.Count);
+                    eventName = "SearchComplete";
+                    //Telemetry - end
                 }
                 catch (Exception e)
                 {
                     Clients.Caller.searchError(string.Format(Strings.SearchAdressesError, e.Message));
-                    telemetry.TrackEvent("SearchFail", properties);
-                }                
+
+                    //Telemetry - start
+                    eventName = "SearchFail";
+                    //Telemetry - end
+                }
+
+                //Telemetry - start
+                stopwatch.Stop();
+                metrics.Add("ElapsedSeconds", Math.Ceiling(stopwatch.Elapsed.TotalSeconds));
+
+                if (!string.IsNullOrEmpty(eventName))
+                {
+                    telemetry.TrackEvent(eventName, properties, metrics);
+                }
+                //Telemetry - end
             }
         }
 
