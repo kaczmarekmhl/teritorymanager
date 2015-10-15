@@ -27,7 +27,7 @@
             @Html.ActionLink(item.Name, "Index", "District", new { id=item.Id }, null)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.AssignedTo.FullNameShort)
+            @Html.DisplayFor(modelItem => item.AssignedTo.FullName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Reports_LatestCompleteReport.Date)
