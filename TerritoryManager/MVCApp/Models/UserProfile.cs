@@ -36,7 +36,7 @@ namespace MVCApp.Models
             {
                 if (!string.IsNullOrEmpty(this.FirstName) && !string.IsNullOrEmpty(this.LastName))
                 {
-                    return string.Format("{0} {1}", LastName, FirstName);
+                    return string.Format("{0} {1}", FirstName, LastName);
                 }
                 else
                 {
@@ -52,7 +52,7 @@ namespace MVCApp.Models
             {
                 if (!string.IsNullOrEmpty(this.FirstName) && !string.IsNullOrEmpty(this.LastName))
                 {
-                    return string.Format("{0} {1}.", LastName, FirstName[0]);
+                    return string.Format("{0}. {1}", FirstName[0], LastName);
                 }
                 else
                 {

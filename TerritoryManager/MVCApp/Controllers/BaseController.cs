@@ -76,8 +76,8 @@ namespace MVCApp.Controllers
         {
             return new SelectList(
                 SetCurrentCongregationFilter(db.UserProfiles)
-                .OrderBy(u => u.LastName)
-                .ThenBy(u => u.FirstName)
+                .OrderBy(u => u.FirstName)
+                .ThenBy(u => u.LastName)
                 .ThenBy(u => u.UserName), 
                 "UserId", 
                 "FullName", 
