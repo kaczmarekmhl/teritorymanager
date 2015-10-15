@@ -76,8 +76,7 @@ namespace MVCApp.Controllers
             if (User.IsInRole("Admin"))
             {
                 //Select dropdown values
-                ViewBag.UserSelectList = new SelectList(
-                    SetCurrentCongregationFilter(db.UserProfiles).OrderBy(u => u.LastName).ThenBy(u => u.FirstName), "UserId", "FullName", district.AssignedToUserId);
+                ViewBag.UserSelectList = GetUserSelectionList(district.AssignedToUserId);
             }
 
             return PartialView("_ReportCompletion", district);

@@ -12,9 +12,6 @@
             @Html.DisplayNameFor(model => Model.First().AssignedTo.UserName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => Model.First().AssignedTo.FullNameShort)
-        </th>
-        <th>
             @Strings.DistrictReportTypes_Complete
         </th>
         <th>
@@ -28,9 +25,6 @@
         </td>
         <td>
             @Html.ActionLink(item.Name, "Index", "District", new { id=item.Id }, null)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AssignedTo.UserName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.AssignedTo.FullNameShort)

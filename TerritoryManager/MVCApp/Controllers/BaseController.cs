@@ -66,6 +66,23 @@ namespace MVCApp.Controllers
 
             return model.Where(u => u.District.Congregation.Id.Equals(currentCongregation.Id));
         }
+
+        /// <summary>
+        /// Creates select list with users for combo box.
+        /// </summary>
+        /// <param name="selectedUserId">Selected user id</param>
+        /// <returns></returns>
+        protected SelectList GetUserSelectionList(int? selectedUserId)
+        {
+            return new SelectList(
+                SetCurrentCongregationFilter(db.UserProfiles)
+                .OrderBy(u => u.LastName)
+                .ThenBy(u => u.FirstName)
+                .ThenBy(u => u.UserName), 
+                "UserId", 
+                "FullName", 
+                selectedUserId);
+        }
           
         #region Database Access
 

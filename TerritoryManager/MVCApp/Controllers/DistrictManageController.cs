@@ -76,7 +76,7 @@ namespace MVCApp.Controllers
             district.LoadExternalDistrictBoundaryKml();
 
             //Select dropdown values
-            ViewBag.AssignedToUserId = new SelectList(SetCurrentCongregationFilter(db.UserProfiles).OrderBy(u => u.LastName).ThenBy(u => u.FirstName), "UserId", "FullName", district.AssignedToUserId);
+            ViewBag.AssignedToUserId = GetUserSelectionList(district.AssignedToUserId);
 
             return View(district);
         }
@@ -116,7 +116,7 @@ namespace MVCApp.Controllers
             }
 
             //Select dropdown values
-            ViewBag.AssignedToUserId = new SelectList(db.UserProfiles, "UserId", "FullName", district.AssignedToUserId);
+            ViewBag.AssignedToUserId = GetUserSelectionList(district.AssignedToUserId);
 
             return View(district);
         }
