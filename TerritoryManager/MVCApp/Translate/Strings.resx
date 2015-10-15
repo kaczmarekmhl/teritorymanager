@@ -420,4 +420,13 @@
   <data name="SearchAdressEmptyConfirm" xml:space="preserve">
     <value>Do you want to start new search?</value>
   </data>
+  <data name="UserFullName" xml:space="preserve">
+    <value>Full name</value>
+  </data>
+  <data name="UserFistName" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="UserLastName" xml:space="preserve">
+    <value>Surname</value>
+  </data>
 </root>

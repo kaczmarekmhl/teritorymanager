@@ -22,8 +22,44 @@ namespace MVCApp.Models
 
         [Display(ResourceType = typeof(Strings), Name = "AccountUserName")]
         public string UserName { get; set; }
+
+        [Display(ResourceType = typeof(Strings), Name = "UserFistName")]
         public string FirstName { get; set; }
+
+        [Display(ResourceType = typeof(Strings), Name = "UserLastName")]
         public string LastName { get; set; }
+
+        [NotMapped, Display(ResourceType = typeof(Strings), Name = "UserFullName")]
+        public string FullName
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(this.FirstName) && !string.IsNullOrEmpty(this.LastName))
+                {
+                    return string.Format("{0} {1}", FirstName, LastName);
+                }
+                else
+                {
+                    return this.UserName;
+                }
+            }
+        }
+
+        [NotMapped, Display(ResourceType = typeof(Strings), Name = "UserFullName")]
+        public string FullNameShort
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(this.FirstName) && !string.IsNullOrEmpty(this.LastName))
+                {
+                    return string.Format("{0}. {1}", FirstName[0], LastName);
+                }
+                else
+                {
+                    return this.UserName;
+                }
+            }
+        }
 
         /// <summary>
         /// The congregation ID of UserProfile.
@@ -57,7 +93,7 @@ namespace MVCApp.Models
         /// <param name="role">Role name.</param>
         public void AddToRole(SystemRoles role)
         {
-            roles.AddUsersToRoles(new string[] { UserName }, new string[] { role.ToString() }); 
+            roles.AddUsersToRoles(new string[] { UserName }, new string[] { role.ToString() });
         }
 
         /// <summary>
@@ -66,7 +102,7 @@ namespace MVCApp.Models
         /// <param name="role">Role name</param>
         public void RemoveUserFromRole(SystemRoles role)
         {
-            roles.RemoveUsersFromRoles(new string[] { UserName }, new string[] { role.ToString() }); 
+            roles.RemoveUsersFromRoles(new string[] { UserName }, new string[] { role.ToString() });
         }
     }
 }

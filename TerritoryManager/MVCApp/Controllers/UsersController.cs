@@ -51,6 +51,8 @@ namespace MVCApp.Controllers
             {
                 var model = db.UserProfiles.Find(id);
                 model.UserName = user.UserName;
+                model.FirstName = user.FirstName;
+                model.LastName = user.LastName;
 
                 if (User.Identity.Name.Equals("admin"))
                 {

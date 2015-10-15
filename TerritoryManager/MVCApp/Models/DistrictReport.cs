@@ -1,10 +1,8 @@
 ﻿using MVCApp.Translate;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
+using System.Reflection;
 
 namespace MVCApp.Models
 {
@@ -37,6 +35,20 @@ namespace MVCApp.Models
             Request = 2
         };
 
+        [NotMapped, Display(ResourceType = typeof(Strings), Name = "DistrictReportType")]
+        public string ReportTypeString
+        {
+            get
+            {
+                FieldInfo field = Type.GetType().GetField(Type.ToString());
+
+                var attribute = Attribute.GetCustomAttribute(field, typeof(DisplayAttribute)) as DisplayAttribute;
+                string displayName = Strings.ResourceManager.GetString(attribute.Name);
+
+                return attribute == null ? Type.ToString() : displayName;
+            }
+        }
+
         /// <summary>
         /// Report statuses enum.
         /// </summary>
@@ -65,7 +77,7 @@ namespace MVCApp.Models
         /// <summary>
         /// Date of the action.
         /// </summary>
-        [DisplayFormat(DataFormatString = "{0:d MMMM yyyy}")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         [DataType(DataType.Date)]
         [Display(ResourceType = typeof(Strings), Name = "Date")]
         public DateTime Date { get; set; }
@@ -80,7 +92,7 @@ namespace MVCApp.Models
         /// <summary>
         /// The id of the user that submits the report.
         /// </summary>
-        public int UserId {get; set;}
+        public int UserId { get; set; }
 
         #endregion
 

@@ -12,6 +12,9 @@
             @Html.DisplayNameFor(model => Model.First().AssignedTo.UserName)
         </th>
         <th>
+            @Html.DisplayNameFor(model => Model.First().AssignedTo.FullNameShort)
+        </th>
+        <th>
             @Strings.DistrictReportTypes_Complete
         </th>
         <th>
@@ -28,6 +31,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.AssignedTo.UserName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AssignedTo.FullNameShort)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Reports_LatestCompleteReport.Date)

@@ -49,12 +49,12 @@ namespace MVCApp.Controllers
             {
                 district.Congregation = CurrentCongregation;
 
-                district.LoadExternalDistrictBoundaryKml();                
+                district.LoadExternalDistrictBoundaryKml();
 
                 db.Districts.Add(district);
                 db.SaveChanges();
                 return RedirectToAction("Index");
-            }          
+            }
 
             return View(district);
         }
@@ -76,7 +76,7 @@ namespace MVCApp.Controllers
             district.LoadExternalDistrictBoundaryKml();
 
             //Select dropdown values
-            ViewBag.AssignedToUserId = new SelectList(SetCurrentCongregationFilter(db.UserProfiles).OrderBy( u => u.UserName), "UserId", "UserName", district.AssignedToUserId);
+            ViewBag.AssignedToUserId = new SelectList(SetCurrentCongregationFilter(db.UserProfiles).OrderBy(u => u.LastName).ThenBy(u => u.FirstName), "UserId", "FullName", district.AssignedToUserId);
 
             return View(district);
         }
@@ -86,7 +86,7 @@ namespace MVCApp.Controllers
         public ActionResult Edit(int id, District district)
         {
             var file = Request.Files[0];
-            
+
             if (file != null && file.ContentLength > 0)
             {
                 bool validKmlFile = false;
@@ -106,7 +106,7 @@ namespace MVCApp.Controllers
                 {
                     ModelState.AddModelError("DistrictBoundaryKml", "Invalid .kml file uploaded.");
                 }
-            }            
+            }
 
             if (ModelState.IsValid)
             {
@@ -116,7 +116,7 @@ namespace MVCApp.Controllers
             }
 
             //Select dropdown values
-            ViewBag.AssignedToUserId = new SelectList(db.UserProfiles, "UserId", "UserName", district.AssignedToUserId);
+            ViewBag.AssignedToUserId = new SelectList(db.UserProfiles, "UserId", "FullName", district.AssignedToUserId);
 
             return View(district);
         }
@@ -140,7 +140,7 @@ namespace MVCApp.Controllers
             switch (queryType)
             {
                 case DistrictQueryType.Number:
-                    modelJson = model.Select( d => new 
+                    modelJson = model.Select(d => new
                     {
                         label = prefix + d.Number
                     });
@@ -151,13 +151,13 @@ namespace MVCApp.Controllers
                         .Where(u => u.CongregationId == CurrentCongregation.Id)
                         .OrderBy(u => u.UserName)
                         .Take(10)
-                        .Select( u => new 
+                        .Select(u => new
                         {
                             label = prefix + u.UserName
                         });
                     break;
                 default:
-                    modelJson = model.Select( d => new 
+                    modelJson = model.Select(d => new
                     {
                         label = d.Name
                     });
@@ -242,7 +242,7 @@ namespace MVCApp.Controllers
             }
 
             return model;
-        }        
+        }
 
         protected DistrictQueryType DetectDistrictQueryType(string searchTerm)
         {

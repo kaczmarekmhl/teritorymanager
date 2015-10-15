@@ -278,5 +278,29 @@ namespace MVCApp.Models
         }
 
         #endregion
+
+        #region DistrictNumber Comparer
+        public class DistrictNumberComparer : IComparer<string>
+        {
+            public int Compare(string aStr, string bStr)
+            {
+                int aInt;
+                int.TryParse(aStr, out aInt);
+
+                int bInt;
+                int.TryParse(bStr, out bInt);
+
+                if (aInt == 0 && bInt == 0)
+                {
+                    return aStr.CompareTo(bStr);
+                }
+                else
+                {
+                    return aInt.CompareTo(bInt);
+                }
+            }
+        }
+
+        #endregion
     }
 }
