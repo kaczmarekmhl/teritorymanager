@@ -2,11 +2,9 @@
 using MVCApp.Translate;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using WebMatrix.WebData;
 
@@ -112,11 +110,12 @@ namespace MVCApp.Models
         public string SearchPhrase { get; set; }
 
         [NotMapped]
-        public List<string> SearchPhrases {
+        public List<string> SearchPhrases
+        {
             get
             {
                 return SearchPhrase.Split(',').ToList();
-            }            
+            }
         }
 
         #endregion
@@ -167,7 +166,7 @@ namespace MVCApp.Models
                 {
                     return UserReports_DistrictComplete.First().Date.AddDays(1);
                 }
-                
+
                 // to be safe return default value
                 return DateTime.Now.AddYears(-1);
             }
@@ -184,7 +183,7 @@ namespace MVCApp.Models
             {
                 var lastRequest = DistrictReports
                     .Where(dr =>
-                        dr.UserId == WebSecurity.CurrentUserId 
+                        dr.UserId == WebSecurity.CurrentUserId
                         && dr.Type == DistrictReport.ReportTypes.Request)
                         .OrderByDescending(dr => dr.Date)
                         .FirstOrDefault();
@@ -299,6 +298,42 @@ namespace MVCApp.Models
                     return aInt.CompareTo(bInt);
                 }
             }
+        }
+
+        #endregion
+
+        #region District quirey type and ordering
+
+        public enum QueryType { None, Name, Number, User };
+
+        public static IQueryable<District> OrderDistrictsForQueryType(IQueryable<District> model, QueryType queryType)
+        {
+            switch (queryType)
+            {
+                case QueryType.User:
+                    model = model
+                        .ToList()
+                        .OrderBy(t => t.AssignedTo != null ? t.AssignedTo.FullName : string.Empty)
+                        .ThenBy(t => t.Reports_LatestCompleteReport != null ? t.Reports_LatestCompleteReport.Date : DateTime.MinValue)
+                        .AsQueryable();
+                    break;
+
+                case QueryType.Name:
+                    model = model.OrderBy(t => t.Name);
+                    break;
+
+                case QueryType.Number:
+                    model = model.OrderBy(t => t.Number);
+                    break;
+
+                default:
+                    model = model
+                        .OrderBy(t => t.PostCodeFirst)
+                        .ThenBy(t => t.Name);
+                    break;
+            }
+
+            return model;
         }
 
         #endregion

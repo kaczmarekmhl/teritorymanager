@@ -9,6 +9,7 @@
 <div>
 @using (Html.BeginForm("Index", "DistrictManage", FormMethod.Get))
 {
+    <input type="hidden" id="searchItemId" name="searchItemId" />
     <input type="search" name="searchTerm" value="@ViewBag.SearchTerm" id="districtSearch"/>
     <input type="submit" value="@Strings.Search" /> 
 }
@@ -30,6 +31,7 @@
             var submitAutocompleteForm = function (event, ui) {
                 var $input = $(this);
                 $input.val(ui.item.label);
+                $("#searchItemId").val(ui.item.id);
 
                 var $form = $input.parents("form:first");
                 $form.submit();
@@ -37,7 +39,11 @@
 
             $("#districtSearch").autocomplete({
                 source: "@Url.Action("Autocomplete")",
-                autoFocus: true,
+
+                // It is sometimes annoying when autoFocus is enabled. 
+                // It causes some delays while typing and some of the characters you are typying are sometimes auto removed.
+                autoFocus: false,
+
                 minLength: 1,
                 select: submitAutocompleteForm
             });
