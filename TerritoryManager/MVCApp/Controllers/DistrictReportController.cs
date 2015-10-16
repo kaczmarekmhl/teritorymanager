@@ -96,7 +96,9 @@ namespace MVCApp.Controllers
                 reports = reports.Where(r => r.UserId == WebSecurity.CurrentUserId).ToList();
             }
 
-            return PartialView("_ListDistrictReports", reports.OrderByDescending(r => r.Id));
+            return PartialView("_ListDistrictReports", reports
+                .OrderByDescending(r => r.Date)
+                .ThenByDescending(r => r.Id));
         }
 
         #endregion
@@ -133,6 +135,7 @@ namespace MVCApp.Controllers
 
             return PartialView("_PendingReportsCount");
         }
+
         #endregion
 
     }

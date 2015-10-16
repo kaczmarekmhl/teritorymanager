@@ -24,10 +24,10 @@
                         @Html.DisplayNameFor(model => model.District.Number)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.ReportTypeString)
+                        @Html.DisplayNameFor(model => model.Date)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Date)
+                        @Html.DisplayNameFor(model => model.ReportTypeString)
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.User.UserName)
@@ -44,10 +44,10 @@
                             @Html.ActionLink(item.District.Number, "Index", "District", new { id = item.District.Id }, new { title = item.District.Name })
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.ReportTypeString)
+                            @Html.DisplayFor(modelItem => item.Date)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Date)
+                            @Html.DisplayFor(modelItem => item.ReportTypeString)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.User.FullName)
