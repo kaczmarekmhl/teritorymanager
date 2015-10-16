@@ -17,9 +17,10 @@ namespace MVCApp.Controllers
 
         public ActionResult Index(int page = 1, string searchTerm = null, int? searchItemId = null)
         {
-            IQueryable<District> model = FilterDistrictQuery(db.Districts, searchTerm, searchItemId);
             District.QueryType queryType = DetectDistrictQueryType(searchTerm);
+            var searchTermTruncated = ExtractSearchTerm(searchTerm, queryType);
 
+            IQueryable<District> model = FilterDistrictQuery(db.Districts, queryType, searchTermTruncated, searchItemId);           
             model = District.OrderDistrictsForQueryType(model, queryType);
 
             ViewBag.SearchTerm = searchTerm;
@@ -124,12 +125,12 @@ namespace MVCApp.Controllers
             IQueryable modelJson;
             District.QueryType queryType = DetectDistrictQueryType(term);
 
-            term = ExtractSearchTerm(term, queryType);
+            var searchTermTruncated = ExtractSearchTerm(term, queryType);
             var prefix = GetDistrictFilterPrefix(queryType);
 
             if (queryType == District.QueryType.User)
             {
-                modelJson = FilterUserQuery(db.UserProfiles, term)
+                modelJson = FilterUserQuery(db.UserProfiles, searchTermTruncated)
                     .ToList()
                     .OrderBy(u => u.FullName)
                     .Take(10)
@@ -142,7 +143,7 @@ namespace MVCApp.Controllers
             }
             else
             {
-                IQueryable<District> model = FilterDistrictQuery(db.Districts, term, null);
+                IQueryable<District> model = FilterDistrictQuery(db.Districts, queryType, searchTermTruncated, null);
                 model = District.OrderDistrictsForQueryType(model, queryType)
                     .Take(10);
 
@@ -240,14 +241,13 @@ namespace MVCApp.Controllers
         /// Filters district query.
         /// </summary>
         /// <param name="model">District query.</param>
+        /// <param name="queryType">Query type.</param>
         /// <param name="searchTerm">Search term.</param>
+        /// <param name="searchItemId">Search item id.</param>
         /// <returns>District query with filter.</returns>
-        protected IQueryable<District> FilterDistrictQuery(IQueryable<District> model, string searchTerm, int? searchItemId)
+        protected IQueryable<District> FilterDistrictQuery(IQueryable<District> model, District.QueryType queryType, string searchTerm, int? searchItemId)
         {
             model = SetCurrentCongregationFilter(model);
-
-            District.QueryType queryType = DetectDistrictQueryType(searchTerm);
-            searchTerm = ExtractSearchTerm(searchTerm, queryType);
 
             if (searchItemId.HasValue)
             {
