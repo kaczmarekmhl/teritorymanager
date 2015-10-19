@@ -5,11 +5,15 @@
 
         if (!checkbox.is(':disabled')) {
             checkbox.attr('checked', !checkbox.is(':checked'));
-            checkbox.trigger("change");
-        }        
+            checkbox.trigger("click");
+        }
+
     });
 
-    $("input[ajax-selector='personSelectCheckbox']").change(function () {
+    $("input[ajax-selector='personSelectCheckbox']").click(function (event) {
+        // Prevents the event from bubbling up the DOM tree, preventing any parent handlers from being notified of the event.
+        // If the prograpation is not stopped, the ("#personList tr") click event is triggered after the current event.
+        event.stopPropagation();
 
         var $input = $(this);
         $input.prop('disabled', true);
@@ -18,7 +22,7 @@
         data['selected'] = $(this).is(':checked');
         data['personId'] = $(this).attr('personId');
         data['districtId'] = $(this).attr('districtId');
-              
+
         $.ajax({
             url: $(this).data('url'),
             type: 'POST',
