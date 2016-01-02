@@ -25,6 +25,18 @@ namespace MVCApp.Controllers
 
             ViewBag.SearchTerm = searchTerm;
 
+            ViewBag.PeoplePerDistrictCount = (from d in db.Districts
+                                              join p in db.Persons on d.Id equals p.District.Id
+                                              where p.Selected == true
+                                              && d.Congregation.Id == CurrentCongregation.Id
+                                              && (p.AddedByUserId == d.AssignedToUserId || IsSharingAdressesEnabled)
+                                              group d by d.Id into grouped
+                                              select new
+                                              {
+                                                  userId = grouped.Key,
+                                                  personCount = grouped.Count()
+                                              }).ToDictionary(d => d.userId, d => d.personCount);
+
             return View(model.ToPagedList(page, 100));
         }
 
@@ -230,7 +242,7 @@ namespace MVCApp.Controllers
                 var secondTerm = searchTermParts[1];
                 usersFiltered = usersFiltered.Where(u =>
                     (u.FirstName.StartsWith(firstTerm) && u.LastName.StartsWith(secondTerm)) ||
-                     u.UserName.StartsWith(firstTerm));
+                     u.UserName.StartsWith(searchTerm));
             }
             else
             {
