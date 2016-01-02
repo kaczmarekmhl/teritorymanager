@@ -429,4 +429,10 @@
   <data name="UserLastName" xml:space="preserve">
     <value>Surname</value>
   </data>
+  <data name="UserDistrictCount" xml:space="preserve">
+    <value>District count</value>
+  </data>
+  <data name="UserPeopleCount" xml:space="preserve">
+    <value>People count</value>
+  </data>
 </root>

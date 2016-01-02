@@ -19,6 +19,18 @@ namespace MVCApp.Controllers
                 .OrderBy(t => t.PostCodeFirst)
                 .ThenBy(t => t.Name);
 
+            ViewBag.PeoplePerDistrictCount = (from d in db.Districts
+                                          join p in db.Persons on d.Id equals p.District.Id
+                                          where d.AssignedToUserId == WebSecurity.CurrentUserId
+                                          && p.Selected == true
+                                          && (p.AddedByUserId == d.AssignedToUserId || IsSharingAdressesEnabled)
+                                          group d by d.Id into grouped
+                                          select new
+                                          {
+                                              userId = grouped.Key,
+                                              personCount = grouped.Count()
+                                          }).ToDictionary(d => d.userId, d => d.personCount);
+
             return View(model.ToList());
         }
 

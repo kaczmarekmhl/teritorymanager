@@ -943,6 +943,15 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to District count.
+        /// </summary>
+        public static string UserDistrictCount {
+            get {
+                return ResourceManager.GetString("UserDistrictCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit user.
         /// </summary>
         public static string UserEdit {
@@ -975,6 +984,15 @@ namespace MVCApp.Translate {
         public static string UserLastName {
             get {
                 return ResourceManager.GetString("UserLastName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to People count.
+        /// </summary>
+        public static string UserPeopleCount {
+            get {
+                return ResourceManager.GetString("UserPeopleCount", resourceCulture);
             }
         }
         

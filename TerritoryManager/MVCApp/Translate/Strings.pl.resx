@@ -429,4 +429,10 @@
   <data name="UserLastName" xml:space="preserve">
     <value>Nazwisko</value>
   </data>
+  <data name="UserDistrictCount" xml:space="preserve">
+    <value>Liczba terenów</value>
+  </data>
+  <data name="UserPeopleCount" xml:space="preserve">
+    <value>Liczba adresów</value>
+  </data>
 </root>

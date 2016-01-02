@@ -12,6 +12,9 @@
         <th>
             @Strings.DistrictReportTypes_Complete
         </th>
+        <th>
+            @Strings.UserPeopleCount
+        </th>
     </tr>
         @foreach (var item in Model)
         {
@@ -21,6 +24,12 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.UserReports_DistrictComplete.FirstOrDefault().Date)
+            </td>
+            <td>
+                @if (ViewBag.PeoplePerDistrictCount.ContainsKey(item.Id) && @ViewBag.PeoplePerDistrictCount[item.Id] > 0)
+                {
+                    @ViewBag.PeoplePerDistrictCount[item.Id];
+                }
             </td>
         </tr>
         }

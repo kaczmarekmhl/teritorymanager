@@ -1,10 +1,7 @@
 ﻿using MVCApp.Models;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using WebMatrix.WebData;
@@ -21,6 +18,30 @@ namespace MVCApp.Controllers
             var model =
                 SetCurrentCongregationFilter(db.UserProfiles)
                 .OrderBy(u => u.UserName);
+
+            ViewBag.DistrictPerUserCount = SetCurrentCongregationFilter(db.UserProfiles)
+                .GroupJoin(
+                    db.Districts,
+                    user => user.UserId,
+                    district => district.AssignedToUserId,
+                    (user, userGroup) => new
+                    {
+                        userId = user.UserId,
+                        districtCount = userGroup.Count()
+                    }).ToDictionary(d => d.userId, d => d.districtCount);
+                         
+            ViewBag.PeoplePerUserCount = (from u in db.UserProfiles
+                                            join d in db.Districts on u.UserId equals d.AssignedToUserId
+                                            join p in db.Persons on d.Id equals p.District.Id
+                                            where p.Selected == true 
+                                            && u.CongregationId == CurrentCongregation.Id
+                                            && (p.AddedByUserId == d.AssignedToUserId || IsSharingAdressesEnabled)
+                                            group u by u.UserId into grouped
+                                            select new
+                                            {
+                                                userId = grouped.Key,
+                                                personCount = grouped.Count()
+                                            }).ToDictionary(d => d.userId, d => d.personCount);           
 
             return View(model);
         }
