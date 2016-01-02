@@ -19,7 +19,7 @@ namespace MVCApp.Controllers
     {
         #region Index
 
-        public ActionResult Index(int id, int page = 1)
+        public ActionResult Index(int id)
         {
             var district = db.Districts.Find(id);
 
@@ -311,7 +311,7 @@ namespace MVCApp.Controllers
                 db.Entry(personDb).State = EntityState.Modified;
                 db.SaveChanges();
 
-                return RedirectToAction("Index", new { personDb.District.Id });
+                return new RedirectResult(Url.Action("Index", new { personDb.District.Id } ) + "#edit");
             }
 
             return View(person);

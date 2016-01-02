@@ -53,6 +53,14 @@
             @Html.ValidationMessageFor(model => model.SearchPhrase)
         </div>
 
+        <div class="editor-label">
+            @Html.LabelFor(model => model.AssignedTo.UserName)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("AssignedToUserId", String.Empty)
+            @Html.ValidationMessageFor(model => model.AssignedToUserId)
+        </div>
+
         <p>
             <input type="submit" value="Create" />
         </p>

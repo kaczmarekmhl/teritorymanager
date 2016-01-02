@@ -34,6 +34,9 @@ namespace MVCApp.Controllers
 
         public ActionResult Create()
         {
+            //Select dropdown values
+            ViewBag.AssignedToUserId = GetUserSelectionList(null);
+
             return View();
         }
 
@@ -51,6 +54,9 @@ namespace MVCApp.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
+            //Select dropdown values
+            ViewBag.AssignedToUserId = GetUserSelectionList(district.AssignedToUserId);
 
             return View(district);
         }
