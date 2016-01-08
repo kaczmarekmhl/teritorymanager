@@ -1,0 +1,61 @@
+﻿<h3 id="toggleMyDistrictsMap">
+    <span>Mapa</span>
+    <span class="ui-icon ui-icon-triangle-1-s down"></span>
+    <span class="ui-icon  ui-icon-triangle-1-n up" style="display:none"></span>
+</h3>
+
+<div>
+    <div id="myDistrictsMap" />
+</div>
+
+<script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="~/Scripts/geoxml3.js"></script>
+<script>
+
+    var firstMapLoad = true;
+    var tabOpened = true;
+
+    $(document).ready(function () {
+        $("#toggleMyDistrictsMap").click(function () {
+            $("#myDistrictsMap").toggle();
+
+            if(firstMapLoad)
+            {
+                initialize();
+                firstMapLoad = false;
+            }
+
+            $("#frontPicture").toggle();
+
+            if ($("#myDistrictsMap").is(":visible"))
+            {
+                $("#toggleMyDistrictsMap .down").hide();
+                $("#toggleMyDistrictsMap .up").show();
+            }
+            else
+            {
+                $("#toggleMyDistrictsMap .down").show();
+                $("#toggleMyDistrictsMap .up").hide();
+            }
+        });
+    });
+
+    function initialize() {
+
+        var map_canvas = document.getElementById('myDistrictsMap');
+        var map_options = {
+            center: new google.maps.LatLng(56.0000, 12.0000),
+            zoom: 8,
+        }
+        var map = new google.maps.Map(map_canvas, map_options)
+
+        var myParser = new geoXML3.parser({
+            map: map,
+            zoom: true,
+            singleInfoWindow: false
+        });
+        myParser.parse('@Url.Action("MapKml")');
+    }
+
+    //google.maps.event.addDomListener(window, 'load', initialize);
+</script>

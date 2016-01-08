@@ -509,6 +509,7 @@
     <Content Include="Service References\Application Insights\ConnectedService.json" />
     <Content Include="Views\DistrictReport\_ListDistrictReports.cshtml" />
     <Content Include="Views\Shared\_ApplicationInsights.cshtml" />
+    <Content Include="Views\MyDistricts\_Map.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

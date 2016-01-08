@@ -1,4 +1,5 @@
-﻿using MVCApp.Models;
+﻿using MapLibrary;
+using MVCApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,5 +35,23 @@ namespace MVCApp.Controllers
             return View(model.ToList());
         }
 
+        public ActionResult MapKml()
+        {
+            var freeDistricts =
+                SetCurrentCongregationFilter(db.Districts)
+                .Where(d => d.AssignedToUserId == WebSecurity.CurrentUserId)
+                .OrderBy(t => t.PostCodeFirst)
+                .ThenBy(t => t.Name)
+                .ToList();
+
+            var resultKmlDoc = new KmlDocument();
+
+            foreach (var district in freeDistricts)
+            {
+                resultKmlDoc.MergeDocuments(district.GetDistrictBoundaryKmlDoc(false));
+            }
+
+            return this.Content(resultKmlDoc.ToString(), "text/xml");
+        }
     }
 }
