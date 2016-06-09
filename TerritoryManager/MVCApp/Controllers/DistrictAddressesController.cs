@@ -15,6 +15,7 @@ namespace MVCApp.Controllers
 {
     using System.Data.Entity;
 
+    [Authorize]
     public class DistrictAddressesController : BaseController
     {
         #region Index

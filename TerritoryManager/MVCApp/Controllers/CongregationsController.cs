@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace MVCApp.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CongregationsController : BaseController
     {
         #region IndexAction
