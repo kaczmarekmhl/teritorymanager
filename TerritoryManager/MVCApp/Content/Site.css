@@ -860,6 +860,12 @@ tr.pager td {
     margin-top: 0.2em;
 }
 
+.personDoNotVisit 
+{
+    color: red;
+    font-weight:bold;
+}
+
 /* Google Maps styles
 ----------------------------------------------------------*/
 .gm-style h3 {

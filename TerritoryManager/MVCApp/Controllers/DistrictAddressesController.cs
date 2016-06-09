@@ -182,6 +182,14 @@ namespace MVCApp.Controllers
                     }
                     lastStreetAddress = person.StreetAddress;
 
+                    if(person.DoNotVisit)
+                    {
+                        table.Rows[i].Cells[cell].Paragraphs[0]
+                            .Append(string.Format("({0}) ", Strings.PersonDoNotVisit))
+                            .Color(Color.Red)
+                            .Bold();
+                    }
+
                     table.Rows[i].Cells[cell++].Paragraphs[0].Append(person.Name + ' ' + person.Lastname);
 
                     table.Rows[i].Cells[cell++].Paragraphs[0].Append(person.StreetAddress);
@@ -308,6 +316,7 @@ namespace MVCApp.Controllers
                 var personDb = db.Persons.Include("District").Single(p => p.Id == id);
                 personDb.Remarks = person.Remarks;
                 personDb.TelephoneNumber = person.TelephoneNumber;
+                personDb.DoNotVisit = person.DoNotVisit;
 
                 db.Entry(personDb).State = EntityState.Modified;
                 db.SaveChanges();

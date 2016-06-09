@@ -547,6 +547,15 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Do not visit.
+        /// </summary>
+        public static string PersonDoNotVisit {
+            get {
+                return ResourceManager.GetString("PersonDoNotVisit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add\Delete addresses.
         /// </summary>
         public static string PersonEditButton {

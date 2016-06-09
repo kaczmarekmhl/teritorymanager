@@ -55,6 +55,14 @@
             @Html.ValidationMessageFor(model => model.Remarks)
         </div>
 
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DoNotVisit)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.DoNotVisit)
+            @Html.ValidationMessageFor(model => model.DoNotVisit)
+        </div>
+
         <p>
             <input type="submit" value="@Strings.Save" />
         </p>

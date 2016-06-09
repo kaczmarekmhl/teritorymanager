@@ -435,4 +435,7 @@
   <data name="UserPeopleCount" xml:space="preserve">
     <value>Liczba adresów</value>
   </data>
+  <data name="PersonDoNotVisit" xml:space="preserve">
+    <value>Nie odwiedzać</value>
+  </data>
 </root>

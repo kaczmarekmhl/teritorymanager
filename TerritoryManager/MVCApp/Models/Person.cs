@@ -160,6 +160,11 @@ namespace MVCApp.Models
         [Display(ResourceType = typeof(Strings), Name = "PersonRemarks")]
         public string Remarks { get; set; }
 
+        /// <summary>
+        /// Should this person be not visited.
+        /// </summary>
+        [Display(ResourceType = typeof(Strings), Name = "PersonDoNotVisit")]
+        public bool DoNotVisit { get; set; }
 
         [NotMapped]
         public string PostCodeFormat

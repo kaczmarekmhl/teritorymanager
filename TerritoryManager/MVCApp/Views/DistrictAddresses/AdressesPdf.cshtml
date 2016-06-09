@@ -67,7 +67,14 @@
             </cell>
 
             <cell borderwidth="0.1" left="false" right="false" top="false" bottom="true" bordercolor="#ABAAAA">
-                <chunk size="11">@item.Name @item.Lastname</chunk>
+                <chunk size="11">
+                    @if (item.DoNotVisit)
+                    {
+                        <chunk style="font-weight:bold;color:red">
+                            @Html.Raw('(')@Strings.PersonDoNotVisit@Html.Raw(')')
+                        </chunk>
+                    }
+                @item.Name @item.Lastname</chunk>
             </cell>
 
 	        <cell borderwidth="0.1" left="false" right="false" top="false" bottom="true" bordercolor="#ABAAAA">
