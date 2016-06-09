@@ -120,6 +120,12 @@ namespace MVCApp.Controllers
                 return new HttpNotFoundResult();
             }
 
+            if (person.DoNotVisit && selected == false)
+            {
+                // Deselecting person that should not be visited is not valid
+                return new HttpNotFoundResult();
+            }
+
             person.Selected = selected;
             db.SaveChanges();
 
@@ -148,12 +154,12 @@ namespace MVCApp.Controllers
 
             if (IsSharingAdressesEnabled)
             {
-                sqlDeleteStatement = "Delete from People WHERE District_id = @districtId AND Manual = 0";
+                sqlDeleteStatement = "Delete from People WHERE District_id = @districtId AND Manual = 0 AND DoNotVisit = 0";
                 parameterList = new object[1];
             }
             else
             {
-                sqlDeleteStatement = "Delete People WHERE District_id = @districtId AND AddedByUserId = @userId AND Manual = 0";
+                sqlDeleteStatement = "Delete People WHERE District_id = @districtId AND AddedByUserId = @userId AND Manual = 0 AND DoNotVisit = 0";
                 parameterList = new object[2];
                 parameterList[1] = new SqlParameter("@userId", WebSecurity.CurrentUserId);
             }

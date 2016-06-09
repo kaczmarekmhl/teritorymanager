@@ -438,4 +438,7 @@
   <data name="PersonDoNotVisit" xml:space="preserve">
     <value>Nie odwiedzać</value>
   </data>
+  <data name="PersonDoNotVisitDeleteError" xml:space="preserve">
+    <value>Usuniecie osoby, która nie zyczy sobie odwiedzin, jest niedozwolone.</value>
+  </data>
 </root>

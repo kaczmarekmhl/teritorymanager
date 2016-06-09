@@ -24,7 +24,7 @@ namespace MVCApp.Controllers
                                           join p in db.Persons on d.Id equals p.District.Id
                                           where d.AssignedToUserId == WebSecurity.CurrentUserId
                                           && p.Selected == true
-                                          && (p.AddedByUserId == d.AssignedToUserId || IsSharingAdressesEnabled)
+                                          && (p.AddedByUserId == d.AssignedToUserId || IsSharingAdressesEnabled || p.DoNotVisit == true)
                                           group d by d.Id into grouped
                                           select new
                                           {

@@ -81,7 +81,7 @@ namespace MVCApp.Helpers
             return Db.Persons
                 .Where(p =>
                     p.District.Id == districtId &&
-                    (p.AddedByUserId == WebSecurity.CurrentUserId || IsSharingAdressesEnabled) &&
+                    (p.AddedByUserId == WebSecurity.CurrentUserId || IsSharingAdressesEnabled || p.DoNotVisit == true) &&
                     p.Manual == false &&
                     (p.SearchUpdate == searchUpdate || searchUpdate == null))
                     .OrderBy(p => p.Name);
@@ -272,7 +272,7 @@ namespace MVCApp.Helpers
             }
             else
             {
-                sqlDeleteStatement = "Update People SET SearchUpdate = 0 WHERE District_id = @districtId AND AddedByUserId = @userId AND Manual = 0";
+                sqlDeleteStatement = "Update People SET SearchUpdate = 0 WHERE District_id = @districtId AND (AddedByUserId = @userId OR DoNotVisit = 1)AND Manual = 0";
                 parameterList = new object[2];
                 parameterList[1] = new SqlParameter("@userId", WebSecurity.CurrentUserId);
             }

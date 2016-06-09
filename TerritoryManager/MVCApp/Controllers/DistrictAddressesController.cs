@@ -346,6 +346,11 @@ namespace MVCApp.Controllers
                 return new HttpNotFoundResult();
             }
 
+            if (person.DoNotVisit == true)
+            {
+                return new HttpNotFoundResult(Strings.PersonDoNotVisitDeleteError);
+            }
+
             //Person addresses are not removed just deselected, also for manually added
             person.Selected = false;
             db.SaveChanges();
@@ -368,7 +373,7 @@ namespace MVCApp.Controllers
         {
             var list = db.Persons
                 .Where(p => p.District.Id == districtId
-                    && (p.AddedByUserId == WebSecurity.CurrentUserId || IsSharingAdressesEnabled)
+                    && (p.AddedByUserId == WebSecurity.CurrentUserId || IsSharingAdressesEnabled || p.DoNotVisit == true)
                     && (p.Selected == true))
                 .ToList();
 
@@ -394,7 +399,7 @@ namespace MVCApp.Controllers
 
         protected bool IsUserAuthrorizedForPerson(Person person)
         {
-            return person.AddedByUserId == WebSecurity.CurrentUserId || IsSharingAdressesEnabled;
+            return person.AddedByUserId == WebSecurity.CurrentUserId || IsSharingAdressesEnabled || person.DoNotVisit == true;
         }
 
         protected bool IsUserAuthorizedForDistrict(District district)

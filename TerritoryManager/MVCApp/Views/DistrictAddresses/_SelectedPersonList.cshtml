@@ -104,7 +104,14 @@
     }
 
     function personDeleteError(ajaxContext) {
-        alert("@Strings.UnexpectedErrorOccured");
+        if (ajaxContext.statusText != "")
+        {
+            alert(ajaxContext.statusText);
+        }
+        else
+        {
+            alert("@Strings.UnexpectedErrorOccured");
+        }
     }
 
     //Needed to keep street addres in sync with all fields

@@ -556,6 +556,15 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot delete a person that should not be visited..
+        /// </summary>
+        public static string PersonDoNotVisitDeleteError {
+            get {
+                return ResourceManager.GetString("PersonDoNotVisitDeleteError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add\Delete addresses.
         /// </summary>
         public static string PersonEditButton {

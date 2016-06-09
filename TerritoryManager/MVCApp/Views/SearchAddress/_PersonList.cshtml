@@ -61,6 +61,13 @@
                         })
                 </td>
                 <td>
+                    @if (item.DoNotVisit)
+                    {
+                        <span class="personDoNotVisit">
+                            @Html.Raw('(')@Strings.PersonDoNotVisit@Html.Raw(')')
+                        </span>
+                    }
+
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
