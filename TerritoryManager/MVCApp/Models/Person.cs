@@ -166,6 +166,14 @@ namespace MVCApp.Models
         [Display(ResourceType = typeof(Strings), Name = "PersonDoNotVisit")]
         public bool DoNotVisit { get; set; }
 
+        /// <summary>
+        /// When this person required to be not visited
+        /// </summary>
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
+        [DataType(DataType.Date)]
+        [Display(ResourceType = typeof(Strings), Name = "PersonDoNotVisitReportDate")]
+        public DateTime? DoNotVisitReportDate { get; set; }
+
         [NotMapped]
         public string PostCodeFormat
         {

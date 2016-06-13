@@ -441,4 +441,7 @@
   <data name="PersonDoNotVisitDeleteError" xml:space="preserve">
     <value>Cannot delete a person that should not be visited.</value>
   </data>
+  <data name="PersonDoNotVisitReportDate" xml:space="preserve">
+    <value>When reported</value>
+  </data>
 </root>

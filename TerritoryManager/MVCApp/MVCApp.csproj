@@ -327,6 +327,10 @@
     <Compile Include="Migrations\201606091258537_PersonDoNotVisit.Designer.cs">
       <DependentUpon>201606091258537_PersonDoNotVisit.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606131536241_PersonDoNotVisitDate.cs" />
+    <Compile Include="Migrations\201606131536241_PersonDoNotVisitDate.Designer.cs">
+      <DependentUpon>201606131536241_PersonDoNotVisitDate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Congregation.cs" />
     <Compile Include="Models\District.cs" />
@@ -563,6 +567,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606091258537_PersonDoNotVisit.resx">
       <DependentUpon>201606091258537_PersonDoNotVisit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606131536241_PersonDoNotVisitDate.resx">
+      <DependentUpon>201606131536241_PersonDoNotVisitDate.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Translate\Strings.pl.resx" />
     <EmbeddedResource Include="Translate\Strings.resx">

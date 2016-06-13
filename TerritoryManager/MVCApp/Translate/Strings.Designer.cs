@@ -565,6 +565,15 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to When reported.
+        /// </summary>
+        public static string PersonDoNotVisitReportDate {
+            get {
+                return ResourceManager.GetString("PersonDoNotVisitReportDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add\Delete addresses.
         /// </summary>
         public static string PersonEditButton {

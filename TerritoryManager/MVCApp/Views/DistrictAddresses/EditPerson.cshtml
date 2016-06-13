@@ -2,6 +2,10 @@
 
 @{
     ViewBag.Title = "Edytuj adres";
+
+    string displayDateFormat = @"dd-MM-yyyy";
+    string actualDateFormat = @"MM-dd-yyyy";
+
 }
 
 <h2>Edytuj adres</h2>
@@ -63,6 +67,15 @@
             @Html.ValidationMessageFor(model => model.DoNotVisit)
         </div>
 
+        <div id="doNotVisitReportDateWrapper">
+            <div class="editor-label">
+                @Html.LabelFor(model => model.DoNotVisitReportDate)
+            </div>
+            <div class="editor-field">
+                <input type="text" id="displayDate" value="@Model.DoNotVisitReportDate.ToString(displayDateFormat)" />
+                <input type="hidden" id="altDate" name="DoNotVisitReportDate" value="@Model.DoNotVisitReportDate.ToString(actualDateFormat)" />
+            </div>
+        </div>
         <p>
             <input type="submit" value="@Strings.Save" />
         </p>
@@ -72,3 +85,37 @@
 <div>
     @Html.ActionLink(Strings.BackToList, "Index", new { id = Model.District.Id })
 </div>
+
+<script>
+
+    function setDoNotVisitState()
+    {
+        if(!$('#DoNotVisit').is(':checked'))
+        {
+            $('#displayDate').prop('disabled', true);
+            $('#doNotVisitReportDateWrapper').hide();
+        }
+        else
+        {
+            $('#displayDate').prop('disabled', false);
+            $('#doNotVisitReportDateWrapper').show();
+            $('#displayDate').val("@DateTime.Today.ToString(displayDateFormat)");
+            $('#altDate').val("@DateTime.Today.ToString(actualDateFormat)");
+        }
+    }
+
+    $(function () {
+        $('#displayDate').datepicker({
+            dateFormat: 'dd-mm-yy',
+            altFormat: "mm-dd-yy",
+            altField: "#altDate"
+        });
+
+        setDoNotVisitState();
+
+        $('#DoNotVisit').click(function () {
+            setDoNotVisitState();
+        });
+    });
+
+</script>

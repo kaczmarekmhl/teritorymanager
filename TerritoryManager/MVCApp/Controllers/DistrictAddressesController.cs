@@ -318,6 +318,15 @@ namespace MVCApp.Controllers
                 personDb.TelephoneNumber = person.TelephoneNumber;
                 personDb.DoNotVisit = person.DoNotVisit;
 
+                if(personDb.DoNotVisit)
+                { 
+                    personDb.DoNotVisitReportDate = person.DoNotVisitReportDate;
+                }
+                else
+                {
+                    personDb.DoNotVisitReportDate = null;
+                }
+
                 db.Entry(personDb).State = EntityState.Modified;
                 db.SaveChanges();
 
