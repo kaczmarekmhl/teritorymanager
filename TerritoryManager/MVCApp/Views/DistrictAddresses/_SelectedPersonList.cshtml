@@ -76,16 +76,16 @@
     }
 }
 
-<script src="https://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCFKfov1eRZaxk15f7Ax0DJKVqKOSC8XjM"></script>
 <script type="text/javascript" src="~/Scripts/geoxml3.js"></script>
 <script type="text/javascript" src="~/Scripts/jquery.geocomplete/jquery.geocomplete.min.js"></script>
 
 <script>
     var geoCompleteEnabled = false;
 
-    $("#EditPersonButton").click(function () {
+    $("#AddPersonButton").click(function () {
 
-		$("#EditPersonButton").toggleClass("pressed");
+        $("#AddPersonButton").toggleClass("pressed");
         $("span[data-type=PersonEditButtons]").toggle();
 
         $("#addPersonWrapper").toggle();
@@ -245,7 +245,7 @@ function enableGeoComplete() {
 
 if (window.location.hash == '#edit')
 {
-    $("#EditPersonButton").click();
+    $("#AddPersonButton").click();
 }
 
 </script>
