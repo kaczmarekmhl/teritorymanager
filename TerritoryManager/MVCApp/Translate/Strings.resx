@@ -345,8 +345,8 @@
   <data name="PersonNameSurname" xml:space="preserve">
     <value>Name &amp; surname</value>
   </data>
-  <data name="PersonEditButton" xml:space="preserve">
-    <value>Add\Delete addresses</value>
+  <data name="PersonAddButton" xml:space="preserve">
+    <value>Add addresses </value>
   </data>
   <data name="PersonAddCannotFindLocation" xml:space="preserve">
     <value>Cannot find location. Please retype address.</value>
@@ -438,10 +438,19 @@
   <data name="PersonDoNotVisit" xml:space="preserve">
     <value>Do not visit</value>
   </data>
-  <data name="PersonDoNotVisitDeleteError" xml:space="preserve">
-    <value>Cannot delete a person that should not be visited.</value>
+  <data name="PersonDoNotVisitOrVisitedDeleteError" xml:space="preserve">
+    <value>Cannot delete a person that should not be visited or is visited by another publisher.</value>
   </data>
   <data name="PersonDoNotVisitReportDate" xml:space="preserve">
     <value>When reported</value>
+  </data>
+  <data name="PersonIsVisitedByOtherPublisher" xml:space="preserve">
+    <value>Is visited by other publisher?</value>
+  </data>
+  <data name="PersonVisitingPublisher" xml:space="preserve">
+    <value>Visiting publisher</value>
+  </data>
+  <data name="PersonVisitedBy" xml:space="preserve">
+    <value>Visited by: {0}</value>
   </data>
 </root>

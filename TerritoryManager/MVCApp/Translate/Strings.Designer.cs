@@ -493,6 +493,15 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add addresses .
+        /// </summary>
+        public static string PersonAddButton {
+            get {
+                return ResourceManager.GetString("PersonAddButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot find location. Please retype address..
         /// </summary>
         public static string PersonAddCannotFindLocation {
@@ -556,11 +565,11 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot delete a person that should not be visited..
+        ///   Looks up a localized string similar to Cannot delete a person that should not be visited or is visited by another publisher..
         /// </summary>
-        public static string PersonDoNotVisitDeleteError {
+        public static string PersonDoNotVisitOrVisitedDeleteError {
             get {
-                return ResourceManager.GetString("PersonDoNotVisitDeleteError", resourceCulture);
+                return ResourceManager.GetString("PersonDoNotVisitOrVisitedDeleteError", resourceCulture);
             }
         }
         
@@ -574,11 +583,11 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add\Delete addresses.
+        ///   Looks up a localized string similar to Is visited by other publisher?.
         /// </summary>
-        public static string PersonEditButton {
+        public static string PersonIsVisitedByOtherPublisher {
             get {
-                return ResourceManager.GetString("PersonEditButton", resourceCulture);
+                return ResourceManager.GetString("PersonIsVisitedByOtherPublisher", resourceCulture);
             }
         }
         
@@ -651,6 +660,24 @@ namespace MVCApp.Translate {
         public static string PersonTelephoneNum {
             get {
                 return ResourceManager.GetString("PersonTelephoneNum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Visited by: {0}.
+        /// </summary>
+        public static string PersonVisitedBy {
+            get {
+                return ResourceManager.GetString("PersonVisitedBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Visiting publisher.
+        /// </summary>
+        public static string PersonVisitingPublisher {
+            get {
+                return ResourceManager.GetString("PersonVisitingPublisher", resourceCulture);
             }
         }
         

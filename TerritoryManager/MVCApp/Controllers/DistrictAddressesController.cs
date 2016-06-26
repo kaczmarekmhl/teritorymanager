@@ -77,7 +77,9 @@ namespace MVCApp.Controllers
                 {
                     kmlDoc.AddPlacemark(
                         String.Format("{0}. {1} {2}", counter++, person.Name, person.Lastname),
-                        person.StreetAddress,
+                        person.StreetAddress 
+                        + (person.DoNotVisit ? " - " + Strings.PersonDoNotVisit : "") 
+                        + (person.IsVisitedByOtherPublisher ? " - " + @String.Format(Strings.PersonVisitedBy, person.VisitingPublisher) : ""),
                         person.Longitude,
                         person.Latitude);
                 }
@@ -187,6 +189,14 @@ namespace MVCApp.Controllers
                         table.Rows[i].Cells[cell].Paragraphs[0]
                             .Append(string.Format("({0}) ", Strings.PersonDoNotVisit))
                             .Color(Color.Red)
+                            .Bold();
+                    }
+
+                    if (person.IsVisitedByOtherPublisher)
+                    {
+                        table.Rows[i].Cells[cell].Paragraphs[0]
+                            .Append(string.Format("({0}) ", String.Format(Strings.PersonVisitedBy, person.VisitingPublisher)))
+                            .Color(Color.CornflowerBlue)
                             .Bold();
                     }
 
@@ -316,17 +326,13 @@ namespace MVCApp.Controllers
                 var personDb = db.Persons.Include("District").Single(p => p.Id == id);
                 personDb.Remarks = person.Remarks;
                 personDb.TelephoneNumber = person.TelephoneNumber;
+                
                 personDb.DoNotVisit = person.DoNotVisit;
-
-                if(personDb.DoNotVisit)
-                { 
-                    personDb.DoNotVisitReportDate = person.DoNotVisitReportDate;
-                }
-                else
-                {
-                    personDb.DoNotVisitReportDate = null;
-                }
-
+                personDb.DoNotVisitReportDate = personDb.DoNotVisit ? person.DoNotVisitReportDate : null;
+                
+                personDb.IsVisitedByOtherPublisher = person.IsVisitedByOtherPublisher;
+                personDb.VisitingPublisher = personDb.IsVisitedByOtherPublisher ? person.VisitingPublisher : string.Empty;
+                
                 db.Entry(personDb).State = EntityState.Modified;
                 db.SaveChanges();
 
@@ -355,9 +361,9 @@ namespace MVCApp.Controllers
                 return new HttpNotFoundResult();
             }
 
-            if (person.DoNotVisit == true)
+            if (person.DoNotVisit || person.IsVisitedByOtherPublisher)
             {
-                return new HttpNotFoundResult(Strings.PersonDoNotVisitDeleteError);
+                return new HttpNotFoundResult(Strings.PersonDoNotVisitOrVisitedDeleteError);
             }
 
             //Person addresses are not removed just deselected, also for manually added
@@ -382,7 +388,7 @@ namespace MVCApp.Controllers
         {
             var list = db.Persons
                 .Where(p => p.District.Id == districtId
-                    && (p.AddedByUserId == WebSecurity.CurrentUserId || IsSharingAdressesEnabled || p.DoNotVisit == true)
+                    && (p.AddedByUserId == WebSecurity.CurrentUserId || IsSharingAdressesEnabled || p.DoNotVisit || p.IsVisitedByOtherPublisher)
                     && (p.Selected == true))
                 .ToList();
 
@@ -408,7 +414,7 @@ namespace MVCApp.Controllers
 
         protected bool IsUserAuthrorizedForPerson(Person person)
         {
-            return person.AddedByUserId == WebSecurity.CurrentUserId || IsSharingAdressesEnabled || person.DoNotVisit == true;
+            return person.AddedByUserId == WebSecurity.CurrentUserId || IsSharingAdressesEnabled || person.DoNotVisit || person.IsVisitedByOtherPublisher;
         }
 
         protected bool IsUserAuthorizedForDistrict(District district)

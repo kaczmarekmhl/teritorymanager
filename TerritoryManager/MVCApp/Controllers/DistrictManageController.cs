@@ -29,7 +29,7 @@ namespace MVCApp.Controllers
                                               join p in db.Persons on d.Id equals p.District.Id
                                               where p.Selected == true
                                               && d.Congregation.Id == CurrentCongregation.Id
-                                              && (p.AddedByUserId == d.AssignedToUserId || IsSharingAdressesEnabled || p.DoNotVisit == true)
+                                              && (p.AddedByUserId == d.AssignedToUserId || IsSharingAdressesEnabled || p.DoNotVisit || p.IsVisitedByOtherPublisher)
                                               group d by d.Id into grouped
                                               select new
                                               {

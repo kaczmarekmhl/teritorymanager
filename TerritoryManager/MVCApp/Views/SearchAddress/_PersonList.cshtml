@@ -68,6 +68,13 @@
                         </span>
                     }
 
+                    @if (item.IsVisitedByOtherPublisher)
+                    {
+                        <span class="otherPublisherVisiting">
+                            @String.Format('(' + Strings.PersonVisitedBy + ')', item.VisitingPublisher)
+                        </span>
+                    }
+
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>

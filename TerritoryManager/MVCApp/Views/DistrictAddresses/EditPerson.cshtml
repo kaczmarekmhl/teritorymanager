@@ -4,8 +4,13 @@
     ViewBag.Title = "Edytuj adres";
 
     string displayDateFormat = @"dd-MM-yyyy";
-    string actualDateFormat = @"MM-dd-yyyy";
+    string serverDateTimeFormat = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern;
+    string javascriptDateFormat = serverDateTimeFormat.Replace("MM", "mm").Replace("yyyy", "yy");
 
+    if (!Model.DoNotVisitReportDate.HasValue)
+    {
+        Model.DoNotVisitReportDate = DateTime.Today;
+    }
 }
 
 <h2>Edytuj adres</h2>
@@ -23,7 +28,7 @@
             @Html.LabelFor(model => model.Name)
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(model => model.Name, new { @readonly="readonly" })
+            @Html.TextBoxFor(model => model.Name, new { @readonly = "readonly" })
             @Html.ValidationMessageFor(model => model.Name)
         </div>
 
@@ -31,7 +36,7 @@
             @Html.LabelFor(model => model.Lastname)
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(model => model.Lastname, new { @readonly="readonly" })
+            @Html.TextBoxFor(model => model.Lastname, new { @readonly = "readonly" })
             @Html.ValidationMessageFor(model => model.Lastname)
         </div>
 
@@ -39,7 +44,7 @@
             @Html.LabelFor(model => model.StreetAddress)
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(model => model.StreetAddress, new { @readonly="readonly" })
+            @Html.TextBoxFor(model => model.StreetAddress, new { @readonly = "readonly" })
             @Html.ValidationMessageFor(model => model.StreetAddress)
         </div>
 
@@ -59,21 +64,35 @@
             @Html.ValidationMessageFor(model => model.Remarks)
         </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.DoNotVisit)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.DoNotVisit)
-            @Html.ValidationMessageFor(model => model.DoNotVisit)
+        <div class="personDoNotVisit">
+            <div class="editor-label">
+                @Html.EditorFor(model => model.DoNotVisit) @Html.LabelFor(model => model.DoNotVisit, new { style = "display:inline-block" })
+            </div>
+
+            <div id="doNotVisitReportDateWrapper">
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.DoNotVisitReportDate, new { @class = "small" })
+                </div>
+                <div class="editor-field">
+                    <input type="text" id="displayDate" value="@Model.DoNotVisitReportDate.Value.ToString(displayDateFormat)" />
+                    <input type="hidden" id="altDate" name="DoNotVisitReportDate" value="@Model.DoNotVisitReportDate.Value.ToString(serverDateTimeFormat)" />
+                </div>
+            </div>
         </div>
 
-        <div id="doNotVisitReportDateWrapper">
+        <div class="otherPublisherVisiting">
             <div class="editor-label">
-                @Html.LabelFor(model => model.DoNotVisitReportDate)
+                @Html.EditorFor(model => model.IsVisitedByOtherPublisher) @Html.LabelFor(model => model.IsVisitedByOtherPublisher, new { style = "display:inline-block" })
             </div>
-            <div class="editor-field">
-                <input type="text" id="displayDate" value="@Model.DoNotVisitReportDate.ToString(displayDateFormat)" />
-                <input type="hidden" id="altDate" name="DoNotVisitReportDate" value="@Model.DoNotVisitReportDate.ToString(actualDateFormat)" />
+
+            <div id="visitingPublisherWrapper">
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.VisitingPublisher, new { @class = "small"})
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.VisitingPublisher)
+                    @Html.ValidationMessageFor(model => model.VisitingPublisher)
+                </div>
             </div>
         </div>
         <p>
@@ -88,33 +107,42 @@
 
 <script>
 
-    function setDoNotVisitState()
-    {
-        if(!$('#DoNotVisit').is(':checked'))
-        {
+    function setDoNotVisitState() {
+        if (!$('#DoNotVisit').is(':checked')) {
             $('#displayDate').prop('disabled', true);
             $('#doNotVisitReportDateWrapper').hide();
         }
-        else
-        {
+        else {
             $('#displayDate').prop('disabled', false);
             $('#doNotVisitReportDateWrapper').show();
-            $('#displayDate').val("@DateTime.Today.ToString(displayDateFormat)");
-            $('#altDate').val("@DateTime.Today.ToString(actualDateFormat)");
+        }
+    }
+
+    function setIsVisitedByOtherPublisherState() {
+        if (!$('#IsVisitedByOtherPublisher').is(':checked')) {
+            $('#visitingPublisherWrapper').hide();
+        }
+        else {
+            $('#visitingPublisherWrapper').show();
         }
     }
 
     $(function () {
         $('#displayDate').datepicker({
             dateFormat: 'dd-mm-yy',
-            altFormat: "mm-dd-yy",
+            altFormat: "@javascriptDateFormat",
             altField: "#altDate"
         });
 
         setDoNotVisitState();
+        setIsVisitedByOtherPublisherState();
 
         $('#DoNotVisit').click(function () {
             setDoNotVisitState();
+        });
+
+        $('#IsVisitedByOtherPublisher').click(function () {
+            setIsVisitedByOtherPublisherState();
         });
     });
 

@@ -345,8 +345,8 @@
   <data name="PersonNameSurname" xml:space="preserve">
     <value>Imię i nazwisko</value>
   </data>
-  <data name="PersonEditButton" xml:space="preserve">
-    <value>Dodaj\usuń adresy</value>
+  <data name="PersonAddButton" xml:space="preserve">
+    <value>Dodaj adresy</value>
   </data>
   <data name="PersonAddCannotFindLocation" xml:space="preserve">
     <value>Nie można określić lokalizacji adresu. Wpisz ponownie dokładny adres.</value>
@@ -438,10 +438,19 @@
   <data name="PersonDoNotVisit" xml:space="preserve">
     <value>Nie odwiedzać</value>
   </data>
-  <data name="PersonDoNotVisitDeleteError" xml:space="preserve">
-    <value>Usuniecie osoby, która nie zyczy sobie odwiedzin, jest niedozwolone.</value>
+  <data name="PersonDoNotVisitOrVisitedDeleteError" xml:space="preserve">
+    <value>Usuniecie osoby, która nie zyczy sobie odwiedzin lub jest odwiedzana przez innego glosiciela, jest niedozwolone.</value>
   </data>
   <data name="PersonDoNotVisitReportDate" xml:space="preserve">
     <value>Data zgłoszenia</value>
+  </data>
+  <data name="PersonIsVisitedByOtherPublisher" xml:space="preserve">
+    <value>Odwiedza inny głosiciel</value>
+  </data>
+  <data name="PersonVisitingPublisher" xml:space="preserve">
+    <value>Odwiedzający głosiciel</value>
+  </data>
+  <data name="PersonVisitedBy" xml:space="preserve">
+    <value>Odwiedza: {0}</value>
   </data>
 </root>

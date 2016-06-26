@@ -658,6 +658,11 @@ label {
         display: inline;
     }
 
+label.small {
+    font-size: 1.0em;
+    font-weight:normal;
+}
+
 input, textarea {
     border: 1px solid #e2e2e2;
     background: #fff;
@@ -862,7 +867,13 @@ tr.pager td {
 
 .personDoNotVisit 
 {
-    color: red;
+    color: #e80c4d;;
+    font-weight:bold;
+}
+
+.otherPublisherVisiting
+{
+    color: #7ac0da;
     font-weight:bold;
 }
 

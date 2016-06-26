@@ -71,9 +71,16 @@
                     @if (item.DoNotVisit)
                     {
                         <chunk style="font-weight:bold;color:red">
-                            @Html.Raw('(')@Strings.PersonDoNotVisit@Html.Raw(')')
+                            @Html.Raw('(')@Strings.PersonDoNotVisit.Replace('ć', 'c')@Html.Raw(')')
                         </chunk>
                     }
+                    @if (item.IsVisitedByOtherPublisher)
+                    {
+                        <chunk style="font-weight:bold;color:cornflowerblue">
+                            @String.Format('(' + Strings.PersonVisitedBy + ')', item.VisitingPublisher)
+                        </chunk>
+                    }
+
                 @item.Name @item.Lastname</chunk>
             </cell>
 

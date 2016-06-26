@@ -24,13 +24,12 @@
                 initialize();
                 firstMapLoad = false;
             }
-
-            $("#frontPicture").toggle();
-
+        
             if ($("#myDistrictsMap").is(":visible"))
             {
                 $("#toggleMyDistrictsMap .down").hide();
                 $("#toggleMyDistrictsMap .up").show();
+                $("#frontPicture").hide();
             }
             else
             {

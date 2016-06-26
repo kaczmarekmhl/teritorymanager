@@ -2,6 +2,7 @@
 
 @{
     int districtId = @ViewBag.DistrictId; 
+
 }
 
 <tr data-personId="@Model.Id">
@@ -16,7 +17,14 @@
         @if (Model.DoNotVisit)
         {
             <span class="personDoNotVisit">
-                @Html.Raw('(')@Strings.PersonDoNotVisit@Html.Raw(')')
+                @Html.Raw('(')@Strings.PersonDoNotVisit@Html.Raw(" - ")@String.Format("{0:MM.yy}", Model.DoNotVisitReportDate)@Html.Raw(')')
+            </span>
+        }
+
+        @if (Model.IsVisitedByOtherPublisher)
+        {
+            <span class="otherPublisherVisiting">
+                @String.Format('(' + Strings.PersonVisitedBy + ')', Model.VisitingPublisher)
             </span>
         }
 
@@ -41,12 +49,9 @@
         @Html.DisplayFor(modelItem => Model.Remarks)
     </td>
     <td >
-        <span data-type="PersonEditButtons" 
-			@if(ViewBag.ShowEditButtons == null || !ViewBag.ShowEditButtons){ 
-				@: style="display:none"
-			}
-			>
-        @Ajax.ActionLink("Usuń", "DeletePerson", 
+        <span data-type="PersonEditButtons">
+            @Html.ActionLink("Edytuj", "EditPerson", new { id = @Model.Id }) |
+            @Ajax.ActionLink("Usuń", "DeletePerson", 
             new { personId = @Model.Id, districtId = districtId}, 
             new AjaxOptions 
             { 
@@ -54,9 +59,7 @@
                 Confirm = @String.Format(@Strings.PersonDeleteConfirmation, Model.Name, Model.Lastname, Model.StreetAddress),
                 OnSuccess = "personDeleted",
                 OnFailure = "personDeleteError"                
-            })
-            |
-            @Html.ActionLink("Edytuj", "EditPerson", new { id=@Model.Id })
+            })            
         </span>
     </td>
 </tr>

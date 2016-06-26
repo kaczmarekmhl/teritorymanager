@@ -33,9 +33,8 @@
 <body>
     <div id="map_canvas"/>
 
-    <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCFKfov1eRZaxk15f7Ax0DJKVqKOSC8XjM"></script>
     <script type="text/javascript" src="~/Scripts/geoxml3.js"></script>
-    <script src="//google-maps-utility-library-v3.googlecode.com/svn/trunk/geolocationmarker/src/geolocationmarker-compiled.js"></script>
     <script>
 
         var map;
@@ -46,7 +45,7 @@
             var map_canvas = document.getElementById('map_canvas');
             var map_options = {
                 center: new google.maps.LatLng(56.0000, 12.0000),
-                zoom: 7                
+                zoom: 7
             }
             map = new google.maps.Map(map_canvas, map_options)
 
@@ -59,18 +58,55 @@
             myParser.parse('@Url.Action("AdressesMapKml", new { id = Model.Id })');
 
             // You current location on mobile devices
-            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-                GeoMarker = new GeolocationMarker();
-                GeoMarker.setMap(map);
-            }            
+            if (navigator.geolocation) {
+                var markerOptions = { title: 'my location', map: map, icon: "/images/geoPos.png" };
+                var marker = new google.maps.Marker(markerOptions);
+
+                function successChangePosition(pos) {
+
+                    var pos = {
+                        lat: pos.coords.latitude,
+                        lng: pos.coords.longitude
+                    };
+
+                    marker.setPosition(pos);
+                }
+
+                function errorChangePosition(err) {
+                }
+
+                options = {
+                    enableHighAccuracy: false,
+                    timeout: 5000,
+                    maximumAge: 0
+                };
+
+                id = navigator.geolocation.watchPosition(successChangePosition, errorChangePosition, options);
+
+            } else {
+                // Browser doesn't support Geolocation
+                handleLocationError(false, infoWindow, map.getCenter());
+            }
         }
 
         function createMarker(placemark, doc) {
+
+            var icon = 'http://chart.apis.google.com/chart?chst=d_map_spin&chld=0.8|0|FE6256|12|_|' + getPersonNumber(placemark.name);
+
+            if (placemark.description.indexOf('@Strings.PersonDoNotVisit') > -1)
+            {
+                icon = 'http://chart.apis.google.com/chart?chst=d_map_xpin_letter&chld=pin_star|'+ getPersonNumber(placemark.name) +'|e80c4d|000000';
+            }
+            if (placemark.description.indexOf('@Strings.PersonVisitedBy.Replace("{0}", "")') > -1)
+            {
+                icon = 'http://chart.apis.google.com/chart?chst=d_map_xpin_letter&chld=pin_star|' + getPersonNumber(placemark.name) + '|7ac0da|000000|FFFFFF';
+            }
+
             var markerOptions = {
                 title: placemark.name,
                 infocontent: placemark.description,
                 position: placemark.latlng,
-                icon: 'http://chart.apis.google.com/chart?chst=d_map_spin&chld=0.8|0|FE6256|12|_|' + getPersonNumber(placemark.name),
+                icon: icon,
                 map: map
             };
 
@@ -79,7 +115,7 @@
             infowindow = new google.maps.InfoWindow();
 
             google.maps.event.addListener(marker, 'click', function () {
-                
+
                 var contentString = '<div id="content">' +
       '<div id="siteNotice">' +
       '</div>' +

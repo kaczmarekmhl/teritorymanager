@@ -81,7 +81,7 @@ namespace MVCApp.Helpers
             return Db.Persons
                 .Where(p =>
                     p.District.Id == districtId &&
-                    (p.AddedByUserId == WebSecurity.CurrentUserId || IsSharingAdressesEnabled || p.DoNotVisit == true) &&
+                    (p.AddedByUserId == WebSecurity.CurrentUserId || IsSharingAdressesEnabled || p.DoNotVisit || p.IsVisitedByOtherPublisher) &&
                     p.Manual == false &&
                     (p.SearchUpdate == searchUpdate || searchUpdate == null))
                     .OrderBy(p => p.Name);

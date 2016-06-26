@@ -174,6 +174,19 @@ namespace MVCApp.Models
         [Display(ResourceType = typeof(Strings), Name = "PersonDoNotVisitReportDate")]
         public DateTime? DoNotVisitReportDate { get; set; }
 
+        /// <summary>
+        /// Indicates wheather this person is visited by other publisher.
+        /// </summary>
+        [Display(ResourceType = typeof(Strings), Name = "PersonIsVisitedByOtherPublisher")]
+        public bool IsVisitedByOtherPublisher { get; set; }
+
+        /// <summary>
+        /// The other publisher that is visiting this person.
+        /// </summary>
+        [StringLength(100)]
+        [Display(ResourceType = typeof(Strings), Name = "PersonVisitingPublisher")]
+        public string VisitingPublisher { get; set; }
+
         [NotMapped]
         public string PostCodeFormat
         {

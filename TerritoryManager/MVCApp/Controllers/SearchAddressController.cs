@@ -120,9 +120,9 @@ namespace MVCApp.Controllers
                 return new HttpNotFoundResult();
             }
 
-            if (person.DoNotVisit && selected == false)
+            if ((person.DoNotVisit || person.IsVisitedByOtherPublisher) && selected == false)
             {
-                // Deselecting person that should not be visited is not valid
+                // Deselecting person that should not be visited or is visited by another publisher is not valid
                 return new HttpNotFoundResult();
             }
 
