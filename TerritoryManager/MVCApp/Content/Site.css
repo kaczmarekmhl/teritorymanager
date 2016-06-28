@@ -199,9 +199,9 @@ div.spacer {
 
 /*Front picture*/
 #frontPicture {
-    position: absolute;
+    /*position: absolute;
     top: 0;
-    right: 0;
+    right: 0;*/
 }
 
 /* site title
