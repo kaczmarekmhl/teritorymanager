@@ -378,12 +378,25 @@ namespace MVCApp.Controllers
 
         #endregion
 
-        #region Helpers
-        /// <summary>
-        /// Loads persisted and selected person list.
-        /// </summary>
-        /// <param name="district">District that the search will be done for.</param>
-        /// <returns>Selected person list.</returns>
+        #region GetAddressPinFromGoogleChart
+        [OutputCache(Duration = 3600, VaryByParam = "parameters")]
+        public ActionResult GetAddressPinFromGoogleChart(string parameters)
+        {
+            using (var webClient = new WebClient())
+            {
+                var bytes = webClient.DownloadData("http://chart.apis.google.com/chart?" + parameters);
+
+                return File(bytes, "application/octet-stream", parameters + ".png");
+            }
+        }
+        #endregion
+
+            #region Helpers
+            /// <summary>
+            /// Loads persisted and selected person list.
+            /// </summary>
+            /// <param name="district">District that the search will be done for.</param>
+            /// <returns>Selected person list.</returns>
         private List<Person> GetPersonList(int districtId)
         {
             var list = db.Persons

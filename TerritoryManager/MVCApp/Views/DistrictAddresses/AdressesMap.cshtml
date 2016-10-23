@@ -91,15 +91,17 @@
 
         function createMarker(placemark, doc) {
 
-            var icon = 'http://chart.apis.google.com/chart?chst=d_map_spin&chld=0.8|0|FE6256|12|_|' + getPersonNumber(placemark.name);
+            var personNumber = getPersonNumber(placemark.name);
+
+            var icon = '@Url.Action("GetAddressPinFromGoogleChart", new { parameters = "chst=d_map_spin&chld=0.8|0|FE6256|12|_|" })' + personNumber;
 
             if (placemark.description.indexOf('@Strings.PersonDoNotVisit') > -1)
             {
-                icon = 'http://chart.apis.google.com/chart?chst=d_map_xpin_letter&chld=pin_star|'+ getPersonNumber(placemark.name) +'|e80c4d|000000';
+                icon = '@Url.Action("GetAddressPinFromGoogleChart", new { parameters = "chst=d_map_xpin_letter&chld=pin_star|" })' + personNumber + '|e80c4d|000000';
             }
             if (placemark.description.indexOf('@Strings.PersonVisitedBy.Replace("{0}", "")') > -1)
             {
-                icon = 'http://chart.apis.google.com/chart?chst=d_map_xpin_letter&chld=pin_star|' + getPersonNumber(placemark.name) + '|7ac0da|000000|FFFFFF';
+                icon = '@Url.Action("GetAddressPinFromGoogleChart", new { parameters = "chst=d_map_xpin_letter&chld=pin_star|" })' + personNumber + '|7ac0da|000000|FFFFFF';
             }
 
             var markerOptions = {
