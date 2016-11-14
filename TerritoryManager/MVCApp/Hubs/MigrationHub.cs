@@ -39,11 +39,11 @@ namespace MVCApp.Hubs
 
                         SetProgressInClient(progressMessage);
 
-                        int personCount = db.Persons.Count(p => p.District.Id == district.Id);
+                        int personCount = db.Persons.Count(p => p.District.Id == district.Id && p.MigrationVersion < currentMigrationVersion);
                         int progressPerson = 1;
-                        foreach (var person in db.Persons.Where(p => p.District.Id == district.Id))
+                        foreach (var person in db.Persons.Where(p => p.District.Id == district.Id && p.MigrationVersion < currentMigrationVersion))
                         {
-                            PersonEncrypt(person, db);
+                            PersonEncrypt(person, db, currentMigrationVersion);
 
                             SetProgressInClient(progressMessage
                                 + String.Format(
@@ -70,7 +70,7 @@ namespace MVCApp.Hubs
             
         }
 
-        private void PersonEncrypt(Person person, DistictManagerDb db)
+        private void PersonEncrypt(Person person, DistictManagerDb db, int currentMigrationVersion)
         {
             //person.StreetAddress = person.StreetAddress;
             //person.Longitude = person.Longitude;
@@ -78,8 +78,10 @@ namespace MVCApp.Hubs
 
             person.Lastname = person.Lastname;
             person.TelephoneNumber = person.TelephoneNumber;
+            person.MigrationVersion = currentMigrationVersion;
 
             db.Entry(person).State = EntityState.Modified;
+            db.SaveChanges();
         }
 
         private void SetProgressInClient(string message)

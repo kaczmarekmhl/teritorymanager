@@ -12,10 +12,12 @@ namespace MVCApp.Migrations
             AddColumn("dbo.People", "Longitude", c => c.String(maxLength: 15));
             AddColumn("dbo.People", "Latitude", c => c.String(maxLength: 15));
             AddColumn("dbo.People", "cx2", c => c.Binary());
+            AddColumn("dbo.People", "MigrationVersion", c => c.Int(nullable: false));
         }
         
         public override void Down()
         {
+            DropColumn("dbo.People", "MigrationVersion");
             DropColumn("dbo.People", "cx2");
             DropColumn("dbo.People", "Latitude");
             DropColumn("dbo.People", "Longitude");

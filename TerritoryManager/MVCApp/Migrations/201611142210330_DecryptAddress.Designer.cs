@@ -13,7 +13,7 @@ namespace MVCApp.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201611142120368_DecryptAddress"; }
+            get { return "201611142210330_DecryptAddress"; }
         }
         
         string IMigrationMetadata.Source

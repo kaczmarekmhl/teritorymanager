@@ -232,6 +232,11 @@ namespace MVCApp.Models
             }
         }
 
+        /// <summary>
+        /// Version of people migration
+        /// </summary>
+        public int MigrationVersion { get; set; }
+
         public class CryptedData
         {
             public string Lastname { get; set; }
