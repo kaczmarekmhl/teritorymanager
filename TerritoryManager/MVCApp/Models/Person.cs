@@ -12,6 +12,7 @@ namespace MVCApp.Models
     public class Person
     {
         private CryptedData cryptedData = new CryptedData();
+        private CryptedData2 cryptedData2 = new CryptedData2();
 
         #region Properties
 
@@ -42,14 +43,13 @@ namespace MVCApp.Models
 
             set
             {
-                cryptedData.Lastname = value;
+                cryptedData2.Lastname = value;
             }
         }
 
         /// <summary>
         /// Person street address.
         /// </summary>
-        [NotMapped]
         [StringLength(45)]
         [Display(ResourceType = typeof(Strings), Name = "PersonAddress")]
         public string StreetAddress
@@ -87,14 +87,13 @@ namespace MVCApp.Models
 
             set
             {
-                cryptedData.TelephoneNumber = value;
+                cryptedData2.TelephoneNumber = value;
             }
         }
 
         /// <summary>
         /// Person geographical longitude.
         /// </summary>
-        [NotMapped]
         [StringLength(15)]
         public string Longitude
         {
@@ -112,7 +111,6 @@ namespace MVCApp.Models
         /// <summary>
         /// Person geographical latitude.
         /// </summary>
-        [NotMapped]
         [StringLength(15)]
         public string Latitude
         {
@@ -217,12 +215,36 @@ namespace MVCApp.Models
             }
         }
 
+        /// <summary>
+        /// Encrypted private data 2.
+        /// </summary>
+        [Column("cx2")]
+        public byte[] Crypt2
+        {
+            get
+            {
+                return cryptedData2.SerializeAndCrypt();
+            }
+
+            set
+            {
+                cryptedData2.DecryptAndDeserialize(value);
+            }
+        }
+
         public class CryptedData
         {
             public string Lastname { get; set; }
+
+            //Will be removed
             public string StreetAddress { get; set; }
+
             public string TelephoneNumber { get; set; }
+
+            //Will be removed
             public string Longitude { get; set; }
+
+            //Will be removed
             public string Latitude { get; set; }
 
             #region Serialization and encryption
@@ -254,6 +276,11 @@ namespace MVCApp.Models
             /// <param name="cryptedValue">Encrypted string.</param>
             public void DecryptAndDeserialize(byte[] cryptedValue)
             {
+                if (cryptedValue == null)
+                {
+                    return;
+                }
+
                 string serializedData = Crypter.Decrypt(cryptedValue);
                 CryptedData deserializedData = (CryptedData)serializer.Deserialize(new StringReader(serializedData));
 
@@ -262,6 +289,55 @@ namespace MVCApp.Models
                 this.TelephoneNumber = deserializedData.TelephoneNumber;
                 this.Longitude = deserializedData.Longitude;
                 this.Latitude = deserializedData.Latitude;
+            }
+
+            #endregion
+        }
+
+        public class CryptedData2
+        {
+            public string Lastname { get; set; }
+            public string TelephoneNumber { get; set; }
+
+            #region Serialization and encryption
+
+            [NonSerialized]
+            protected XmlSerializer serializer;
+
+            public CryptedData2()
+            {
+                serializer = new XmlSerializer(this.GetType());
+            }
+
+            /// <summary>
+            /// Serialize object and return crypted string.
+            /// </summary>
+            /// <returns>Crypted string.</returns>
+            public byte[] SerializeAndCrypt()
+            {
+                using (var textWriter = new StringWriter())
+                {
+                    serializer.Serialize(textWriter, this);
+                    return Crypter.Encrypt(textWriter.ToString());
+                }
+            }
+
+            /// <summary>
+            /// Decrypt given string and deserialize data.
+            /// </summary>
+            /// <param name="cryptedValue">Encrypted string.</param>
+            public void DecryptAndDeserialize(byte[] cryptedValue)
+            {
+                if (cryptedValue == null)
+                {
+                    return;
+                }
+
+                string serializedData = Crypter.Decrypt(cryptedValue);
+                CryptedData deserializedData = (CryptedData)serializer.Deserialize(new StringReader(serializedData));
+
+                this.Lastname = deserializedData.Lastname;
+                this.TelephoneNumber = deserializedData.TelephoneNumber;
             }
 
             #endregion

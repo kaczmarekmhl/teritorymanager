@@ -261,6 +261,7 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\MigrationController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CongregationsController.cs" />
     <Compile Include="Controllers\DistrictAddressesController.cs" />
@@ -282,6 +283,7 @@
     </Compile>
     <Compile Include="Helpers\SearchAddress.cs" />
     <Compile Include="Helpers\UserContext.cs" />
+    <Compile Include="Hubs\MigrationHub.cs" />
     <Compile Include="Hubs\SearchAddressHub.cs" />
     <Compile Include="Migrations\201312271615237_InitialCreate.cs" />
     <Compile Include="Migrations\201312271615237_InitialCreate.Designer.cs">
@@ -334,6 +336,10 @@
     <Compile Include="Migrations\201606261259149_PersonIsVisitedByOtherPublisher.cs" />
     <Compile Include="Migrations\201606261259149_PersonIsVisitedByOtherPublisher.Designer.cs">
       <DependentUpon>201606261259149_PersonIsVisitedByOtherPublisher.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611142120368_DecryptAddress.cs" />
+    <Compile Include="Migrations\201611142120368_DecryptAddress.Designer.cs">
+      <DependentUpon>201611142120368_DecryptAddress.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Congregation.cs" />
@@ -523,6 +529,7 @@
     <Content Include="Views\DistrictReport\_ListDistrictReports.cshtml" />
     <Content Include="Views\Shared\_ApplicationInsights.cshtml" />
     <Content Include="Views\MyDistricts\_Map.cshtml" />
+    <Content Include="Views\Migration\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -578,6 +585,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606261259149_PersonIsVisitedByOtherPublisher.resx">
       <DependentUpon>201606261259149_PersonIsVisitedByOtherPublisher.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611142120368_DecryptAddress.resx">
+      <DependentUpon>201611142120368_DecryptAddress.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Translate\Strings.pl.resx" />
     <EmbeddedResource Include="Translate\Strings.resx">
