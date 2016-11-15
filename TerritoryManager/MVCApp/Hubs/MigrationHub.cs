@@ -29,70 +29,70 @@ namespace MVCApp.Hubs
                 using (var db = new DistictManagerDb())
                 {
 
-                    int districtCount = db.Districts.Count(d => d.MigrationVersion < currentMigrationVersion);
-                    int progress = 1;
+                    District district = db.Districts.FirstOrDefault(d => d.MigrationVersion < currentMigrationVersion);
 
-                    while(true)
+                    if (district == null)
                     {
-                        District district = db.Districts.FirstOrDefault(d => d.MigrationVersion < currentMigrationVersion);
-
-                        if (district == null)
-                        {
-                            break;
-                        }
-
-                        string progressMessage = String.Format(
-                            CultureInfo.InvariantCulture, 
-                            "Progress: {0}\\{1} ({2}))",
-                            progress,
-                            districtCount,
-                            district.Name);
-
-                        SetProgressInClient(progressMessage + " Loading person list...");
-
-                        int progressPerson = 1;
-                        List<int> personIdList = db.Persons.Where(p => p.District.Id == district.Id && p.MigrationVersion < currentMigrationVersion)
-                            .Select(p => p.Id).ToList();
-                        int personCount = personIdList.Count();
-
-                        Parallel.ForEach(personIdList, (personId) =>
-                        {
-                            using (var db2 = new DistictManagerDb())
-                            {
-                                using (var scope = new TransactionScope(TransactionScopeOption.Required,
-                                    new TransactionOptions { IsolationLevel = System.Transactions.IsolationLevel.RepeatableRead }))
-                                {
-                                    Person person = db2.Persons.FirstOrDefault(p => p.Id == personId);
-
-                                    if (person == null)
-                                    {
-                                        return;
-                                    }
-
-                                    PersonEncrypt(person, db2, currentMigrationVersion);
-                                    scope.Complete();
-
-                                    Interlocked.Increment(ref progressPerson);
-                                    SetProgressInClient(progressMessage 
-                                        + String.Format(CultureInfo.InvariantCulture, " Processing person {0} from {1}", progressPerson, personCount));
-                                }
-                            }
-                        });
-
-                        district.MigrationVersion = currentMigrationVersion;
-                        db.Entry(district).State = EntityState.Modified;
-                        db.SaveChanges();
-
-                        progress++;
+                        Clients.Caller.migrationComplete(true);
+                        return;
                     }
-                    Clients.Caller.migrationComplete(true);
+
+                    string progressMessage = String.Format(
+                        CultureInfo.InvariantCulture,
+                        "{0} discricts left... Migrating {1}",
+                        GetNotMigratedDistrictCount(db, currentMigrationVersion),
+                        district.Name);
+
+                    SetProgressInClient(progressMessage + " Loading person list...");
+
+                    int progressPerson = 1;
+                    List<int> personIdList = db.Persons.Where(p => p.District.Id == district.Id && p.MigrationVersion < currentMigrationVersion)
+                        .Select(p => p.Id).ToList();
+                    int personCount = personIdList.Count();
+
+                    Parallel.ForEach(personIdList,
+                        new ParallelOptions { MaxDegreeOfParallelism = 2 },
+                        (personId) =>
+                    {
+                        using (var db2 = new DistictManagerDb())
+                        {
+                            using (var scope = new TransactionScope(TransactionScopeOption.Required,
+                                new TransactionOptions { IsolationLevel = System.Transactions.IsolationLevel.RepeatableRead }))
+                            {
+                                Person person = db2.Persons.FirstOrDefault(p => p.Id == personId);
+
+                                if (person == null)
+                                {
+                                    return;
+                                }
+
+                                PersonEncrypt(person, db2, currentMigrationVersion);
+                                scope.Complete();
+
+                                Interlocked.Increment(ref progressPerson);
+                                SetProgressInClient(progressMessage
+                                    + String.Format(CultureInfo.InvariantCulture, " Processing person {0} from {1}", progressPerson, personCount));
+                            }
+                        }
+                    });
+
+                    district.MigrationVersion = currentMigrationVersion;
+                    db.Entry(district).State = EntityState.Modified;
+                    db.SaveChanges();
+
+                    Clients.Caller.migrationComplete(GetNotMigratedDistrictCount(db, currentMigrationVersion) == 0);
                 }
             }
             catch (Exception e)
             {
                 Clients.Caller.migrationError(String.Concat(e.Message, e.InnerException?.Message));
             }
-            
+
+        }
+
+        private int GetNotMigratedDistrictCount(DistictManagerDb db, int currentMigrationVersion)
+        {
+            return db.Districts.Count(d => d.MigrationVersion < currentMigrationVersion);
         }
 
         private void PersonEncrypt(Person person, DistictManagerDb db, int currentMigrationVersion)
@@ -106,6 +106,6 @@ namespace MVCApp.Hubs
         private void SetProgressInClient(string message)
         {
             Clients.Caller.setProgressMessage(message);
-        } 
+        }
     }
 }
