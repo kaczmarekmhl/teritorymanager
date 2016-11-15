@@ -12,6 +12,9 @@ using Microsoft.ApplicationInsights;
 using System.Globalization;
 using System.Threading;
 using System.Data.Entity;
+using System.Threading.Tasks;
+using System.Transactions;
+using IsolationLevel = System.Data.IsolationLevel;
 
 namespace MVCApp.Hubs
 {
@@ -25,11 +28,19 @@ namespace MVCApp.Hubs
             {
                 using (var db = new DistictManagerDb())
                 {
+
                     int districtCount = db.Districts.Count(d => d.MigrationVersion < currentMigrationVersion);
                     int progress = 1;
 
-                    foreach (var district in db.Districts.Where(d => d.MigrationVersion < currentMigrationVersion))
+                    while(true)
                     {
+                        District district = db.Districts.FirstOrDefault(d => d.MigrationVersion < currentMigrationVersion);
+
+                        if (district == null)
+                        {
+                            break;
+                        }
+
                         string progressMessage = String.Format(
                             CultureInfo.InvariantCulture, 
                             "Progress: {0}\\{1} ({2}))",
@@ -37,21 +48,36 @@ namespace MVCApp.Hubs
                             districtCount,
                             district.Name);
 
-                        SetProgressInClient(progressMessage);
+                        SetProgressInClient(progressMessage + " Loading person list...");
 
-                        int personCount = db.Persons.Count(p => p.District.Id == district.Id && p.MigrationVersion < currentMigrationVersion);
                         int progressPerson = 1;
-                        foreach (var person in db.Persons.Where(p => p.District.Id == district.Id && p.MigrationVersion < currentMigrationVersion))
-                        {
-                            PersonEncrypt(person, db, currentMigrationVersion);
+                        List<int> personIdList = db.Persons.Where(p => p.District.Id == district.Id && p.MigrationVersion < currentMigrationVersion)
+                            .Select(p => p.Id).ToList();
+                        int personCount = personIdList.Count();
 
-                            SetProgressInClient(progressMessage
-                                + String.Format(
-                                    CultureInfo.InvariantCulture,
-                                    " Person {0} from {1}",
-                                    progressPerson++,
-                                    personCount));
-                        }
+                        Parallel.ForEach(personIdList, (personId) =>
+                        {
+                            using (var db2 = new DistictManagerDb())
+                            {
+                                using (var scope = new TransactionScope(TransactionScopeOption.Required,
+                                    new TransactionOptions { IsolationLevel = System.Transactions.IsolationLevel.RepeatableRead }))
+                                {
+                                    Person person = db2.Persons.FirstOrDefault(p => p.Id == personId);
+
+                                    if (person == null)
+                                    {
+                                        return;
+                                    }
+
+                                    PersonEncrypt(person, db2, currentMigrationVersion);
+                                    scope.Complete();
+
+                                    Interlocked.Increment(ref progressPerson);
+                                    SetProgressInClient(progressMessage 
+                                        + String.Format(CultureInfo.InvariantCulture, " Processing person {0} from {1}", progressPerson, personCount));
+                                }
+                            }
+                        });
 
                         district.MigrationVersion = currentMigrationVersion;
                         db.Entry(district).State = EntityState.Modified;
@@ -59,7 +85,6 @@ namespace MVCApp.Hubs
 
                         progress++;
                     }
-
                     Clients.Caller.migrationComplete(true);
                 }
             }
@@ -72,12 +97,6 @@ namespace MVCApp.Hubs
 
         private void PersonEncrypt(Person person, DistictManagerDb db, int currentMigrationVersion)
         {
-            //person.StreetAddress = person.StreetAddress;
-            //person.Longitude = person.Longitude;
-            //person.Latitude = person.Latitude;
-
-            person.Lastname = person.Lastname;
-            person.TelephoneNumber = person.TelephoneNumber;
             person.MigrationVersion = currentMigrationVersion;
 
             db.Entry(person).State = EntityState.Modified;

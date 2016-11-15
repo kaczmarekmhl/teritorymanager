@@ -11,8 +11,8 @@ namespace MVCApp.Models
 {
     public class Person
     {
-        private CryptedData cryptedData = new CryptedData();
-        private CryptedData2 cryptedData2 = new CryptedData2();
+        private readonly CryptedData _cryptedData = new CryptedData();
+        private readonly CryptedData2 _cryptedData2 = new CryptedData2();
 
         #region Properties
 
@@ -38,12 +38,13 @@ namespace MVCApp.Models
         {
             get
             {
-                return cryptedData.Lastname;
+                return _cryptedData.Lastname;
             }
 
             set
             {
-                cryptedData2.Lastname = value;
+                _cryptedData.Lastname = value;
+                _cryptedData2.Lastname = value;
             }
         }
 
@@ -56,12 +57,12 @@ namespace MVCApp.Models
         {
             get
             {
-                return cryptedData.StreetAddress;
+                return _cryptedData.StreetAddress;
             }
 
             set
             {
-                cryptedData.StreetAddress = value;
+                _cryptedData.StreetAddress = value;
             }
         }
 
@@ -82,12 +83,13 @@ namespace MVCApp.Models
         {
             get
             {
-                return cryptedData.TelephoneNumber;
+                return _cryptedData.TelephoneNumber;
             }
 
             set
             {
-                cryptedData2.TelephoneNumber = value;
+                _cryptedData.TelephoneNumber = value;
+                _cryptedData2.TelephoneNumber = value;
             }
         }
 
@@ -99,12 +101,12 @@ namespace MVCApp.Models
         {
             get
             {
-                return cryptedData.Longitude;
+                return _cryptedData.Longitude;
             }
 
             set
             {
-                cryptedData.Longitude = value;
+                _cryptedData.Longitude = value;
             }
         }
 
@@ -116,12 +118,12 @@ namespace MVCApp.Models
         {
             get
             {
-                return cryptedData.Latitude;
+                return _cryptedData.Latitude;
             }
 
             set
             {
-                cryptedData.Latitude = value;
+                _cryptedData.Latitude = value;
             }
         }
 
@@ -206,12 +208,12 @@ namespace MVCApp.Models
         {
             get
             {
-                return cryptedData.SerializeAndCrypt();
+                return _cryptedData.SerializeAndCrypt();
             }
 
             set
             {
-                cryptedData.DecryptAndDeserialize(value);
+                _cryptedData.DecryptAndDeserialize(value);
             }
         }
 
@@ -223,12 +225,15 @@ namespace MVCApp.Models
         {
             get
             {
-                return cryptedData2.SerializeAndCrypt();
+                _cryptedData2.Lastname = _cryptedData.Lastname;
+                _cryptedData2.TelephoneNumber = _cryptedData.TelephoneNumber;
+
+                return _cryptedData2.SerializeAndCrypt();
             }
 
             set
             {
-                cryptedData2.DecryptAndDeserialize(value);
+                _cryptedData2.DecryptAndDeserialize(value);
             }
         }
 
@@ -339,7 +344,7 @@ namespace MVCApp.Models
                 }
 
                 string serializedData = Crypter.Decrypt(cryptedValue);
-                CryptedData deserializedData = (CryptedData)serializer.Deserialize(new StringReader(serializedData));
+                CryptedData2 deserializedData = (CryptedData2)serializer.Deserialize(new StringReader(serializedData));
 
                 this.Lastname = deserializedData.Lastname;
                 this.TelephoneNumber = deserializedData.TelephoneNumber;
