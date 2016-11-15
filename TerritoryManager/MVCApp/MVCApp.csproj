@@ -337,9 +337,9 @@
     <Compile Include="Migrations\201606261259149_PersonIsVisitedByOtherPublisher.Designer.cs">
       <DependentUpon>201606261259149_PersonIsVisitedByOtherPublisher.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201611142210330_DecryptAddress.cs" />
-    <Compile Include="Migrations\201611142210330_DecryptAddress.Designer.cs">
-      <DependentUpon>201611142210330_DecryptAddress.cs</DependentUpon>
+    <Compile Include="Migrations\201611152109427_PersonDecrypt.cs" />
+    <Compile Include="Migrations\201611152109427_PersonDecrypt.Designer.cs">
+      <DependentUpon>201611152109427_PersonDecrypt.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Congregation.cs" />
@@ -586,8 +586,8 @@
     <EmbeddedResource Include="Migrations\201606261259149_PersonIsVisitedByOtherPublisher.resx">
       <DependentUpon>201606261259149_PersonIsVisitedByOtherPublisher.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611142210330_DecryptAddress.resx">
-      <DependentUpon>201611142210330_DecryptAddress.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201611152109427_PersonDecrypt.resx">
+      <DependentUpon>201611152109427_PersonDecrypt.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Translate\Strings.pl.resx" />
     <EmbeddedResource Include="Translate\Strings.resx">

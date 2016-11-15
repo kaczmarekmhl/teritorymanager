@@ -289,6 +289,7 @@ namespace MVCApp.Controllers
                 person.Manual = true;
                 person.Selected = true; //If false it is not displayed
                 person.AddedByUserId = WebSecurity.CurrentUserId;
+                person.Migrate(MVCApp.Hubs.MigrationHub.CurrentMigrationVersion);
 
                 db.Persons.Add(person);
                 db.SaveChanges();
@@ -332,7 +333,8 @@ namespace MVCApp.Controllers
                 
                 personDb.IsVisitedByOtherPublisher = person.IsVisitedByOtherPublisher;
                 personDb.VisitingPublisher = personDb.IsVisitedByOtherPublisher ? person.VisitingPublisher : string.Empty;
-                
+                personDb.Migrate(MVCApp.Hubs.MigrationHub.CurrentMigrationVersion);
+
                 db.Entry(personDb).State = EntityState.Modified;
                 db.SaveChanges();
 

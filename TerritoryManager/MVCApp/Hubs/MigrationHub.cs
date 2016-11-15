@@ -20,16 +20,16 @@ namespace MVCApp.Hubs
 {
     public class MigrationHub : Hub
     {
+        public const int CurrentMigrationVersion = 1;
+
         public void Migration()
         {
-            const int currentMigrationVersion = 1;
-
             try
             {
                 using (var db = new DistictManagerDb())
                 {
 
-                    District district = db.Districts.FirstOrDefault(d => d.MigrationVersion < currentMigrationVersion);
+                    District district = db.Districts.FirstOrDefault(d => d.MigrationVersion < CurrentMigrationVersion);
 
                     if (district == null)
                     {
@@ -40,13 +40,13 @@ namespace MVCApp.Hubs
                     string progressMessage = String.Format(
                         CultureInfo.InvariantCulture,
                         "{0} discricts left... Migrating {1}",
-                        GetNotMigratedDistrictCount(db, currentMigrationVersion),
+                        GetNotMigratedDistrictCount(db, CurrentMigrationVersion),
                         district.Name);
 
                     SetProgressInClient(progressMessage + " Loading person list...");
 
                     int progressPerson = 1;
-                    List<int> personIdList = db.Persons.Where(p => p.District.Id == district.Id && p.MigrationVersion < currentMigrationVersion)
+                    List<int> personIdList = db.Persons.Where(p => p.District.Id == district.Id && p.MigrationVersion < CurrentMigrationVersion)
                         .Select(p => p.Id).ToList();
                     int personCount = personIdList.Count();
 
@@ -66,7 +66,7 @@ namespace MVCApp.Hubs
                                     return;
                                 }
 
-                                PersonEncrypt(person, db2, currentMigrationVersion);
+                                PersonEncrypt(person, db2, CurrentMigrationVersion);
                                 scope.Complete();
 
                                 Interlocked.Increment(ref progressPerson);
@@ -76,11 +76,11 @@ namespace MVCApp.Hubs
                         }
                     });
 
-                    district.MigrationVersion = currentMigrationVersion;
+                    district.MigrationVersion = CurrentMigrationVersion;
                     db.Entry(district).State = EntityState.Modified;
                     db.SaveChanges();
 
-                    Clients.Caller.migrationComplete(GetNotMigratedDistrictCount(db, currentMigrationVersion) == 0);
+                    Clients.Caller.migrationComplete(GetNotMigratedDistrictCount(db, CurrentMigrationVersion) == 0);
                 }
             }
             catch (Exception e)
@@ -97,7 +97,7 @@ namespace MVCApp.Hubs
 
         private void PersonEncrypt(Person person, DistictManagerDb db, int currentMigrationVersion)
         {
-            person.MigrationVersion = currentMigrationVersion;
+            person.Migrate(currentMigrationVersion);
 
             db.Entry(person).State = EntityState.Modified;
             db.SaveChanges();

@@ -7,13 +7,13 @@ namespace MVCApp.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.0.2-21211")]
-    public sealed partial class DecryptAddress : IMigrationMetadata
+    public sealed partial class PersonDecrypt : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(DecryptAddress));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(PersonDecrypt));
         
         string IMigrationMetadata.Id
         {
-            get { return "201611142210330_DecryptAddress"; }
+            get { return "201611152109427_PersonDecrypt"; }
         }
         
         string IMigrationMetadata.Source
