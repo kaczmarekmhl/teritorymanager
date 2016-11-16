@@ -118,11 +118,6 @@ namespace MVCApp.Models
             }
         }
 
-        /// <summary>
-        /// Version of people migration
-        /// </summary>
-        public int MigrationVersion { get; set; }
-
         #endregion
 
 

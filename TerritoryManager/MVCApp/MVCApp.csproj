@@ -341,6 +341,10 @@
     <Compile Include="Migrations\201611152109427_PersonDecrypt.Designer.cs">
       <DependentUpon>201611152109427_PersonDecrypt.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611161213402_PersonDecryptCleanup.cs" />
+    <Compile Include="Migrations\201611161213402_PersonDecryptCleanup.Designer.cs">
+      <DependentUpon>201611161213402_PersonDecryptCleanup.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Congregation.cs" />
     <Compile Include="Models\District.cs" />
@@ -588,6 +592,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611152109427_PersonDecrypt.resx">
       <DependentUpon>201611152109427_PersonDecrypt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611161213402_PersonDecryptCleanup.resx">
+      <DependentUpon>201611161213402_PersonDecryptCleanup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Translate\Strings.pl.resx" />
     <EmbeddedResource Include="Translate\Strings.resx">
