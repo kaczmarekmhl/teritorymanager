@@ -20,11 +20,14 @@ namespace MVCApp.Hubs
 {
     public class MigrationHub : Hub
     {
-        public const int CurrentMigrationVersion = 1;
+        //public const int CurrentMigrationVersion = 1;
 
         public void Migration()
         {
-            try
+            //This migration is already completed in production
+            return;
+
+            /*try
             {
                 using (var db = new DistictManagerDb())
                 {
@@ -87,9 +90,9 @@ namespace MVCApp.Hubs
             {
                 Clients.Caller.migrationError(String.Concat(e.Message, e.InnerException?.Message));
             }
-
+            */
         }
-
+        /*
         private int GetNotMigratedDistrictCount(DistictManagerDb db, int currentMigrationVersion)
         {
             return db.Districts.Count(d => d.MigrationVersion < currentMigrationVersion);
@@ -101,7 +104,7 @@ namespace MVCApp.Hubs
 
             db.Entry(person).State = EntityState.Modified;
             db.SaveChanges();
-        }
+        }*/
 
         private void SetProgressInClient(string message)
         {

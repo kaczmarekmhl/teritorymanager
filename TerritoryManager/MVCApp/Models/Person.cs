@@ -11,15 +11,7 @@ namespace MVCApp.Models
 {
     public class Person
     {
-        private readonly CryptedData _cryptedData = new CryptedData();
-
         #region Properties
-
-        private string _lastName;
-        private string _streetAddress;
-        private string _telephoneNumber;
-        private string _longitude;
-        private string _latitude;
 
         /// <summary>
         /// Person  identificator.
@@ -38,38 +30,14 @@ namespace MVCApp.Models
         /// </summary>
         [StringLength(45)]
         [Display(ResourceType = typeof(Strings), Name = "PersonSurname")]
-        public string Lastname
-        {
-            get
-            {
-                return MigrationVersion > 0 ? _lastName : _cryptedData.Lastname;
-            }
-
-            set
-            {
-                _lastName = value;
-                _cryptedData.Lastname = value;
-            }
-        }
+        public string Lastname { get; set; }
 
         /// <summary>
         /// Person street address.
         /// </summary>
         [StringLength(45)]
         [Display(ResourceType = typeof(Strings), Name = "PersonAddress")]
-        public string StreetAddress
-        {
-            get
-            {
-                return MigrationVersion > 0 ? _streetAddress : _cryptedData.StreetAddress;
-            }
-
-            set
-            {
-                _streetAddress = value;              
-                _cryptedData.StreetAddress = value;                
-            }
-        }
+        public string StreetAddress { get; set; }
 
         /// <summary>
         /// Person post code.
@@ -83,55 +51,19 @@ namespace MVCApp.Models
         [StringLength(30)]
         [Display(ResourceType = typeof(Strings), Name = "PersonTelephoneNum")]
         [DisplayFormat(NullDisplayText = " ")]
-        public string TelephoneNumber
-        {
-            get
-            {
-                return MigrationVersion > 0 ? _telephoneNumber : _cryptedData.TelephoneNumber;
-            }
-
-            set
-            {
-                _telephoneNumber = value;
-                _cryptedData.TelephoneNumber = value;                
-            }
-        }
+        public string TelephoneNumber { get; set; }
 
         /// <summary>
         /// Person geographical longitude.
         /// </summary>
         [StringLength(15)]
-        public string Longitude
-        {
-            get
-            {
-                return MigrationVersion > 0 ? _longitude : _cryptedData.Longitude;
-            }
-
-            set
-            {              
-                _longitude = value;               
-                _cryptedData.Longitude = value;                
-            }
-        }
+        public string Longitude { get; set; }
 
         /// <summary>
         /// Person geographical latitude.
         /// </summary>
         [StringLength(15)]
-        public string Latitude
-        {
-            get
-            {
-                return MigrationVersion > 0 ? _latitude : _cryptedData.Latitude;
-            }
-
-            set
-            {
-                _latitude = value;              
-                _cryptedData.Latitude = value;                
-            }
-        }
+        public string Latitude { get; set; }
 
         /// <summary>
         /// District that this person belongs to.
@@ -207,61 +139,28 @@ namespace MVCApp.Models
         #region Crypted Properties
 
         /// <summary>
-        /// Encrypted private data.
+        /// Legacy code crypting entity fields into one crypted string
         /// </summary>
-        [Column("cx")]
-        public byte[] Crypt
-        {
-            get
-            {
-                return MigrationVersion > 0 ? null : _cryptedData.SerializeAndCrypt();
-            }
-
-            set
-            {
-                _cryptedData.DecryptAndDeserialize(value);
-            }
-        }
-
-        /// <summary>
-        /// Version of people migration
-        /// </summary>
-        public int MigrationVersion { get; set; }
-
-        public void Migrate(int migrationVersion)
-        {
-            this.MigrationVersion = migrationVersion;
-
-            _lastName = _cryptedData.Lastname;
-            _streetAddress = _cryptedData.StreetAddress;
-            _latitude = _cryptedData.Latitude;
-            _longitude = _cryptedData.Longitude;
-            _telephoneNumber = _cryptedData.TelephoneNumber;
-        }
-
-        public class CryptedData
+        private class CryptedData
         {
             public string Lastname { get; set; }
 
-            //Will be removed
             public string StreetAddress { get; set; }
 
             public string TelephoneNumber { get; set; }
 
-            //Will be removed
             public string Longitude { get; set; }
 
-            //Will be removed
             public string Latitude { get; set; }
 
             #region Serialization and encryption
 
             [NonSerialized]
-            protected XmlSerializer serializer;
+            private readonly XmlSerializer _serializer;
 
             public CryptedData()
             {
-                serializer = new XmlSerializer(this.GetType());
+                _serializer = new XmlSerializer(this.GetType());
             }
 
             /// <summary>
@@ -272,7 +171,7 @@ namespace MVCApp.Models
             {
                 using (var textWriter = new StringWriter())
                 {
-                    serializer.Serialize(textWriter, this);
+                    _serializer.Serialize(textWriter, this);
                     return Crypter.Encrypt(textWriter.ToString());
                 }
             }
@@ -289,7 +188,7 @@ namespace MVCApp.Models
                 }
 
                 string serializedData = Crypter.Decrypt(cryptedValue);
-                CryptedData deserializedData = (CryptedData)serializer.Deserialize(new StringReader(serializedData));
+                CryptedData deserializedData = (CryptedData)_serializer.Deserialize(new StringReader(serializedData));
 
                 this.Lastname = deserializedData.Lastname;
                 this.StreetAddress = deserializedData.StreetAddress;
@@ -311,7 +210,6 @@ namespace MVCApp.Models
 
         public Person(AddressSearch.AdressProvider.Entities.Person person, District district)
         {
-            this.MigrationVersion = MVCApp.Hubs.MigrationHub.CurrentMigrationVersion;
             this.Name = person.Name;
             this.Lastname = person.Lastname;
             this.StreetAddress = person.StreetAddress;
