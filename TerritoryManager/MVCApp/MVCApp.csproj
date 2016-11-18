@@ -538,7 +538,6 @@
     <Content Include="Views\Shared\_ApplicationInsights.cshtml" />
     <Content Include="Views\MyDistricts\_Map.cshtml" />
     <Content Include="Views\Migration\Index.cshtml" />
-    <Content Include="Views\District\_OpenMap.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
