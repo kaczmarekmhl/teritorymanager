@@ -6,7 +6,9 @@
 
 @if (ViewBag.NoPersonFound != null && ViewBag.NoPersonFound == true)
 {
-    <div class="warningMessage">@Strings.SearchAdressNoPerson</div>
+    <div class="infoMessage">
+        @Html.Raw(String.Format(Strings.SearchAdressNoPerson, Html.ActionLink(Strings.DistrictAddresses, "Index", "DistrictAddresses", new { id = ViewBag.DistrictId }, null)))
+    </div>
 }
 
 @if (ViewBag.SearchComplete != null && ViewBag.SearchComplete == true)

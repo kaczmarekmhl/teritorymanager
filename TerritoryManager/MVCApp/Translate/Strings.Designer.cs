@@ -610,6 +610,15 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Person list was updated more than month ago. Run {0}..
+        /// </summary>
+        public static string PersonListOutdated {
+            get {
+                return ResourceManager.GetString("PersonListOutdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
         public static string PersonName {
@@ -844,6 +853,15 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Person list was updated more than month ago. Do you want to update?.
+        /// </summary>
+        public static string SearchAdressConfirmPersonListOutdated {
+            get {
+                return ResourceManager.GetString("SearchAdressConfirmPersonListOutdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Do you want to start new search?.
         /// </summary>
         public static string SearchAdressEmptyConfirm {
@@ -871,7 +889,7 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No new people have been found during search. .
+        ///   Looks up a localized string similar to No new people have been found during search. &lt;br&gt;Go to {0}..
         /// </summary>
         public static string SearchAdressNoPerson {
             get {

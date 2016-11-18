@@ -33,6 +33,7 @@ namespace MVCApp.Controllers
             ViewBag.DistrictName = district.Name;
             ViewBag.DistrictPostCode = district.PostCodeFirst;
             ViewBag.DistrictCountry = district.Congregation.Country;
+            ViewBag.PersonListOutdated = district.IsPersonListOutdated();
             ViewBag.IsMultiPostCode = district.IsMultiPostCode();
 
             return View(GetPersonList(district.Id));

@@ -286,7 +286,7 @@
     <value>Nazwy obszarów lub numery kodów oddzielone przecinkami (zastępuje szukanie po przedziale kodów)</value>
   </data>
   <data name="SearchAdressNoPerson" xml:space="preserve">
-    <value>Nie znaleziono nowych osób na terenie. Twoja lista jest aktualna :)</value>
+    <value>Nie znaleziono nowych osób na terenie. Twoja lista jest aktualna :)&lt;br&gt;Przejdź do strony: {0}.</value>
   </data>
   <data name="DistrictBoundaryKml" xml:space="preserve">
     <value>Plik .kml z granicą terenu</value>
@@ -452,5 +452,11 @@
   </data>
   <data name="PersonVisitedBy" xml:space="preserve">
     <value>Odwiedza: {0}</value>
+  </data>
+  <data name="PersonListOutdated" xml:space="preserve">
+    <value>List adresów nie była aktualizowana przez ostani miesiąc. Uruchom {0}, aby zaktualizować adresy.</value>
+  </data>
+  <data name="SearchAdressConfirmPersonListOutdated" xml:space="preserve">
+    <value>List adresów nie była aktualizowana przez ostani miesiąc. Czy chcesz ją zaktualizować? Obecne zaznaczenia zostaną zachowane i poniżej zobaczysz tylko nowo znalezione adresy.</value>
   </data>
 </root>

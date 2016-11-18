@@ -118,6 +118,11 @@ namespace MVCApp.Models
             }
         }
 
+        /// <summary>
+        /// Last time when address search was completed.
+        /// </summary>
+        public DateTime LastSearchUpdate { get; set; }
+
         #endregion
 
 
@@ -262,6 +267,15 @@ namespace MVCApp.Models
         public bool IsMultiPostCode()
         {
             return PostCodeFirst == 0 || PostCodeLast.HasValue && PostCodeFirst != PostCodeLast.Value;
+        }
+
+        /// <summary>
+        /// Indicates whether person list should be updated.
+        /// </summary>
+        /// <returns></returns>
+        public bool IsPersonListOutdated()
+        {
+            return this.LastSearchUpdate < DateTime.Now.AddMonths(-1);
         }
 
         #region Constructors

@@ -38,6 +38,10 @@ namespace MVCApp.Hubs
                     var personList = search.SearchAndPersistNewPersonList(district);
                     Clients.Caller.searchComplete(personList.Count != 0);
 
+                    district.LastSearchUpdate = DateTime.Now;
+                    db.Entry(district).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+
                     //Telemetry - start
                     metrics.Add("PersonCount", personList.Count);
                     eventName = "SearchComplete";

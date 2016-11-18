@@ -3,6 +3,7 @@
 @{
     int districtId = ViewBag.DistrictId;
     string districtName = ViewBag.DistrictName;
+    int personListOutdated = ViewBag.PersonListOutdated?1:0;
 
     ViewBag.Title = districtName + " - " + Strings.SearchAdresses;
 }
@@ -55,6 +56,7 @@
         $(function () {
 
             var modelCount = @Model.Count(p => p.DoNotVisit == false);
+            var personListOutdated = @personListOutdated;
             var searchInProgress = false;
 
             // Reference the auto-generated proxy for the hub.
@@ -99,10 +101,14 @@
                         return;
                     }
 
-                    var modelCount = @Model.Count;
 
+                    var modelCount = @Model.Count;
                     var confirmed = true;
-                    if(modelCount != 0) {
+
+                    if(personListOutdated) {
+                        confirmed = confirm('@Html.Raw(Strings.SearchAdressConfirmPersonListOutdated)');
+                    }
+                    else if(modelCount != 0) {
                         confirmed = confirm('@Html.Raw(Strings.SearchAdressConfirm)');
                     }
                     else
@@ -119,7 +125,7 @@
                     }
                 });
 
-                if(modelCount == 0) {
+                if(modelCount == 0 || personListOutdated) {
                     $('#search').click();
                 }
 

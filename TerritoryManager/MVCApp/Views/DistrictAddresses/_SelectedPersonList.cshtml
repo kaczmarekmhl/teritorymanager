@@ -11,6 +11,13 @@
         @Html.Raw(String.Format(Strings.PersonListEmpty, Html.ActionLink(Strings.PersonListEmptySearchEngineLink, "Index", "SearchAddress", new { id = ViewBag.DistrictId }, null)))
     </div>
 }
+else if (ViewBag.PersonListOutdated)
+{
+    <div class="warningMessage">
+        @Html.Raw(String.Format(Strings.PersonListOutdated, Html.ActionLink(Strings.PersonListEmptySearchEngineLink, "Index", "SearchAddress", new { id = ViewBag.DistrictId }, null)))
+    </div>
+}
+
 
 <table>
         <tr>

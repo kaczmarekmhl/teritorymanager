@@ -286,7 +286,7 @@
     <value>Location names or post code numbers delimited by comas</value>
   </data>
   <data name="SearchAdressNoPerson" xml:space="preserve">
-    <value>No new people have been found during search. </value>
+    <value>No new people have been found during search. &lt;br&gt;Go to {0}.</value>
   </data>
   <data name="DistrictBoundaryKml" xml:space="preserve">
     <value>Boundary .kml file</value>
@@ -452,5 +452,11 @@
   </data>
   <data name="PersonVisitedBy" xml:space="preserve">
     <value>Visited by: {0}</value>
+  </data>
+  <data name="PersonListOutdated" xml:space="preserve">
+    <value>Person list was updated more than month ago. Run {0}.</value>
+  </data>
+  <data name="SearchAdressConfirmPersonListOutdated" xml:space="preserve">
+    <value>Person list was updated more than month ago. Do you want to update?</value>
   </data>
 </root>

@@ -38,6 +38,7 @@ namespace MVCApp.Controllers
             ViewBag.DistrictId = district.Id;
             ViewBag.DistrictName = district.Name;
             ViewBag.NewResults = true;
+            ViewBag.PersonListOutdated = district.IsPersonListOutdated();
 
             var personList = GetPersistedPersonListPaged(district.Id, page, true);
 
