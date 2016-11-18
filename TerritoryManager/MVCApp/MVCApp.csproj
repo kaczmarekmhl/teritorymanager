@@ -345,13 +345,17 @@
     <Compile Include="Migrations\201611161213402_PersonDecryptCleanup.Designer.cs">
       <DependentUpon>201611161213402_PersonDecryptCleanup.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611182148011_DistrictLastSearchUpdate.cs" />
+    <Compile Include="Migrations\201611182148011_DistrictLastSearchUpdate.Designer.cs">
+      <DependentUpon>201611182148011_DistrictLastSearchUpdate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Congregation.cs" />
+    <Compile Include="Models\DistictManagerDb.cs" />
     <Compile Include="Models\District.cs" />
     <Compile Include="Models\DistrictReport.cs" />
     <Compile Include="Models\Person.cs" />
-    <Compile Include="Models\AccountModels.cs" />
-    <Compile Include="Models\DistictManagerDb.cs" />
     <Compile Include="Models\UserProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Translate\Strings.Designer.cs">
@@ -534,6 +538,7 @@
     <Content Include="Views\Shared\_ApplicationInsights.cshtml" />
     <Content Include="Views\MyDistricts\_Map.cshtml" />
     <Content Include="Views\Migration\Index.cshtml" />
+    <Content Include="Views\District\_OpenMap.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -595,6 +600,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611161213402_PersonDecryptCleanup.resx">
       <DependentUpon>201611161213402_PersonDecryptCleanup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611182148011_DistrictLastSearchUpdate.resx">
+      <DependentUpon>201611182148011_DistrictLastSearchUpdate.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Translate\Strings.pl.resx" />
     <EmbeddedResource Include="Translate\Strings.resx">
