@@ -1,3 +1,20 @@
+/* Select all people from not assigned districts */
+select * 
+from People p
+join Districts d on p.District_Id = d.Id
+where 
+	p.AddedByUserId != d.AssignedToUserId and
+	d.AssignedToUserId is not null and
+	p.Manual = 0 and
+	d.Congregation_Id = 1
+
+select * 
+from Districts d
+where Congregation_Id = 1 and d.AssignedToUserId is null
+
+select * from [dbo].[UserProfile] where userId = 2086
+
+
 select
       p.[Name]
       ,p.[PostCode]
