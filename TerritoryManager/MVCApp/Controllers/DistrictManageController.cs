@@ -58,6 +58,7 @@ namespace MVCApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                district.LastSearchUpdate = DateTime.MaxValue;
                 district.Congregation = CurrentCongregation;
 
                 district.LoadExternalDistrictBoundaryKml();
@@ -98,7 +99,7 @@ namespace MVCApp.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, District district)
-        {
+        { 
             var file = Request.Files[0];
 
             if (file != null && file.ContentLength > 0)
