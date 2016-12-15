@@ -14,6 +14,15 @@
     </td>
             
     <td>
+        @Html.DisplayFor(modelItem => Model.StreetAddress)
+    </td>
+    @if(ViewBag.IsMultiPostCode)
+    {
+    <td>
+        @Html.DisplayFor(modelItem => Model.PostCodeFormat)
+    </td>
+    }
+    <td style="max-width:200px">
         @if (Model.DoNotVisit)
         {
             <span class="personDoNotVisit">
@@ -27,26 +36,13 @@
                 @String.Format('(' + Strings.PersonVisitedBy + ')', Model.VisitingPublisher)
             </span>
         }
-
-        @Html.DisplayFor(modelItem => Model.Name)
+        @Html.DisplayFor(modelItem => Model.Remarks)
     </td>
     <td>
-        @Html.DisplayFor(modelItem => Model.Lastname)
+        @Html.DisplayFor(modelItem => Model.Name) @Html.DisplayFor(modelItem => Model.Lastname)
     </td>
-    <td>
-        @Html.DisplayFor(modelItem => Model.StreetAddress)
-    </td>
-    @if(ViewBag.IsMultiPostCode)
-    {
-    <td>
-        @Html.DisplayFor(modelItem => Model.PostCodeFormat)
-    </td>
-    }
     <td>
         @Html.DisplayFor(modelItem => Model.TelephoneNumber)
-    </td>
-    <td style="max-width:200px">
-        @Html.DisplayFor(modelItem => Model.Remarks)
     </td>
     <td >
         <span data-type="PersonEditButtons">

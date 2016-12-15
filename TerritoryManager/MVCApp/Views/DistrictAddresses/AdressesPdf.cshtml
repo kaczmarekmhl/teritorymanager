@@ -8,11 +8,11 @@
     
     if(ViewBag.IsMultiPostCode)
     {
-        columnsWidth = "1;5;5;2;2;5";
+        columnsWidth = "1;5;2;5";
     }
     else
     {
-        columnsWidth = "1;6;6;2;5";
+        columnsWidth = "1;6;5";
     }
 
     string lastStreetAddress = ""; 
@@ -32,9 +32,6 @@
             </cell>
 
 	        <cell borderwidth="0.5" left="false" right="false" top="false" bottom="true" bordercolor="#0D0C0C">
-                <chunk style="font-weight:bold">@Html.DisplayNameFor(model => model.First().Name)</chunk>
-	        </cell>
-	        <cell borderwidth="0.5" left="false" right="false" top="false" bottom="true" bordercolor="#0D0C0C">
                 <chunk style="font-weight:bold">@Html.DisplayNameFor(model => model.First().StreetAddress)</chunk>
 	        </cell>
             @if(ViewBag.IsMultiPostCode)
@@ -43,9 +40,6 @@
                 <chunk style="font-weight:bold">@Html.DisplayNameFor(model => model.First().PostCode)</chunk>
 	        </cell>
             }
-	        <cell borderwidth="0.5" left="false" right="false" top="false" bottom="true" bordercolor="#0D0C0C">
-                <chunk style="font-weight:bold;">@Html.DisplayNameFor(model => model.First().TelephoneNumber)</chunk>
-	        </cell>  
             <cell borderwidth="0.5" left="false" right="false" top="false" bottom="true" bordercolor="#0D0C0C">
                 <chunk style="font-weight:bold;">@Html.DisplayNameFor(model => model.First().Remarks)</chunk>
             </cell>          
@@ -67,7 +61,17 @@
             </cell>
 
             <cell borderwidth="0.1" left="false" right="false" top="false" bottom="true" bordercolor="#ABAAAA">
-                <chunk size="11">
+                <chunk size="11">@item.StreetAddress</chunk>
+            </cell>
+           
+            @if(ViewBag.IsMultiPostCode)
+            {
+            <cell borderwidth="0.1" left="false" right="false" top="false" bottom="true" bordercolor="#ABAAAA">
+                <chunk size="8">@item.PostCodeFormat</chunk>
+            </cell>
+            }
+            <cell borderwidth="0.1" left="false" right="false" top="false" bottom="true" bordercolor="#ABAAAA">
+                <chunk size="8">
                     @if (item.DoNotVisit)
                     {
                         <chunk style="font-weight:bold;color:red">
@@ -80,25 +84,8 @@
                             @String.Format('(' + Strings.PersonVisitedBy + ')', item.VisitingPublisher)
                         </chunk>
                     }
-
-                @item.Name @item.Lastname</chunk>
-            </cell>
-
-	        <cell borderwidth="0.1" left="false" right="false" top="false" bottom="true" bordercolor="#ABAAAA">
-                <chunk size="11">@item.StreetAddress</chunk>
-            </cell>
-           
-            @if(ViewBag.IsMultiPostCode)
-            {
-            <cell borderwidth="0.1" left="false" right="false" top="false" bottom="true" bordercolor="#ABAAAA">
-                <chunk size="8">@item.PostCodeFormat</chunk>
-            </cell>
-            }
-            <cell borderwidth="0.1" left="false" right="false" top="false" bottom="true" bordercolor="#ABAAAA">
-                <chunk size="8">@item.TelephoneNumber</chunk>
-            </cell>
-            <cell borderwidth="0.1" left="false" right="false" top="false" bottom="true" bordercolor="#ABAAAA">
-                <chunk size="8">@item.Remarks</chunk>
+                    @item.Remarks
+                </chunk>
             </cell>
             
         </row>

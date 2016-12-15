@@ -23,12 +23,6 @@ else if (ViewBag.PersonListOutdated)
         <tr>
             <th>#</th>
             <th>
-                @Html.DisplayNameFor(model => model.First().Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.First().Lastname)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.First().StreetAddress)
             </th>
             @if(ViewBag.IsMultiPostCode)
@@ -38,10 +32,13 @@ else if (ViewBag.PersonListOutdated)
             </th>
             }
             <th>
-                @Html.DisplayNameFor(model => model.First().TelephoneNumber)
+                @Html.DisplayNameFor(model => model.First().Remarks)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.First().Remarks)
+                @Strings.PersonNameSurname
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().TelephoneNumber)
             </th>
             <th></th>
         </tr>

@@ -27,13 +27,6 @@
             <fieldset>
                 <legend>Add person</legend>
 
-                <div class="editor-label">
-                    <label>@Strings.PersonNameSurname</label>
-                </div>
-                <div class="editor-field">
-                    <input id="NameSurname" type="text"/>
-                </div>
-
                 @Html.HiddenFor(model => model.District.Id, new { Value = districtId })
                 @Html.HiddenFor(model => model.Name)
                 @Html.HiddenFor(model => model.Lastname)
@@ -51,6 +44,13 @@
                 <span class="field-validation-error" hidden="hidden" id="GeoCompleteValidationError"></span>
                 <input id="geocomplete" type="text" placeholder="@Strings.AutocompleteAddressEnterLocation" />                
                 <input id="StreetNumberDetails" type="text" placeholder="@Strings.AutocompleteAddressEnterLocationDetails" />
+
+                <div class="editor-label">
+                    <label>@Strings.PersonNameSurname</label>
+                </div>
+                <div class="editor-field">
+                    <input id="NameSurname" type="text" />
+                </div>
 
                 <div class="editor-label">
                     @Html.LabelFor(model => model.TelephoneNumber)

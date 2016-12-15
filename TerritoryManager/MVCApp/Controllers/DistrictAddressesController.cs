@@ -151,12 +151,11 @@ namespace MVCApp.Controllers
                     .UnderlineStyle(UnderlineStyle.singleLine);
 
                 //Table with adresses
-                Table table = doc.AddTable(personList.Count + 1, 5 + (district.IsMultiPostCode() ? 1 : 0));
+                Table table = doc.AddTable(personList.Count + 1, 3 + (district.IsMultiPostCode() ? 1 : 0));
 
                 //table header
                 var cellHeader = 0;
                 table.Rows[0].Cells[cellHeader++].Paragraphs[0].Append("#");
-                table.Rows[0].Cells[cellHeader++].Paragraphs[0].Append(Strings.PersonName);
                 table.Rows[0].Cells[cellHeader++].Paragraphs[0].Append(Strings.PersonAddress);
 
                 if (district.IsMultiPostCode())
@@ -164,8 +163,7 @@ namespace MVCApp.Controllers
                     table.Rows[0].Cells[cellHeader++].Paragraphs[0].Append(Strings.DistrictPostCode);
                 }
 
-                table.Rows[0].Cells[cellHeader++].Paragraphs[0].Append(Strings.PersonTelephoneNum);
-                table.Rows[0].Cells[cellHeader++].Paragraphs[0].Append(Strings.PersonRemarks);
+                table.Rows[0].Cells[cellHeader].Paragraphs[0].Append(Strings.PersonRemarks);
 
                 int i = 1;
                 int counter = 1;
@@ -185,7 +183,14 @@ namespace MVCApp.Controllers
                     }
                     lastStreetAddress = person.StreetAddress;
 
-                    if(person.DoNotVisit)
+                   table.Rows[i].Cells[cell++].Paragraphs[0].Append(person.StreetAddress);
+
+                    if (district.IsMultiPostCode())
+                    {
+                        table.Rows[i].Cells[cell++].Paragraphs[0].Append(person.PostCodeFormat);
+                    }
+
+                    if (person.DoNotVisit)
                     {
                         table.Rows[i].Cells[cell].Paragraphs[0]
                             .Append(string.Format("({0}) ", Strings.PersonDoNotVisit))
@@ -201,16 +206,6 @@ namespace MVCApp.Controllers
                             .Bold();
                     }
 
-                    table.Rows[i].Cells[cell++].Paragraphs[0].Append(person.Name + ' ' + person.Lastname);
-
-                    table.Rows[i].Cells[cell++].Paragraphs[0].Append(person.StreetAddress);
-
-                    if (district.IsMultiPostCode())
-                    {
-                        table.Rows[i].Cells[cell++].Paragraphs[0].Append(person.PostCodeFormat);
-                    }
-
-                    table.Rows[i].Cells[cell++].Paragraphs[0].Append(person.TelephoneNumber);
                     table.Rows[i].Cells[cell++].Paragraphs[0].Append(person.Remarks);
 
                     i++;
