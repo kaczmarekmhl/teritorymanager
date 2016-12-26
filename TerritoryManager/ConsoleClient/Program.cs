@@ -10,12 +10,37 @@
     using AddressSearch.AdressProvider.Filters.PersonFilter;
     using System.IO;
     using AddressSearch.AdressProvider.SearchStrategies;
+    using MapLibrary;
 
     class Program
     {
         static void Main(string[] args)
         {
-            var addressProvider = new AddressProvider(new KrakDkSearchStrategy());
+            if (!Directory.Exists("Converted"))
+            {
+                Directory.CreateDirectory("Converted");
+            }
+
+            var failedFiles = new List<String>();
+
+            foreach (var file in Directory.EnumerateFiles(@"C:\Users\michalka\Desktop\teritorymanager\TerritoryManager\ConsoleClient\bin\Debug\Kml\"))
+            {
+                Console.WriteLine(Path.GetFileName(file));
+
+                try { 
+                string result = ErikbolstadKmlConverter.Convert(file);
+
+                File.WriteAllText(@"Converted\"+ Path.GetFileName(file), result);
+                }
+                catch(Exception e)
+                {
+                    failedFiles.Add(file);
+                }
+            }
+
+            File.WriteAllLines("failed.txt", failedFiles);
+            
+            /*var addressProvider = new AddressProvider(new KrakDkSearchStrategy());
 
             if (String.IsNullOrEmpty(args[0]))
             {
@@ -40,7 +65,7 @@
             Console.ReadKey();
 
             WriteResultToFile(String.Format("result{0}_Full.txt", searchPhrase), resultList);
-            
+            */
             /*var filteredResultList = FilterManager.GetFilteredPersonList(resultList, new List<IPersonFilter> {
                 new ScandinavianSurname(),
             });
@@ -59,7 +84,7 @@
                 new NonPolishSurname()
             });
             WriteResultToFile(String.Format("result{0}_Polish.txt", postCode), filteredResultList);*/
-            
+
         }
 
         public static void WriteResultToFile(string filePath, List<Person> personList)

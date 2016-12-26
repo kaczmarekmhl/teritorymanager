@@ -261,6 +261,7 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\HelpController.cs" />
     <Compile Include="Controllers\MigrationController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CongregationsController.cs" />
@@ -538,6 +539,7 @@
     <Content Include="Views\Shared\_ApplicationInsights.cshtml" />
     <Content Include="Views\MyDistricts\_Map.cshtml" />
     <Content Include="Views\Migration\Index.cshtml" />
+    <Content Include="Views\Help\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

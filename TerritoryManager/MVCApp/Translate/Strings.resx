@@ -459,4 +459,7 @@
   <data name="SearchAdressConfirmPersonListOutdated" xml:space="preserve">
     <value>Person list was updated more than month ago. Do you want to update?</value>
   </data>
+  <data name="MenuHelp" xml:space="preserve">
+    <value>Help</value>
+  </data>
 </root>

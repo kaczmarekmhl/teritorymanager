@@ -430,6 +430,15 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Help.
+        /// </summary>
+        public static string MenuHelp {
+            get {
+                return ResourceManager.GetString("MenuHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Manage districts.
         /// </summary>
         public static string MenuManageDistricts {

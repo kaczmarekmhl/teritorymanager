@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ErikbolstadKmlConverter.cs" />
     <Compile Include="ExternalKmlProvider.cs" />
     <Compile Include="KmlDocument.cs" />
     <Compile Include="KmlValidator.cs" />

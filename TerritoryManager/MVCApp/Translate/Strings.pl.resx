@@ -459,4 +459,7 @@
   <data name="SearchAdressConfirmPersonListOutdated" xml:space="preserve">
     <value>List adresów nie była aktualizowana przez ostani miesiąc. Czy chcesz ją zaktualizować? Obecne zaznaczenia zostaną zachowane i poniżej zobaczysz tylko nowo znalezione adresy.</value>
   </data>
+  <data name="MenuHelp" xml:space="preserve">
+    <value>Pomoc</value>
+  </data>
 </root>
