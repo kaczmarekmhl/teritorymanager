@@ -75,7 +75,14 @@ namespace MapLibrary
 
             foreach (var c in lineString.Coordinates)
             {
-                coordinates.AppendFormat(CultureInfo.InvariantCulture, "{0},{1},0 ", c.Longitude, c.Latitude);
+                if(c.Longitude > 3 && c.Latitude > 50)
+                { 
+                    coordinates.AppendFormat(CultureInfo.InvariantCulture, "{0},{1},0 ", c.Longitude, c.Latitude);
+                }
+                else
+                {
+                    throw new InvalidOperationException(String.Format("Invalid Long {0}, Lat {1}", c.Longitude, c.Latitude));
+                }
             }            
 
             result = String.Format(CultureInfo.InvariantCulture, format, 

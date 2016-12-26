@@ -34,7 +34,7 @@
                 }
                 catch(Exception e)
                 {
-                    failedFiles.Add(file);
+                    failedFiles.Add(file + "Exception: " + e.Message);
                 }
             }
 
