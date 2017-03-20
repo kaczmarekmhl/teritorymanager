@@ -86,6 +86,7 @@ else if (ViewBag.PersonListOutdated)
 
 <script>
     var geoCompleteEnabled = false;
+    var addPersonButtonOpened = false;
 
     $("#AddPersonButton").click(function () {
 
@@ -94,6 +95,26 @@ else if (ViewBag.PersonListOutdated)
 
         $("#addPersonWrapper").toggle();
 		
+        addPersonButtonOpened = !addPersonButtonOpened;
+
+        var toAddressListWithAddParameter = '?toAddressListWithAdd=1';
+
+        if (addPersonButtonOpened)
+        {
+            $("a.editLink").each(function() {
+                var $this = $(this);       
+                var _href = $this.attr("href");
+                $this.attr("href", _href + toAddressListWithAddParameter);
+            });
+        }
+        else
+        {
+            $("a.editLink").each(function () {
+                var $this = $(this);
+                var _href = $this.attr("href");
+                $this.attr("href", _href.replace(toAddressListWithAddParameter, ''));
+            });
+        }
 
         if (!geoCompleteEnabled) {
             enableGeoComplete();
@@ -247,7 +268,7 @@ function enableGeoComplete() {
 
 }
 
-if (window.location.hash == '#edit')
+if (window.location.hash == '#add')
 {
     $("#AddPersonButton").click();
 }

@@ -14,7 +14,7 @@
     </td>
             
     <td>
-        @Html.DisplayFor(modelItem => Model.StreetAddress)
+        @Html.ActionLink(Model.StreetAddress, "EditPerson", new { id = @Model.Id }, new { @class = "editLink" })
     </td>
     @if(ViewBag.IsMultiPostCode)
     {
@@ -46,7 +46,6 @@
     </td>
     <td >
         <span data-type="PersonEditButtons">
-            @Html.ActionLink("Edytuj", "EditPerson", new { id = @Model.Id }) |
             @Ajax.ActionLink("Usuń", "DeletePerson", 
             new { personId = @Model.Id, districtId = districtId}, 
             new AjaxOptions 

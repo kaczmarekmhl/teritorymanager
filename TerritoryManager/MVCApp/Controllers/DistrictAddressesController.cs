@@ -78,13 +78,14 @@ namespace MVCApp.Controllers
                 {
                     kmlDoc.AddPlacemark(
                         String.Format("{0}. {1} {2}", counter++, person.Name, person.Lastname),
-                        person.StreetAddress 
+                        String.Format("<a href='{0}'>{1}</a>", this.Url.Action("EditPerson", new { id = person.Id, toMap = 1 }), person.StreetAddress)
                         + (person.DoNotVisit ? " - " + Strings.PersonDoNotVisit : "") 
-                        + (person.IsVisitedByOtherPublisher ? " - " + @String.Format(Strings.PersonVisitedBy, person.VisitingPublisher) : ""),
+                        + (person.IsVisitedByOtherPublisher ? " - " + @String.Format(Strings.PersonVisitedBy, person.VisitingPublisher) : "")
+                        + (String.IsNullOrEmpty(person.Remarks)? "" : String.Format("<p><b>{0}:</b> {1}</p>", Strings.PersonRemarks, person.Remarks)),
                         person.Longitude,
                         person.Latitude);
                 }
-
+                
                 lastStreetAddress = person.StreetAddress;
             }
 
@@ -304,18 +305,18 @@ namespace MVCApp.Controllers
         public ActionResult EditPerson(int id)
         {
             var person = db.Persons.Include("District").Single(p => p.Id == id);
-
+            
             if (!IsUserAuthrorizedForPerson(person))
             {
                 return new HttpNotFoundResult();
             }
-
+            
             return View(person);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditPerson(int id, Person person)
+        public ActionResult EditPerson(int id, Person person, int? toMap, int? toAddressListWithAdd)
         {
             if (ModelState.IsValid)
             {
@@ -332,7 +333,12 @@ namespace MVCApp.Controllers
                 db.Entry(personDb).State = EntityState.Modified;
                 db.SaveChanges();
 
-                return new RedirectResult(Url.Action("Index", new { personDb.District.Id } ) + "#edit");
+                if(toMap == 1)
+                {
+                    return new RedirectResult(Url.Action("AdressesMap", new { personDb.District.Id }));
+                }
+
+                return new RedirectResult(Url.Action("Index", new { personDb.District.Id } ) + (toAddressListWithAdd == 1 ? "#add" : ""));
             }
 
             return View(person);
