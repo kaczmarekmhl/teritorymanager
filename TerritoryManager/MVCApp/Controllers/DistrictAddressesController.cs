@@ -76,12 +76,19 @@ namespace MVCApp.Controllers
             {
                 if (lastStreetAddress != person.StreetAddress)
                 {
+                    string googleMapNavigationLink = String.Empty;
+                    if(Request.UserAgent.ToLower().Contains("android"))
+                    {
+                        googleMapNavigationLink = String.Format("<p class='googleMapNavigationAndroid'><a href='{0}'>{1}</a></p>", this.GetGoolgleMapAndroidUrl(person), "Nawigacja Google Map (Android)");
+                    }
+
                     kmlDoc.AddPlacemark(
                         String.Format("{0}. {1} {2}", counter++, person.Name, person.Lastname),
                         String.Format("<a href='{0}'>{1}</a>", this.Url.Action("EditPerson", new { id = person.Id, toMap = 1 }), person.StreetAddress)
                         + (person.DoNotVisit ? " - " + Strings.PersonDoNotVisit : "") 
                         + (person.IsVisitedByOtherPublisher ? " - " + @String.Format(Strings.PersonVisitedBy, person.VisitingPublisher) : "")
-                        + (String.IsNullOrEmpty(person.Remarks)? "" : String.Format("<p><b>{0}:</b> {1}</p>", Strings.PersonRemarks, person.Remarks)),
+                        + (String.IsNullOrEmpty(person.Remarks)? "" : String.Format("<p><b>{0}:</b> {1}</p>", Strings.PersonRemarks, person.Remarks))
+                        + googleMapNavigationLink,
                         person.Longitude,
                         person.Latitude);
                 }
@@ -438,5 +445,12 @@ namespace MVCApp.Controllers
         }
 
         #endregion
+
+        private string GetGoolgleMapAndroidUrl(Person person)
+        {
+            return String.Format("google.navigation:q={0},{1}",
+                    person.Latitude,
+                    person.Longitude);
+        }
     }
 }

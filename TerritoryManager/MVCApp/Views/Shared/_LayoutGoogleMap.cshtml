@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@Strings.WebPageTitle  - @Model.Name - @ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width" />
+    <style>
+        html {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        #map_canvas {
+            width: auto;
+            height: 100%;
+        }
+    </style>
+    @Scripts.Render("~/bundles/tmngr")
+</head>
+<body>
+@RenderBody()
+</body>
+</html>

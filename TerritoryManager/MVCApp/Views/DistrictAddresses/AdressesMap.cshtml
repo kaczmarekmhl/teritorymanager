@@ -1,36 +1,10 @@
 ﻿@model MVCApp.Models.District
 
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_LayoutGoogleMap.cshtml";
     ViewBag.Title = Strings.SearchAddressMap;
 }
 
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <title>@Strings.WebPageTitle  - @Model.Name - @ViewBag.Title</title>
-    <meta name="viewport" content="width=device-width" />
-    <style>
-
-        html {
-            height:100%;
-        }
-
-        body {
-            margin:0;
-            padding:0;
-            height: 100%;
-        }
-
-        #map_canvas {
-            width:auto;
-            height:100%;
-        }
-    </style>
-</head>
-<body>
     <div id="map_canvas"/>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCFKfov1eRZaxk15f7Ax0DJKVqKOSC8XjM"></script>
@@ -87,6 +61,8 @@
                 // Browser doesn't support Geolocation
                 handleLocationError(false, infoWindow, map.getCenter());
             }
+
+            setGoogleMapNavigationUrlVisibility();
         }
 
         function createMarker(placemark, doc) {
@@ -146,6 +122,4 @@
     </script>
 
     @Html.Partial("_GoogleAnalytics")
-</body>
-</html>
 
