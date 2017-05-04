@@ -17,3 +17,5 @@
 /TerritoryManager/MVCApp/MVCApp.csproj.user
 /TerritoryManager/MVCApp/Properties/PublishProfiles
 /TerritoryManager/.vs
+/TerritoryManager/AddressSearchService/obj
+/TerritoryManager/AddressSearchService/bin/Debug/netcoreapp1.1
