@@ -16,31 +16,31 @@
     {
         static void Main(string[] args)
         {
-            if (!Directory.Exists("Converted"))
-            {
-                Directory.CreateDirectory("Converted");
-            }
+            /* if (!Directory.Exists("Converted"))
+             {
+                 Directory.CreateDirectory("Converted");
+             }
 
-            var failedFiles = new List<String>();
+             var failedFiles = new List<String>();
 
-            foreach (var file in Directory.EnumerateFiles(@"C:\Users\michalka\Desktop\teritorymanager\TerritoryManager\ConsoleClient\bin\Debug\Kml\"))
-            {
-                Console.WriteLine(Path.GetFileName(file));
+             foreach (var file in Directory.EnumerateFiles(@"C:\Users\michalka\Desktop\teritorymanager\TerritoryManager\ConsoleClient\bin\Debug\Kml\"))
+             {
+                 Console.WriteLine(Path.GetFileName(file));
 
-                try { 
-                string result = ErikbolstadKmlConverter.Convert(file);
+                 try { 
+                 string result = ErikbolstadKmlConverter.Convert(file);
 
-                File.WriteAllText(@"Converted\"+ Path.GetFileName(file), result);
-                }
-                catch(Exception e)
-                {
-                    failedFiles.Add(file + "Exception: " + e.Message);
-                }
-            }
+                 File.WriteAllText(@"Converted\"+ Path.GetFileName(file), result);
+                 }
+                 catch(Exception e)
+                 {
+                     failedFiles.Add(file + "Exception: " + e.Message);
+                 }
+             }
 
-            File.WriteAllLines("failed.txt", failedFiles);
-            
-            /*var addressProvider = new AddressProvider(new KrakDkSearchStrategy());
+             File.WriteAllLines("failed.txt", failedFiles);*/
+
+            var addressProvider = new AddressProvider(new KrakDkSearchStrategy());
 
             if (String.IsNullOrEmpty(args[0]))
             {
@@ -65,7 +65,7 @@
             Console.ReadKey();
 
             WriteResultToFile(String.Format("result{0}_Full.txt", searchPhrase), resultList);
-            */
+            
             /*var filteredResultList = FilterManager.GetFilteredPersonList(resultList, new List<IPersonFilter> {
                 new ScandinavianSurname(),
             });

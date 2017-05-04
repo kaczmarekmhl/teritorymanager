@@ -26,7 +26,7 @@ namespace MVCApp.Hubs
                 
                 //Telemetry - start
                 var telemetry = new TelemetryClient();
-                var properties = new Dictionary<string, string> { { "districtName", district.Name } };
+                var properties = new Dictionary<string, string> { { "districtName", district.Name }, { "searchPhrase", district.SearchPhrase }, { "postCode", district.PostCode } };
                 var metrics = new Dictionary<string, double> ();
                 var stopwatch = System.Diagnostics.Stopwatch.StartNew();
                 string eventName = string.Empty;
@@ -52,7 +52,19 @@ namespace MVCApp.Hubs
                     Clients.Caller.searchError(string.Format(Strings.SearchAdressesError, e.Message));
 
                     //Telemetry - start
-                    eventName = "SearchFail";
+                    if (stopwatch.Elapsed.TotalSeconds < 15)
+                    {
+                        eventName = "SearchFailFast";
+                    }
+                    else
+                    {
+                        eventName = "SearchFail";
+                    }
+
+                    if(e is HttpException)
+                    {
+                        properties.Add("ExceptionMessage", e.Message);
+                    }
                     //Telemetry - end
                 }
 

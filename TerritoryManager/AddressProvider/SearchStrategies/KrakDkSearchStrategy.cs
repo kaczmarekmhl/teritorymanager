@@ -239,9 +239,12 @@
 
             while (true)
             {
-                using (var httpClient = SetupHttpClient())
+                bool useProxy = tryCount % 2 == 0;
+                bool setupWebRequestHeaders = tryCount % 3 != 1;
+
+                using (var httpClient = SetupHttpClient(useProxy))
                 {
-                    if (tryCount % 2 == 1)
+                    if (setupWebRequestHeaders)
                     {
                         SetWebRequestHeaders(httpClient);
                     }
@@ -278,7 +281,7 @@
                         tryCount++;
                     }
 
-                    if (tryCount >= 5)
+                    if (tryCount >= 8)
                     {
                         Trace.TraceError("Search for name {0} failed (searchPhrase:{1})", name, searchPhrase);
                         throw new HttpRequestException(string.Format("Request for name {0} failed", name));
@@ -292,12 +295,12 @@
             return string.Format(WebPageUrl, name, searchPhrase, page);
         }
 
-        protected HttpClient SetupHttpClient()
+        protected HttpClient SetupHttpClient(bool useProxy)
         {
             var httpClientHandler = new HttpClientHandler
             {
                 Proxy = new WebProxy("tereny-proxy-vm.trafficmanager.net:21777", false),
-                UseProxy = true,
+                UseProxy = useProxy,
                 UseCookies = true
             };
 

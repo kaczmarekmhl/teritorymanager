@@ -3,3 +3,17 @@
 ################################################################################
 
 /TerritoryManager/AddressProvider/bin
+/TerritoryManager/AddressProvider/obj
+/TerritoryManager/ConsoleClient/bin
+/TerritoryManager/ConsoleClient/obj/x86
+/TerritoryManager/MapLibrary/bin
+/TerritoryManager/MapLibrary/obj
+/TerritoryManager/MVCApp/App_Data
+/TerritoryManager/MVCApp/bin
+/TerritoryManager/MVCApp/obj
+/TerritoryManager/packages
+/TerritoryManager/ProxyServer/bin
+/TerritoryManager/ProxyServer/obj
+/TerritoryManager/MVCApp/MVCApp.csproj.user
+/TerritoryManager/MVCApp/Properties/PublishProfiles
+/TerritoryManager/.vs
