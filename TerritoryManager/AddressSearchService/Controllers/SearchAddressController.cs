@@ -3,16 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using AddressSearchData;
+using AddressSearchService.SearchEngine;
 
 namespace AddressSearchService.Controllers
 {
     [Route("api/[controller]")]
     public class SearchAddressController : Controller
     {
-        [HttpGet("{country}/{searchPhrases}")]
-        public IEnumerable<string> Search(string country, List<string> searchPhrases)
+        [HttpGet]
+        public IEnumerable<Person> Search(string country, string searchPhrase)
         {
-            return new string[] { "value1", "value2" };
+            var addressProvider = new AddressProvider(new EnrioSearchStrategy(EnrioSearchStrategy.WebPageType.KrakDk));
+            var task = addressProvider.GetPersonListAsync("2760");
+
+            task.Wait();
+
+            return task.Result;
+            
         }
     }
 }

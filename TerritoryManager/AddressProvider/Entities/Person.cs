@@ -8,7 +8,6 @@
         public string Name { get; set; }
         public string Lastname { get; set; }
         public string StreetAddress { get; set; }
-        public string Locality { get; set; }
         public int PostCode { get; set; }
         public string TelephoneNumber { get; set; }
         public string Longitude { get; set; }

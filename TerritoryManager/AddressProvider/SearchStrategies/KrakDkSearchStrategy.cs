@@ -142,7 +142,6 @@
                      Name = string.Join(" ", nameParts.Take<string>(nameParts.Count() - 1)),
                      Lastname = nameParts.Last<string>(),
                      StreetAddress = WebUtility.HtmlDecode(GetSingleNodeText(".//span[@class='hit-street-address']", personSingleNode)),
-                     Locality = GetSingleNodeText(".//span[@class='hit-address-locality']", personSingleNode),
                      PostCode = postCode,
                      TelephoneNumber = GetSingleNodeText(".//span[contains(@class, 'hit-phone-number')]", personSingleNode),
                      Latitude = location.Coordinate.Lat,
