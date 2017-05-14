@@ -50,8 +50,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DocX">
-      <HintPath>..\packages\DocX.1.0.0.13\lib\net40\DocX.dll</HintPath>
+    <Reference Include="DocX, Version=1.0.0.22, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocX.1.0.0.22\lib\net40\DocX.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -554,6 +554,10 @@
     <ProjectReference Include="..\AddressProvider\AdressProvider.csproj">
       <Project>{28f7b04a-2674-4af2-a36a-cb893b2f7181}</Project>
       <Name>AdressProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AddressSearchComon\AddressSearchComon.csproj">
+      <Project>{b9e87835-dea2-485e-9679-e02d8e6da240}</Project>
+      <Name>AddressSearchComon</Name>
     </ProjectReference>
     <ProjectReference Include="..\MapLibrary\MapLibrary.csproj">
       <Project>{a1989a36-a569-4d62-9dce-3315dfba9e6d}</Project>

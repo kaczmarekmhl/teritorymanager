@@ -1,22 +1,27 @@
 ﻿namespace AddressSearch.AdressProvider
 {
-    using Entities;
+    using AddressSearchComon.Data;
+    using AddressSearchComon.Types;
+    using AddressSearchLoader;
     using Properties;
-    using SearchStrategies;
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Threading;
     using System.Threading.Tasks;
 
     public class AddressProvider
     {
         public static List<SearchName> PolishSearchNameList;
-        private readonly ISearchStrategy _searchStrategy;
+        private readonly WebPageType _webPageType;
 
-        public AddressProvider(ISearchStrategy searchStrategy)
+        private int _completedNames;
+        private int _totalNames;
+
+        public AddressProvider(WebPageType webPageType)
         {
-            _searchStrategy = searchStrategy;
+            this._webPageType = webPageType;
 
             LoadSearchNameList();
         }
@@ -58,7 +63,7 @@
 
             foreach (var searchPhrase in searchPhraseList)
             {
-                var personListPartial = await _searchStrategy.GetPersonListAsync(searchPhrase.Trim(), PolishSearchNameList, progress);
+                var personListPartial = await this.GetPersonListAsync(searchPhrase.Trim(), PolishSearchNameList, progress);
 
                 personListPartial = RemovePeopleOutsidePostCodeRange(personListPartial, searchPhrase);
 
@@ -73,9 +78,50 @@
         /// </summary>
         public async Task<List<Person>> GetPersonListAsync(string searchPhrase, IProgress<int> progress = null)
         {
-            var personList = await _searchStrategy.GetPersonListAsync(searchPhrase, PolishSearchNameList, progress);
+            var personList = await this.GetPersonListAsync(searchPhrase, PolishSearchNameList, progress);
 
             return RemovePersonListDuplicates(personList);
+        }
+
+        private async Task<List<Person>> GetPersonListAsync(string searchPhrase, List<SearchName> searchNameList, IProgress<int> progress)
+        {
+            var personList = new List<Person>();
+            _completedNames = 0;
+            _totalNames = searchNameList.Count;
+
+            /*Slower version
+             * foreach (var name in searchNameList)
+            {
+                personList.AddRange(await GetPersonListAsync(searchPhrase, name));
+            }*/
+
+            var enrioAddressLoader = new EnrioAddressLoader(this._webPageType);
+
+            var taskList = (from name in searchNameList select enrioAddressLoader.GetPersonListAsync(searchPhrase, name)).ToList();
+
+            while (taskList.Count > 0)
+            {
+                var task = await Task.WhenAny(taskList);
+                personList.AddRange(task.GetAwaiter().GetResult());
+                taskList.Remove(task);
+
+                //Progress
+                Interlocked.Increment(ref _completedNames);
+
+                if (progress != null)
+                {
+                    progress.Report((int)Math.Floor((decimal)_completedNames * 100 / _totalNames));
+                }
+            }
+
+            if (_completedNames != _totalNames)
+            {
+                throw new Exception("All names have not been processed");
+            }
+
+            //Trace.TraceInformation("Request for {0} completed successfully :) {1}", searchPhrase, WebPageUrl);
+
+            return personList;
         }
 
         public void GetDifferenceOfUpdatedPersonList(List<Person> updatedPersonList, List<Person> outdatedPersonList, out List<Person> newPersonList, out List<Person> removedPersonList)
@@ -131,7 +177,7 @@
 
             for (var postCode = postCodeFirst; postCode <= postCodeLast; postCode++)
             {
-                if (_searchStrategy.GetType() == typeof(KrakDkSearchStrategy))
+                if (this._webPageType == WebPageType.KrakDk)
                 {
                     if (postCode >= 1000 && postCode <= 1499)
                     {

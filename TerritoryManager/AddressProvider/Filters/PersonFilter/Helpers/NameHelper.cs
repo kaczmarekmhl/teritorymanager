@@ -1,4 +1,4 @@
-﻿using AddressSearch.AdressProvider.Entities;
+﻿using AddressSearchComon.Data;
 
 namespace AddressSearch.AdressProvider.Filters.PersonFilter.Helpers
 {

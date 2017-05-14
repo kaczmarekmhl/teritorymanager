@@ -6,16 +6,16 @@ using AddressSearch.AdressProvider;
 using AddressSearch.AdressProvider.Filters;
 using AddressSearch.AdressProvider.Filters.PersonFilter;
 using AddressSearch.AdressProvider.Filters.PersonFilter.Helpers;
-using AddressSearch.AdressProvider.SearchStrategies;
 using MapLibrary;
 using MVCApp.Enums;
 using MVCApp.Models;
 using MVCApp.Translate;
 using WebMatrix.WebData;
-using SearchEntities = AddressSearch.AdressProvider.Entities;
+using SearchEntities = AddressSearchComon.Data;
 
 namespace MVCApp.Helpers
 {
+    using AddressSearchComon.Types;
     using System.Globalization;
     using System.Threading;
     using System.Threading.Tasks;
@@ -290,21 +290,21 @@ namespace MVCApp.Helpers
         /// <returns>AddressProvider class</returns>
         private AddressProvider GetAddressProviderForDistrict(District district)
         {
-            ISearchStrategy searchStrategy;
+            WebPageType webPageType;
 
             switch (district.Congregation.Country)
             {
                 case Country.Denmark:
-                    searchStrategy = new KrakDkSearchStrategy();
+                    webPageType = WebPageType.KrakDk;
                     break;
                 case Country.Norway:
-                    searchStrategy = new GuleSiderNoSearchStrategy();
+                    webPageType = WebPageType.GulesiderNo;
                     break;
                 default:
                     throw new Exception("Address provider cannot be returned for given country");
             }
 
-            return new AddressProvider(searchStrategy);
+            return new AddressProvider(webPageType);
         }
 
         protected IProgress<int> GetAddressProviderProgress()

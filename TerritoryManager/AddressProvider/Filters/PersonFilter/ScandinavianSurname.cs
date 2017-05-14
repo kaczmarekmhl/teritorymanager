@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using AddressSearch.AdressProvider.Entities;
+using AddressSearchComon.Data;
 
 namespace AddressSearch.AdressProvider.Filters.PersonFilter
 {

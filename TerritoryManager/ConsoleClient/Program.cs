@@ -40,7 +40,7 @@
 
              File.WriteAllLines("failed.txt", failedFiles);*/
 
-            var addressProvider = new AddressProvider(new KrakDkSearchStrategy());
+            var addressProvider = new AddressProvider(new EnrioSearchStrategy());
 
             if (String.IsNullOrEmpty(args[0]))
             {
