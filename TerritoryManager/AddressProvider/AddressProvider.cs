@@ -1,6 +1,6 @@
 ﻿namespace AddressSearch.AdressProvider
 {
-    using Entities;
+    using AddressSearchComon.Data;
     using Properties;
     using SearchStrategies;
     using System;
@@ -131,7 +131,7 @@
 
             for (var postCode = postCodeFirst; postCode <= postCodeLast; postCode++)
             {
-                if (_searchStrategy.GetType() == typeof(KrakDkSearchStrategy))
+                if (_searchStrategy.GetType() == typeof(EnrioSearchStrategy))
                 {
                     if (postCode >= 1000 && postCode <= 1499)
                     {

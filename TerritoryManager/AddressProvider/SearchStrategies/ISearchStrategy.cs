@@ -1,10 +1,11 @@
-﻿using AddressSearch.AdressProvider.Entities;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿
 
 namespace AddressSearch.AdressProvider.SearchStrategies
 {
+    using AddressSearchComon.Data;
     using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     public interface ISearchStrategy
     {

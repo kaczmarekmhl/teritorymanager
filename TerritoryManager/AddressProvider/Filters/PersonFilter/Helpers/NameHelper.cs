@@ -1,7 +1,7 @@
-﻿using AddressSearch.AdressProvider.Entities;
-
-namespace AddressSearch.AdressProvider.Filters.PersonFilter.Helpers
+﻿namespace AddressSearch.AdressProvider.Filters.PersonFilter.Helpers
 {
+    using AddressSearchComon.Data;
+
     public class NameHelper
     {
         /// <summary>

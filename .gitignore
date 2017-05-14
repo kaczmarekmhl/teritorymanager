@@ -21,3 +21,5 @@
 /TerritoryManager/AddressSearchService/bin/Debug/netcoreapp1.1
 /TerritoryManager/AddressSearchData/bin/Debug/netcoreapp1.1
 /TerritoryManager/AddressSearchData/obj
+/TerritoryManager/AddressSearchComon/bin/Debug/netstandard1.4
+/TerritoryManager/AddressSearchComon/obj

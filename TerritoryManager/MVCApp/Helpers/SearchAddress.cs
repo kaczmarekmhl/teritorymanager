@@ -12,7 +12,7 @@ using MVCApp.Enums;
 using MVCApp.Models;
 using MVCApp.Translate;
 using WebMatrix.WebData;
-using SearchEntities = AddressSearch.AdressProvider.Entities;
+using SearchEntities = AddressSearchComon.Data;
 
 namespace MVCApp.Helpers
 {
@@ -295,10 +295,10 @@ namespace MVCApp.Helpers
             switch (district.Congregation.Country)
             {
                 case Country.Denmark:
-                    searchStrategy = new KrakDkSearchStrategy();
+                    searchStrategy = new EnrioSearchStrategy(AddressSearchComon.Types.EnrioWebPageType.KrakDk);
                     break;
                 case Country.Norway:
-                    searchStrategy = new GuleSiderNoSearchStrategy();
+                    searchStrategy = new EnrioSearchStrategy(AddressSearchComon.Types.EnrioWebPageType.GulesiderNo);
                     break;
                 default:
                     throw new Exception("Address provider cannot be returned for given country");

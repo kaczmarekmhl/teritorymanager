@@ -208,7 +208,7 @@ namespace MVCApp.Models
         {
         }
 
-        public Person(AddressSearch.AdressProvider.Entities.Person person, District district)
+        public Person(AddressSearchComon.Data.Person person, District district)
         {
             this.Name = person.Name;
             this.Lastname = person.Lastname;
