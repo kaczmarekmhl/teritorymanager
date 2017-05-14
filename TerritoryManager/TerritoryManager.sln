@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdressProvider", "AddressProvider\AdressProvider.csproj", "{28F7B04A-2674-4AF2-A36A-CB893B2F7181}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddressSearch.Client", "AddressSearch.Client\AddressSearch.Client.csproj", "{28F7B04A-2674-4AF2-A36A-CB893B2F7181}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleClient", "ConsoleClient\ConsoleClient.csproj", "{46F76B6B-1CD0-4C76-B0B2-AE951DF0C434}"
 EndProject
@@ -11,9 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVCApp", "MVCApp\MVCApp.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapLibrary", "MapLibrary\MapLibrary.csproj", "{A1989A36-A569-4D62-9DCE-3315DFBA9E6D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddressSearchComon", "AddressSearchComon\AddressSearchComon.csproj", "{B9E87835-DEA2-485E-9679-E02D8E6DA240}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddressSearch.Comon", "AddressSearch.Comon\AddressSearch.Comon.csproj", "{B9E87835-DEA2-485E-9679-E02D8E6DA240}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddressSearchLoader", "AddressSearchLoader\AddressSearchLoader.csproj", "{66E65BCD-5567-4C37-89CF-6D6767289AD2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddressSearch.Loader", "AddressSearch.Loader\AddressSearch.Loader.csproj", "{66E65BCD-5567-4C37-89CF-6D6767289AD2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

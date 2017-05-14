@@ -25,3 +25,10 @@
 /TerritoryManager/AddressSearchComon/obj
 /TerritoryManager/AddressSearchLoader/bin/Debug/netstandard1.4
 /TerritoryManager/AddressSearchLoader/obj
+/TerritoryManager/AddressSearch.Client/bin
+/TerritoryManager/AddressSearch.Client/Libraries
+/TerritoryManager/AddressSearch.Client/obj
+/TerritoryManager/AddressSearch.Comon/bin/Debug/netstandard1.4
+/TerritoryManager/AddressSearch.Comon/obj
+/TerritoryManager/AddressSearch.Loader/bin/Debug/netstandard1.4
+/TerritoryManager/AddressSearch.Loader/obj

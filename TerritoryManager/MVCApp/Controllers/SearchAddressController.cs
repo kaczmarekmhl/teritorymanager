@@ -2,7 +2,7 @@
 using AddressSearch.AdressProvider.Filters;
 using AddressSearch.AdressProvider.Filters.PersonFilter;
 using AddressSearch.AdressProvider.Filters.PersonFilter.Helpers;
-using SearchEntities = AddressSearchComon.Data;
+using SearchEntities = AddressSearch.Comon.Data;
 using MapLibrary;
 using MVCApp.Models;
 using Novacode;

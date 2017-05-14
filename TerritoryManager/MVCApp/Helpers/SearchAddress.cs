@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using AddressSearch.AdressProvider;
 using AddressSearch.AdressProvider.Filters;
 using AddressSearch.AdressProvider.Filters.PersonFilter;
 using AddressSearch.AdressProvider.Filters.PersonFilter.Helpers;
@@ -11,11 +10,12 @@ using MVCApp.Enums;
 using MVCApp.Models;
 using MVCApp.Translate;
 using WebMatrix.WebData;
-using SearchEntities = AddressSearchComon.Data;
+using SearchEntities = AddressSearch.Comon.Data;
 
 namespace MVCApp.Helpers
 {
-    using AddressSearchComon.Types;
+    using AddressSearch.Client;
+    using AddressSearch.Comon.Types;
     using System.Globalization;
     using System.Threading;
     using System.Threading.Tasks;
