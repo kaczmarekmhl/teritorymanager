@@ -5,12 +5,12 @@
     using System.Linq;
     using System.Text;
     using AddressSearch.AdressProvider;
-    using AddressSearch.AdressProvider.Entities;
     using AddressSearch.AdressProvider.Filters;
     using AddressSearch.AdressProvider.Filters.PersonFilter;
     using System.IO;
-    using AddressSearch.AdressProvider.SearchStrategies;
     using MapLibrary;
+    using AddressSearch.Comon.Data;
+    using AddressSearch.Client;
 
     class Program
     {
@@ -40,7 +40,7 @@
 
              File.WriteAllLines("failed.txt", failedFiles);*/
 
-            var addressProvider = new AddressProvider(new EnrioSearchStrategy());
+            var addressProvider = new AddressProvider(AddressSearch.Comon.Types.WebPageType.KrakDk);
 
             if (String.IsNullOrEmpty(args[0]))
             {

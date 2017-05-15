@@ -54,6 +54,10 @@
       <Project>{28f7b04a-2674-4af2-a36a-cb893b2f7181}</Project>
       <Name>AddressSearch.Client</Name>
     </ProjectReference>
+    <ProjectReference Include="..\AddressSearch.Comon\AddressSearch.Comon.csproj">
+      <Project>{b9e87835-dea2-485e-9679-e02d8e6da240}</Project>
+      <Name>AddressSearch.Comon</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MapLibrary\MapLibrary.csproj">
       <Project>{a1989a36-a569-4d62-9dce-3315dfba9e6d}</Project>
       <Name>MapLibrary</Name>
