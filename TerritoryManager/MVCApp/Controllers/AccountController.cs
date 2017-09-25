@@ -173,6 +173,26 @@ namespace MVCApp.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public ActionResult ResetPassword(string userName)
+        {
+            string passwordResetToken = WebSecurity.GeneratePasswordResetToken(userName, 5);
+
+            string newPassword = GenerateRandomPassword();
+
+            bool success = WebSecurity.ResetPassword(passwordResetToken, newPassword);
+
+            return new JsonResult() { Data = new { NewPassword = success?newPassword: "" } };
+        }
+
+        private string GenerateRandomPassword()
+        {
+            var rand = new Random();
+
+            return "sluzbaPolowa" + rand.Next(1000);
+        }
+
 
         #region Helpers
         private ActionResult RedirectToLocal(string returnUrl)

@@ -718,6 +718,33 @@ namespace MVCApp.Translate {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Do you really want to reset users&apos; password?.
+        /// </summary>
+        public static string ResetPasswordConfirm {
+            get {
+                return ResourceManager.GetString("ResetPasswordConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to change password. Try again.
+        /// </summary>
+        public static string ResetPasswordFail {
+            get {
+                return ResourceManager.GetString("ResetPasswordFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password was changed to.
+        /// </summary>
+        public static string ResetPasswordSuccess {
+            get {
+                return ResourceManager.GetString("ResetPasswordSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
         public static string Save {

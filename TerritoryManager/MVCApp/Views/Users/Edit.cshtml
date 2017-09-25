@@ -6,6 +6,18 @@
 
 <h2>@Strings.UserEdit</h2>
 
+<span class="button clear-fix">
+    @Ajax.ActionLink("Resetuj hasło", "ResetPassword", "Account",
+            new { userName = @Model.UserName },
+            new AjaxOptions
+            {
+                HttpMethod = "post",
+                Confirm = Strings.ResetPasswordConfirm,
+                OnSuccess = "passwordChangeSuccess",
+                OnFailure = "passwordChangeFail"
+            })
+</span>
+
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -60,6 +72,23 @@
     @Html.ActionLink(Strings.BackToList, "Index")
 </div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+<script>
+
+    function passwordChangeSuccess(ajaxContext) {
+
+        var newPassword = ajaxContext["NewPassword"];
+
+        if (!newPassword)
+        {
+            passwordChangeFail();
+            return;
+        }
+
+        alert("@Strings.ResetPasswordSuccess" + newPassword);
+    }
+
+    function passwordChangeFail(ajaxContext)
+    {
+        alert("@Strings.ResetPasswordFail");
+    }
+</script>

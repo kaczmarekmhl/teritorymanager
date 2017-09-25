@@ -462,4 +462,13 @@
   <data name="MenuHelp" xml:space="preserve">
     <value>Pomoc</value>
   </data>
+  <data name="ResetPasswordConfirm" xml:space="preserve">
+    <value>Czy na pewno chcesz zresetować hasło tego użytkownika?</value>
+  </data>
+  <data name="ResetPasswordFail" xml:space="preserve">
+    <value>Zmiana hasła nie powiodła się.</value>
+  </data>
+  <data name="ResetPasswordSuccess" xml:space="preserve">
+    <value>Hasło zostało zmienione na </value>
+  </data>
 </root>
