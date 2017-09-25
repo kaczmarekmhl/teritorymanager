@@ -1,11 +1,10 @@
 ﻿@model MVCApp.Models.RegisterModel
 @{
-    ViewBag.Title = "Register";
+    ViewBag.Title = "Rejestracja";
 }
 
 <hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-    <h2>Create a new account.</h2>
+    <h1>Dodaj nowego użytkownika</h1>
 </hgroup>
 
 @using (Html.BeginForm()) {
@@ -28,7 +27,7 @@
                 @Html.PasswordFor(m => m.ConfirmPassword)
             </li>
         </ol>
-        <input type="submit" value="Register" />
+        <input type="submit" value="Zapisz" />
     </fieldset>
 }
 

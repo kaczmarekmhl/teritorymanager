@@ -6,8 +6,11 @@
 
 <h2>@Strings.MenuUsers</h2>
 
-<p>
-    @Html.ActionLink("Register new user", "Register", "Account")
-</p>
+
+<div class="button clear-fix">
+    <a href="@Url.Action("Register", "Account")" class="withImage">
+        <img src='~/Images/WindowsIcons/Light/appbar.edit.add.svg' /> Dodaj
+    </a>
+</div>
 
 @Html.Partial("_List")
