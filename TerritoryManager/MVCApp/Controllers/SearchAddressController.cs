@@ -1,8 +1,8 @@
-﻿using AddressSearch.AdressProvider;
-using AddressSearch.AdressProvider.Filters;
-using AddressSearch.AdressProvider.Filters.PersonFilter;
-using AddressSearch.AdressProvider.Filters.PersonFilter.Helpers;
-using SearchEntities = AddressSearch.Comon.Data;
+﻿using AddressSearch;
+using AddressSearch.Filters;
+using AddressSearch.Filters.PersonFilter;
+using AddressSearch.Filters.PersonFilter.Helpers;
+using SearchEntities = AddressSearch.Data;
 using MapLibrary;
 using MVCApp.Models;
 using Novacode;

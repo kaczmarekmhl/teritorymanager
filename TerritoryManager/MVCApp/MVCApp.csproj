@@ -31,6 +31,7 @@
     </NuGetPackageImportStamp>
     <ApplicationInsightsResourceId>/subscriptions/fd59a36e-a12c-46d9-a032-dea2b7a93efd/resourcegroups/Default-Web-NorthEurope/providers/microsoft.insights/components/tereny</ApplicationInsightsResourceId>
     <TargetFrameworkProfile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -567,13 +568,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AddressSearch.Client\AddressSearch.Client.csproj">
-      <Project>{28f7b04a-2674-4af2-a36a-cb893b2f7181}</Project>
-      <Name>AddressSearch.Client</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AddressSearch.Comon\AddressSearch.Comon.csproj">
-      <Project>{b9e87835-dea2-485e-9679-e02d8e6da240}</Project>
-      <Name>AddressSearch.Comon</Name>
+    <ProjectReference Include="..\AddressSearch\AddressSearch.csproj">
+      <Project>{9693eceb-6a73-410f-b461-6172cd22bec7}</Project>
+      <Name>AddressSearch</Name>
     </ProjectReference>
     <ProjectReference Include="..\MapLibrary\MapLibrary.csproj">
       <Project>{a1989a36-a569-4d62-9dce-3315dfba9e6d}</Project>

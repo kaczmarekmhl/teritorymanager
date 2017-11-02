@@ -4,13 +4,12 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using AddressSearch.AdressProvider;
-    using AddressSearch.AdressProvider.Filters;
-    using AddressSearch.AdressProvider.Filters.PersonFilter;
+    using AddressSearch;
+    using AddressSearch.Filters;
+    using AddressSearch.Filters.PersonFilter;
     using System.IO;
     using MapLibrary;
-    using AddressSearch.Comon.Data;
-    using AddressSearch.Client;
+    using AddressSearch.Data;
 
     class Program
     {
@@ -40,7 +39,7 @@
 
              File.WriteAllLines("failed.txt", failedFiles);*/
 
-            var addressProvider = new AddressProvider(AddressSearch.Comon.Types.WebPageType.KrakDk);
+            var addressProvider = new AddressProvider(AddressSearch.Types.WebPageType.GulesiderNo);
 
             if (String.IsNullOrEmpty(args[0]))
             {

@@ -50,13 +50,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AddressSearch.Client\AddressSearch.Client.csproj">
-      <Project>{28f7b04a-2674-4af2-a36a-cb893b2f7181}</Project>
-      <Name>AddressSearch.Client</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AddressSearch.Comon\AddressSearch.Comon.csproj">
-      <Project>{b9e87835-dea2-485e-9679-e02d8e6da240}</Project>
-      <Name>AddressSearch.Comon</Name>
+    <ProjectReference Include="..\AddressSearch\AddressSearch.csproj">
+      <Project>{9693eceb-6a73-410f-b461-6172cd22bec7}</Project>
+      <Name>AddressSearch</Name>
     </ProjectReference>
     <ProjectReference Include="..\MapLibrary\MapLibrary.csproj">
       <Project>{a1989a36-a569-4d62-9dce-3315dfba9e6d}</Project>

@@ -34,3 +34,7 @@
 /TerritoryManager/AddressSearch.Loader/obj
 /TerritoryManager/AddressSearch.Loader/bin/Release/netstandard1.4
 /TerritoryManager/AddressSearch.Comon/bin/Release/netstandard1.4
+/TerritoryManager/AddressSearch/bin
+/TerritoryManager/AddressSearch/obj
+/.vs
+*.htm

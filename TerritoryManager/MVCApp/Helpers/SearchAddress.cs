@@ -1,24 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using AddressSearch.AdressProvider.Filters;
-using AddressSearch.AdressProvider.Filters.PersonFilter;
-using AddressSearch.AdressProvider.Filters.PersonFilter.Helpers;
-using MapLibrary;
-using MVCApp.Enums;
-using MVCApp.Models;
-using MVCApp.Translate;
-using WebMatrix.WebData;
-using SearchEntities = AddressSearch.Comon.Data;
-
-namespace MVCApp.Helpers
+﻿namespace MVCApp.Helpers
 {
-    using AddressSearch.Client;
-    using AddressSearch.Comon.Types;
+    using AddressSearch;
+    using AddressSearch.Filters;
+    using AddressSearch.Filters.PersonFilter;
+    using AddressSearch.Filters.PersonFilter.Helpers;
+    using AddressSearch.Types;
+    using MapLibrary;
+    using MVCApp.Enums;
+    using MVCApp.Models;
+    using MVCApp.Translate;
+    using System;
+    using System.Collections.Generic;
+    using System.Data.SqlClient;
     using System.Globalization;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using WebMatrix.WebData;
+    using SearchEntities = AddressSearch.Data;
 
     public class SearchAddress
     {
