@@ -41,7 +41,7 @@
                             <input type="checkbox" name="selectedReportId" value="@item.Id" />
                         </td>
                         <td>
-                            @Html.ActionLink(item.District.Number, "Index", "District", new { id = item.District.Id }, new { title = item.District.Name })
+                            @Html.ActionLink(item.District.Number??" ", "Index", "District", new { id = item.District.Id }, new { title = item.District.Name })
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Date)

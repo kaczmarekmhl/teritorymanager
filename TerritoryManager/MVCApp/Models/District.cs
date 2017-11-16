@@ -305,6 +305,16 @@ namespace MVCApp.Models
 
                 if (aInt == 0 && bInt == 0)
                 {
+                    if(aStr == null)
+                    {
+                        aStr = String.Empty;
+                    }
+
+                    if(bStr == null)
+                    {
+                        bStr = String.Empty;
+                    }
+
                     return aStr.CompareTo(bStr);
                 }
                 else
