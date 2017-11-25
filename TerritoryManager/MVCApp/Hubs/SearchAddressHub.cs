@@ -61,9 +61,10 @@ namespace MVCApp.Hubs
                         eventName = "SearchFail";
                     }
                                         
-                    properties.Add("ExceptionMessage", e.Message);    
-                    
-                    if(e.InnerException != null)
+                    properties.Add("ExceptionMessage", e.Message);
+                    properties.Add("ExceptionStackTrace", e.StackTrace);
+
+                    if (e.InnerException != null)
                     {
                         properties.Add("InnerExceptionMessage", e.InnerException.Message);
 
