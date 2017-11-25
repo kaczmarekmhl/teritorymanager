@@ -61,16 +61,16 @@ namespace MVCApp.Hubs
                         eventName = "SearchFail";
                     }
                                         
-                    properties.Add("ExceptionMessage", e.Message);
+                    properties.Add("ExceptionMessage", e.Message + " --- " + e.GetType());
                     properties.Add("ExceptionStackTrace", e.StackTrace);
 
                     if (e.InnerException != null)
                     {
-                        properties.Add("InnerExceptionMessage", e.InnerException.Message);
+                        properties.Add("InnerExceptionMessage", e.InnerException.Message + " --- " + e.InnerException.GetType());
 
                         if (e.InnerException.InnerException != null)
                         {
-                            properties.Add("InerInnerExceptionMessage", e.InnerException.InnerException.Message);
+                            properties.Add("InerInnerExceptionMessage", e.InnerException.InnerException.Message + " --- " + e.InnerException.InnerException.GetType());
                         }
                     }
 
