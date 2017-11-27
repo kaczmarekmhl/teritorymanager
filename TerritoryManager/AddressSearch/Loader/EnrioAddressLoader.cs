@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AddressSearch.Loader
@@ -110,6 +111,11 @@ namespace AddressSearch.Loader
                     {
                         //Trace.TraceError("Request was canceled");
                         tryCount++;
+
+                        if (tryCount > 3)
+                        {
+                            Thread.Sleep(1000);
+                        }
 
                         if (tryCount >= 8)
                         {
