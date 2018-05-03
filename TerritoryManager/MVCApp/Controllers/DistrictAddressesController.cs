@@ -83,9 +83,8 @@ namespace MVCApp.Controllers
                     }
 
                     kmlDoc.AddPlacemark(
-                        String.Format("{0}. {1} {2}", counter++, person.Name, person.Lastname),
-                        String.Format("<a href='{0}'>{1}</a>", this.Url.Action("EditPerson", new { id = person.Id, toMap = 1 }), person.StreetAddress)
-                        + (person.DoNotVisit ? " - " + Strings.PersonDoNotVisit : "") 
+                        String.Format("{0}. <a href='{1}'>{2}</a>", counter++, this.Url.Action("EditPerson", new { id = person.Id, toMap = 1 }), person.StreetAddress),                        
+                        (person.DoNotVisit ? " - " + Strings.PersonDoNotVisit : "") 
                         + (person.IsVisitedByOtherPublisher ? " - " + @String.Format(Strings.PersonVisitedBy, person.VisitingPublisher) : "")
                         + (String.IsNullOrEmpty(person.Remarks)? "" : String.Format("<p><b>{0}:</b> {1}</p>", Strings.PersonRemarks, person.Remarks))
                         + googleMapNavigationLink,

@@ -45,21 +45,6 @@
                 <input id="geocomplete" type="text" placeholder="@Strings.AutocompleteAddressEnterLocation" />                
                 <input id="StreetNumberDetails" type="text" placeholder="@Strings.AutocompleteAddressEnterLocationDetails" />
 
-                <div class="editor-label">
-                    <label>@Strings.PersonNameSurname</label>
-                </div>
-                <div class="editor-field">
-                    <input id="NameSurname" type="text" />
-                </div>
-
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.TelephoneNumber)
-                </div>
-                <div class="editor-field">
-                    @Html.EditorFor(model => model.TelephoneNumber)
-                    @Html.ValidationMessageFor(model => model.TelephoneNumber)
-                </div>
-
                 <p>
                     <input type="submit" value="@Strings.AddPerson" />
                     <span id="addPersonInfoMessage" class="infoMessage" style="display:none"></span>

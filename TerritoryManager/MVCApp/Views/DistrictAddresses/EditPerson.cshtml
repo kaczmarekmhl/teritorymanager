@@ -19,86 +19,64 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
-    <fieldset>
-        <legend>Congregation</legend>
+<fieldset>
+    <legend>Congregation</legend>
 
-        @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.Name)
+    @Html.HiddenFor(model => model.Lastname)
 
+    <div class="editor-label">
+        @Html.LabelFor(model => model.StreetAddress)
+    </div>
+    <div class="editor-field">
+        @Html.TextBoxFor(model => model.StreetAddress, new { @readonly = "readonly" })
+        @Html.ValidationMessageFor(model => model.StreetAddress)
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Remarks)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Remarks)
+        @Html.ValidationMessageFor(model => model.Remarks)
+    </div>
+
+    <div class="personDoNotVisit">
         <div class="editor-label">
-            @Html.LabelFor(model => model.Name)
-        </div>
-        <div class="editor-field">
-            @Html.TextBoxFor(model => model.Name, new { @readonly = "readonly" })
-            @Html.ValidationMessageFor(model => model.Name)
+            @Html.EditorFor(model => model.DoNotVisit) @Html.LabelFor(model => model.DoNotVisit, new { style = "display:inline-block" })
         </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Lastname)
-        </div>
-        <div class="editor-field">
-            @Html.TextBoxFor(model => model.Lastname, new { @readonly = "readonly" })
-            @Html.ValidationMessageFor(model => model.Lastname)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.StreetAddress)
-        </div>
-        <div class="editor-field">
-            @Html.TextBoxFor(model => model.StreetAddress, new { @readonly = "readonly" })
-            @Html.ValidationMessageFor(model => model.StreetAddress)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.TelephoneNumber)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.TelephoneNumber)
-            @Html.ValidationMessageFor(model => model.TelephoneNumber)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Remarks)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Remarks)
-            @Html.ValidationMessageFor(model => model.Remarks)
-        </div>
-
-        <div class="personDoNotVisit">
+        <div id="doNotVisitReportDateWrapper">
             <div class="editor-label">
-                @Html.EditorFor(model => model.DoNotVisit) @Html.LabelFor(model => model.DoNotVisit, new { style = "display:inline-block" })
+                @Html.LabelFor(model => model.DoNotVisitReportDate, new { @class = "small" })
             </div>
-
-            <div id="doNotVisitReportDateWrapper">
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.DoNotVisitReportDate, new { @class = "small" })
-                </div>
-                <div class="editor-field">
-                    <input type="text" id="displayDate" value="@Model.DoNotVisitReportDate.Value.ToString(displayDateFormat)" />
-                    <input type="hidden" id="altDate" name="DoNotVisitReportDate" value="@Model.DoNotVisitReportDate.Value.ToString(serverDateTimeFormat)" />
-                </div>
+            <div class="editor-field">
+                <input type="text" id="displayDate" value="@Model.DoNotVisitReportDate.Value.ToString(displayDateFormat)" />
+                <input type="hidden" id="altDate" name="DoNotVisitReportDate" value="@Model.DoNotVisitReportDate.Value.ToString(serverDateTimeFormat)" />
             </div>
         </div>
+    </div>
 
-        <div class="otherPublisherVisiting">
+    <div class="otherPublisherVisiting">
+        <div class="editor-label">
+            @Html.EditorFor(model => model.IsVisitedByOtherPublisher) @Html.LabelFor(model => model.IsVisitedByOtherPublisher, new { style = "display:inline-block" })
+        </div>
+
+        <div id="visitingPublisherWrapper">
             <div class="editor-label">
-                @Html.EditorFor(model => model.IsVisitedByOtherPublisher) @Html.LabelFor(model => model.IsVisitedByOtherPublisher, new { style = "display:inline-block" })
+                @Html.LabelFor(model => model.VisitingPublisher, new { @class = "small" })
             </div>
-
-            <div id="visitingPublisherWrapper">
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.VisitingPublisher, new { @class = "small"})
-                </div>
-                <div class="editor-field">
-                    @Html.EditorFor(model => model.VisitingPublisher)
-                    @Html.ValidationMessageFor(model => model.VisitingPublisher)
-                </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.VisitingPublisher)
+                @Html.ValidationMessageFor(model => model.VisitingPublisher)
             </div>
         </div>
-        <p>
-            <input type="submit" value="@Strings.Save" />
-        </p>
-    </fieldset>
+    </div>
+    <p>
+        <input type="submit" value="@Strings.Save" />
+    </p>
+</fieldset>
 }
 
 <div>

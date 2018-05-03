@@ -14,7 +14,7 @@
     </td>
             
     <td>
-        @Html.ActionLink(Model.StreetAddress, "EditPerson", new { id = @Model.Id }, new { @class = "editLink" })
+        @Html.ActionLink(Model.StreetAddress??" ", "EditPerson", new { id = @Model.Id }, new { @class = "editLink" })
     </td>
     @if(ViewBag.IsMultiPostCode)
     {
@@ -38,12 +38,6 @@
         }
         @Html.DisplayFor(modelItem => Model.Remarks)
     </td>
-    <td>
-        @Html.DisplayFor(modelItem => Model.Name) @Html.DisplayFor(modelItem => Model.Lastname)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => Model.TelephoneNumber)
-    </td>
     <td >
         <span data-type="PersonEditButtons">
             @Ajax.ActionLink("Usuń", "DeletePerson", 
@@ -51,7 +45,7 @@
             new AjaxOptions 
             { 
                 HttpMethod = "post",
-                Confirm = @String.Format(@Strings.PersonDeleteConfirmation, Model.Name, Model.Lastname, Model.StreetAddress),
+                Confirm = @String.Format(@Strings.PersonDeleteConfirmation, Model.StreetAddress),
                 OnSuccess = "personDeleted",
                 OnFailure = "personDeleteError"                
             })            

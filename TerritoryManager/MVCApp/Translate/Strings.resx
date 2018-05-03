@@ -361,7 +361,7 @@
     <value>New address added!</value>
   </data>
   <data name="PersonDeleteConfirmation" xml:space="preserve">
-    <value>Do you want to delete {0} {1}, {2}?</value>
+    <value>Do you want to delete {0}?</value>
   </data>
   <data name="AddPerson" xml:space="preserve">
     <value>Add address</value>
