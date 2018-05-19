@@ -47,7 +47,7 @@
             {
                 throw new ArgumentNullException("db");
             }
-
+			
             this.Db = db;
             this.IsSharingAdressesEnabled = UserContext.IsSharingAdressesEnabled(db);
         }
@@ -59,6 +59,8 @@
         /// <returns>Person list</returns>
         public List<Person> SearchAndPersistNewPersonList(District district)
         {
+			throw new InvalidOperationException("Address search disabled due to GDPR privacy requirements. Personal data cannot not be persisted in database.");
+
             SetProgressMessage(Strings.SearchAddressWait);
             var personList = GetNewPersonListFromSearchEngine(district);
 

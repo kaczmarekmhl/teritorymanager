@@ -5,6 +5,7 @@
     string lastStreetAddress = "";
 }
 
+<!--
 @if (Model == null || Model.Count() == 0) 
 {
     <div class="warningMessage">
@@ -17,6 +18,7 @@ else if (ViewBag.PersonListOutdated)
         @Html.Raw(String.Format(Strings.PersonListOutdated, Html.ActionLink(Strings.PersonListEmptySearchEngineLink, "Index", "SearchAddress", new { id = ViewBag.DistrictId }, null)))
     </div>
 }
+-->
 
 
 <table>
